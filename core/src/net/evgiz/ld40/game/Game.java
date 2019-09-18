@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g3d.utils.ShaderProvider;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+
+import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.decals.DecalManager;
 import net.evgiz.ld40.game.entity.EntityManager;
 import net.evgiz.ld40.game.player.CameraController;
@@ -21,7 +23,7 @@ import java.util.Random;
 
 public class Game {
 
-    public static final float UNIT = 16f;
+    public static final float UNIT = 16f; // Square/box size
     public static final Random random = new Random();
     public static final CollisionDetector collision = new CollisionDetector();
     public static final Art art = new Art();
@@ -29,27 +31,27 @@ public class Game {
 
     public Intro intro;
 
-    SpriteBatch batch2d;
-    BitmapFont font;
+    private SpriteBatch batch2d;
+    private BitmapFont font;
 
-    ModelBatch batch;
-    ShaderProvider shaderProvider;
+    private ModelBatch batch;
+    private ShaderProvider shaderProvider;
 
-    PerspectiveCamera camera;
-    FrameBuffer frameBuffer = null;
+    private PerspectiveCamera camera;
+    private FrameBuffer frameBuffer = null;
 
-    Player player;
-    World world;
+    private Player player;
+    private World world;
     public Inventory inventory;
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
-    DecalManager decalManager;
+    private DecalManager decalManager;
 
 
-    int downscale = 2;
+    private int downscale = 2;
 
-    int[] scales = new int[]{1,2,6,8};
-    int[] health = new int[]{8,5,3,1};
+    private int[] scales = new int[]{1,2,6,8};
+    private int[] health = new int[]{8,5,3,1};
 
     private static boolean transition = false;
     private static float transitionProgress = 0f;
@@ -61,7 +63,6 @@ public class Game {
 
 
     public Game(int retro, int diff, int lookSens) {
-
         downscale = scales[retro];
 
         batch2d = new SpriteBatch();
@@ -94,6 +95,7 @@ public class Game {
 
         intro = new Intro();
     }
+    
 
     public void setSettings(int retro, int difficulty, int lookSensitivity){
         downscale = scales[retro];
@@ -144,7 +146,7 @@ public class Game {
         if(Game.gameComplete && intro.alphaOut>=1f)
             return;
 
-        if(Game.transition){
+        if(Game.transition) {
             Game.transitionProgress += Gdx.graphics.getDeltaTime();
 
             if(Game.transitionProgress>=0.5f && !Game.hasLoaded){
@@ -175,8 +177,8 @@ public class Game {
         }
     }
 
-    public void render(){
-
+    
+    public void render() {
         Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         Gdx.gl.glClearColor(0,0,0,1);
@@ -202,28 +204,33 @@ public class Game {
 
         frameBuffer.end();
 
-
         //Draw buffer and FPS
         batch2d.begin();
 
         float c = 1.0f;
         if(Game.transition){
             c = 1.0f - transitionProgress*4;
-            if(transitionProgress>=.75f)
+            if(transitionProgress>=.75f) {
                 c = (transitionProgress-0.75f)*4;
+            }
             c = MathUtils.clamp(c, 0, 1);
         }
 
         batch2d.setColor(c,c,c,1);
         batch2d.draw(frameBuffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), - Gdx.graphics.getHeight());
 
-        if(!Game.transition)
+        if (!Game.transition) {
             player.renderUI(batch2d, font, downscale);
-
-        if(!intro.finished)
+        }
+        
+        if (!intro.finished) {
             intro.render(batch2d, font);
-        //font.draw(batch2d, "FPS: "+Gdx.graphics.getFramesPerSecond(), 10, 20);
-
+        }
+        
+        if (Settings.SHOW_FPS) {
+        	font.draw(batch2d, "FPS: "+Gdx.graphics.getFramesPerSecond(), 10, 20);
+        }
+        
         batch2d.end();
 
     }

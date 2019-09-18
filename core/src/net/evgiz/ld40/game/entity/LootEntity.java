@@ -9,22 +9,21 @@ import net.evgiz.ld40.game.decals.DecalEntity;
 import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
-public class LootEntity extends Entity {
+public final class LootEntity extends Entity {
+
+    private static final int MAX_LOOT_TYPES = 15;
 
     public int tx, ty;
 
-    boolean isAttracted = false;
-    float attractTime = 0f;
+    public boolean isAttracted = false;
+    private float attractTime = 0f;
 
-    float waitTime = .3f;
-
-    final int LOOT_TYPES = 15;
+    public float waitTime = .3f;
 
     public LootEntity(TextureRegion[][] tex, int x, int y) {
-
         texture = tex;
 
-        int numb = Game.random.nextInt(LOOT_TYPES)+1;
+        int numb = Game.random.nextInt(MAX_LOOT_TYPES)+1;
         tx = numb%4;
         ty = numb/4;
 
@@ -38,10 +37,9 @@ public class LootEntity extends Entity {
     }
 
     public LootEntity(TextureRegion[][] tex, float x, float y) {
-
         texture = tex;
 
-        int numb = Game.random.nextInt(LOOT_TYPES)+1;
+        int numb = Game.random.nextInt(MAX_LOOT_TYPES)+1;
         tx = numb%4;
         ty = numb/4;
 
@@ -81,7 +79,7 @@ public class LootEntity extends Entity {
 
             return;
         }
-        if(player.getPosition().dst2(position)<Game.UNIT*Game.UNIT){
+        if (player.getPosition().dst2(position) < Game.UNIT*Game.UNIT){
             isAttracted = true;
         }
     }

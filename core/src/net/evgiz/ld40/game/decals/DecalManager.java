@@ -16,8 +16,8 @@ public class DecalManager {
     private DecalBatch batch;
     private ShadedGroupStrategy groupStrategy;
 
-    private Decal weaponDecal;
-    private Vector3 weaponRotation;
+    //private Decal weaponDecal;
+    //private Vector3 weaponRotation;
 
     public DecalManager(Camera cam) {
 
@@ -50,16 +50,14 @@ public class DecalManager {
         return decals.size();
     }
 
-    public void render(){
-
+    public void render() {
         for(DecalEntity ent : decals){
             ent.updateTransform(camera);
-
-            if(!camera.frustum.sphereInFrustum(ent.position, Game.UNIT))
+            if(!camera.frustum.sphereInFrustum(ent.position, Game.UNIT)) {
                 continue;
-
+            }
+            
             batch.add(ent.decal);
-
         }
 
         batch.flush();

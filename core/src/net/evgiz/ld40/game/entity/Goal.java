@@ -5,7 +5,7 @@ import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
-public class Goal extends Entity {
+public final class Goal extends Entity {
 
     public Goal(TextureRegion[][] tex, int x, int y) {
         super(tex, x, y);

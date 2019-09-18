@@ -7,16 +7,14 @@ import net.evgiz.ld40.game.player.Player;
 
 public class Lever extends Entity {
 
-    Decal openDecal;
+	private Decal openDecal;
 
     public boolean locked = true;
 
-    Decal left;
-    Decal center;
-    Decal right;
+    private Decal left, center, right;
 
-    int direction = 1;
-    int state = -1;
+    private int direction = 1;
+    private int state = -1;
 
     public Lever(TextureRegion[][] tex, int x, int y) {
         super(tex, x, y, 0,4);

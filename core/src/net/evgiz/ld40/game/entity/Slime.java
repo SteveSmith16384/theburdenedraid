@@ -10,20 +10,19 @@ import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
-public class Slime extends Enemy {
+public final class Slime extends Enemy {
 
-    Vector3 direction = new Vector3();
+    private Vector3 direction = new Vector3();
 
-    float speed = 3f;
+    private float speed = 3f;
 
-    Decal idleDecal;
-    Decal jumpDecal;
-    Decal airDecal;
+    private Decal idleDecal;
+    private Decal jumpDecal;
+    private Decal airDecal;
 
-    float jumpTimer = 0f;
-    float dy = 0f;
-    float gravity = 10f * Game.UNIT;
-
+    private float jumpTimer = 0f;
+    private float dy = 0f;
+    private float gravity = 10f * Game.UNIT;
 
     public Slime(TextureRegion[][] tex, int x, int y) {
         super(tex, x, y);
@@ -38,9 +37,9 @@ public class Slime extends Enemy {
 
     }
 
+    
     @Override
-    public void death(Player player){
-
+    public void death(Player player) {
         Game.audio.play("death");
         position.y = 0;
         decalEntity.decal = idleDecal;
@@ -49,10 +48,9 @@ public class Slime extends Enemy {
         remove = false;
 
         player.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
-
-
     }
 
+    
     @Override
     public void update(World world, Player player) {
         super.update(world, player);
@@ -65,8 +63,7 @@ public class Slime extends Enemy {
         float dt = Gdx.graphics.getDeltaTime();
 
         Vector2 moveVec = new Vector2();
-
-
+        
         if (player.getPosition().dst2(position) < (Game.UNIT * 6) * (Game.UNIT * 6))
             jumpTimer -= dt;
         else

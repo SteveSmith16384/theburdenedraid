@@ -10,16 +10,16 @@ import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
-public class FlyingSkull extends Enemy {
+public final class FlyingSkull extends Enemy {
 
-    Vector3 direction = new Vector3();
+    private Vector3 direction = new Vector3();
 
-    float speed = 2f;
+    private float speed = 2f;
 
-    Decal decal1;
-    Decal decal2;
+    private Decal decal1;
+    private Decal decal2;
 
-    float animTimer = 0f;
+    private float animTimer = 0f;
 
     public FlyingSkull(TextureRegion[][] tex, int x, int y) {
         super(tex, x, y, 0, 2);
@@ -34,13 +34,11 @@ public class FlyingSkull extends Enemy {
     }
 
     @Override
-    public void death(Player player){
-
+    public void death(Player player) {
         super.death(player);
-
         player.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
-
     }
+    
 
     @Override
     public void update(World world, Player player) {
@@ -53,9 +51,6 @@ public class FlyingSkull extends Enemy {
 
         float dt = Gdx.graphics.getDeltaTime();
 
-        Vector2 moveVec = new Vector2();
-
-
         if (player.getPosition().dst2(position) < (Game.UNIT * 5) * (Game.UNIT * 5) && world.lineOfSightCheap(position, player.getPosition())) {
             animTimer += dt;
             if(animTimer>.3f){
@@ -66,6 +61,7 @@ public class FlyingSkull extends Enemy {
             direction.scl(Gdx.graphics.getDeltaTime() * speed * Game.UNIT);
             direction.y = 0f;
 
+            Vector2 moveVec = new Vector2();
             moveVec.x += direction.x;
             moveVec.y += direction.z;
 

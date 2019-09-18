@@ -12,30 +12,27 @@ import java.util.ArrayList;
 
 public class Inventory {
 
-    Texture itemTexture;
-    ArrayList<Item> items;
+    private Texture itemTexture;
+    private ArrayList<Item> items;
 
     public boolean gameComplete = false;
 
     public int totalLoot = 0;
+    private ArrayList<ItemPos> itemPositions;
+    public int keys = 0;
 
     private class ItemPos {
-
+    	
         public Vector2 position;
-        int priority = 0;
+        private int priority = 0;
 
         public ItemPos(Vector2 vec, int p){
             position = vec;
             priority = p;
         }
     }
-    ArrayList<ItemPos> itemPositions;
-
-
-    public int keys = 0;
-
+    
     public Inventory() {
-
         itemTexture = new Texture(Gdx.files.internal("items.png"));
         items = new ArrayList<Item>();
 
@@ -80,22 +77,18 @@ public class Inventory {
                         break;
 
                     default:
-                        //if(px != -256)
-                        //System.out.println(px);
                         break;
                 }
 
             }
         }
-
-
     }
+    
 
     public void addLoot(int tx, int ty){
         totalLoot++;
 
-        if(gameComplete){
-
+        if(gameComplete) {
             Item item = new Item(itemTexture, tx, ty);
             item.position = new Vector2(Game.random.nextFloat(), Game.random.nextFloat());
             items.add(item);
@@ -116,12 +109,12 @@ public class Inventory {
 
         ArrayList<ItemPos> options = new ArrayList<ItemPos>();
 
-        for(ItemPos p : itemPositions){
+        for(ItemPos p : itemPositions) {
             if(p.priority < lowestPriority){
                 options.clear();
                 lowestPriority = p.priority;
                 options.add(p);
-            }else if(p.priority == lowestPriority){
+            } else if(p.priority == lowestPriority) {
                 options.add(p);
             }
         }
@@ -133,12 +126,10 @@ public class Inventory {
 
         items.add(item);
         itemPositions.remove(ip);
-
-
     }
 
-    public void render(SpriteBatch batch, Player player){
-
+    
+    public void render(SpriteBatch batch, Player player) {
         Sprite spr = null;
         Item item;
 

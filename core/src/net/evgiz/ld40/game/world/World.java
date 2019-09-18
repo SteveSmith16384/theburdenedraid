@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+
+import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.decals.DecalEntity;
 import net.evgiz.ld40.game.decals.DecalManager;
@@ -21,8 +23,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class World {
+	
+	public static final int NOTHING = 0;
+	public static final int WALL = 1;
 
-    Pixmap pixmap;
+    //private Pixmap pixmap;
 
     public int world[];
     public int width;
@@ -32,7 +37,7 @@ public class World {
 
     public ArrayList<ModelInstance> modelInstances;
 
-    private Texture tileTexture;
+    //private Texture tileTexture;
     private TextureRegion detailTexture[];
 
     private DecalManager decalManager;
@@ -47,12 +52,11 @@ public class World {
 
     public ArrayList<ModelInstance> specialBlocks;
 
-    public World(DecalManager decalMan, EntityManager entityMan){
-
+    public World(DecalManager decalMan, EntityManager entityMan) {
         entityManager = entityMan;
         decalManager = decalMan;
 
-        tileTexture = new Texture(Gdx.files.internal("tiles.png"));
+        //tileTexture = new Texture(Gdx.files.internal("tiles.png"));
 
         Texture detailTex = new Texture(Gdx.files.internal("detail.png"));
 
@@ -67,7 +71,7 @@ public class World {
             }
         }
 
-        load("Dungeons");
+        load(levelOrder[0]);
 
     }
 
@@ -76,9 +80,9 @@ public class World {
             if(levelOrder[i].equals(level))
                 return i;
         }
-
         return 0;
     }
+    
 
     public String getNextLevel(){
         for (int i = 0; i < levelOrder.length-1; i++) {
@@ -89,8 +93,8 @@ public class World {
         return null;
     }
 
-    public void load(String level){
-
+    
+    public void load(String level) {
         previousLevel = currentLevel;
         currentLevel = level;
 
@@ -100,7 +104,7 @@ public class World {
         Texture texture = new Texture(Gdx.files.internal("level/"+level+".png"));
         texture.getTextureData().prepare();
 
-        pixmap = texture.getTextureData().consumePixmap();
+        Pixmap pixmap = texture.getTextureData().consumePixmap();
 
         width = pixmap.getWidth();
         height = pixmap.getHeight();
@@ -112,13 +116,12 @@ public class World {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-
-                world[x + y*width] = 0;
+                world[x + y*width] = NOTHING;
 
                 int pix = pixmap.getPixel(x,y);
                 int result = 0;
 
-                boolean spawn = entityManager.spawn(this, pix, x, y);
+                entityManager.spawn(this, pix, x, y);
 
                 switch (pix) {
                     //Red
@@ -144,56 +147,53 @@ public class World {
                         break;
                     //Black
                     case 0xff:
-                        result = 1;
+                        result = WALL;//1;
                         break;
                     default:
                         //Not working on HTML5, remove for that build
-                        if(pix!=-1 && !spawn)
-                            System.out.println(pix);
+                        /*if(pix!=-1 && !spawn) 
+                            System.out.println(pix);*/
                         break;
                 }
 
-                if(result > 0)
+                if(result > 0) {
                     world[x + y*width] = result;
-
-
+                }
             }
         }
 
         createModels();
 
-        if(currentLevel.equals("Demon Lair"))
+        if(currentLevel.equals("Demon Lair")) {
             return;
-
+        }
+        
         addDetail();
     }
 
-    private void addDetail(){
+    
+    private void addDetail() {
         int count = width*height / 3;
 
         Random r = new Random();
         DecalEntity ent;
 
-        int x,y;
-
         for (int i = 0; i < count; i++) {
-            x = r.nextInt(width);
-            y = r.nextInt(height);
+            int x = r.nextInt(width);
+            int y = r.nextInt(height);
 
-            if(getCollision(x,y) == 0) {
+            if(getMapSquareAt(x,y) == 0) {
                 ent = new DecalEntity(detailTexture[r.nextInt(2)]);
                 ent.position.set(x * Game.UNIT, 0, y * Game.UNIT);
                 decalManager.add(ent);
-            }else{
+            } else {
                 count++;
             }
         }
-
-
     }
+    
 
-    private void createModels(){
-
+    private void createModels() {
         int tileType = getTileType(currentLevel);
 
         ModelBuilder modelBuilder = new ModelBuilder();
@@ -203,27 +203,26 @@ public class World {
 
         Model model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 
-        ModelInstance instance;
+        //ModelInstance instance;
 
         modelInstances = new ArrayList<ModelInstance>();
         specialBlocks = new ArrayList<ModelInstance>();
 
-        int block;
-
-        Random random = new Random();
-
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                block = world[x + y*width];
-
-                if (block == 1){
-                    instance = new ModelInstance(model);
+                int block = world[x + y*width];
+                if (block == WALL) {
+                	ModelInstance instance = new ModelInstance(model);
                     instance.transform.translate(x* Game.UNIT,Game.UNIT/2f, y*Game.UNIT);
                     instance.transform.rotate(Vector3.Z, 90);
-                    instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 0, tileType, 6, 6);
+                    if (Settings.TRY_NEW_TEX) {
+                    	instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 0, tileType, 6, 6);
+                    } else {
+                    	instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 0, tileType, 6, 6);
+                    }
                     modelInstances.add(instance);
-                }else if(block>2 && block<=5){
-                    instance = new ModelInstance(model);
+                } else if(block>2 && block<=5) {
+                	ModelInstance instance = new ModelInstance(model);
                     instance.transform.translate(x* Game.UNIT,Game.UNIT/2f, y*Game.UNIT);
                     instance.transform.rotate(Vector3.Z, 90);
                     instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 3+block-3, tileType, 6, 6);
@@ -236,7 +235,6 @@ public class World {
 
 
         //Create floor
-
         Model floor = modelBuilder.createRect(
                 0f,0f, (float) height*Game.UNIT,
                 (float)width*Game.UNIT,0f, (float)height*Game.UNIT,
@@ -244,64 +242,69 @@ public class World {
                 0f,0f,0f,
                 1f,1f,1f,
                 material,
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates
-        );
+                VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 
-
-        instance = new ModelInstance(floor);
+        ModelInstance instance = new ModelInstance(floor);
         instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 1, tileType, 6, 6, width, height);
         modelInstances.add(instance);
 
-
+        // todo - is this ceiling?
         instance = new ModelInstance(floor);
         instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 2, tileType, 6, 6, width, height);
         instance.transform.translate(0, Game.UNIT,0);
         instance.transform.rotate(Vector3.X, 180);
         instance.transform.translate(0,0,-(float)width* Game.UNIT);
         modelInstances.add(instance);
-
-
     }
+    
 
-    public int getCollision(int x, int y){
+    public int getMapSquareAt(int x, int y) {
+    	if (x < 0 || y < 0) {
+    		Settings.p("");
+    	}
         int t = x + y*width;
-        if(t < world.length)
+        if(t < world.length) {
             return world[t];
-        else
-            return 1;
+        } else {
+            return WALL;
+        }
     }
 
-    public boolean rectangleFree(float centerx, float centery, float w, float h){
+    public boolean rectangleFree(float center_x, float center_y, float w, float h){
         //Upper left
-        float x = centerx/Game.UNIT-w/2 + 0.5f;
-        float y = centery/Game.UNIT-h/2 + 0.5f;
+        float x = center_x/Game.UNIT-w/2 + 0.5f;
+        float y = center_y/Game.UNIT-h/2 + 0.5f;
 
-        if(getCollision((int)(x), (int)(y))!=0)
+        if(getMapSquareAt((int)(x), (int)(y))!=0) {
             return false;
+        }
+        
         //Down left
-        x = centerx/Game.UNIT-w/2 + 0.5f;
-        y = centery/Game.UNIT+h/2 + 0.5f;
+        x = center_x/Game.UNIT-w/2 + 0.5f;
+        y = center_y/Game.UNIT+h/2 + 0.5f;
 
-        if(getCollision((int)(x), (int)(y))!=0)
+        if(getMapSquareAt((int)(x), (int)(y))!=0)
             return false;
         //Upper right
-        x = centerx/Game.UNIT+w/2 + 0.5f;
-        y = centery/Game.UNIT-h/2 + 0.5f;
+        x = center_x/Game.UNIT+w/2 + 0.5f;
+        y = center_y/Game.UNIT-h/2 + 0.5f;
 
-        if(getCollision((int)(x), (int)(y))!=0)
+        if(getMapSquareAt((int)(x), (int)(y))!=0) {
             return false;
+        }
+        
         //Down right
-        x = centerx/Game.UNIT+w/2 + 0.5f;
-        y = centery/Game.UNIT+h/2 + 0.5f;
+        x = center_x/Game.UNIT+w/2 + 0.5f;
+        y = center_y/Game.UNIT+h/2 + 0.5f;
 
-        if(getCollision((int)(x), (int)(y))!=0)
+        if(getMapSquareAt((int)(x), (int)(y))!=0) {
             return false;
-
+        }
+        
         return true;
     }
 
-    public boolean lineOfSightCheap(Vector3 pos1, Vector3 pos2){
-
+    public boolean lineOfSightCheap(Vector3 pos1, Vector3 pos2) {
         Vector3 tmp = new Vector3();
         tmp.set(pos1);
 
@@ -313,23 +316,21 @@ public class World {
         while(tmp.dst2(pos2) > (Game.UNIT/2f) * (Game.UNIT/2f)){
             tmp.mulAdd(dir, -Game.UNIT/4f);
 
-            if(getCollision(tmp.x, tmp.z)!=0)
+            if (getCollision(tmp.x, tmp.z)!=0) {
                 return false;
-
+            }
         }
-
-
         return true;
     }
+    
 
     public int getCollision(float x, float y){
-        return getCollision((int)(x/Game.UNIT+0.5f), (int)(y/Game.UNIT+0.5f));
+        return getMapSquareAt((int)(x/Game.UNIT+0.5f), (int)(y/Game.UNIT+0.5f));
     }
 
     public int getCollision(Vector3 vec){
-        return getCollision((int)(vec.x+0.5f), (int)(vec.z+0.5f));
+        return getMapSquareAt((int)(vec.x+0.5f), (int)(vec.z+0.5f));
     }
-
 
 
 }

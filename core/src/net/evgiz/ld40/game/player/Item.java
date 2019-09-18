@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class Item {
 
-    private final int tx, ty;
+    //private final int tx, ty;
 
     public float rotation;
     public Sprite sprite;
@@ -16,8 +16,8 @@ public class Item {
     public Vector2 position;
 
     public Item(Texture src, int tx, int ty){
-        this.tx = tx;
-        this.ty = ty;
+        //this.tx = tx;
+        //this.ty = ty;
 
         int unit = 16;
 

@@ -9,7 +9,7 @@ import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
-public class Enemy extends Entity {
+public abstract class Enemy extends Entity {
 
     Vector3 direction = new Vector3();
 
@@ -83,15 +83,17 @@ public class Enemy extends Entity {
 
     }
 
-    public void tryMove(World world, Vector2 moveVec, boolean doFine){
+    public void tryMove(World world, Vector2 moveVec, boolean doFine) {
         //Move if free
         if(world.rectangleFree(position.x+moveVec.x, position.z, .75f, .75f))
             position.x += moveVec.x;
         else if(doFine){
             for (int i = 0; i < 10; i++) {
-                if(world.rectangleFree(position.x+moveVec.x/10f, position.z, .75f, .75f))
+                if(world.rectangleFree(position.x+moveVec.x/10f, position.z, .75f, .75f)) {
                     position.x += moveVec.x/10f;
-                else break;
+                } else {
+                	break;
+                }
             }
         }
 
@@ -99,9 +101,11 @@ public class Enemy extends Entity {
             position.z += moveVec.y;
         else if(doFine){
             for (int i = 0; i < 10; i++) {
-                if(world.rectangleFree(position.x, position.z+moveVec.y/10f, .75f, .75f))
+                if(world.rectangleFree(position.x, position.z+moveVec.y/10f, .75f, .75f)) {
                     position.z += moveVec.y/10f;
-                else break;
+                } else {
+                	break;
+                }
             }
         }
 

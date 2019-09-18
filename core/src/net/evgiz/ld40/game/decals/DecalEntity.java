@@ -18,7 +18,9 @@ public class DecalEntity {
     public boolean faceCamera = true;
     public boolean faceCameraTilted = false;
 
-    float rotation = 0f;
+    private float rotation = 0f;
+
+    private Vector3 tmp = new Vector3();
 
     public DecalEntity(TextureRegion reg) {
 
@@ -34,8 +36,10 @@ public class DecalEntity {
     }
 
     public void setPosition(float x, float y){
-        position.set(x, position.y, y);
+    	setPosition(x, position.y, y);
     }
+    
+    
     public void setPosition(float x, float y, float z){
         position.set(x, y, z);
     }
@@ -46,30 +50,26 @@ public class DecalEntity {
     }
 
     public void setRotationRandom(){
-        rotation = new Random().nextFloat()*360f;
+    	setRotation(new Random().nextFloat()*360f);
     }
-
-    private Vector3 tmp = new Vector3();
 
 
     public void updateTransform(Camera cam){
-
         if(faceCamera){
             tmp.set(cam.direction).scl(-1);
-            if(!faceCameraTilted)
+            if(!faceCameraTilted) {
                tmp.y = 0;
+            }
             decal.setRotation(tmp, Vector3.Y);
             decal.rotateY(rotation);
         }else{
             decal.setRotationY(rotation);
         }
 
-
         decal.setPosition(position);
         decal.translateY(.5f * Game.UNIT);
 
     }
-
 
 
 }

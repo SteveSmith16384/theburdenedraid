@@ -10,15 +10,15 @@ import net.evgiz.ld40.game.world.World;
 
 public class Entity {
 
-    Vector3 position;
+	protected Vector3 position;
     public boolean remove = false;
 
-    DecalEntity decalEntity;
+    protected DecalEntity decalEntity;
 
-    TextureRegion texture[][];
+    protected TextureRegion texture[][];
 
-    World world = null;
-    int world_x, world_y;
+    protected World world = null;
+    protected int world_x, world_y;
 
     public boolean interactable = false;
     public boolean attackable = false;
@@ -66,7 +66,7 @@ public class Entity {
 
     }
 
-    public void render(DecalBatch batch){
+    public void render(DecalBatch batch) {
 
     }
 

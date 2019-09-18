@@ -14,7 +14,7 @@ public class RenderData {
     public Vector2 tilemapSize = new Vector2(1.0f,1.0f);
     public Vector2 textureRepeat = new Vector2(1.0f,1.0f);
 
-    public boolean boxFrustrumCulling = false;
+    //public boolean boxFrustrumCulling = false;
 
     public RenderData(ShaderType type, float tx, float ty) {
         shaderType = type;

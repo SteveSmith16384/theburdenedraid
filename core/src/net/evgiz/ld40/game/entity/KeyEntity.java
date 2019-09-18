@@ -23,13 +23,12 @@ public class KeyEntity extends Entity {
     public String getInteractText(Player player) {
         return "Pick Up (E)";
     }
+    
 
     @Override
     public void interact(Player player) {
-
         remove = true;
         player.inventory.keys++;
-
         Game.audio.play("pickup");
 
     }

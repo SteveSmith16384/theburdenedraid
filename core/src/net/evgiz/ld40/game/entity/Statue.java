@@ -7,18 +7,18 @@ import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
-public class Statue extends Entity {
+public final class Statue extends Entity {
 
     private boolean reading = false;
 
-    int readProgress = 0;
-    float readTimer = 0f;
+    private int readProgress = 0;
+    private float readTimer = 0f;
 
-    float soundTimer = 0f;
+    private float soundTimer = 0f;
 
-    Vector3 position;
+    private Vector3 position;
 
-    String readText[] = new String[]{
+    private String readText[] = new String[]{
            "Stars Above Us All"," ",
             "Sun Shining In The East"," ",
            "And A Silent Moon To The West"," "
@@ -55,7 +55,6 @@ public class Statue extends Entity {
 
     @Override
     public void update(World world, Player player) {
-
         if(reading){
             player.getPosition().set(position);
             player.interactTarget = this;
@@ -73,12 +72,11 @@ public class Statue extends Entity {
             if(readTimer>2f || (readText[readProgress].equals(" ") && readTimer>.5f)){
                 readTimer=0f;
                 readProgress++;
-                if(readProgress>readText.length-1)
+                if(readProgress>readText.length-1) {
                     reading = false;
+                }
             }
-
-
         }
-
     }
+    
 }

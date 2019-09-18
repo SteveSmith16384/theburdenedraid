@@ -12,8 +12,7 @@ import java.util.ArrayList;
 
 public class EntityManager {
 
-
-    DecalManager decalManager;
+	private DecalManager decalManager;
 
     private ArrayList<Entity> entities;
 
@@ -31,17 +30,18 @@ public class EntityManager {
     }
 
 
-    public ArrayList<Entity> getEntities(){
+    public ArrayList<Entity> getEntities() {
         return entities;
     }
+    
 
-    public boolean spawn(World world, int col, int x, int y){
-
+    public boolean spawn(World world, int col, int x, int y) {
         solvedLevers = false;
 
-        if(x==0 && y==0)
+        if(x==0 && y==0) {
             levers.clear();
-
+        }
+        
         boolean result = true;
 
 
@@ -49,7 +49,6 @@ public class EntityManager {
             //Red spawn
             case -16776961:
                 Entity ent = new Ladder(Game.art.entities, x, y, null, true);
-
                 add(ent);
                 break;
             //Blue finish
@@ -124,25 +123,25 @@ public class EntityManager {
                 break;
 
         }
-
-
         return result;
 
     }
 
 
-    public void add(Entity ent){
+    public void add(Entity ent) {
         entities.add(ent);
         decalManager.add(ent.decalEntity);
     }
 
+    
     public void remove(Entity ent){
         entities.remove(ent);
         decalManager.remove(ent.decalEntity);
     }
+    
 
-    public int getTargetLeverState(String level, int lever){
-        if(level.equals("Dungeons")){
+    public int getTargetLeverState(String level, int lever) {
+        if(level.equals("Dungeons")) {
             switch(lever){
                 case 0:
                     return -1;
@@ -156,11 +155,10 @@ public class EntityManager {
         return -2;
     }
 
-    public void update(World world, Player player){
-
-        Entity ent;
+    public void update(World world, Player player) {
+        //Entity ent;
         for (int i = 0; i < entities.size(); i++) {
-            ent = entities.get(i);
+        	Entity ent = entities.get(i);
             ent.update(world, player);
             ent.decalEntity.setPosition(ent.position.x, ent.position.y, ent.position.z);
 
@@ -196,8 +194,9 @@ public class EntityManager {
             }
             if(tmp.y < -Game.UNIT/1.9f){
                 for (int x = 0; x < world.width*world.height; x++) {
-                    if(world.world[x]>=3 && world.world[x]<=5)
-                        world.world[x] = 0;
+                    if (world.world[x]>=3 && world.world[x]<=5) {
+                        world.world[x] = World.NOTHING;
+                    }
                 }
                 leverComplete = true;
             }
@@ -209,12 +208,3 @@ public class EntityManager {
 
 }
 
-
-/*
-
-    Great progress today! Next up is making Demon Lair (the last stage),
-    and more content. After that, music, menus, end-game and polish!
-
-
-    ..who needs sleep anyway
- */

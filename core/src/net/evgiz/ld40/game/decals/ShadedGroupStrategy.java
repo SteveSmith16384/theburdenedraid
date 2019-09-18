@@ -82,20 +82,21 @@ import com.badlogic.gdx.utils.Pool;
  * </table>
  * </p> */
 public class ShadedGroupStrategy implements GroupStrategy, Disposable {
+	
     private static final int GROUP_OPAQUE = 0;
     private static final int GROUP_BLEND = 1;
 
     Pool<Array<Decal>> arrayPool = new Pool<Array<Decal>>(16) {
         @Override
         protected Array<Decal> newObject () {
-            return new Array();
+            return new Array<Decal>();
         }
     };
     Array<Array<Decal>> usedArrays = new Array<Array<Decal>>();
     ObjectMap<DecalMaterial, Array<Decal>> materialGroups = new ObjectMap<DecalMaterial, Array<Decal>>();
 
-    Camera camera;
-    ShaderProgram shader;
+    private Camera camera;
+    private ShaderProgram shader;
     private final Comparator<Decal> cameraSorter;
 
     private boolean preventDepthTest = false;
@@ -176,7 +177,7 @@ public class ShadedGroupStrategy implements GroupStrategy, Disposable {
     }
 
     @Override
-    public void beforeGroups () {
+    public void beforeGroups() {
         if(!preventDepthTest)
             Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 
@@ -192,7 +193,6 @@ public class ShadedGroupStrategy implements GroupStrategy, Disposable {
     }
 
     private void createDefaultShader () {
-
         shader = new ShaderProgram(
                 Gdx.files.internal("shaders/decal_vertex.glsl").readString(),
                 Gdx.files.internal("shaders/decal_fragment.glsl").readString()

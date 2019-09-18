@@ -11,26 +11,25 @@ import net.evgiz.ld40.game.Menu;
 
 public class LudumDare40 extends ApplicationAdapter {
 
-	Game game;
-	Menu menu;
+	private Game game;
+	private Menu menu;
 
-	boolean gameOverScreen = false;
-	float playTime = 0f;
-	float gameOverTime = 0f;
+	private boolean gameOverScreen = false;
+	private float playTime = 0f;
+	private float gameOverTime = 0f;
 
-	Texture white;
+	private Texture white;
 
-	String formatPlayTime;
+	private String formatPlayTime;
 
-	int loot = 0;
+	private int loot = 0;
 
-	Texture background;
+	private Texture background;
 
-	boolean paused = false;
+	private boolean paused = false;
 
 	@Override
 	public void create () {
-
 		white = new Texture(Gdx.files.internal("white.png"));
 		background = new Texture(Gdx.files.internal("background.png"));
 
@@ -40,7 +39,6 @@ public class LudumDare40 extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-
 		if(gameOverScreen){
 			renderUpdateGameOver();
 			return;
@@ -50,8 +48,9 @@ public class LudumDare40 extends ApplicationAdapter {
 			paused = true;
 			menu.begin = false;
 
-			if(game==null)
-				paused=false;
+			if(game == null) {
+				paused = false;
+			}
 
 			Gdx.input.setCursorCatched(false);
 			Game.audio.stopMusic();
@@ -96,10 +95,11 @@ public class LudumDare40 extends ApplicationAdapter {
 			menu.render();
 
 			if(menu.begin){
-				if(!paused)
+				if(!paused) {
 					game = new Game(menu.retro, menu.difficulty, menu.lookSensitivity);
-				else
+				} else {
 					game.setSettings(menu.retro, menu.difficulty, menu.lookSensitivity);
+				}
 				paused = false;
 				Game.audio.startMusic();
 			}
@@ -176,6 +176,6 @@ public class LudumDare40 extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		if(game!=null)
-		game.destroy();
+			game.destroy();
 	}
 }

@@ -29,14 +29,18 @@ public class Ladder extends Entity{
 
     }
 
+    
     public void interact(Player player){
-        if(upLadder || targetLevel==null)return;
+        if(upLadder || targetLevel==null) {
+        	return;
+        }
 
         player.getPosition().x = player.world.spawnx*Game.UNIT;
         player.getPosition().z = player.world.spawny*Game.UNIT;
         Game.audio.play("ladder");
         Game.changeLevel(targetLevel);
     }
+    
 
     @Override
     public String getInteractText(Player player) {
@@ -45,8 +49,9 @@ public class Ladder extends Entity{
 
     public void update(World world, Player player){
         if(upLadder){
-            if(player.getPosition().dst2(position)>Game.UNIT*Game.UNIT*.5f*.5f)
+            if(player.getPosition().dst2(position)>Game.UNIT*Game.UNIT*.5f*.5f) {
                 upLadder = false;
+            }
         }
     }
 

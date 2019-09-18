@@ -12,16 +12,15 @@ import net.evgiz.ld40.game.world.World;
 
 public class Bat extends Enemy {
 
-    Vector3 direction = new Vector3();
+    private Vector3 direction = new Vector3();
 
-    float speed = 3f;
+    private float speed = 3f;
 
-    Decal decal1;
-    Decal decal2;
+    private Decal decal1, decal2;
 
-    float animTimer = 0f;
+    private float animTimer = 0f;
 
-    float moveTimer = 0f;
+    private float moveTimer = 0f;
 
     public Bat(TextureRegion[][] tex, int x, int y) {
         super(tex, x, y, 0, 3);
@@ -36,8 +35,7 @@ public class Bat extends Enemy {
     }
 
     @Override
-    public void death(Player player){
-
+    public void death(Player player) {
         super.death(player);
 
         player.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));

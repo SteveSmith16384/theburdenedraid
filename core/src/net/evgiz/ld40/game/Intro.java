@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Intro {
 
-    String introTxt[] = new String[]{
+    private String introTxt[] = new String[]{
       "On his way down to raid the infamous dungeon,",
       "our brave hero realized something important.",
             "",
@@ -20,7 +20,7 @@ public class Intro {
       "\"Guess I'll just have to carry it.\""
     };
 
-    String outroTxt[] = new String[]{
+    private String outroTxt[] = new String[]{
             "\"That went well,\" the hero thought to himself",
             "as he bathed in all the treasure he had found.",
             "",
@@ -32,28 +32,29 @@ public class Intro {
             "The End"
     };
 
-    String intro[] = introTxt;
+    private String intro[] = introTxt;
 
 
     private float introTimer = 0f;
     private int introProgress = 0;
 
-    boolean finishing = false;
-    boolean finished = false;
+    public boolean finishing = false;
+    public boolean finished = false;
 
     public float alphaOut = 3f;
 
     public boolean isOutro = false;
 
-    Texture tex = new Texture(Gdx.files.internal("white.png"));
+    private Texture tex = new Texture(Gdx.files.internal("white.png"));
 
-    public void update(){
+    public void update() {
 
         float dt = Gdx.graphics.getDeltaTime();
 
-        if((Gdx.input.isKeyPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !Game.gameComplete)
+        if ((Gdx.input.isKeyPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !Game.gameComplete) {
            dt *= 3;
-
+        }
+        
         if(isOutro && alphaOut<2f && !finishing) {
             alphaOut += dt;
             return;
@@ -95,8 +96,8 @@ public class Intro {
         isOutro = true;
     }
 
+    
     public void render(SpriteBatch batch, BitmapFont font){
-
         float alpha = Math.max(0,Math.min(alphaOut, 1));
 
         batch.setColor(0,0,0, (Game.gameComplete && finishing) ? 1 : alpha);
@@ -119,9 +120,6 @@ public class Intro {
         }
 
         batch.setColor(1,1,1,1);
-
-
-
     }
 
 
