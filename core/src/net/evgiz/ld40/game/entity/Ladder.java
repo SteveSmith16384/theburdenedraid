@@ -5,7 +5,7 @@ import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
-public class Ladder extends Entity{
+public class Ladder extends Entity {
 
     private String targetLevel = "nil";
 

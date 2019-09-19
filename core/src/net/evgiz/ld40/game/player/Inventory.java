@@ -42,8 +42,7 @@ public class Inventory {
         itemPos.getTextureData().prepare();
 
         Pixmap pixmap = itemPos.getTextureData().consumePixmap();
-
-
+        
         for (int x = 0; x < pixmap.getWidth(); x++) {
             for (int y = 0; y < pixmap.getHeight(); y++) {
                 int px = pixmap.getPixel(x,y);
@@ -99,12 +98,11 @@ public class Inventory {
 
             return;
 
-        }else if(itemPositions.size() == 0){
-
-            System.out.println("Out of item positions!");
-
+        } else if(itemPositions.size() == 0){
+            System.err.println("Out of item positions!");
             return;
         }
+        
         int lowestPriority = 1000;
 
         ArrayList<ItemPos> options = new ArrayList<ItemPos>();
@@ -118,7 +116,6 @@ public class Inventory {
                 options.add(p);
             }
         }
-
 
         Item item = new Item(itemTexture, tx, ty);
         ItemPos ip = options.get(Game.random.nextInt(options.size()));

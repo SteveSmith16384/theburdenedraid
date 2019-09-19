@@ -8,12 +8,9 @@ import net.evgiz.ld40.game.world.World;
 
 public final class Door extends Entity {
 
-    //private boolean open = false;
-    //private float openProcess = 0.1f;
-
     private Decal openDecal;
 
-    public boolean locked = true;
+    private boolean locked = true;
 
     public Door(TextureRegion[][] tex, int x, int y) {
         super(tex, x, y, 0,1);
@@ -27,7 +24,6 @@ public final class Door extends Entity {
 
     public void interact(Player player){
         if (locked && player.inventory.keys>0) {
-            //open = true;
             world.world[world_x + world_y * world.width] = 0;
             decalEntity.decal = openDecal;
             interactable = false;
@@ -38,11 +34,7 @@ public final class Door extends Entity {
 
     @Override
     public String getInteractText(Player player) {
-        return (locked && player.inventory.keys==0) ? "Locked" : "Open (E)";
+        return (locked && player.inventory.keys == 0) ? "Locked" : "Open with Key (E)";
     }
-/*
-    public void update(World world, Player player){
 
-    }
-*/
 }

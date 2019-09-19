@@ -55,20 +55,21 @@ public final class Slime extends Enemy {
     public void update(World world, Player player) {
         super.update(world, player);
 
-        if(health<=0) {
+        if(health <= 0) {
             decalEntity.decal.setColor(Color.DARK_GRAY);
             return;
         }
 
         float dt = Gdx.graphics.getDeltaTime();
 
-        Vector2 moveVec = new Vector2();
+        //Vector2 moveVec = new Vector2();
         
         if (player.getPosition().dst2(position) < (Game.UNIT * 6) * (Game.UNIT * 6))
             jumpTimer -= dt;
-        else
+        else {
             return;
-
+        }
+        
         if (jumpTimer <= 0f) {
             if (decalEntity.decal != airDecal) {
                 decalEntity.decal = airDecal;
@@ -82,6 +83,7 @@ public final class Slime extends Enemy {
 
             }
 
+            Vector2 moveVec = new Vector2();
             moveVec.x += direction.x;
             moveVec.y += direction.z;
 
@@ -93,13 +95,13 @@ public final class Slime extends Enemy {
                 dy = 0;
                 jumpTimer = Game.random.nextFloat() * 1.25f + .5f;
             }
+            tryMove(world, moveVec, true);
         } else if (jumpTimer < .2f) {
             decalEntity.decal = jumpDecal;
         } else {
             decalEntity.decal = idleDecal;
         }
 
-        tryMove(world, moveVec, true);
 
     }
 

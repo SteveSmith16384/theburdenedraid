@@ -44,7 +44,6 @@ public class EntityManager {
         
         boolean result = true;
 
-
         switch (col){
             //Red spawn
             case -16776961:
@@ -98,6 +97,7 @@ public class EntityManager {
                 KeyEntity item = new KeyEntity(Game.art.items, x, y, 0, 0);
                 add(item);
                 break;
+                
             //Details, barrel/pot etc
             case -1600085761:
                 Entity det = new Entity(Game.art.entities, x, y, world.getTileType(world.currentLevel), 5);
@@ -134,13 +134,13 @@ public class EntityManager {
     }
 
     
-    public void remove(Entity ent){
+    private void remove(Entity ent){
         entities.remove(ent);
         decalManager.remove(ent.decalEntity);
     }
     
 
-    public int getTargetLeverState(String level, int lever) {
+    private int getTargetLeverState(String level, int lever) {
         if(level.equals("Dungeons")) {
             switch(lever){
                 case 0:
@@ -155,17 +155,18 @@ public class EntityManager {
         return -2;
     }
 
+    
     public void update(World world, Player player) {
-        //Entity ent;
         for (int i = 0; i < entities.size(); i++) {
         	Entity ent = entities.get(i);
+            if (ent.remove) {
+                remove(ent);
+                i--;
+                continue;
+            }
             ent.update(world, player);
             ent.decalEntity.setPosition(ent.position.x, ent.position.y, ent.position.z);
 
-            if(ent.remove){
-                remove(ent);
-                i--;
-            }
         }
 
         if(!solvedLevers && levers.size() > 0){
@@ -177,7 +178,7 @@ public class EntityManager {
                 }
             }
 
-            if(isCorrect){
+            if (isCorrect) {
                 solvedLevers = true;
                 System.out.println("SOLVED LEVERS!");
                 Game.audio.play("wall_open");
@@ -186,7 +187,7 @@ public class EntityManager {
 
         }
 
-        if(solvedLevers && !leverComplete){
+        if (solvedLevers && !leverComplete) {
             Vector3 tmp = new Vector3();
             for (ModelInstance inst : world.specialBlocks) {
                 inst.transform.translate(-Gdx.graphics.getDeltaTime()*Game.UNIT, 0, 0);

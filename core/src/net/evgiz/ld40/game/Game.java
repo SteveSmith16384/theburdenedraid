@@ -117,7 +117,7 @@ public class Game {
         Game.hasLoaded = false;
     }
 
-    public void update(){
+    public void update() {
         if(Game.gameComplete && !intro.isOutro) {
             intro = new Intro();
             intro.setOutro();
@@ -134,7 +134,7 @@ public class Game {
                 player.cameraController.bobbing = 0;
             }
 
-        }else {
+        } else {
             if(Game.gameComplete){
                 Game.audio.stopMusic();
                 game_over = true;
@@ -189,7 +189,6 @@ public class Game {
         Gdx.gl.glClearColor(0,0,0,1);
 
         batch.begin(camera);
-
         for (int i = 0; i < world.modelInstances.size(); i++) {
             batch.render(world.modelInstances.get(i));
         }

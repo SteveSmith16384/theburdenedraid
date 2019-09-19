@@ -21,7 +21,7 @@ public class SnowWall extends Entity {
     }
 
     @Override
-    public void damage(Player player) {
+    public void damaged(Player player) {
         world.world[world_x + world_y * world.width] = World.NOTHING;
         attackable = false;
         decalEntity.decal = destroyedDecal;

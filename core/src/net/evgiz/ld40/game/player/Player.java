@@ -10,13 +10,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
+import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.entity.Bullet;
 import net.evgiz.ld40.game.entity.Enemy;
 import net.evgiz.ld40.game.entity.Entity;
 import net.evgiz.ld40.game.entity.EntityManager;
 import net.evgiz.ld40.game.world.World;
 
-public class Player {
+public class Player {//extends Entity {
+
+	private static final float jumpScale = 4f * Game.UNIT;
 
 	public Camera camera;
 	public World world;
@@ -25,7 +30,7 @@ public class Player {
 
 	public CameraController cameraController;
 
-	Vector3 position;
+	private Vector3 position;
 
 	float moveSpeed = 2f * Game.UNIT;
 
@@ -39,7 +44,6 @@ public class Player {
 
 	private float gravityScale = 25 * Game.UNIT;
 	private float gravity = 0f;
-	//private float jumpScale = 4f * Game.UNIT;
 
 	private Sprite weaponSprite;
 	private float weaponRotation;
@@ -52,7 +56,7 @@ public class Player {
 
 	private float footstepTimer;
 
-	public int health = 5;
+	public int health = Settings.START_HEALTH;
 	private float hurtTimer = 0f;
 	private Texture hurtTexture;
 	private Texture heart;
@@ -64,7 +68,6 @@ public class Player {
 	public Entity interactTarget;
 
 	public Player(Camera cam, World wrld, EntityManager ents, Inventory inv, int lookSens) {
-
 		inventory = inv;
 		camera = cam;
 		world = wrld;
@@ -82,7 +85,6 @@ public class Player {
 		weaponSprite.setOrigin(32, 0);
 		weaponSprite.setScale(7.5f, 5f);
 
-
 		weaponPosition = new Vector2(0,0);
 		weaponRotation = defaultWeaponRotation;
 		weaponSprite.setRotation(defaultWeaponRotation);
@@ -90,16 +92,17 @@ public class Player {
 		hurtTexture = new Texture(Gdx.files.internal("red.png"));
 		heart = new Texture(Gdx.files.internal("heart.png"));
 	}
-	
+
 
 	public Vector3 getPosition() {
 		return position;
 	}
 
+
 	public void update(EntityManager entityManager) {
 		move();
 		gravity();
-		attack(entityManager);
+		checkForAttack(entityManager);
 		interact(entityManager);
 
 		cameraController.update();
@@ -112,12 +115,15 @@ public class Player {
 
 		if(hurtTimer>0){
 			hurtTimer-=Gdx.graphics.getDeltaTime();
-
-		}else {
-			float hurtDistance = Game.UNIT * .5f;
+		} else {
+			// Check if any enemies are harming us
+			float hurtDistance = Game.UNIT * .5f; // todo - dupe maths?
 			for (Entity ent : entityManager.getEntities()) {
-				if (!(ent instanceof Enemy) || ((Enemy)ent).health<=0) continue;
+				if (!(ent instanceof Enemy) || ((Enemy)ent).health<=0) {
+					continue;
+				}
 
+				// For efficiency, we use a simple dist2 and check against hurtDistance2
 				if (ent.getPosition().dst2(position) < hurtDistance * hurtDistance) {
 					health--;
 					hurtTimer = 1.5f;
@@ -126,8 +132,8 @@ public class Player {
 
 			}
 		}
-
 	}
+
 
 	private void interact(EntityManager entityManager) {
 		interactTarget = null;
@@ -152,8 +158,7 @@ public class Player {
 	}
 
 
-	private void attack(EntityManager entityManager) {
-
+	private void checkForAttack(EntityManager entityManager) {
 		if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && attackAnimation<=0){
 			attackAnimation = 1.0f;
 			didAttack = false;
@@ -166,11 +171,12 @@ public class Player {
 				didPlayAudio = false;
 			}
 			mouseReleased = false;
-		}else mouseReleased = true;
+		} else {
+			mouseReleased = true;
+		}
 
-		if(attackAnimation>0f){
+		if (attackAnimation > 0f) {
 			attackAnimation -= Gdx.graphics.getDeltaTime()*4;
-
 			if(attackAnimation>.3f) {
 				weaponRotation = MathUtils.lerp(weaponRotation, chargeWeaponRotation, Gdx.graphics.getDeltaTime() * 8f);
 				weaponPosition.set(
@@ -183,7 +189,7 @@ public class Player {
 					Game.audio.play("weapon");
 				}
 
-			}else {
+			} else {
 				weaponRotation = MathUtils.lerp(weaponRotation, attackWeaponRotation, Gdx.graphics.getDeltaTime() * 15f);
 				weaponPosition.set(
 						MathUtils.lerp(weaponPosition.x, -150, Gdx.graphics.getDeltaTime()*20f),
@@ -197,7 +203,7 @@ public class Player {
 					Game.audio.play("weapon");
 				}
 			}
-		}else{
+		} else {
 			weaponRotation = MathUtils.lerp(weaponRotation, defaultWeaponRotation, Gdx.graphics.getDeltaTime()*5f);
 			weaponPosition.set(
 					MathUtils.lerp(weaponPosition.x, 0, Gdx.graphics.getDeltaTime()*10f),
@@ -206,12 +212,15 @@ public class Player {
 			weaponScaleY = MathUtils.lerp(weaponScaleY, 1f, Gdx.graphics.getDeltaTime()*10);
 		}
 
-		if(attackAnimation<.3f && !didAttack){
+		if (attackAnimation < 0.3f && !didAttack) {
 			didAttack = true;
 			checkAttackHit(entityManager);
+			
+			if (Settings.SHOOTING) {
+				Bullet b = new Bullet(this, Game.art.entities, this.position, camera.direction);
+				this.entityManager.add(b);
+			}
 		}
-
-
 	}
 
 
@@ -239,12 +248,12 @@ public class Player {
 		}
 
 		if(closest != null){
-			closest.damage(this);
+			closest.damaged(this);
 		}
 
 	}
 
-	private void gravity(){
+	private void gravity() {
 		gravity -= gravityScale*Gdx.graphics.getDeltaTime();
 		position.y += gravity*Gdx.graphics.getDeltaTime();
 
@@ -253,11 +262,10 @@ public class Player {
 
 		onGround = (position.y == 0);
 
-		if(onGround){
-
-			if( Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-				//gravity = jumpScale;
-			}else{
+		if (onGround) {
+			if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+				gravity = jumpScale; // todo - was commented out
+			} else {
 				gravity = 0f;
 			}
 		}
@@ -297,28 +305,29 @@ public class Player {
 		float colX = moveVector.x==0 ? 0 : (moveVector.x>0 ? 1 : -1);
 		float colZ = moveVector.z==0 ? 0 : (moveVector.z>0 ? 1 : -1);
 
-		if (world.getCollision(position.x + moveVector.x + colX * colliderSize, position.z) == 0)
+		if (world.getMapSquareAt(position.x + moveVector.x + colX * colliderSize, position.z) == World.NOTHING)
 			position.add(moveVector.x, 0, 0);
-		if (world.getCollision(position.x, position.z + moveVector.z + colZ * colliderSize) == 0)
+		if (world.getMapSquareAt(position.x, position.z + moveVector.z + colZ * colliderSize) == World.NOTHING)
 			position.add(0, 0, moveVector.z);
-
 
 		camera.position.set(position.x, position.y + playerHeight, position.z);
 
-		if(moveVector.len2() > 0){
+		if (moveVector.len2() > 0){
 			footstepTimer += Gdx.graphics.getDeltaTime();
 
-			if(footstepTimer>0.45f){
+			if (footstepTimer>0.45f){
 				footstepTimer -= 0.45f;
 				Game.audio.play("step");
 			}
 		}
 	}
+	
 
 	public void render(SpriteBatch batch){
 		weaponSprite.draw(batch);
 	}
 
+	
 	public void renderUI(SpriteBatch batch, BitmapFont font, int downscale) {
 		if(interactTarget != null) {
 			String str = interactTarget.getInteractText(this);

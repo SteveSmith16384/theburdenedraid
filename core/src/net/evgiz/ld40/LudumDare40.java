@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.Menu;
 
-
 public class LudumDare40 extends ApplicationAdapter {
 
 	private Game game;
@@ -38,33 +37,28 @@ public class LudumDare40 extends ApplicationAdapter {
 	}
 
 	@Override
-	public void render () {
-		if(gameOverScreen){
+	public void render() {
+		if (gameOverScreen) {
 			renderUpdateGameOver();
 			return;
 		}
 
-		if(game!=null && game.intro.alphaOut<=0 && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+		if (game != null && game.intro.alphaOut<=0 && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			paused = true;
 			menu.begin = false;
-
-			if(game == null) {
-				paused = false;
-			}
 
 			Gdx.input.setCursorCatched(false);
 			Game.audio.stopMusic();
 			return;
 		}
 
-
-		if(game!=null && !paused) {
+		if (game != null && !paused) {
 			game.update();
 			game.render();
 
 			playTime += Gdx.graphics.getDeltaTime();
 
-			if(game.game_over){
+			if(game.game_over) {
 				gameOverScreen = true;
 
 				Game.audio.stopMusic();
@@ -80,8 +74,7 @@ public class LudumDare40 extends ApplicationAdapter {
 				loot = game.inventory.totalLoot;
 
 			}
-		}else{
-
+		} else {
 			Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 			Gdx.gl.glClearColor(0,0,0,1);
@@ -108,7 +101,7 @@ public class LudumDare40 extends ApplicationAdapter {
 
 	}
 
-	public void drawBackground(){
+	public void drawBackground() {
 		int size = 96;
 		for (int x = 0; x < Gdx.graphics.getWidth(); x+=size) {
 			for (int y = Gdx.graphics.getHeight(); y > Gdx.graphics.getHeight()-size*3; y-=size) {
@@ -118,11 +111,10 @@ public class LudumDare40 extends ApplicationAdapter {
 
 	}
 
-	public void renderUpdateGameOver(){
-
+	public void renderUpdateGameOver() {
 		gameOverTime += Gdx.graphics.getDeltaTime();
 
-		if(gameOverTime>3f && (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) || Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+		if (gameOverTime>3f && (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) || Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
 			gameOverScreen = false;
 			gameOverTime = 0f;
 			playTime = 0f;
@@ -172,10 +164,12 @@ public class LudumDare40 extends ApplicationAdapter {
 		if(game!=null)
 			game.resize(width,height);
 	}
+	
 
 	@Override
 	public void dispose () {
-		if(game!=null)
+		if (game!=null) {
 			game.destroy();
+	}
 	}
 }

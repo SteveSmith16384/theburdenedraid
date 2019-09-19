@@ -53,29 +53,27 @@ public class Bat extends Enemy {
 
         float dt = Gdx.graphics.getDeltaTime();
 
-        Vector2 moveVec = new Vector2();
-
         animTimer += dt;
-        if(animTimer>.1f){
+        if(animTimer>.1f) {
             animTimer-=.1f;
             decalEntity.decal = (decalEntity.decal==decal1) ? decal2 : decal1;
         }
 
         if (player.getPosition().dst2(position) < (Game.UNIT * 5) * (Game.UNIT * 5) && world.lineOfSightCheap(position, player.getPosition())) {
-
             moveTimer += dt;
-            if(moveTimer>Math.PI*2)
+            if(moveTimer>Math.PI*2) {
                 moveTimer -= Math.PI*2;
-
+            }
+            
             float addAngle = (float)Math.cos(moveTimer*5f + Math.sin(moveTimer*2f)/2f)*40f - 20f;
             direction.set(player.getPosition()).sub(position).nor();
             direction.rotate(Vector3.Y, addAngle);
             direction.scl(Gdx.graphics.getDeltaTime() * speed * Game.UNIT);
             direction.y = 0f;
 
+            Vector2 moveVec = new Vector2();
             moveVec.x += direction.x;
             moveVec.y += direction.z;
-
             tryMove(world, moveVec, true);
         }
 

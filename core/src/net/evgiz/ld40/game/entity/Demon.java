@@ -35,8 +35,8 @@ public final class Demon extends Enemy {
 
 
 	@Override
-	public void damage(Player player) {
-		super.damage(player);
+	public void damaged(Player player) {
+		super.damaged(player);
 
 		direction.set(player.getPosition()).sub(position).nor();
 		direction.scl(Game.UNIT);

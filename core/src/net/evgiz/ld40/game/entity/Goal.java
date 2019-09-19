@@ -14,8 +14,7 @@ public final class Goal extends Entity {
     public void update(World world, Player player){
         decalEntity.decal.setPosition(0,10,10);
 
-        if(position.dst2(player.getPosition())< (Game.UNIT*2)*(Game.UNIT*2)){
-
+        if(position.dst2(player.getPosition())< (Game.UNIT*2)*(Game.UNIT*2)) {
             player.inventory.gameComplete = true;
 
             for (Entity ent : player.entityManager.getEntities()) {

@@ -7,7 +7,7 @@ import net.evgiz.ld40.game.player.Player;
 
 public class Lever extends Entity {
 
-	private Decal openDecal;
+	//private Decal openDecal;
 
     public boolean locked = true;
 
@@ -45,7 +45,7 @@ public class Lever extends Entity {
                 decalEntity.decal = left;
                 state = -1;
             }
-        }else{
+        } else {
             decalEntity.decal = center;
             direction = -1;
             state = 0;
