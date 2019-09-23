@@ -21,6 +21,7 @@ public final class Door extends Entity {
         decalEntity.faceCamera = false;
         decalEntity.setRotation(-90f);
     }
+    
 
     public void interact(Player player){
         if (locked && player.inventory.keys>0) {

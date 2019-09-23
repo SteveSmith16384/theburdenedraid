@@ -86,9 +86,7 @@ public class Game {
 		world = new World(decalManager, entityManager);
 
 		inventory = new Inventory();
-		player = new Player(camera, world, inventory, lookSens);
-
-		player.health = health[diff];
+		player = new Player(camera, world, inventory, lookSens, health[diff]);
 
 		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth()/downscale, Gdx.graphics.getHeight()/downscale, true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -172,7 +170,7 @@ public class Game {
 		camera.update();
 		entityManager.update(world);
 
-		if(player.health <=0 && !Game.gameComplete) {
+		if(player.getHealth() <=0 && !Game.gameComplete) {
 			game_over = true;
 			Game.audio.play("gameover");
 		}
@@ -240,22 +238,4 @@ public class Game {
 	}
 
 }
-
-
-
-
-
-
-/*
-
-    TODO:
-
- * Expand small levels
- * More puzzles
- * More loot
- * More enemy types
- * Game-Over screen on death
-
- */
-
 

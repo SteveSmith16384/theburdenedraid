@@ -13,13 +13,14 @@ import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.components.IDamagable;
 import net.evgiz.ld40.game.entity.Bullet;
 import net.evgiz.ld40.game.entity.Enemy;
 import net.evgiz.ld40.game.entity.Entity;
 import net.evgiz.ld40.game.entity.EntityManager;
 import net.evgiz.ld40.game.world.World;
 
-public class Player {//extends Entity {
+public class Player implements IDamagable {
 
 	private static final float jumpScale = 4f * Game.UNIT;
 
@@ -55,7 +56,7 @@ public class Player {//extends Entity {
 
 	private float footstepTimer;
 
-	public int health = Settings.START_HEALTH;
+	private int health, max_health;// = Settings.START_HEALTH;
 	private float hurtTimer = 0f;
 	private Texture hurtTexture;
 	private Texture heart;
@@ -66,11 +67,12 @@ public class Player {//extends Entity {
 
 	public Entity interactTarget;
 
-	public Player(Camera cam, World wrld, Inventory inv, int lookSens) {
+	public Player(Camera cam, World wrld, Inventory inv, int lookSens, int maxHealth) {
 		inventory = inv;
 		camera = cam;
 		world = wrld;
-		//entityManager = ents;
+		this.max_health = health;
+		this.health = this.max_health;
 
 		cameraController = new CameraController(camera, lookSens);
 
@@ -116,7 +118,7 @@ public class Player {//extends Entity {
 			hurtTimer-=Gdx.graphics.getDeltaTime();
 		} else {
 			// Check if any enemies are harming us
-			float hurtDistance = Game.UNIT * .5f; // todo - dupe maths?
+			float hurtDistance = Game.UNIT * .5f;
 			for (Entity ent : entityManager.getEntities()) {
 				if (!(ent instanceof Enemy) || ((Enemy)ent).health<=0) {
 					continue;
@@ -124,9 +126,10 @@ public class Player {//extends Entity {
 
 				// For efficiency, we use a simple dist2 and check against hurtDistance2
 				if (ent.getPosition().dst2(position) < hurtDistance * hurtDistance) {
-					health--;
+					this.decHealth(1);
+					/*health--;
 					hurtTimer = 1.5f;
-					Game.audio.play("player_hurt");
+					Game.audio.play("player_hurt");*/
 				}
 
 			}
@@ -215,7 +218,7 @@ public class Player {//extends Entity {
 			didAttack = true;
 			checkAttackHit(entityManager);
 			
-			if (Settings.SHOOTING) {
+			if (Settings.PLAYER_SHOOTING) {
 				Bullet b = new Bullet(this, Game.art.entities, this.position, camera.direction);
 				Game.entityManager.add(b);
 			}
@@ -353,4 +356,23 @@ public class Player {//extends Entity {
 
 	}
 
+
+	@Override
+	public int getHealth() {
+		return health;
+	}
+
+
+	@Override
+	public void decHealth(int amt) {
+		health -= amt;
+
+		hurtTimer = 1.5f;
+		Game.audio.play("player_hurt");
+	}
+
+	
+	public void resetHealth() {
+		this.health = this.max_health;
+	}
 }

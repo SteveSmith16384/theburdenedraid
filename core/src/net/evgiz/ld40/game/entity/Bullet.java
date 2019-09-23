@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.components.IDamagable;
 import net.evgiz.ld40.game.decals.DecalEntity;
-import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
 public class Bullet extends Entity {
@@ -17,7 +17,7 @@ public class Bullet extends Entity {
 
 	public Bullet(Object _shooter, TextureRegion[][] tex, Vector3 pos, Vector3 _dir) {
 		super();
-		
+
 		shooter = _shooter;
 		texture = tex;
 
@@ -25,6 +25,7 @@ public class Bullet extends Entity {
 		ty = 1;// todo numb/4;
 
 		decalEntity = new DecalEntity(tex[tx][ty]);
+		decalEntity.decal.setScale(.3f);
 		position = new Vector3(pos);
 		dir = new Vector3(_dir);
 
@@ -49,14 +50,20 @@ public class Bullet extends Entity {
 				if (ent == shooter) {
 					continue;
 				}
-				if (!(ent instanceof Enemy) || ((Enemy)ent).health<=0) {
+				/*if (!(ent instanceof Enemy) || ((Enemy)ent).health<=0) {
 					continue;
-				}
+				}*/
+				if (ent instanceof IDamagable) {
+					IDamagable id = (IDamagable)ent;
+					if (id.getHealth() <= 0) {
+						continue;
+					}
 
-				if (ent.getPosition().dst2(position) < Game.UNIT/2f) {
-					// todo - harm enemy
-					this.remove = true;
-					break;
+					if (ent.getPosition().dst2(position) < Game.UNIT/2f) {
+						id.decHealth(1);
+						this.remove = true;
+						break;
+					}
 				}
 
 			}

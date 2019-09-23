@@ -62,7 +62,7 @@ public final class LootEntity extends Entity {
 				remove = true;
 
 				if (type == 1) { // todo - set correctly
-					Game.player.health = Settings.START_HEALTH;
+					Game.player.resetHealth();//.health = Settings.START_HEALTH;
 				} else {
 					Game.player.inventory.addLoot(tx,ty);
 				}

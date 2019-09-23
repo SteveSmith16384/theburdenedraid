@@ -26,6 +26,7 @@ public class Entity {
 
 	public Entity() {
 	}
+	
 
 	public Entity(TextureRegion tex[][], int x, int y) {
 		texture = tex;
@@ -35,11 +36,11 @@ public class Entity {
 
 	}
 
-	public Entity(TextureRegion tex[][], int x, int y, int tx, int ty) {
+	public Entity(TextureRegion tex[][], int map_x, int map_y, int tx, int ty) {
 		texture = tex;
 
 		decalEntity = new DecalEntity(tex[tx][ty]);
-		position = new Vector3(Game.UNIT*x, 0,Game.UNIT*y);
+		position = new Vector3(Game.UNIT*map_x, 0,Game.UNIT*map_y);
 
 	}
 

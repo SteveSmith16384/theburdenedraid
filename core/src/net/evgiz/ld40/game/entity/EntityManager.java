@@ -1,14 +1,15 @@
 package net.evgiz.ld40.game.entity;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
+
+import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.decals.DecalManager;
-import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
-
-import java.util.ArrayList;
 
 public class EntityManager {
 
@@ -20,8 +21,7 @@ public class EntityManager {
     private boolean solvedLevers = false;
     private boolean leverComplete = false;
 
-    public EntityManager(DecalManager decal){
-
+    public EntityManager(DecalManager decal) {
         decalManager = decal;
 
         levers = new ArrayList<Lever>();
@@ -35,10 +35,10 @@ public class EntityManager {
     }
     
 
-    public boolean spawn(World world, int col, int x, int y) {
+    public boolean spawnEntity(World world, int col, int x, int y) {
         solvedLevers = false;
 
-        if(x==0 && y==0) {
+        if (x==0 && y==0) {
             levers.clear();
         }
         
@@ -141,7 +141,7 @@ public class EntityManager {
     
 
     private int getTargetLeverState(String level, int lever) {
-        if(level.equals("Dungeons")) {
+        if(level.equals(Settings.DUNGEONS)) {
             switch(lever){
                 case 0:
                     return -1;

@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
 import net.evgiz.ld40.game.Game;
-import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
 public final class Demon extends Enemy {

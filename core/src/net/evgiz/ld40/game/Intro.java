@@ -77,18 +77,19 @@ public class Intro {
 		}
 
 		if(finishing){
-			if(!Game.gameComplete)
+			if(!Game.gameComplete) {
 				alphaOut -= Gdx.graphics.getDeltaTime();
-			else
+			} else {
 				alphaOut -= Gdx.graphics.getDeltaTime()/2f;
-
-			if(alphaOut<=0){
+			}
+			
+			if (alphaOut <= 0) {
 				finished = true;
 			}
 
 		}
-
 	}
+	
 
 	public void setOutro() {
 		intro = outroTxt;
@@ -108,11 +109,12 @@ public class Intro {
 		for (int i = 0; i < introProgress; i++) {
 			String s = intro[i];
 
-			if(i == introProgress-1)
+			if(i == introProgress-1) {
 				font.setColor(.75f,.75f,.75f, introTimer*alpha);
-			else
+			} else {
 				font.setColor(.75f,.75f,.75f,1f*alpha);
-
+			}
+			
 			GlyphLayout layout = new GlyphLayout(font, s);
 			font.setUseIntegerPositions(true);
 			font.draw(batch, s, Gdx.graphics.getWidth()/2 - layout.width/2, sy - i*32);

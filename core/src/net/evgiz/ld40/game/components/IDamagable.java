@@ -4,6 +4,6 @@ public interface IDamagable { // todo - use this
 
 	int getHealth();
 	
-	void decHealth();
+	void decHealth(int amt);
 	
 }

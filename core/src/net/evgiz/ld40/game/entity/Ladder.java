@@ -8,7 +8,6 @@ import net.evgiz.ld40.game.world.World;
 public class Ladder extends Entity {
 
     private String targetLevel = "nil";
-
     public boolean upLadder = false;
 
     public Ladder(TextureRegion[][] tex, int x, int y, String level) {
@@ -18,6 +17,7 @@ public class Ladder extends Entity {
 
         targetLevel = level;
     }
+    
 
     public Ladder(TextureRegion[][] tex, int x, int y, String level, boolean upLadder) {
         super(tex, x, y, upLadder ? 2 : 3,1);
@@ -47,6 +47,7 @@ public class Ladder extends Entity {
         return (targetLevel==null || upLadder) ? "" : "Enter "+targetLevel+" (E)";
     }
 
+    
     @Override
     public void update(World world) {
         if(upLadder){

@@ -113,7 +113,7 @@ public class World {
 				int pix = pixmap.getPixel(x,y);
 				int result = 0;
 
-				boolean was_spawn = entityManager.spawn(this, pix, x, y);
+				boolean was_spawn = entityManager.spawnEntity(this, pix, x, y);
 
 				switch (pix) {
 				//Red

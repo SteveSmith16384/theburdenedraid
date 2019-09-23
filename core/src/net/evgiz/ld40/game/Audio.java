@@ -1,6 +1,5 @@
 package net.evgiz.ld40.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.badlogic.gdx.Gdx;
@@ -24,8 +23,7 @@ public class Audio {
     };
 
     private Music music;
-    //private ArrayList<NamedSound> sounds; // todo - use 
-    private HashMap<String, Sound> sounds; // todo - use 
+    private HashMap<String, Sound> sounds; 
     private float musicVolume;
 
 
