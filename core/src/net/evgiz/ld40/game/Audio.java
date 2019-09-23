@@ -1,45 +1,46 @@
 package net.evgiz.ld40.game;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.math.Vector3;
-
-import java.util.ArrayList;
 
 public class Audio {
 
-    private class NamedSound {
+    /*private class NamedSound {
+    	
         public String name;
         public Sound sound;
         public NamedSound(String name, Sound sound){
             this.name = name;
             this.sound = sound;
         }
-    }
+    }*/
 
     private String preload[] = new String[]{
-            "loot","weapon","door","pickup","hurt","death","ladder","player_hurt","read","wall_open","success","step"
+            "loot","weapon","door","pickup","hurt","death","ladder","player_hurt","read","wall_open","success","step", "select"
     };
 
     private Music music;
-    private ArrayList<NamedSound> sounds;
+    //private ArrayList<NamedSound> sounds; // todo - use 
+    private HashMap<String, Sound> sounds; // todo - use 
     private float musicVolume;
 
 
-    public Audio(){
-        sounds = new ArrayList<NamedSound>();
+    public Audio() {
+        sounds = new HashMap<String, Sound>();
 
         for(String s : preload){
             Sound sfx = Gdx.audio.newSound(Gdx.files.internal("audio/"+s+".wav"));
-            sounds.add(new NamedSound(s, sfx));
+            sounds.put(s, sfx);//new NamedSound(s, sfx));
         }
 
         music = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
         music.setLooping(true);
-
-
     }
+    
 
     public void update(){
         if(!Game.gameComplete) {
@@ -59,12 +60,15 @@ public class Audio {
         }
     }
 
-    public void stopMusic(){
+    public void stopMusic() {
         music.stop();
     }
 
-    public void play(String name){
-        NamedSound sound = null;
+    public void play(String name) {
+    	if (sounds.containsKey(name)) {
+    		sounds.get(name).play();
+    	} else {
+        /*NamedSound sound = null;
 
         for(NamedSound s : sounds){
             if(s.name.equals(name)){
@@ -75,16 +79,20 @@ public class Audio {
 
         if(sound != null){
             sound.sound.play();
-        }else{
+        }else{*/
             Sound sfx = Gdx.audio.newSound(Gdx.files.internal("audio/"+name+".wav"));
-            sounds.add(new NamedSound(name, sfx));
-            sfx.play();
+            sounds.put(name, sfx);
+            //sfx.play();
             System.out.println("Sound " + name + " not preloaded");
+            
+            play(name); // Loop round to play the newly-added file.
         }
 
     }
 
-    public void playPitched(String name, float pitch){
+    
+    /*
+    public void playPitched(String name, float pitch) {
         NamedSound sound = null;
 
         for(NamedSound s : sounds){
@@ -97,5 +105,5 @@ public class Audio {
         sound.sound.play(1f, pitch, 0);
 
     }
-
+*/
 }

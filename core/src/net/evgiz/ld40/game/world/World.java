@@ -35,18 +35,13 @@ public class World {
 
 	public ArrayList<ModelInstance> modelInstances;
 
-	//private Texture tileTexture;
 	private TextureRegion detailTexture[];
 
 	private DecalManager decalManager;
 	private EntityManager entityManager;
 
-	public String previousLevel;
-	public String currentLevel;
-
-	public String levelOrder[] = new String[] {
-			"Dungeons", "Crypt", "Ice Caves", "Demon Lair"
-	};
+	public String previousLevelName;
+	public String currentLevelName; // todo - use a level num instead
 
 	public ArrayList<ModelInstance> specialBlocks;
 
@@ -67,13 +62,13 @@ public class World {
 			}
 		}
 
-		load(levelOrder[0]);
+		load(Settings.levelOrder[0]);
 
 	}
 
 	public int getTileType(String level){
-		for (int i = 0; i < levelOrder.length; i++) {
-			if(levelOrder[i].equals(level))
+		for (int i = 0; i < Settings.levelOrder.length; i++) {
+			if(Settings.levelOrder[i].equals(level))
 				return i;
 		}
 		return 0;
@@ -81,9 +76,10 @@ public class World {
 
 
 	public String getNextLevel(){
-		for (int i = 0; i < levelOrder.length-1; i++) {
-			if(levelOrder[i].equals(currentLevel))
-				return levelOrder[i+1];
+		for (int i = 0; i < Settings.levelOrder.length-1; i++) {
+			if(Settings.levelOrder[i].equals(currentLevelName)) {
+				return Settings.levelOrder[i+1];
+			}
 		}
 
 		return null;
@@ -91,8 +87,8 @@ public class World {
 
 
 	public void load(String level) {
-		previousLevel = currentLevel;
-		currentLevel = level;
+		previousLevelName = currentLevelName;
+		currentLevelName = level;
 
 		entityManager.getEntities().clear();
 		decalManager.clear();
@@ -154,7 +150,7 @@ public class World {
 					break;
 				}
 
-				if(result > 0) {
+				if (result > 0) {
 					world[x + y*width] = result;
 				}
 			}
@@ -162,7 +158,7 @@ public class World {
 
 		createModels();
 
-		if(currentLevel.equals("Demon Lair")) {
+		if (currentLevelName.equals(Settings.DEMON_LAIR)) {
 			return;
 		}
 
@@ -174,14 +170,13 @@ public class World {
 		int count = width*height / 3;
 
 		Random r = new Random();
-		DecalEntity ent;
 
 		for (int i = 0; i < count; i++) {
 			int x = r.nextInt(width);
 			int y = r.nextInt(height);
 
-			if(getMapSquareAt(x,y) == 0) {
-				ent = new DecalEntity(detailTexture[r.nextInt(2)]);
+			if (getMapSquareAt(x,y) == NOTHING) {
+				DecalEntity ent = new DecalEntity(detailTexture[r.nextInt(2)]);
 				ent.position.set(x * Game.UNIT, 0, y * Game.UNIT);
 				decalManager.add(ent);
 			} else {
@@ -192,7 +187,7 @@ public class World {
 
 
 	private void createModels() {
-		int tileType = getTileType(currentLevel);
+		int tileType = getTileType(currentLevelName);
 
 		ModelBuilder modelBuilder = new ModelBuilder();
 
@@ -201,7 +196,7 @@ public class World {
 		Model box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 
 		Material material_alien = new Material(TextureAttribute.createDiffuse(new Texture(Gdx.files.internal("alienskin2.jpg"))));
-		Model model_alien = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material_alien, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
+		Model model_alien = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material_alien, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
 
 		modelInstances = new ArrayList<ModelInstance>();
 		specialBlocks = new ArrayList<ModelInstance>();
@@ -260,8 +255,10 @@ public class World {
 
 	public int getMapSquareAt(int x, int y) {
 		if (x < 0 || y < 0) {
-			Settings.p("");
+			Settings.p("OOB!");
+			return WALL;
 		}
+		
 		int t = x + y*width;
 		if(t < world.length) {
 			return world[t];
@@ -275,7 +272,7 @@ public class World {
 		float x = center_x/Game.UNIT-w/2 + 0.5f;
 		float y = center_y/Game.UNIT-h/2 + 0.5f;
 
-		if(getMapSquareAt((int)(x), (int)(y))!=0) {
+		if (getMapSquareAt((int)(x), (int)(y))!=0) {
 			return false;
 		}
 
@@ -283,13 +280,15 @@ public class World {
 		x = center_x/Game.UNIT-w/2 + 0.5f;
 		y = center_y/Game.UNIT+h/2 + 0.5f;
 
-		if(getMapSquareAt((int)(x), (int)(y))!=0)
+		if (getMapSquareAt((int)(x), (int)(y))!=0) {
 			return false;
+		}
+		
 		//Upper right
 		x = center_x/Game.UNIT+w/2 + 0.5f;
 		y = center_y/Game.UNIT-h/2 + 0.5f;
 
-		if(getMapSquareAt((int)(x), (int)(y))!=0) {
+		if (getMapSquareAt((int)(x), (int)(y))!=0) {
 			return false;
 		}
 
@@ -297,7 +296,7 @@ public class World {
 		x = center_x/Game.UNIT+w/2 + 0.5f;
 		y = center_y/Game.UNIT+h/2 + 0.5f;
 
-		if(getMapSquareAt((int)(x), (int)(y))!=0) {
+		if (getMapSquareAt((int)(x), (int)(y))!=0) {
 			return false;
 		}
 

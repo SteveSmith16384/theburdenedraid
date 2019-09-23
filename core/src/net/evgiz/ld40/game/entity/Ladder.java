@@ -12,7 +12,7 @@ public class Ladder extends Entity {
     public boolean upLadder = false;
 
     public Ladder(TextureRegion[][] tex, int x, int y, String level) {
-        super(tex, x, y, 3,1);
+        super(tex, x, y, 3, 1);
 
         interactable = true;
 
@@ -35,8 +35,8 @@ public class Ladder extends Entity {
         	return;
         }
 
-        player.getPosition().x = player.world.spawnx*Game.UNIT;
-        player.getPosition().z = player.world.spawny*Game.UNIT;
+        player.getPosition().x = Game.world.spawnx*Game.UNIT;
+        player.getPosition().z = Game.world.spawny*Game.UNIT;
         Game.audio.play("ladder");
         Game.changeLevel(targetLevel);
     }
@@ -47,9 +47,10 @@ public class Ladder extends Entity {
         return (targetLevel==null || upLadder) ? "" : "Enter "+targetLevel+" (E)";
     }
 
-    public void update(World world, Player player){
+    @Override
+    public void update(World world) {
         if(upLadder){
-            if(player.getPosition().dst2(position)>Game.UNIT*Game.UNIT*.5f*.5f) {
+            if(Game.player.getPosition().dst2(position)>Game.UNIT*Game.UNIT*.5f*.5f) {
                 upLadder = false;
             }
         }

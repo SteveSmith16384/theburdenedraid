@@ -24,9 +24,8 @@ public class Player {//extends Entity {
 	private static final float jumpScale = 4f * Game.UNIT;
 
 	private Camera camera;
-	public World world;
+	private World world;
 	public Inventory inventory;
-	//public EntityManager entityManager;
 
 	public CameraController cameraController;
 
@@ -37,7 +36,7 @@ public class Player {//extends Entity {
 	private Vector3 moveVector;
 	private Vector3 tmpVector;
 
-	public float playerHeight = Game.UNIT * .4f;
+	public float playerHeight = Game.UNIT * 0.4f;
 	private float colliderSize = .2f * Game.UNIT;
 
 	private boolean onGround = false;

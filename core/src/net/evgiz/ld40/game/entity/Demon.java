@@ -13,11 +13,7 @@ import net.evgiz.ld40.game.world.World;
 public final class Demon extends Enemy {
 
 	private Vector3 direction = new Vector3();
-
 	private Decal decal1, decal2;
-
-	//private float animTimer = 0f;
-
 	private float attackTimer = 0f;
 	private float speed = 0f;
 

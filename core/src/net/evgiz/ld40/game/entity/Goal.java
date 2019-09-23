@@ -11,15 +11,17 @@ public final class Goal extends Entity {
         super(tex, x, y);
     }
 
-    public void update(World world, Player player){
+
+    @Override
+    public void update(World world) {
         decalEntity.decal.setPosition(0,10,10);
 
-        if(position.dst2(player.getPosition())< (Game.UNIT*2)*(Game.UNIT*2)) {
-            player.inventory.gameComplete = true;
+        if(position.dst2(Game.player.getPosition())< (Game.UNIT*2)*(Game.UNIT*2)) {
+            Game.player.inventory.gameComplete = true;
 
             for (Entity ent : Game.entityManager.getEntities()) {
                 if (ent instanceof LootEntity){
-                    if(ent.position.dst2(player.getPosition())<(Game.UNIT*5)*(Game.UNIT*5)){
+                    if(ent.position.dst2(Game.player.getPosition())<(Game.UNIT*5)*(Game.UNIT*5)){
                         ((LootEntity)ent).isAttracted = true;
                         ((LootEntity)ent).waitTime = Game.random.nextFloat();
                     }

@@ -34,7 +34,8 @@ public class Bullet extends Entity {
 	}
 
 
-	public void update(World world, Player player) {
+	@Override
+	public void update(World world) {
 		//float dt = Gdx.graphics.getDeltaTime();
 
 		origPos.set(this.position);

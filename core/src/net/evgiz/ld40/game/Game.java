@@ -41,7 +41,7 @@ public class Game {
 	private FrameBuffer frameBuffer = null;
 
 	public static Player player;
-	private World world;
+	public static World world;
 	public Inventory inventory;
 	public static EntityManager entityManager;
 

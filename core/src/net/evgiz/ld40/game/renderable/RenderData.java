@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class RenderData {
 
-	public enum ShaderType{
+	public enum ShaderType {
 		FOG_TEXTURE,
 		FOG_COLOR
 	}
@@ -27,7 +27,7 @@ public class RenderData {
 	}
 
 
-	public RenderData(ShaderType type) { // scs new
+	public RenderData(ShaderType type) {
 		shaderType = type;
 
 		tilemapOffset = new Vector2(1, 1);

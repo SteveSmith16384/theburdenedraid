@@ -23,21 +23,9 @@ public final class LootEntity extends Entity {
 
 	public LootEntity(TextureRegion[][] tex, int x, int y) {
 		this(tex, (float)x, (float)y);
-		/*texture = tex;
-
-		type = Game.random.nextInt(MAX_LOOT_TYPES)+1;
-		tx = type%4;
-		ty = type/4;
-
-		decalEntity = new DecalEntity(tex[tx][ty]);
-		position = new Vector3(Game.UNIT*x, 0,Game.UNIT*y);
-
-		decalEntity.faceCameraTilted = true;
-		decalEntity.decal.setScale(decalEntity.decal.getScaleX()/2f);
-		position.y = -Game.UNIT/3f;*/
-
 	}
 
+	
 	public LootEntity(TextureRegion[][] tex, float x, float y) {
 		texture = tex;
 
@@ -54,33 +42,34 @@ public final class LootEntity extends Entity {
 	}
 
 
-	public void update(World wrld, Player player) {
+	@Override
+	public void update(World wrld) {
 		if (waitTime > 0) {
 			waitTime -= Gdx.graphics.getDeltaTime();
 		} else if (isAttracted) {
 			position.set(
-					MathUtils.lerp(position.x, player.getPosition().x, Gdx.graphics.getDeltaTime()*15f),
+					MathUtils.lerp(position.x, Game.player.getPosition().x, Gdx.graphics.getDeltaTime()*15f),
 					MathUtils.lerp(position.y, -Game.UNIT/4f, Gdx.graphics.getDeltaTime()*15f),
-					MathUtils.lerp(position.z, player.getPosition().z, Gdx.graphics.getDeltaTime()*15f)
+					MathUtils.lerp(position.z, Game.player.getPosition().z, Gdx.graphics.getDeltaTime()*15f)
 					);
 
 			attractTime += Gdx.graphics.getDeltaTime();
 
 			float d = Game.UNIT/3f;
-			if (attractTime>2f || player.getPosition().dst2(position) < d*d) {
+			if (attractTime>2f || Game.player.getPosition().dst2(position) < d*d) {
 				// Collected
 				System.out.println("Collected type " + type);
 				remove = true;
 
 				if (type == 1) { // todo - set correctly
-					player.health = Settings.START_HEALTH;
+					Game.player.health = Settings.START_HEALTH;
 				} else {
-					player.inventory.addLoot(tx,ty);
+					Game.player.inventory.addLoot(tx,ty);
 				}
 
 				Game.audio.play("loot");
 			}
-		} else if (player.getPosition().dst2(position) < Game.UNIT*Game.UNIT){
+		} else if (Game.player.getPosition().dst2(position) < Game.UNIT*Game.UNIT){
 			isAttracted = true;
 		}
 	}

@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
+import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
-import net.evgiz.ld40.game.player.Player;
 import net.evgiz.ld40.game.world.World;
 
 public abstract class Enemy extends Entity {
@@ -14,7 +15,7 @@ public abstract class Enemy extends Entity {
     private float damageTimer = 0f;
     private Vector3 push; // Pushed away by attack
     private float pushScale = 0f;
-    public int health = 3;
+    public int health = Settings.ENEMY_HEALTH;
 
     public Enemy(TextureRegion[][] tex, int x, int y) {
         super(tex, x, y);

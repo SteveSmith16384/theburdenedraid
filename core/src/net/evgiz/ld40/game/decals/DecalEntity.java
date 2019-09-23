@@ -10,66 +10,63 @@ import java.util.Random;
 
 public class DecalEntity {
 
-    public Decal decal;
-    public float scale;
+	private static final float scale = 16f / Game.UNIT;
 
-    public Vector3 position;
+	public Decal decal;
+	public boolean faceCamera = true;
+	public boolean faceCameraTilted = false; // Whether to loop up to player on y_axis
 
-    public boolean faceCamera = true;
-    public boolean faceCameraTilted = false;
+	public Vector3 position;
+	private float rotation = 0f;
+	private Vector3 tmp = new Vector3();
 
-    private float rotation = 0f;
+	public DecalEntity(TextureRegion reg) {
+		decal = Decal.newDecal(reg, true);
 
-    private Vector3 tmp = new Vector3();
+		//scale = 16f / Game.UNIT;
 
-    public DecalEntity(TextureRegion reg) {
+		position = new Vector3(0,0,0);
 
-        decal = Decal.newDecal(reg, true);
+		decal.setScale(scale);
+		decal.setPosition(position);
 
-        scale = 16f / Game.UNIT;
+	}
 
-        position = new Vector3(0,0,0);
-
-        decal.setScale(scale);
-        decal.setPosition(position);
-
-    }
-
-    public void setPosition(float x, float y){
-    	setPosition(x, position.y, y);
-    }
-    
-    
-    public void setPosition(float x, float y, float z){
-        position.set(x, y, z);
-    }
+	public void setPosition(float x, float y){
+		setPosition(x, position.y, y);
+	}
 
 
-    public void setRotation(float f){
-        rotation = f;
-    }
-
-    public void setRotationRandom(){
-    	setRotation(new Random().nextFloat()*360f);
-    }
+	public void setPosition(float x, float y, float z){
+		position.set(x, y, z);
+	}
 
 
-    public void updateTransform(Camera cam){
-        if(faceCamera){
-            tmp.set(cam.direction).scl(-1);
-            if(!faceCameraTilted) {
-               tmp.y = 0;
-            }
-            decal.setRotation(tmp, Vector3.Y);
-            decal.rotateY(rotation);
-        }else{
-            decal.setRotationY(rotation);
-        }
+	public void setRotation(float f){
+		rotation = f;
+	}
 
-        decal.setPosition(position);
-        decal.translateY(.5f * Game.UNIT);
+	public void setRotationRandom(){
+		setRotation(new Random().nextFloat()*360f);
+	}
 
-    }
+
+	public void updateTransform(Camera cam){
+		if(faceCamera){
+			tmp.set(cam.direction).scl(-1);
+			if(!faceCameraTilted) {
+				tmp.y = 0;
+			}
+			decal.setRotation(tmp, Vector3.Y);
+			decal.rotateY(rotation);
+		}else{
+			decal.setRotationY(rotation);
+		}
+
+		decal.setPosition(position);
+		decal.translateY(.5f * Game.UNIT);
+
+	}
 
 
 }

@@ -12,13 +12,10 @@ import net.evgiz.ld40.game.world.World;
 
 public final class FlyingSkull extends Enemy {
 
+    private static final float speed = 2f;
+
     private Vector3 direction = new Vector3();
-
-    private float speed = 2f;
-
-    private Decal decal1;
-    private Decal decal2;
-
+    private Decal decal1, decal2;
     private float animTimer = 0f;
 
     public FlyingSkull(TextureRegion[][] tex, int x, int y) {

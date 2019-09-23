@@ -10,8 +10,6 @@ import net.evgiz.ld40.game.world.World;
 
 public class SnowWall extends Entity {
 
-    //private boolean open = false;
-    //private float openProcess = 0.1f;
     private Decal destroyedDecal;
 
     public SnowWall(TextureRegion[][] tex, int x, int y) {

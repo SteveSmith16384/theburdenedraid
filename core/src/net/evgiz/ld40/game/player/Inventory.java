@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Inventory {
 
     private Texture itemTexture;
-    private ArrayList<Item> items;
+    private ArrayList<CarriedItem> items;
 
     public boolean gameComplete = false;
 
@@ -34,7 +34,7 @@ public class Inventory {
     
     public Inventory() {
         itemTexture = new Texture(Gdx.files.internal("items.png"));
-        items = new ArrayList<Item>();
+        items = new ArrayList<CarriedItem>();
 
         itemPositions = new ArrayList<ItemPos>();
 
@@ -88,11 +88,11 @@ public class Inventory {
         totalLoot++;
 
         if(gameComplete) {
-            Item item = new Item(itemTexture, tx, ty);
+            CarriedItem item = new CarriedItem(itemTexture, tx, ty);
             item.position = new Vector2(Game.random.nextFloat(), Game.random.nextFloat());
             items.add(item);
 
-            item = new Item(itemTexture, tx, ty);
+            item = new CarriedItem(itemTexture, tx, ty);
             item.position = new Vector2(Game.random.nextFloat(), Game.random.nextFloat());
             items.add(item);
 
@@ -117,7 +117,7 @@ public class Inventory {
             }
         }
 
-        Item item = new Item(itemTexture, tx, ty);
+        CarriedItem item = new CarriedItem(itemTexture, tx, ty);
         ItemPos ip = options.get(Game.random.nextInt(options.size()));
         item.position = ip.position;
 
@@ -128,7 +128,7 @@ public class Inventory {
     
     public void render(SpriteBatch batch, Player player) {
         Sprite spr = null;
-        Item item;
+        CarriedItem item;
 
         float bobs[] = new float[]{
                 (float)Math.cos(player.cameraController.bobbing*15f + .25),

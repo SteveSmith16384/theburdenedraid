@@ -88,7 +88,7 @@ public class Intro {
 
 	}
 
-	public void setOutro(){
+	public void setOutro() {
 		intro = outroTxt;
 		alphaOut = -3f;
 		isOutro = true;

@@ -10,12 +10,9 @@ import net.evgiz.ld40.game.world.World;
 public final class Statue extends Entity {
 
 	private boolean reading = false;
-
 	private int readProgress = 0;
 	private float readTimer = 0f;
-
 	private float soundTimer = 0f;
-
 	private Vector3 position;
 
 	private String readText[] = new String[]{

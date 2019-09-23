@@ -100,7 +100,7 @@ public class EntityManager {
                 
             //Details, barrel/pot etc
             case -1600085761:
-                Entity det = new Entity(Game.art.entities, x, y, world.getTileType(world.currentLevel), 5);
+                Entity det = new Entity(Game.art.entities, x, y, world.getTileType(world.currentLevelName), 5);
                 add(det);
                 break;
 
@@ -172,7 +172,7 @@ public class EntityManager {
         if(!solvedLevers && levers.size() > 0){
             boolean isCorrect = true;
             for (int i = 0; i < levers.size(); i++) {
-                if(levers.get(i).getState() != getTargetLeverState(world.currentLevel, i)){
+                if(levers.get(i).getState() != getTargetLeverState(world.currentLevelName, i)){
                     isCorrect = false;
                     break;
                 }

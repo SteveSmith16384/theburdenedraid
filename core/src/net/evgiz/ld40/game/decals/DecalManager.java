@@ -1,12 +1,11 @@
 package net.evgiz.ld40.game.decals;
 
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.g3d.decals.Decal;
-import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
-import com.badlogic.gdx.math.Vector3;
-import net.evgiz.ld40.game.Game;
-
 import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.g3d.decals.DecalBatch;
+
+import net.evgiz.ld40.game.Game;
 
 public class DecalManager {
 
@@ -15,9 +14,6 @@ public class DecalManager {
 
     private DecalBatch batch;
     private ShadedGroupStrategy groupStrategy;
-
-    //private Decal weaponDecal;
-    //private Vector3 weaponRotation;
 
     public DecalManager(Camera cam) {
 
