@@ -196,7 +196,7 @@ public class World {
 		Model box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 
 		Material material_alien = new Material(TextureAttribute.createDiffuse(new Texture(Gdx.files.internal("alienskin2.jpg"))));
-		Model model_alien = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material_alien, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+		Model model_alien = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material_alien, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
 
 		modelInstances = new ArrayList<ModelInstance>();
 		specialBlocks = new ArrayList<ModelInstance>();
@@ -209,7 +209,7 @@ public class World {
 					instance.transform.translate(x*Game.UNIT, Game.UNIT/2f, y*Game.UNIT);
 					instance.transform.rotate(Vector3.Z, 90);
 					if (Settings.TRY_NEW_TEX) {
-						instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE);
+						//instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE);
 					} else {
 						instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 0, tileType, 6, 6);
 					}
@@ -236,12 +236,11 @@ public class World {
 				1f,1f,1f,
 				material,
 				VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-
 		ModelInstance instance = new ModelInstance(floor);
 		instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 1, tileType, 6, 6, width, height);
 		modelInstances.add(instance);
 
-		// todo - is this ceiling?
+		// ceiling?
 		if (Settings.HIDE_CEILING == false) {
 			instance = new ModelInstance(floor);
 			instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 2, tileType, 6, 6, width, height);

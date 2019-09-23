@@ -9,12 +9,10 @@ import com.badlogic.gdx.graphics.g3d.utils.DefaultShaderProvider;
 
 public class GameShaderProvider extends DefaultShaderProvider {
 
-
-    DefaultShader.Config fog_texture;
-    DefaultShader.Config fog_diffuse;
+	private DefaultShader.Config fog_texture;
+	private DefaultShader.Config fog_diffuse;
 
     public GameShaderProvider() {
-
         fog_texture = new DefaultShader.Config(
                 Gdx.files.internal("shaders/default_vertex.glsl").readString(),
                 Gdx.files.internal("shaders/fog_texture.glsl").readString()
@@ -24,22 +22,19 @@ public class GameShaderProvider extends DefaultShaderProvider {
                 Gdx.files.internal("shaders/default_vertex.glsl").readString(),
                 Gdx.files.internal("shaders/fog_diffuse.glsl").readString()
         );
-
     }
 
 
     @Override
     public Shader createShader(Renderable renderable) {
-        System.out.println(renderable.meshPart.size);
+        //System.out.println(renderable.meshPart.size);
         if(renderable.userData instanceof RenderData) {
-
             RenderData data = (RenderData) renderable.userData;
             CustomShader shader = new CustomShader(renderable, getConfig(data.shaderType));
-
             return shader;
-
+        } else {
+        	return super.createShader(renderable);
         }
-        return super.createShader(renderable);
     }
 
     public DefaultShader.Config getConfig(RenderData.ShaderType type){
@@ -53,8 +48,9 @@ public class GameShaderProvider extends DefaultShaderProvider {
         }
     }
 
+    
     private class CustomShader extends DefaultShader {
-
+    	
         public final int u_tilemapOffset = register("u_tilemapOffset");
         public final int u_tilemapSize = register("u_tilemapSize");
         public final int u_textureRepeat = register("u_textureRepeat");

@@ -157,16 +157,16 @@ public class LudumDare40 extends ApplicationAdapter { // todo - rename
 
 	@Override
 	public void resize(int width, int height) {
-		if(game!=null) {
+		if(game != null) {
 			game.resize(width,height);
 		}
 	}
-	
+
 
 	@Override
 	public void dispose () {
 		if (game != null) {
 			game.destroy();
-	}
+		}
 	}
 }

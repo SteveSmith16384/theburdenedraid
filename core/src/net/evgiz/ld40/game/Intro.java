@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import net.evgiz.ld40.Settings;
+
 public class Intro {
 
 	private String introTxt[] = new String[]{
@@ -50,7 +52,7 @@ public class Intro {
 	public void update() {
 		float dt = Gdx.graphics.getDeltaTime();
 
-		if ((Gdx.input.isKeyPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && !Game.gameComplete) {
+		if ( Settings.QUICKSTART || (Gdx.input.isKeyPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.SPACE))) {// && !Game.gameComplete) {
 			alphaOut = 0;
 			this.finishing = true;
 		}
