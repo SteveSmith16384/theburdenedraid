@@ -53,10 +53,10 @@ public final class Statue extends Entity {
 	
 
 	@Override
-	public void update(World world, Player player) {
-		if(reading){
-			player.getPosition().set(position);
-			player.interactTarget = this;
+	public void update(World world) {
+		if(reading) {
+			Game.player.getPosition().set(position);
+			Game.player.interactTarget = this;
 
 			if(readTimer<1f && (readText[readProgress].equals(" ") == false))
 				soundTimer += Gdx.graphics.getDeltaTime();

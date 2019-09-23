@@ -3,6 +3,7 @@ package net.evgiz.ld40.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.ArrayList;
 
@@ -17,14 +18,13 @@ public class Audio {
         }
     }
 
-    String preload[] = new String[]{
+    private String preload[] = new String[]{
             "loot","weapon","door","pickup","hurt","death","ladder","player_hurt","read","wall_open","success","step"
     };
 
-    Music music;
-    ArrayList<NamedSound> sounds;
-
-    float musicVolume;
+    private Music music;
+    private ArrayList<NamedSound> sounds;
+    private float musicVolume;
 
 
     public Audio(){
@@ -79,7 +79,7 @@ public class Audio {
             Sound sfx = Gdx.audio.newSound(Gdx.files.internal("audio/"+name+".wav"));
             sounds.add(new NamedSound(name, sfx));
             sfx.play();
-            System.out.println("Sound "+name+" not preloaded");
+            System.out.println("Sound " + name + " not preloaded");
         }
 
     }

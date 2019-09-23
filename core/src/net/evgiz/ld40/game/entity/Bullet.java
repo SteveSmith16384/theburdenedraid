@@ -44,7 +44,7 @@ public class Bullet extends Entity {
 			this.remove = true;
 		} else {
 			// Check for collisions
-			for (Entity ent : player.entityManager.getEntities()) {
+			for (Entity ent : Game.entityManager.getEntities()) {
 				if (ent == shooter) {
 					continue;
 				}

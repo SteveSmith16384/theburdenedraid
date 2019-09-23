@@ -156,7 +156,7 @@ public class EntityManager {
     }
 
     
-    public void update(World world, Player player) {
+    public void update(World world) {
         for (int i = 0; i < entities.size(); i++) {
         	Entity ent = entities.get(i);
             if (ent.remove) {
@@ -164,7 +164,7 @@ public class EntityManager {
                 i--;
                 continue;
             }
-            ent.update(world, player);
+            ent.update(world);
             ent.decalEntity.setPosition(ent.position.x, ent.position.y, ent.position.z);
 
         }

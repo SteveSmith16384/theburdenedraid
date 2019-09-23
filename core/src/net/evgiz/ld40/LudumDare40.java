@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.Menu;
 
-public class LudumDare40 extends ApplicationAdapter {
+public class LudumDare40 extends ApplicationAdapter { // todo - rename
 
 	private Game game;
 	private Menu menu;
@@ -18,13 +18,9 @@ public class LudumDare40 extends ApplicationAdapter {
 	private float gameOverTime = 0f;
 
 	private Texture white;
-
 	private String formatPlayTime;
-
 	private int loot = 0;
-
 	private Texture background;
-
 	private boolean paused = false;
 
 	@Override
@@ -161,14 +157,15 @@ public class LudumDare40 extends ApplicationAdapter {
 
 	@Override
 	public void resize(int width, int height) {
-		if(game!=null)
+		if(game!=null) {
 			game.resize(width,height);
+		}
 	}
 	
 
 	@Override
 	public void dispose () {
-		if (game!=null) {
+		if (game != null) {
 			game.destroy();
 	}
 	}

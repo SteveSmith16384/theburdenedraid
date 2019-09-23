@@ -30,18 +30,18 @@ public abstract class Enemy extends Entity {
 
     }
 
-    public void damaged(Player player){
+    public void damaged(Vector3 direction) {
         if(damageTimer>0) {
             return;
         }
 
         damageTimer = .5f;
-        push = player.camera.direction;
+        push = direction;
         pushScale = 5f;
         health--;
 
         if (health <= 0) {
-            death(player);
+            death();
         }else{
             Game.audio.play("hurt");
         }
@@ -49,14 +49,14 @@ public abstract class Enemy extends Entity {
     }
     
 
-    public void death(Player player){
+    public void death() {
         Game.audio.play("death");
         remove = true;
     }
 
     
     @Override
-    public void update(World world, Player player) {
+    public void update(World world) {
         float dt  = Gdx.graphics.getDeltaTime();
 
         Vector2 moveVec = new Vector2();

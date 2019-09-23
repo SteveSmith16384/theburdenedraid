@@ -39,7 +39,7 @@ public final class Slime extends Enemy {
 
     
     @Override
-    public void death(Player player) {
+    public void death() {
         Game.audio.play("death");
         position.y = 0;
         decalEntity.decal = idleDecal;
@@ -47,13 +47,13 @@ public final class Slime extends Enemy {
         attackable = false;
         remove = false;
 
-        player.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
+        Game.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
     }
 
     
     @Override
-    public void update(World world, Player player) {
-        super.update(world, player);
+    public void update(World world) {
+        super.update(world);
 
         if(health <= 0) {
             decalEntity.decal.setColor(Color.DARK_GRAY);
@@ -64,7 +64,7 @@ public final class Slime extends Enemy {
 
         //Vector2 moveVec = new Vector2();
         
-        if (player.getPosition().dst2(position) < (Game.UNIT * 6) * (Game.UNIT * 6))
+        if (Game.player.getPosition().dst2(position) < (Game.UNIT * 6) * (Game.UNIT * 6))
             jumpTimer -= dt;
         else {
             return;
@@ -75,7 +75,7 @@ public final class Slime extends Enemy {
                 decalEntity.decal = airDecal;
                 dy = 2.5f * Game.UNIT;
 
-                direction.set(player.getPosition()).sub(position).nor();
+                direction.set(Game.player.getPosition()).sub(position).nor();
                 direction.y = 0f;
 
                 direction.rotate(Vector3.Y, Game.random.nextFloat() * 20f - 10f);

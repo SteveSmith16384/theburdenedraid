@@ -62,7 +62,7 @@ public class Entity {
 		return position;
 	}
 
-	public void update(World world, Player player){
+	public void update(World world) {
 
 	}
 
@@ -70,7 +70,7 @@ public class Entity {
 
 	}
 
-	public void damaged(Player player) {
+	public void damaged(Vector3 direction) {
 
 	}
 

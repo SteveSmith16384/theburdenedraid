@@ -17,8 +17,8 @@ public final class Goal extends Entity {
         if(position.dst2(player.getPosition())< (Game.UNIT*2)*(Game.UNIT*2)) {
             player.inventory.gameComplete = true;
 
-            for (Entity ent : player.entityManager.getEntities()) {
-                if(ent instanceof LootEntity){
+            for (Entity ent : Game.entityManager.getEntities()) {
+                if (ent instanceof LootEntity){
                     if(ent.position.dst2(player.getPosition())<(Game.UNIT*5)*(Game.UNIT*5)){
                         ((LootEntity)ent).isAttracted = true;
                         ((LootEntity)ent).waitTime = Game.random.nextFloat();

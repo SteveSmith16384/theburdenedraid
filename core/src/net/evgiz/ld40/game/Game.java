@@ -23,220 +23,221 @@ import java.util.Random;
 
 public class Game {
 
-    public static final float UNIT = 16f; // Square/box size
-    public static final Random random = new Random();
-    public static final CollisionDetector collision = new CollisionDetector();
-    public static final Art art = new Art();
-    public static final Audio audio = new Audio();
+	public static final float UNIT = 16f; // Square/box size
+	public static final Random random = new Random();
+	public static final CollisionDetector collision = new CollisionDetector();
+	public static final Art art = new Art();
+	public static final Audio audio = new Audio();
 
-    public Intro intro;
+	public Intro intro;
 
-    private SpriteBatch batch2d;
-    private BitmapFont font;
+	private SpriteBatch batch2d;
+	private BitmapFont font;
 
-    private ModelBatch batch;
-    private ShaderProvider shaderProvider;
+	private ModelBatch batch;
+	private ShaderProvider shaderProvider;
 
-    private PerspectiveCamera camera;
-    private FrameBuffer frameBuffer = null;
+	private PerspectiveCamera camera;
+	private FrameBuffer frameBuffer = null;
 
-    private Player player;
-    private World world;
-    public Inventory inventory;
-    private EntityManager entityManager;
+	public static Player player;
+	private World world;
+	public Inventory inventory;
+	public static EntityManager entityManager;
 
-    private DecalManager decalManager;
-
-
-    private int downscale = 2;
-
-    private int[] scales = new int[]{1,2,6,8};
-    private int[] health = new int[]{8,5,3,1};
-
-    private static boolean transition = false;
-    private static float transitionProgress = 0f;
-    private static String targetLevel = "level";
-    private static boolean hasLoaded = false;
-
-    public boolean game_over = false;
-    public static boolean gameComplete = false;
+	private DecalManager decalManager;
 
 
-    public Game(int retro, int diff, int lookSens) {
-        downscale = scales[retro];
+	private int downscale = 2;
 
-        batch2d = new SpriteBatch();
-        font = new BitmapFont(Gdx.files.internal("font.fnt"));
+	private int[] scales = new int[]{1,2,6,8};
+	private int[] health = new int[]{8,5,3,1};
 
+	private static boolean transition = false;
+	private static float transitionProgress = 0f;
+	private static String targetLevel = "level";
+	private static boolean hasLoaded = false;
 
-        shaderProvider = new GameShaderProvider();
-        batch = new ModelBatch(shaderProvider);
-
-        camera = new PerspectiveCamera(65, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set(10f, 0, 10f);
-        camera.lookAt(11f, 0, 10f);
-        camera.near = .5f;
-        camera.far = 30f * Game.UNIT;
-        camera.update();
-
-        decalManager = new DecalManager(camera);
+	public boolean game_over = false;
+	public static boolean gameComplete = false;
 
 
-        entityManager = new EntityManager(decalManager);
-        world = new World(decalManager, entityManager);
+	public Game(int retro, int diff, int lookSens) {
+		downscale = scales[retro];
 
-        inventory = new Inventory();
-        player = new Player(camera, world, entityManager, inventory, lookSens);
+		batch2d = new SpriteBatch();
+		font = new BitmapFont(Gdx.files.internal("font.fnt"));
 
-        player.health = health[diff];
 
-        frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth()/downscale, Gdx.graphics.getHeight()/downscale, true);
-        frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		shaderProvider = new GameShaderProvider();
+		batch = new ModelBatch(shaderProvider);
 
-        intro = new Intro();
-    }
-    
+		camera = new PerspectiveCamera(65, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.position.set(10f, 0, 10f);
+		camera.lookAt(11f, 0, 10f);
+		camera.near = .5f;
+		camera.far = 30f * Game.UNIT;
+		camera.update();
 
-    public void setSettings(int retro, int difficulty, int lookSensitivity){
-        downscale = scales[retro];
-        player.cameraController = new CameraController(camera, lookSensitivity);
+		decalManager = new DecalManager(camera);
 
-        frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth()/downscale, Gdx.graphics.getHeight()/downscale, true);
-        frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-    }
+		entityManager = new EntityManager(decalManager);
+		world = new World(decalManager, entityManager);
 
-    public void resize(int w, int h){
+		inventory = new Inventory();
+		player = new Player(camera, world, inventory, lookSens);
 
-    }
+		player.health = health[diff];
 
-    public static void changeLevel(String level){
-        Game.transition = true;
-        Game.transitionProgress = 0f;
-        Game.targetLevel = level;
-        Game.hasLoaded = false;
-    }
+		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth()/downscale, Gdx.graphics.getHeight()/downscale, true);
+		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-    public void update() {
-        if(Game.gameComplete && !intro.isOutro) {
-            intro = new Intro();
-            intro.setOutro();
-        }
+		intro = new Intro();
+	}
 
-        if(!intro.finished) {
-            intro.update();
 
-            if(!intro.finishing && !Game.gameComplete)
-                return;
+	public void setSettings(int retro, int difficulty, int lookSensitivity){
+		downscale = scales[retro];
+		player.cameraController = new CameraController(camera, lookSensitivity);
 
-            if(!Game.gameComplete) {
-                player.getPosition().set(world.spawnx * Game.UNIT, 0, world.spawny * Game.UNIT);
-                player.cameraController.bobbing = 0;
-            }
+		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth()/downscale, Gdx.graphics.getHeight()/downscale, true);
+		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-        } else {
-            if(Game.gameComplete){
-                Game.audio.stopMusic();
-                game_over = true;
-            }else {
-                Game.audio.startMusic();
-            }
-        }
+	}
 
-        if(Game.gameComplete && intro.alphaOut>=1f)
-            return;
+	public void resize(int w, int h){
 
-        if(Game.transition) {
-            Game.transitionProgress += Gdx.graphics.getDeltaTime();
+	}
 
-            if(Game.transitionProgress>=0.5f && !Game.hasLoaded){
-                Game.hasLoaded = true;
-                world.load(Game.targetLevel);
+	public static void changeLevel(String level){
+		Game.transition = true;
+		Game.transitionProgress = 0f;
+		Game.targetLevel = level;
+		Game.hasLoaded = false;
+	}
 
-                player.getPosition().set(world.spawnx*Game.UNIT, 0, world.spawny*Game.UNIT);
-                entityManager.update(world,player);
-                camera.rotate(Vector3.Y, (float)Math.toDegrees(Math.atan2(camera.direction.z, camera.direction.x)));
-                player.update(entityManager);
-                camera.update();
+	public void update() {
+		if(Game.gameComplete && !intro.isOutro) {
+			intro = new Intro();
+			intro.setOutro();
+		}
 
-            }
-            if(Game.transitionProgress>1f){
-                Game.transitionProgress = 0;
-                Game.transition = false;
-            }else
-                return;
+		if(!intro.finished) {
+			intro.update();
 
-        }
-        player.update(entityManager);
-        camera.update();
-        entityManager.update(world, player);
+			if(!intro.finishing && !Game.gameComplete)
+				return;
 
-        if(player.health<=0 && !Game.gameComplete) {
-            game_over = true;
-            Game.audio.play("gameover");
-        }
-    }
+			if(!Game.gameComplete) {
+				player.getPosition().set(world.spawnx * Game.UNIT, 0, world.spawny * Game.UNIT);
+				player.cameraController.bobbing = 0;
+			}
 
-    
-    public void render() {
-        Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        Gdx.gl.glClearColor(0,0,0,1);
+		} else {
+			if(Game.gameComplete){
+				Game.audio.stopMusic();
+				game_over = true;
+			}else {
+				Game.audio.startMusic();
+			}
+		}
 
-        frameBuffer.begin();
+		if(Game.gameComplete && intro.alphaOut>=1f) {
+			return;
+		}
 
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-        Gdx.gl.glClearColor(0,0,0,1);
+		if(Game.transition) {
+			Game.transitionProgress += Gdx.graphics.getDeltaTime();
 
-        batch.begin(camera);
-        for (int i = 0; i < world.modelInstances.size(); i++) {
-            batch.render(world.modelInstances.get(i));
-        }
-        batch.end();
+			if(Game.transitionProgress>=0.5f && !Game.hasLoaded){
+				Game.hasLoaded = true;
+				world.load(Game.targetLevel);
 
-        decalManager.render();
+				player.getPosition().set(world.spawnx*Game.UNIT, 0, world.spawny*Game.UNIT);
+				entityManager.update(world);
+				camera.rotate(Vector3.Y, (float)Math.toDegrees(Math.atan2(camera.direction.z, camera.direction.x)));
+				player.update(entityManager);
+				camera.update();
 
-        batch2d.begin();
-        inventory.render(batch2d, player);
-        player.render(batch2d);
-        batch2d.end();
+			}
+			if (Game.transitionProgress > 1f) {
+				Game.transitionProgress = 0;
+				Game.transition = false;
+			} else {
+				return;
+			}
+		}
+		player.update(entityManager);
+		camera.update();
+		entityManager.update(world);
 
-        frameBuffer.end();
+		if(player.health <=0 && !Game.gameComplete) {
+			game_over = true;
+			Game.audio.play("gameover");
+		}
+	}
 
-        //Draw buffer and FPS
-        batch2d.begin();
 
-        float c = 1.0f;
-        if(Game.transition){
-            c = 1.0f - transitionProgress*4;
-            if(transitionProgress>=.75f) {
-                c = (transitionProgress-0.75f)*4;
-            }
-            c = MathUtils.clamp(c, 0, 1);
-        }
+	public void render() {
+		Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		Gdx.gl.glClearColor(0,0,0,1);
 
-        batch2d.setColor(c,c,c,1);
-        batch2d.draw(frameBuffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), - Gdx.graphics.getHeight());
+		frameBuffer.begin();
 
-        if (!Game.transition) {
-            player.renderUI(batch2d, font, downscale);
-        }
-        
-        if (!intro.finished) {
-            intro.render(batch2d, font);
-        }
-        
-        if (Settings.SHOW_FPS) {
-        	font.draw(batch2d, "FPS: "+Gdx.graphics.getFramesPerSecond(), 10, 20);
-        }
-        
-        batch2d.end();
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		Gdx.gl.glClearColor(0,0,0,1);
 
-    }
+		batch.begin(camera);
+		for (int i = 0; i < world.modelInstances.size(); i++) {
+			batch.render(world.modelInstances.get(i));
+		}
+		batch.end();
 
-    public void destroy(){
+		decalManager.render();
 
-    }
+		batch2d.begin();
+		inventory.render(batch2d, player);
+		player.render(batch2d);
+		batch2d.end();
+
+		frameBuffer.end();
+
+		//Draw buffer and FPS
+		batch2d.begin();
+
+		float c = 1.0f;
+		if(Game.transition){
+			c = 1.0f - transitionProgress*4;
+			if(transitionProgress>=.75f) {
+				c = (transitionProgress-0.75f)*4;
+			}
+			c = MathUtils.clamp(c, 0, 1);
+		}
+
+		batch2d.setColor(c,c,c,1);
+		batch2d.draw(frameBuffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), - Gdx.graphics.getHeight());
+
+		if (!Game.transition) {
+			player.renderUI(batch2d, font, downscale);
+		}
+
+		if (!intro.finished) {
+			intro.render(batch2d, font);
+		}
+
+		if (Settings.SHOW_FPS) {
+			font.draw(batch2d, "FPS: "+Gdx.graphics.getFramesPerSecond(), 10, 20);
+		}
+
+		batch2d.end();
+
+	}
+
+	public void destroy(){
+
+	}
 
 }
 
@@ -249,11 +250,11 @@ public class Game {
 
     TODO:
 
-    * Expand small levels
-    * More puzzles
-    * More loot
-    * More enemy types
-    * Game-Over screen on death
+ * Expand small levels
+ * More puzzles
+ * More loot
+ * More enemy types
+ * Game-Over screen on death
 
  */
 

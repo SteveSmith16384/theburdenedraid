@@ -35,16 +35,16 @@ public class Bat extends Enemy {
     }
 
     @Override
-    public void death(Player player) {
-        super.death(player);
+    public void death() {
+        super.death();
 
-        player.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
+        Game.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
 
     }
 
     @Override
-    public void update(World world, Player player) {
-        super.update(world, player);
+    public void update(World world) {
+        super.update(world);
 
         if (health <= 0) {
             decalEntity.decal.setColor(Color.DARK_GRAY);
@@ -59,14 +59,14 @@ public class Bat extends Enemy {
             decalEntity.decal = (decalEntity.decal==decal1) ? decal2 : decal1;
         }
 
-        if (player.getPosition().dst2(position) < (Game.UNIT * 5) * (Game.UNIT * 5) && world.lineOfSightCheap(position, player.getPosition())) {
+        if (Game.player.getPosition().dst2(position) < (Game.UNIT * 5) * (Game.UNIT * 5) && world.lineOfSightCheap(position, Game.player.getPosition())) {
             moveTimer += dt;
             if(moveTimer>Math.PI*2) {
                 moveTimer -= Math.PI*2;
             }
             
             float addAngle = (float)Math.cos(moveTimer*5f + Math.sin(moveTimer*2f)/2f)*40f - 20f;
-            direction.set(player.getPosition()).sub(position).nor();
+            direction.set(Game.player.getPosition()).sub(position).nor();
             direction.rotate(Vector3.Y, addAngle);
             direction.scl(Gdx.graphics.getDeltaTime() * speed * Game.UNIT);
             direction.y = 0f;

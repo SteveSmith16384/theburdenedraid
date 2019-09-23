@@ -23,10 +23,10 @@ public class Player {//extends Entity {
 
 	private static final float jumpScale = 4f * Game.UNIT;
 
-	public Camera camera;
+	private Camera camera;
 	public World world;
 	public Inventory inventory;
-	public EntityManager entityManager;
+	//public EntityManager entityManager;
 
 	public CameraController cameraController;
 
@@ -67,11 +67,11 @@ public class Player {//extends Entity {
 
 	public Entity interactTarget;
 
-	public Player(Camera cam, World wrld, EntityManager ents, Inventory inv, int lookSens) {
+	public Player(Camera cam, World wrld, Inventory inv, int lookSens) {
 		inventory = inv;
 		camera = cam;
 		world = wrld;
-		entityManager = ents;
+		//entityManager = ents;
 
 		cameraController = new CameraController(camera, lookSens);
 
@@ -218,7 +218,7 @@ public class Player {//extends Entity {
 			
 			if (Settings.SHOOTING) {
 				Bullet b = new Bullet(this, Game.art.entities, this.position, camera.direction);
-				this.entityManager.add(b);
+				Game.entityManager.add(b);
 			}
 		}
 	}
@@ -248,7 +248,7 @@ public class Player {//extends Entity {
 		}
 
 		if(closest != null){
-			closest.damaged(this);
+			closest.damaged(this.camera.direction);
 		}
 
 	}
