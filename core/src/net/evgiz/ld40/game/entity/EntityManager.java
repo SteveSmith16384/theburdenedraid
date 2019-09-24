@@ -26,7 +26,6 @@ public class EntityManager {
 
         levers = new ArrayList<Lever>();
         entities = new ArrayList<Entity>();
-
     }
 
 

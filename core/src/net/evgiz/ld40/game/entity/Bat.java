@@ -13,26 +13,22 @@ import net.evgiz.ld40.game.world.World;
 public class Bat extends Enemy {
 
     private Vector3 direction = new Vector3();
-
     private float speed = 3f;
-
     private Decal decal1, decal2;
-
     private float animTimer = 0f;
-
     private float moveTimer = 0f;
-
+    
     public Bat(TextureRegion[][] tex, int x, int y) {
         super(tex, x, y, 0, 3);
 
         decal1 = decalEntity.decal;
         decal2 = Decal.newDecal(tex[1][3], true);
 
-        attackable = true;
+        //attackable = true;
 
         health = 3;
-
     }
+    
 
     @Override
     public void death() {
@@ -41,6 +37,7 @@ public class Bat extends Enemy {
         Game.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
 
     }
+    
 
     @Override
     public void update(World world) {

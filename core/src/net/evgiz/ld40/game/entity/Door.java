@@ -25,7 +25,7 @@ public final class Door extends Entity {
 
     public void interact(Player player){
         if (locked && player.inventory.keys>0) {
-            world.world[world_x + world_y * world.width] = 0;
+        	Game.world.world[world_x + world_y * Game.world.width] = 0;
             decalEntity.decal = openDecal;
             interactable = false;
             player.inventory.keys--;

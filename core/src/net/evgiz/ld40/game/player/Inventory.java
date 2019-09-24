@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+
+import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
 
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ public class Inventory {
 
     public int totalLoot = 0;
     private ArrayList<ItemPos> itemPositions;
-    public int keys = 0;
+    public int keys = Settings.INFINITE_KEYS ? 9999 : 0;
 
     private class ItemPos {
     	

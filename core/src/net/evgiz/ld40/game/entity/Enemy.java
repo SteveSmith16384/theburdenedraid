@@ -8,10 +8,11 @@ import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.components.IAttackable;
 import net.evgiz.ld40.game.components.IDamagable;
 import net.evgiz.ld40.game.world.World;
 
-public abstract class Enemy extends Entity implements IDamagable {
+public abstract class Enemy extends Entity implements IDamagable, IAttackable {
 
 	private float damageTimer = 0f;
 	private Vector3 push; // Pushed away by attack
@@ -21,14 +22,14 @@ public abstract class Enemy extends Entity implements IDamagable {
 	public Enemy(TextureRegion[][] tex, int x, int y) {
 		super(tex, x, y);
 
-		attackable = true;
+		//attackable = true;
 
 	}
 
 	public Enemy(TextureRegion[][] tex, int x, int y, int tx, int ty) {
 		super(tex, x, y, tx, ty);
 
-		attackable = true;
+		//attackable = true;
 
 	}
 
@@ -87,7 +88,7 @@ public abstract class Enemy extends Entity implements IDamagable {
 
 	protected void shoot() {
 		if (Settings.ENEMY_SHOOTING) {
-			if (world.lineOfSightCheap(this.position, Game.player.getPosition())) {
+			if (Game.world.lineOfSightCheap(this.position, Game.player.getPosition())) {
 				Settings.p("Shooting!");
 				Vector3 dir = new Vector3();
 				dir.set(Game.player.getPosition()).sub(this.position).nor();

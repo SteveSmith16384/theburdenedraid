@@ -34,7 +34,7 @@ public final class Slime extends Enemy {
         airDecal = Decal.newDecal(tex[2][0], true);
 
         jumpTimer = Game.random.nextFloat() + .5f;
-        attackable = true;
+        //attackable = true;
     }
 
     
@@ -44,7 +44,7 @@ public final class Slime extends Enemy {
         position.y = 0;
         decalEntity.decal = idleDecal;
         idleDecal.setColor(Color.DARK_GRAY);
-        attackable = false;
+        //attackable = false;
         remove = false;
 
         Game.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));

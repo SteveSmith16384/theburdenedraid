@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.components.IAttackable;
 import net.evgiz.ld40.game.components.IDamagable;
 import net.evgiz.ld40.game.entity.Bullet;
 import net.evgiz.ld40.game.entity.Enemy;
@@ -71,7 +72,7 @@ public class Player implements IDamagable {
 		inventory = inv;
 		camera = cam;
 		world = wrld;
-		this.max_health = health;
+		this.max_health = maxHealth;
 		this.health = this.max_health;
 
 		cameraController = new CameraController(camera, lookSens);
@@ -233,7 +234,7 @@ public class Player implements IDamagable {
 		Vector3 tmp = new Vector3();
 
 		for (Entity ent : entityManager.getEntities()) {
-			if(!ent.attackable) {
+			if(ent instanceof IAttackable == false) {
 				continue;
 			}
 

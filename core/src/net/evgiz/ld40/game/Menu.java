@@ -12,7 +12,7 @@ import net.evgiz.ld40.Settings;
 
 public class Menu {
 
-	public boolean begin = Settings.QUICKSTART;//false;
+	public boolean startGameSelected = Settings.QUICKSTART;//false;
 
 	String opts[] = new String[]{
 			"Play",
@@ -25,6 +25,7 @@ public class Menu {
 			"Easy", "Normal", "Hard", "Insta-Death"
 	};
 
+	private int[] health = new int[]{8,5,3,1};
 	public int difficulty = 1;
 
 	String retroModes[] = new String[]{
@@ -41,17 +42,12 @@ public class Menu {
 
 	public SpriteBatch batch;
 	public BitmapFont font;
-
-	int selected = 0;
-
+	private int selected = 0;
 	private boolean releasedMouse = true;
-
 	public boolean paused = false;
-
-	float startDelay = 1f;
+	private float startDelay = 1f;
 
 	public Menu() {
-
 		batch = new SpriteBatch();
 		font = new BitmapFont(Gdx.files.internal("font.fnt"));
 
@@ -62,6 +58,7 @@ public class Menu {
 		Gdx.graphics.setCursor(curs);
 	}
 
+	
 	public void update() {
 		if(startDelay>0) {
 			startDelay -= Gdx.graphics.getDeltaTime();
@@ -80,10 +77,11 @@ public class Menu {
 							selected = i;
 					}
 
-					if (y < sy || y > sy + 10 + opts.length * 35)
+					if (y < sy || y > sy + 10 + opts.length * 35) {
 						selected = -1;
-					else if (selected != s)
+					} else if (selected != s) {
 						Game.audio.play("select");
+					}
 
 				} else {
 					selected = -1;
@@ -95,7 +93,7 @@ public class Menu {
 					action(1);
 				}
 				releasedMouse = false;
-			}else {
+			} else {
 				releasedMouse = true;
 			}
 		}
@@ -131,7 +129,7 @@ public class Menu {
 		switch (selected){
 		case 0:
 			if(startDelay<0) {
-				begin = true;
+				startGameSelected = true;
 				Game.audio.play("play");
 			}
 			break;
@@ -148,31 +146,32 @@ public class Menu {
 			break;
 		case 2:
 			retro+=val;
-			if(retro>retroModes.length-1)
+			if(retro>retroModes.length-1) {
 				retro=0;
-			if(retro<0)
+			} else if(retro<0) {
 				retro=retroModes.length-1;
+			}
 			Game.audio.play("menu_action");
 			break;
 		case 3:
 			lookSensitivity+=val;
-			if(lookSensitivity>lookModes.length-1)
+			if(lookSensitivity>lookModes.length-1) {
 				lookSensitivity=0;
-			if(lookSensitivity<0)
+			} else if(lookSensitivity<0) {
 				lookSensitivity=lookModes.length-1;
+			}
 			Game.audio.play("menu_action");
 			break;
 		}
 	}
 
-	int[] health = new int[]{8,5,3,1};
 
 	public void render() {
 		batch.begin();
 
 		font.setColor(1,0,0,1);
 		font.getData().setScale(1.5f);
-		String str = "The Burdened Raid";
+		String str = Settings.TITLE;
 
 		int w = str.length()*24;
 
@@ -183,9 +182,7 @@ public class Menu {
 		font.setColor(.5f,.5f,.5f,1);
 
 		str = "a game by Evgiz";
-
 		font.draw(batch, str, 80, Gdx.graphics.getHeight()-110);
-
 
 		font.setColor(1f,.5f, 0f, 1f);
 		str = "Ludum Dare 40";
@@ -212,8 +209,9 @@ public class Menu {
 
 			switch (i){
 			case 0:
-				if(paused)
+				if(paused) {
 					txt = "Resume";
+				}
 				break;
 			case 1:
 				txt = txt+difficultyLevels[difficulty];

@@ -82,133 +82,136 @@ import com.badlogic.gdx.utils.Pool;
  * </table>
  * </p> */
 public class ShadedGroupStrategy implements GroupStrategy, Disposable {
+
+	private static final int GROUP_OPAQUE = 0;
+	private static final int GROUP_BLEND = 1;
+
+	Pool<Array<Decal>> arrayPool = new Pool<Array<Decal>>(16) {
+		@Override
+		protected Array<Decal> newObject () {
+			return new Array<Decal>();
+		}
+	};
+	Array<Array<Decal>> usedArrays = new Array<Array<Decal>>();
+	ObjectMap<DecalMaterial, Array<Decal>> materialGroups = new ObjectMap<DecalMaterial, Array<Decal>>();
+
+	private Camera camera;
+	private ShaderProgram shader;
+	private final Comparator<Decal> cameraSorter;
+
+	private boolean preventDepthTest = false;
+
+	public ShadedGroupStrategy(final Camera camera) {
+		this(camera, new Comparator<Decal>() {
+			@Override
+			public int compare (Decal o1, Decal o2) {
+				float dist1 = camera.position.dst2(o1.getPosition());
+				float dist2 = camera.position.dst2(o2.getPosition());
+				return (int)Math.signum(dist2 - dist1);
+			}
+		});
+	}
+
+	public ShadedGroupStrategy(Camera camera, Comparator<Decal> sorter) {
+		this.camera = camera;
+		this.cameraSorter = sorter;
+		createDefaultShader();
+
+	}
+
+	public void disableDepthTest(){
+		preventDepthTest = true;
+	}
+
+	public void enableDepthTest(){
+		preventDepthTest = false;
+	}
+
+	public void setCamera (Camera camera) {
+		this.camera = camera;
+	}
+
+	public Camera getCamera () {
+		return camera;
+	}
+
+	@Override
+	public int decideGroup (Decal decal) {
+		return decal.getMaterial().isOpaque() ? GROUP_OPAQUE : GROUP_BLEND;
+	}
+
+	@Override
+	public void beforeGroup (int group, Array<Decal> contents) {
+		if (group == GROUP_BLEND) {
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			contents.sort(cameraSorter);
+		} else {
+			for (int i = 0, n = contents.size; i < n; i++) {
+				Decal decal = contents.get(i);
+				Array<Decal> materialGroup = materialGroups.get(decal.getMaterial());
+				if (materialGroup == null) {
+					materialGroup = arrayPool.obtain();
+					materialGroup.clear();
+					usedArrays.add(materialGroup);
+					materialGroups.put(decal.getMaterial(), materialGroup);
+				}
+				materialGroup.add(decal);
+			}
+
+			contents.clear();
+			for (Array<Decal> materialGroup : materialGroups.values()) {
+				contents.addAll(materialGroup);
+			}
+
+			materialGroups.clear();
+			arrayPool.freeAll(usedArrays);
+			usedArrays.clear();
+		}
+	}
+
+	@Override
+	public void afterGroup (int group) {
+		if (group == GROUP_BLEND) {
+			Gdx.gl.glDisable(GL20.GL_BLEND);
+		}
+	}
+
+	@Override
+	public void beforeGroups() {
+		if(!preventDepthTest)
+			Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+
+		shader.begin();
+		shader.setUniformMatrix("u_projectionViewMatrix", camera.combined);
+		shader.setUniformi("u_texture", 0);
+	}
+
+	@Override
+	public void afterGroups () {
+		shader.end();
+		Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
+	}
+
+	private void createDefaultShader () {
+		shader = new ShaderProgram(
+				Gdx.files.internal("shaders/decal_vertex.glsl").readString(),
+				Gdx.files.internal("shaders/decal_fragment.glsl").readString()
+				);
+
+		//shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (shader.isCompiled() == false) {
+			throw new IllegalArgumentException("couldn't compile shader: " + shader.getLog());
+		}
+	}
 	
-    private static final int GROUP_OPAQUE = 0;
-    private static final int GROUP_BLEND = 1;
 
-    Pool<Array<Decal>> arrayPool = new Pool<Array<Decal>>(16) {
-        @Override
-        protected Array<Decal> newObject () {
-            return new Array<Decal>();
-        }
-    };
-    Array<Array<Decal>> usedArrays = new Array<Array<Decal>>();
-    ObjectMap<DecalMaterial, Array<Decal>> materialGroups = new ObjectMap<DecalMaterial, Array<Decal>>();
+	@Override
+	public ShaderProgram getGroupShader (int group) {
+		return shader;
+	}
 
-    private Camera camera;
-    private ShaderProgram shader;
-    private final Comparator<Decal> cameraSorter;
-
-    private boolean preventDepthTest = false;
-
-    public ShadedGroupStrategy(final Camera camera) {
-        this(camera, new Comparator<Decal>() {
-            @Override
-            public int compare (Decal o1, Decal o2) {
-                float dist1 = camera.position.dst2(o1.getPosition());
-                float dist2 = camera.position.dst2(o2.getPosition());
-                return (int)Math.signum(dist2 - dist1);
-            }
-        });
-    }
-
-    public ShadedGroupStrategy(Camera camera, Comparator<Decal> sorter) {
-        this.camera = camera;
-        this.cameraSorter = sorter;
-        createDefaultShader();
-
-    }
-
-    public void disableDepthTest(){
-        preventDepthTest = true;
-    }
-
-    public void enableDepthTest(){
-        preventDepthTest = false;
-    }
-
-    public void setCamera (Camera camera) {
-        this.camera = camera;
-    }
-
-    public Camera getCamera () {
-        return camera;
-    }
-
-    @Override
-    public int decideGroup (Decal decal) {
-        return decal.getMaterial().isOpaque() ? GROUP_OPAQUE : GROUP_BLEND;
-    }
-
-    @Override
-    public void beforeGroup (int group, Array<Decal> contents) {
-        if (group == GROUP_BLEND) {
-            Gdx.gl.glEnable(GL20.GL_BLEND);
-            contents.sort(cameraSorter);
-        } else {
-            for (int i = 0, n = contents.size; i < n; i++) {
-                Decal decal = contents.get(i);
-                Array<Decal> materialGroup = materialGroups.get(decal.getMaterial());
-                if (materialGroup == null) {
-                    materialGroup = arrayPool.obtain();
-                    materialGroup.clear();
-                    usedArrays.add(materialGroup);
-                    materialGroups.put(decal.getMaterial(), materialGroup);
-                }
-                materialGroup.add(decal);
-            }
-
-            contents.clear();
-            for (Array<Decal> materialGroup : materialGroups.values()) {
-                contents.addAll(materialGroup);
-            }
-
-            materialGroups.clear();
-            arrayPool.freeAll(usedArrays);
-            usedArrays.clear();
-        }
-    }
-
-    @Override
-    public void afterGroup (int group) {
-        if (group == GROUP_BLEND) {
-            Gdx.gl.glDisable(GL20.GL_BLEND);
-        }
-    }
-
-    @Override
-    public void beforeGroups() {
-        if(!preventDepthTest)
-            Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-
-        shader.begin();
-        shader.setUniformMatrix("u_projectionViewMatrix", camera.combined);
-        shader.setUniformi("u_texture", 0);
-    }
-
-    @Override
-    public void afterGroups () {
-        shader.end();
-        Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
-    }
-
-    private void createDefaultShader () {
-        shader = new ShaderProgram(
-                Gdx.files.internal("shaders/decal_vertex.glsl").readString(),
-                Gdx.files.internal("shaders/decal_fragment.glsl").readString()
-        );
-
-        //shader = new ShaderProgram(vertexShader, fragmentShader);
-        if (shader.isCompiled() == false) throw new IllegalArgumentException("couldn't compile shader: " + shader.getLog());
-    }
-
-    @Override
-    public ShaderProgram getGroupShader (int group) {
-        return shader;
-    }
-
-    @Override
-    public void dispose () {
-        if (shader != null) shader.dispose();
-    }
+	@Override
+	public void dispose () {
+		if (shader != null) shader.dispose();
+	}
 }

@@ -41,7 +41,7 @@ public class Bullet extends Entity {
 
 		origPos.set(this.position);
 		Vector3 offset = new Vector3(dir);
-		if (this.tryMove(world, offset.scl(.5f), true) == false) {
+		if (this.tryMove(world, offset.scl(.2f), true) == false) {
 			// Hit a wall
 			this.remove = true;
 		} else {
@@ -60,7 +60,7 @@ public class Bullet extends Entity {
 					}
 
 					if (ent.getPosition().dst2(position) < Game.UNIT/2f) {
-						id.decHealth(1);
+						//id.decHealth(1);
 						this.remove = true;
 						break;
 					}

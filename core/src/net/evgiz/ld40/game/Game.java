@@ -170,7 +170,7 @@ public class Game {
 		camera.update();
 		entityManager.update(world);
 
-		if(player.getHealth() <=0 && !Game.gameComplete) {
+		if(player.getHealth() <= 0 && !Game.gameComplete) {
 			game_over = true;
 			Game.audio.play("gameover");
 		}

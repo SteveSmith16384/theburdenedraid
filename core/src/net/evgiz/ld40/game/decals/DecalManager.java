@@ -11,12 +11,10 @@ public class DecalManager {
 
     private Camera camera;
     private ArrayList<DecalEntity> decals;
-
     private DecalBatch batch;
     private ShadedGroupStrategy groupStrategy;
 
     public DecalManager(Camera cam) {
-
         camera = cam;
         groupStrategy = new ShadedGroupStrategy(camera);
 
@@ -26,23 +24,23 @@ public class DecalManager {
 
     }
 
-    public void add(DecalEntity ent){
+    public void add(DecalEntity ent) {
         decals.add(ent);
     }
 
-    public void remove(DecalEntity ent){
+    public void remove(DecalEntity ent) {
         decals.remove(ent);
     }
-
-    public DecalBatch getBatch(){
+/*
+    public DecalBatch getBatch() {
         return batch;
     }
-
-    public void clear(){
+*/
+    public void clear() {
         decals.clear();
     }
 
-    public int getCount(){
+    public int getCount() {
         return decals.size();
     }
 

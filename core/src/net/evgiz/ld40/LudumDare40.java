@@ -16,12 +16,13 @@ public class LudumDare40 extends ApplicationAdapter { // todo - rename
 	private boolean gameOverScreen = false;
 	private float playTime = 0f;
 	private float gameOverTime = 0f;
-
 	private Texture white;
 	private String formatPlayTime;
 	private int loot = 0;
 	private Texture background;
 	private boolean paused = false;
+	
+	private int gameStage = -1;
 
 	@Override
 	public void create () {
@@ -41,7 +42,7 @@ public class LudumDare40 extends ApplicationAdapter { // todo - rename
 
 		if (game != null && game.intro.alphaOut<=0 && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			paused = true;
-			menu.begin = false;
+			menu.startGameSelected = false;
 
 			Gdx.input.setCursorCatched(false);
 			Game.audio.stopMusic();
@@ -83,7 +84,7 @@ public class LudumDare40 extends ApplicationAdapter { // todo - rename
 			menu.update();
 			menu.render();
 
-			if(menu.begin){
+			if(menu.startGameSelected){
 				if(!paused) {
 					game = new Game(menu.retro, menu.difficulty, menu.lookSensitivity);
 				} else {
@@ -107,6 +108,7 @@ public class LudumDare40 extends ApplicationAdapter { // todo - rename
 
 	}
 
+	
 	public void renderUpdateGameOver() {
 		gameOverTime += Gdx.graphics.getDeltaTime();
 
@@ -117,7 +119,7 @@ public class LudumDare40 extends ApplicationAdapter { // todo - rename
 
 			game.destroy();
 			game = null;
-			menu.begin = false;
+			menu.startGameSelected = false;
 
 			Game.gameComplete = false;
 

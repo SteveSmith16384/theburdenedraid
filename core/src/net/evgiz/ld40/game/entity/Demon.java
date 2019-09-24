@@ -23,7 +23,7 @@ public final class Demon extends Enemy {
 		decal1 = decalEntity.decal;
 		decal2 = Decal.newDecal(tex[5][0], true);
 
-		attackable = true;
+		//attackable = true;
 
 		health = 4;
 

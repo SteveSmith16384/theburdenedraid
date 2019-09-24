@@ -13,16 +13,12 @@ public class Entity {
 
 	protected Vector3 position;
 	protected boolean remove = false;
-
 	protected DecalEntity decalEntity;
-
 	protected TextureRegion texture[][];
-
-	protected World world = null;
+	//protected World world = null;
 	protected int world_x, world_y;
-
 	public boolean interactable = false;
-	public boolean attackable = false;
+	//public boolean attackable = false;
 
 	public Entity() {
 	}
@@ -45,14 +41,13 @@ public class Entity {
 	}
 
 	public void bindWorldTile(World wrld, int tx, int ty){
-		world = wrld;
+		//world = wrld;
 		world_x = tx;
 		world_y = ty;
-		wrld.world[tx + ty*world.width] = 2;
+		wrld.world[tx + ty*wrld.width] = 2;
 	}
 
-	public void interact(Player player){
-
+	public void interact(Player player) {
 	}
 
 	public String getInteractText(Player player){
@@ -64,15 +59,12 @@ public class Entity {
 	}
 
 	public void update(World world) {
-
 	}
 
 	public void render(DecalBatch batch) {
-
 	}
 
 	public void damaged(Vector3 direction) {
-
 	}
 
 
