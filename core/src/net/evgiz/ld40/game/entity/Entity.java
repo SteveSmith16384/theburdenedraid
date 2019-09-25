@@ -16,21 +16,23 @@ public class Entity {
 	protected DecalEntity decalEntity;
 	protected TextureRegion texture[][];
 	protected int world_x, world_y;
-
+	protected String name;
+	
 	public Entity() {
+		super();
+		
+		name = this.getClass().getSimpleName();// _name;
 	}
 	
 
 	public Entity(TextureRegion tex[][], int map_x, int map_y) {
 		this(tex, map_x, map_y, 0, 0);
-		/*texture = tex;
-
-		decalEntity = new DecalEntity(tex[0][0]);
-		position = new Vector3(Game.UNIT*x, 0,Game.UNIT*y);*/
-
 	}
+	
 
 	public Entity(TextureRegion tex[][], int map_x, int map_y, int tx, int ty) {
+		this();
+		
 		texture = tex;
 
 		decalEntity = new DecalEntity(tex[tx][ty]);
@@ -108,13 +110,17 @@ public class Entity {
 		}
 		
 		if (moveVec.y != 0) {
-			position.z += moveVec.z;
-			if (position.z < 0 || position.z > Game.UNIT) {
+			position.y += moveVec.y;
+			/*if (position.z < 0 || position.z > Game.UNIT) {
 				return false;
-			}
+			}*/
 		}
 		
 		return resultX && resultZ;
 	}
 
+	
+	public String toString() {
+		return name;
+	}
 }

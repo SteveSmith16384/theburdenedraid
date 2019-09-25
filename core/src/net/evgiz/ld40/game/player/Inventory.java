@@ -21,7 +21,7 @@ public class Inventory {
 
     public int totalLoot = 0;
     private ArrayList<ItemPos> itemPositions;
-    public int keys = Settings.INFINITE_KEYS ? 9999 : 0;
+    public int keys = Settings.INFINITE_KEYS ? 10 : 0;
 
     private class ItemPos {
     	

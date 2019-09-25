@@ -61,11 +61,12 @@ public class World {
 			}
 		}
 
-		load(Settings.levelOrder[0]);
+		load(Settings.START_LEVEL.length() > 0 ? Settings.START_LEVEL : Settings.levelOrder[0]);
 
 	}
+	
 
-	public int getTileType(String level){
+	public int getTileType(String level) {
 		for (int i = 0; i < Settings.levelOrder.length; i++) {
 			if(Settings.levelOrder[i].equals(level))
 				return i;

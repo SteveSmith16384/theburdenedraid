@@ -5,17 +5,15 @@ public class Settings {
 	public static final boolean RELEASE_MODE = false;
 	
 	// Hacks
+	public static final String START_LEVEL = "";//"Demon Lair";
 	public static final boolean DEBUG_MOVEMENT = false;
-	public static final boolean QUICKSTART = true;
-	public static final boolean ENEMY_SHOOTING = true;
+	public static final boolean ENEMY_SHOOTING = false;
 	public static final boolean INFINITE_KEYS = true;
-	public static final boolean PLAYER_SHOOTING = false;
-	public static final boolean TRY_NEW_TEX = true;
+	public static final boolean PLAYER_SHOOTING = true;
+	public static final boolean TRY_NEW_TEX = false;
 	public static final boolean HIDE_CEILING = false;
 	
 	public static final boolean SHOW_FPS = false;
-	public static final String DEMON_LAIR = "Demon Lair";
-	public static final String DUNGEONS = "Dungeons";
 	
 	//public static final int START_HEALTH = 5;
 	public static final int ENEMY_HEALTH = 3;
@@ -27,9 +25,11 @@ public class Settings {
 
 	public static final int LOGICAL_WIDTH_PIXELS = 640;
 	public static final int LOGICAL_HEIGHT_PIXELS = (int)(LOGICAL_WIDTH_PIXELS * .68);
+	public static final String DEMON_LAIR = "Demon Lair";
+	public static final String DUNGEONS = "Dungeons";
 
 	public static String levelOrder[] = new String[] {
-			"Dungeons", "Crypt", "Ice Caves", DEMON_LAIR
+			"Dungeons", "Crypt", "Ice Caves", "level", DEMON_LAIR
 	};
 
 
