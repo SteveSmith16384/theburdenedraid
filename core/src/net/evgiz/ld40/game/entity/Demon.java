@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.game.Game;
-import net.evgiz.ld40.game.world.World;
+import net.evgiz.ld40.game.World;
 
 public final class Demon extends Enemy {
 
@@ -31,8 +31,8 @@ public final class Demon extends Enemy {
 
 
 	@Override
-	public void damaged(Vector3 direction) {
-		super.damaged(direction);
+	public void damaged(int amt, Vector3 direction) {
+		super.damaged(amt, direction);
 
 		direction.set(Game.player.getPosition()).sub(position).nor();
 		direction.scl(Game.UNIT);
@@ -63,7 +63,7 @@ public final class Demon extends Enemy {
 
 		float dt = Gdx.graphics.getDeltaTime();
 
-		if (Game.player.getPosition().dst2(position) < (Game.UNIT * 6) * (Game.UNIT * 6) && world.lineOfSightCheap(position, Game.player.getPosition())) {
+		if (Game.player.getPosition().dst2(position) < (Game.UNIT * 6) * (Game.UNIT * 6) && world.canSee(position, Game.player.getPosition())) {
 			attackTimer += dt;
 
 			if(attackTimer>1f){

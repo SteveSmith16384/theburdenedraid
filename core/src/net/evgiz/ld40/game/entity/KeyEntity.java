@@ -1,15 +1,15 @@
 package net.evgiz.ld40.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.components.IInteractable;
 import net.evgiz.ld40.game.player.Player;
 
-public class KeyEntity extends Entity {
+public class KeyEntity extends Entity implements IInteractable {
 
     public KeyEntity(TextureRegion[][] tex, int x, int y, int tx, int ty) {
         super(tex, x, y, tx, ty);
-
-        interactable = true;
 
         decalEntity.faceCameraTilted = true;
 
@@ -32,4 +32,11 @@ public class KeyEntity extends Entity {
         Game.audio.play("pickup");
 
     }
+
+
+    @Override
+	public boolean isInteractable() {
+		return true;
+	}
+
 }

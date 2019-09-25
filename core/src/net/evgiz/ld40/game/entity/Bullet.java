@@ -4,9 +4,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.World;
 import net.evgiz.ld40.game.components.IDamagable;
 import net.evgiz.ld40.game.decals.DecalEntity;
-import net.evgiz.ld40.game.world.World;
 
 public class Bullet extends Entity {
 

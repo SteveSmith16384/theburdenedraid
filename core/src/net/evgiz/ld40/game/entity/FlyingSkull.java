@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.game.Game;
-import net.evgiz.ld40.game.world.World;
+import net.evgiz.ld40.game.World;
 
 public final class FlyingSkull extends Enemy {
 
@@ -48,7 +48,7 @@ public final class FlyingSkull extends Enemy {
 
         float dt = Gdx.graphics.getDeltaTime();
 
-        if (Game.player.getPosition().dst2(position) < (Game.UNIT * 5) * (Game.UNIT * 5) && world.lineOfSightCheap(position, Game.player.getPosition())) {
+        if (Game.player.getPosition().dst2(position) < (Game.UNIT * 5) * (Game.UNIT * 5) && world.canSee(position, Game.player.getPosition())) {
             animTimer += dt;
             if(animTimer>.3f){
                 animTimer-=.3f;

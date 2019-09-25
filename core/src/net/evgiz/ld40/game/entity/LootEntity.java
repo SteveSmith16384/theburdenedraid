@@ -5,11 +5,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
-import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.World;
 import net.evgiz.ld40.game.decals.DecalEntity;
-import net.evgiz.ld40.game.player.Player;
-import net.evgiz.ld40.game.world.World;
 
 public final class LootEntity extends Entity {
 
@@ -18,7 +16,7 @@ public final class LootEntity extends Entity {
 	public int tx, ty;
 	public boolean isAttracted = false;
 	private float attractTime = 0f;
-	public float waitTime = .3f;
+	public float attractWaitTime = .3f;
 	private int type;
 
 	public LootEntity(TextureRegion[][] tex, int x, int y) {
@@ -44,8 +42,8 @@ public final class LootEntity extends Entity {
 
 	@Override
 	public void update(World wrld) {
-		if (waitTime > 0) {
-			waitTime -= Gdx.graphics.getDeltaTime();
+		if (attractWaitTime > 0) {
+			attractWaitTime -= Gdx.graphics.getDeltaTime();
 		} else if (isAttracted) {
 			position.set(
 					MathUtils.lerp(position.x, Game.player.getPosition().x, Gdx.graphics.getDeltaTime()*15f),

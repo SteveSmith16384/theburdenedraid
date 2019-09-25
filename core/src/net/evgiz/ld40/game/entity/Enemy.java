@@ -8,11 +8,12 @@ import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.World;
 import net.evgiz.ld40.game.components.IAttackable;
 import net.evgiz.ld40.game.components.IDamagable;
-import net.evgiz.ld40.game.world.World;
+import net.evgiz.ld40.game.components.IHarmsPlayer;
 
-public abstract class Enemy extends Entity implements IDamagable, IAttackable {
+public abstract class Enemy extends Entity implements IDamagable, IAttackable, IHarmsPlayer {
 
 	private float damageTimer = 0f;
 	private Vector3 push; // Pushed away by attack
@@ -33,7 +34,7 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable {
 
 	}
 
-	public void damaged(Vector3 direction) {
+	public void damaged(int amt, Vector3 direction) {
 		if(damageTimer>0) {
 			return;
 		}
@@ -41,7 +42,7 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable {
 		damageTimer = .5f;
 		push = direction;
 		pushScale = 5f;
-		health--;
+		health -= amt;
 
 		if (health <= 0) {
 			death();
@@ -88,7 +89,7 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable {
 
 	protected void shoot() {
 		if (Settings.ENEMY_SHOOTING) {
-			if (Game.world.lineOfSightCheap(this.position, Game.player.getPosition())) {
+			if (Game.world.canSee(this.position, Game.player.getPosition())) {
 				Settings.p("Shooting!");
 				Vector3 dir = new Vector3();
 				dir.set(Game.player.getPosition()).sub(this.position).nor();
@@ -105,10 +106,16 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable {
 		return health;
 	}
 
+	
 	@Override
-	public void decHealth(int amt) {
-		health -= amt;
-		
+	public boolean harmsPlayer() {
+		return this.health > 0;
+	}
+
+
+	@Override
+	public boolean isAttackable() {
+		return this.health > 0;
 	}
 
 }

@@ -73,8 +73,9 @@ public class CameraController {
 			float ry = Gdx.input.getDeltaY();
 
 			tmp.set(camera.direction).crs(camera.up).nor();
-			if((ry>0 && camera.direction.y>-0.95) || (ry<0 && camera.direction.y < 0.95))
+			if ((ry>0 && camera.direction.y>-0.95) || (ry<0 && camera.direction.y < 0.95)) {
 				camera.rotate(tmp, -cursorSpeed * ry);
+			}
 			camera.rotate(Vector3.Y, -cursorSpeed  * rx);
 		}
 

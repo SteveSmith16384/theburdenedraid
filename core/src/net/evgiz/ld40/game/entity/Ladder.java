@@ -1,19 +1,19 @@
 package net.evgiz.ld40.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import net.evgiz.ld40.game.Game;
-import net.evgiz.ld40.game.player.Player;
-import net.evgiz.ld40.game.world.World;
 
-public class Ladder extends Entity {
+import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.World;
+import net.evgiz.ld40.game.components.IInteractable;
+import net.evgiz.ld40.game.player.Player;
+
+public class Ladder extends Entity implements IInteractable {
 
     private String targetLevel = "nil";
     public boolean upLadder = false;
 
     public Ladder(TextureRegion[][] tex, int x, int y, String level) {
         super(tex, x, y, 3, 1);
-
-        interactable = true;
 
         targetLevel = level;
     }
@@ -22,7 +22,6 @@ public class Ladder extends Entity {
     public Ladder(TextureRegion[][] tex, int x, int y, String level, boolean upLadder) {
         super(tex, x, y, upLadder ? 2 : 3,1);
 
-        interactable = true;
         targetLevel = level;
 
         this.upLadder = upLadder;
@@ -56,6 +55,12 @@ public class Ladder extends Entity {
             }
         }
     }
+
+
+    @Override
+	public boolean isInteractable() {
+		return true;
+	}
 
 }
 

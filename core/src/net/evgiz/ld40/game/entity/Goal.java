@@ -1,9 +1,9 @@
 package net.evgiz.ld40.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import net.evgiz.ld40.game.Game;
-import net.evgiz.ld40.game.player.Player;
-import net.evgiz.ld40.game.world.World;
+import net.evgiz.ld40.game.World;
 
 public final class Goal extends Entity {
 
@@ -23,7 +23,7 @@ public final class Goal extends Entity {
                 if (ent instanceof LootEntity){
                     if(ent.position.dst2(Game.player.getPosition())<(Game.UNIT*5)*(Game.UNIT*5)){
                         ((LootEntity)ent).isAttracted = true;
-                        ((LootEntity)ent).waitTime = Game.random.nextFloat();
+                        ((LootEntity)ent).attractWaitTime = Game.random.nextFloat();
                     }
                 }
             }

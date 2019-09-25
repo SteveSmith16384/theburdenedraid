@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
 import net.evgiz.ld40.game.Game;
-import net.evgiz.ld40.game.player.Player;
-import net.evgiz.ld40.game.world.World;
+import net.evgiz.ld40.game.World;
 
 public class Bat extends Enemy {
 
@@ -56,7 +56,7 @@ public class Bat extends Enemy {
             decalEntity.decal = (decalEntity.decal==decal1) ? decal2 : decal1;
         }
 
-        if (Game.player.getPosition().dst2(position) < (Game.UNIT * 5) * (Game.UNIT * 5) && world.lineOfSightCheap(position, Game.player.getPosition())) {
+        if (Game.player.getPosition().dst2(position) < (Game.UNIT * 5) * (Game.UNIT * 5) && world.canSee(position, Game.player.getPosition())) {
             moveTimer += dt;
             if(moveTimer>Math.PI*2) {
                 moveTimer -= Math.PI*2;
@@ -73,8 +73,6 @@ public class Bat extends Enemy {
             moveVec.y += direction.z;
             tryMove(world, moveVec, true);
         }
-
-
     }
 
 }

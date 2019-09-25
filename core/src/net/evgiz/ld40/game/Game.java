@@ -1,35 +1,37 @@
 package net.evgiz.ld40.game;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.PerspectiveCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.*;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.utils.ShaderProvider;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 
+import net.evgiz.ld40.Audio;
 import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.decals.DecalManager;
 import net.evgiz.ld40.game.entity.EntityManager;
 import net.evgiz.ld40.game.player.CameraController;
 import net.evgiz.ld40.game.player.Inventory;
-import net.evgiz.ld40.game.renderable.GameShaderProvider;
 import net.evgiz.ld40.game.player.Player;
-import net.evgiz.ld40.game.world.World;
+import net.evgiz.ld40.game.renderable.GameShaderProvider;
+import net.evgiz.ld40.modules.IModule;
 
-import java.util.Random;
-
-public class Game {
+public class Game implements IModule {
 
 	public static final float UNIT = 16f; // Square/box size
 	public static final Random random = new Random();
 	public static final CollisionDetector collision = new CollisionDetector();
 	public static final Art art = new Art();
 	public static final Audio audio = new Audio();
-
-	public Intro intro;
 
 	private SpriteBatch batch2d;
 	private BitmapFont font;
@@ -47,14 +49,13 @@ public class Game {
 
 	private DecalManager decalManager;
 
-
 	private int downscale = 2;
 
 	private int[] scales = new int[]{1,2,6,8};
 	private int[] health = new int[]{8,5,3,1};
 
-	private static boolean transition = false;
-	private static float transitionProgress = 0f;
+	private static boolean transition = false; // todo - what's this?
+	private static float transitionProgress = 0f; // todo - what's this?
 	private static String targetLevel = "level";
 	private static boolean hasLoaded = false;
 
@@ -81,7 +82,6 @@ public class Game {
 
 		decalManager = new DecalManager(camera);
 
-
 		entityManager = new EntityManager(decalManager);
 		world = new World(decalManager, entityManager);
 
@@ -90,8 +90,6 @@ public class Game {
 
 		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth()/downscale, Gdx.graphics.getHeight()/downscale, true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
-		intro = new Intro();
 	}
 
 
@@ -105,8 +103,9 @@ public class Game {
 	}
 
 	public void resize(int w, int h){
-
+		// todo
 	}
+
 
 	public static void changeLevel(String level){
 		Game.transition = true;
@@ -115,35 +114,12 @@ public class Game {
 		Game.hasLoaded = false;
 	}
 
+
 	public void update() {
-		if(Game.gameComplete && !intro.isOutro) {
-			intro = new Intro();
-			intro.setOutro();
-		}
-
-		if(!intro.finished) {
-			intro.update();
-
-			if(!intro.finishing && !Game.gameComplete)
-				return;
-
-			if(!Game.gameComplete) {
-				player.getPosition().set(world.spawnx * Game.UNIT, 0, world.spawny * Game.UNIT);
-				player.cameraController.bobbing = 0;
-			}
-
-		} else {
-			if(Game.gameComplete){
-				Game.audio.stopMusic();
-				game_over = true;
-			}else {
-				Game.audio.startMusic();
-			}
-		}
-
-		if(Game.gameComplete && intro.alphaOut>=1f) {
-			return;
-		}
+		/*if(!gameComplete) {
+			player.getPosition().set(world.spawnx * Game.UNIT, 0, world.spawny * Game.UNIT);
+			player.cameraController.bobbing = 0;
+		}*/
 
 		if(Game.transition) {
 			Game.transitionProgress += Gdx.graphics.getDeltaTime();
@@ -170,7 +146,7 @@ public class Game {
 		camera.update();
 		entityManager.update(world);
 
-		if(player.getHealth() <= 0 && !Game.gameComplete) {
+		if(player.getHealth() <= 0 && !gameComplete) {
 			game_over = true;
 			Game.audio.play("gameover");
 		}
@@ -221,10 +197,6 @@ public class Game {
 			player.renderUI(batch2d, font, downscale);
 		}
 
-		if (!intro.finished) {
-			intro.render(batch2d, font);
-		}
-
 		if (Settings.SHOW_FPS) {
 			font.draw(batch2d, "FPS: "+Gdx.graphics.getFramesPerSecond(), 10, 20);
 		}
@@ -233,8 +205,15 @@ public class Game {
 
 	}
 
-	public void destroy(){
 
+	public void destroy() {
+		// todo
+	}
+
+
+	@Override
+	public boolean isFinished() {
+		return this.game_over;
 	}
 
 }

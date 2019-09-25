@@ -3,23 +3,18 @@ package net.evgiz.ld40.game.entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.components.IInteractable;
 import net.evgiz.ld40.game.player.Player;
 
-public class Lever extends Entity {
+public class Lever extends Entity implements IInteractable {
 
-	//private Decal openDecal;
-
-    public boolean locked = true;
-
+	public boolean locked = true;
     private Decal left, center, right;
-
     private int direction = 1;
     private int state = -1;
 
     public Lever(TextureRegion[][] tex, int x, int y) {
         super(tex, x, y, 0,4);
-
-        interactable = true;
 
         left = decalEntity.decal;
         center = Decal.newDecal(tex[1][4], true);
@@ -57,5 +52,11 @@ public class Lever extends Entity {
     public String getInteractText(Player player) {
         return "Use Lever (E)";
     }
+
+
+    @Override
+	public boolean isInteractable() {
+		return true;
+	}
 
 }

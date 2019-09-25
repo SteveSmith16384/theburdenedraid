@@ -3,11 +3,13 @@ package net.evgiz.ld40.game.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
-import net.evgiz.ld40.game.Game;
-import net.evgiz.ld40.game.player.Player;
-import net.evgiz.ld40.game.world.World;
 
-public final class Statue extends Entity {
+import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.World;
+import net.evgiz.ld40.game.components.IInteractable;
+import net.evgiz.ld40.game.player.Player;
+
+public final class Statue extends Entity implements IInteractable {
 
 	private boolean reading = false;
 	private int readProgress = 0;
@@ -24,7 +26,6 @@ public final class Statue extends Entity {
 	public Statue(TextureRegion[][] tex, int x, int y) {
 		super(tex, x, y, 3, 4);
 
-		interactable = true;
 		position = new Vector3();
 
 	}
@@ -74,5 +75,12 @@ public final class Statue extends Entity {
 			}
 		}
 	}
+
+
+    @Override
+	public boolean isInteractable() {
+		return true;
+	}
+
 
 }

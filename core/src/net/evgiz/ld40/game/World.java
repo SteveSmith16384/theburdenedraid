@@ -1,4 +1,4 @@
-package net.evgiz.ld40.game.world;
+package net.evgiz.ld40.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -13,7 +13,6 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.Settings;
-import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.decals.DecalEntity;
 import net.evgiz.ld40.game.decals.DecalManager;
 import net.evgiz.ld40.game.entity.EntityManager;
@@ -31,7 +30,7 @@ public class World {
 	public int width;
 	public int height;
 
-	public int spawnx, spawny;
+	public int spawnx, spawny; // Player start pos
 
 	public ArrayList<ModelInstance> modelInstances;
 
@@ -145,7 +144,7 @@ public class World {
 					//Not working on HTML5, remove for that build
 					if (pix!=-1 && !was_spawn) {
 						// Log the colour so we know what we aren't handling
-						System.out.println(pix);
+						System.out.println("Unable to handle colour " + pix);
 					}
 					break;
 				}
@@ -240,7 +239,7 @@ public class World {
 		instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 1, tileType, 6, 6, width, height);
 		modelInstances.add(instance);
 
-		// ceiling?
+		// ceiling
 		if (Settings.HIDE_CEILING == false) {
 			instance = new ModelInstance(floor);
 			instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 2, tileType, 6, 6, width, height);
@@ -254,7 +253,7 @@ public class World {
 
 	public int getMapSquareAt(int x, int y) {
 		if (x < 0 || y < 0) {
-			Settings.p("OOB!");
+			//Settings.p("OOB!");
 			return WALL;
 		}
 		
@@ -303,7 +302,7 @@ public class World {
 	}
 
 
-	public boolean lineOfSightCheap(Vector3 pos1, Vector3 pos2) {
+	public boolean canSee(Vector3 pos1, Vector3 pos2) {
 		Vector3 tmp = new Vector3();
 		tmp.set(pos1);
 

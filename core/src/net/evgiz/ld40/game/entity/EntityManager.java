@@ -8,8 +8,8 @@ import com.badlogic.gdx.math.Vector3;
 
 import net.evgiz.ld40.Settings;
 import net.evgiz.ld40.game.Game;
+import net.evgiz.ld40.game.World;
 import net.evgiz.ld40.game.decals.DecalManager;
-import net.evgiz.ld40.game.world.World;
 
 public class EntityManager {
 

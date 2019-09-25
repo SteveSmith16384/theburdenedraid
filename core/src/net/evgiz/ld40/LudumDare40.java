@@ -1,77 +1,60 @@
 package net.evgiz.ld40;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Graphics.DisplayMode;
+import com.badlogic.gdx.Input.Keys;
+
 import net.evgiz.ld40.game.Game;
-import net.evgiz.ld40.game.Menu;
+import net.evgiz.ld40.modules.IModule;
 
 public class LudumDare40 extends ApplicationAdapter { // todo - rename
 
-	private Game game;
-	private Menu menu;
+	//private Game game;
 
-	private boolean gameOverScreen = false;
-	private float playTime = 0f;
-	private float gameOverTime = 0f;
-	private Texture white;
-	private String formatPlayTime;
-	private int loot = 0;
-	private Texture background;
-	private boolean paused = false;
-	
-	private int gameStage = -1;
+	//private Texture background;
+	//private boolean paused = false;
+
+	//private int gameStage = -1;
+	private IModule current_module;
+	private boolean toggleFullscreen = false, fullscreen = false;
 
 	@Override
 	public void create () {
-		white = new Texture(Gdx.files.internal("white.png"));
-		background = new Texture(Gdx.files.internal("background.png"));
-
-		menu = new Menu();
-
+		//background = new Texture(Gdx.files.internal("background.png"));
+		current_module = new Game(0, 0, 1);//menu.retro, menu.difficulty, menu.lookSensitivity);
 	}
+
 
 	@Override
 	public void render() {
-		if (gameOverScreen) {
-			renderUpdateGameOver();
+		/*if (gameStage == 1) {
+			//renderUpdateGameOver();
 			return;
-		}
+		}*/
 
-		if (game != null && game.intro.alphaOut<=0 && Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-			paused = true;
-			menu.startGameSelected = false;
+		if (current_module != null) {
+			current_module.update();
+			current_module.render();
 
-			Gdx.input.setCursorCatched(false);
-			Game.audio.stopMusic();
-			return;
-		}
+			//playTime += Gdx.graphics.getDeltaTime();
 
-		if (game != null && !paused) {
-			game.update();
-			game.render();
-
-			playTime += Gdx.graphics.getDeltaTime();
-
-			if(game.game_over) {
-				gameOverScreen = true;
+			if(current_module.isFinished()) {
+				//gameStage = 1;
 
 				Game.audio.stopMusic();
 
-				int sec = (int)playTime;
+				/*int sec = (int)playTime;
 				int min = sec/60;
 				sec %= 60;
-
 				min = Math.min(min, 99);
-
 				formatPlayTime = ((min<10)?("0"+min):min)+":"+((sec<10)?("0"+sec):sec);
 
-				loot = game.inventory.totalLoot;
+				loot = game.inventory.totalLoot;*/
 
 			}
-		} else {
+		}/* else {
 			Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 			Gdx.gl.glClearColor(0,0,0,1);
@@ -80,7 +63,7 @@ public class LudumDare40 extends ApplicationAdapter { // todo - rename
 			drawBackground();
 			menu.batch.end();
 
-			menu.paused = paused;
+			//menu.paused = paused;
 			menu.update();
 			menu.render();
 
@@ -93,82 +76,70 @@ public class LudumDare40 extends ApplicationAdapter { // todo - rename
 				paused = false;
 				Game.audio.startMusic();
 			}
-		}
+		}*/
 		Game.audio.update();
 
-	}
+		if (Gdx.input.isKeyPressed(Keys.F1)) {
+			if (Gdx.app.getType() == ApplicationType.WebGL) {
+				if (!Gdx.graphics.isFullscreen()) {
+					Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayModes()[0]);
+				}
+			} else {
+				toggleFullscreen = true;
+			}
+		}
 
-	public void drawBackground() {
-		int size = 96;
-		for (int x = 0; x < Gdx.graphics.getWidth(); x+=size) {
-			for (int y = Gdx.graphics.getHeight(); y > Gdx.graphics.getHeight()-size*3; y-=size) {
-				menu.batch.draw(background, x,y,size,size);
+		if (this.toggleFullscreen) {
+			this.toggleFullscreen = false;
+			if (fullscreen) {
+				Gdx.graphics.setWindowedMode(Settings.WINDOW_WIDTH_PIXELS, Settings.WINDOW_HEIGHT_PIXELS);
+				//batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+				fullscreen = false;
+			} else {
+				DisplayMode m = null;
+				for(DisplayMode mode: Gdx.graphics.getDisplayModes()) {
+					if (m == null) {
+						m = mode;
+					} else {
+						if (m.width < mode.width) {
+							m = mode;
+						}
+					}
+				}
+
+				Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+				//batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+				fullscreen = true;
 			}
 		}
 
 	}
 
-	
-	public void renderUpdateGameOver() {
-		gameOverTime += Gdx.graphics.getDeltaTime();
-
-		if (gameOverTime>3f && (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) || Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-			gameOverScreen = false;
-			gameOverTime = 0f;
-			playTime = 0f;
-
-			game.destroy();
-			game = null;
-			menu.startGameSelected = false;
-
-			Game.gameComplete = false;
-
-			Gdx.input.setCursorCatched(false);
+	private void drawBackground() {
+		/*	int size = 96;
+		for (int x = 0; x < Gdx.graphics.getWidth(); x+=size) {
+			for (int y = Gdx.graphics.getHeight(); y > Gdx.graphics.getHeight()-size*3; y-=size) {
+				menu.batch.draw(background, x, y, size, size);
+			}
 		}
-
-		//Dark background
-		menu.batch.begin();
-
-		drawBackground();
-
-		menu.batch.setColor(0f,0f,0f, 1);
-		menu.batch.draw(white, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		menu.batch.setColor(1,1,1, 1);
-
-		//Text
-		menu.font.getData().setScale(2f);
-		menu.font.setColor(1,0,0,1);
-		menu.font.draw(menu.batch, Game.gameComplete ? "Game Won!" : "Game Over", Gdx.graphics.getWidth()/2 - 16*9, Gdx.graphics.getHeight()-100 + (float)Math.max(0,Math.cos(gameOverTime*4f))*16);
-		menu.font.getData().setScale(1f);
-
-		menu.font.setColor(1,1,1,1);
-
-		menu.font.draw(menu.batch, "Time: ", Gdx.graphics.getWidth()/2 - 8*15 - 5, Gdx.graphics.getHeight()-250);
-		menu.font.draw(menu.batch, formatPlayTime, Gdx.graphics.getWidth()/2 + 8*8, Gdx.graphics.getHeight()-250);
-
-		menu.font.draw(menu.batch, "Loot: ", Gdx.graphics.getWidth()/2 - 8*15, Gdx.graphics.getHeight()-290);
-		menu.font.draw(menu.batch, ""+loot, Gdx.graphics.getWidth()/2 + 8*8, Gdx.graphics.getHeight()-290);
-
-
-		menu.font.setColor(1,1,1, 1);
-
-		menu.batch.flush();
-		menu.batch.end();
-
+		 */
 	}
+
 
 	@Override
 	public void resize(int width, int height) {
-		if(game != null) {
+		/*if(game != null) {
 			game.resize(width,height);
-		}
+		}*/
 	}
 
 
 	@Override
 	public void dispose () {
-		if (game != null) {
-			game.destroy();
+		if (current_module != null) {
+			current_module.destroy();
 		}
 	}
 }

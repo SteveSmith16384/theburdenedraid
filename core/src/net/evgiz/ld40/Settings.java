@@ -2,7 +2,10 @@ package net.evgiz.ld40;
 
 public class Settings {
 	
+	public static final boolean RELEASE_MODE = false;
+	
 	// Hacks
+	public static final boolean DEBUG_MOVEMENT = false;
 	public static final boolean QUICKSTART = true;
 	public static final boolean ENEMY_SHOOTING = true;
 	public static final boolean INFINITE_KEYS = true;
@@ -18,6 +21,12 @@ public class Settings {
 	public static final int ENEMY_HEALTH = 3;
 	
 	public static final String TITLE ="The Burdened Raid";
+
+	public static final int WINDOW_WIDTH_PIXELS = RELEASE_MODE ? 1024 : 512;
+	public static final int WINDOW_HEIGHT_PIXELS = (int)(WINDOW_WIDTH_PIXELS * .68);
+
+	public static final int LOGICAL_WIDTH_PIXELS = 640;
+	public static final int LOGICAL_HEIGHT_PIXELS = (int)(LOGICAL_WIDTH_PIXELS * .68);
 
 	public static String levelOrder[] = new String[] {
 			"Dungeons", "Crypt", "Ice Caves", DEMON_LAIR
