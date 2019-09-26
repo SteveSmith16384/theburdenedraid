@@ -3,7 +3,7 @@ package net.evgiz.ld40.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import net.evgiz.ld40.LudumDare40;
+import com.scs.billboardfps.BillBoardFPS_Main;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -14,6 +14,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new LudumDare40();
+                return new BillBoardFPS_Main();
         }
 }

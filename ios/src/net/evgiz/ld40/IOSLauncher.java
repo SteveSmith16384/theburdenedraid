@@ -5,13 +5,13 @@ import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import net.evgiz.ld40.LudumDare40;
+import com.scs.billboardfps.BillBoardFPS_Main;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new LudumDare40(), config);
+        return new IOSApplication(new BillBoardFPS_Main(), config);
     }
 
     public static void main(String[] argv) {

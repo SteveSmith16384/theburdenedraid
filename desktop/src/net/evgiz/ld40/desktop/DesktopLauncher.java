@@ -2,9 +2,8 @@ package net.evgiz.ld40.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-
-import net.evgiz.ld40.LudumDare40;
-import net.evgiz.ld40.Settings;
+import com.scs.billboardfps.BillBoardFPS_Main;
+import com.scs.billboardfps.Settings;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -19,6 +18,6 @@ public class DesktopLauncher {
 		config.foregroundFPS = 0;
 		config.backgroundFPS = 0;
 
-		new LwjglApplication(new LudumDare40(), config);
+		new LwjglApplication(new BillBoardFPS_Main(), config);
 	}
 }
