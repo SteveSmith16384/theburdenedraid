@@ -24,8 +24,6 @@ public class Bat extends Enemy {
         decal1 = decalEntity.decal;
         decal2 = Decal.newDecal(tex[1][3], true);
 
-        //attackable = true;
-
         health = 3;
     }
     
@@ -34,7 +32,7 @@ public class Bat extends Enemy {
     public void death() {
         super.death();
 
-        Game.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
+        Game.entityManager.dropLoot(position);//.add(new LootEntity(Game.art.items, position.x, position.z));
 
     }
     

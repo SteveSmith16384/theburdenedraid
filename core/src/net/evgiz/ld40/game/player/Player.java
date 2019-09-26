@@ -68,7 +68,7 @@ public class Player implements IDamagable {
 
 		cameraController = new CameraController(camera, lookSens);
 
-		position = new Vector3(world.spawnx * Game.UNIT,0f,world.spawny * Game.UNIT);
+		position = new Vector3(world.playersStartX * Game.UNIT,0f,world.playerStartY * Game.UNIT);
 		moveVector = new Vector3();
 		tmpVector = new Vector3();
 
@@ -212,7 +212,7 @@ public class Player implements IDamagable {
 			checkAttackHit(entityManager);
 
 			if (Settings.PLAYER_SHOOTING) {
-				Bullet b = new Bullet(this, Game.art.entities, this.position, camera.direction);
+				Bullet b = new Bullet(this, this.position, camera.direction);
 				Game.entityManager.add(b);
 			}
 		}

@@ -20,17 +20,19 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable, I
 	private float pushScale = 0f;
 	public int health = Settings.ENEMY_HEALTH;
 
-	public Enemy(TextureRegion[][] tex, int x, int y) {
-		super(tex, x, y);
-
-		//attackable = true;
+	public Enemy(int x, int y) {
+		super(x, y);
 
 	}
 
+	public Enemy(TextureRegion[][] tex, int x, int y) {
+		super(tex, x, y);
+
+	}
+
+
 	public Enemy(TextureRegion[][] tex, int x, int y, int tx, int ty) {
 		super(tex, x, y, tx, ty);
-
-		//attackable = true;
 
 	}
 
@@ -93,7 +95,7 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable, I
 				Settings.p("Shooting!");
 				Vector3 dir = new Vector3();
 				dir.set(Game.player.getPosition()).sub(this.position).nor();
-				Bullet b = new Bullet(this, Game.art.entities, this.position, dir);
+				Bullet b = new Bullet(this, this.position, dir);
 				Game.entityManager.add(b);
 			}
 			//Settings.p("Not shooting - Cannot see player!");

@@ -93,7 +93,7 @@ public class Game implements IModule {
 	}
 
 
-	public void setSettings(int retro, int difficulty, int lookSensitivity){
+	public void setSettings(int retro, int difficulty, int lookSensitivity) {
 		downscale = scales[retro];
 		player.cameraController = new CameraController(camera, lookSensitivity);
 
@@ -102,7 +102,7 @@ public class Game implements IModule {
 
 	}
 
-	public void resize(int w, int h){
+	public void resize(int w, int h) {
 		// todo
 	}
 
@@ -128,7 +128,7 @@ public class Game implements IModule {
 				Game.hasLoaded = true;
 				world.load(Game.targetLevel);
 
-				player.getPosition().set(world.spawnx*Game.UNIT, 0, world.spawny*Game.UNIT);
+				player.getPosition().set(world.playersStartX*Game.UNIT, 0, world.playerStartY*Game.UNIT);
 				entityManager.update(world);
 				camera.rotate(Vector3.Y, (float)Math.toDegrees(Math.atan2(camera.direction.z, camera.direction.x)));
 				player.update(entityManager);
@@ -214,6 +214,17 @@ public class Game implements IModule {
 	@Override
 	public boolean isFinished() {
 		return this.game_over;
+	}
+
+
+	@Override
+	public void setFullScreen(boolean fullscreen) {
+		if (fullscreen) {
+			batch2d.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		} else {
+			batch2d.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		}
+		
 	}
 
 }

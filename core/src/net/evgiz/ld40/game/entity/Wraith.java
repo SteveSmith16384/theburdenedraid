@@ -7,24 +7,33 @@ import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import net.evgiz.ld40.game.Art;
 import net.evgiz.ld40.game.Game;
 import net.evgiz.ld40.game.World;
+import net.evgiz.ld40.game.decals.DecalEntity;
 
-public final class FlyingSkull extends Enemy {
+public class Wraith extends Enemy {
 
     private static final float speed = 2f;
 
     private Vector3 direction = new Vector3();
-    private Decal decal1, decal2;
+    private Decal[] decals = new Decal[4];
+    private int decalIdx;
     private float animTimer = 0f;
 
-    public FlyingSkull(TextureRegion[][] tex, int x, int y) {
-        super(tex, x, y, 0, 2);
+    public Wraith(int x, int y) {
+        super(x, y);
 
-        decal1 = decalEntity.decal;
-        decal2 = Decal.newDecal(tex[1][2], true);
+        TextureRegion[][] tr = Art.createSheet("chaoswraith.png", 4, 1);
 
-        health = 2;
+        for (int i=0 ; i<4 ; i++) {
+        	decals[i] = Decal.newDecal(tr[i][0], true);
+        }
+        this.decalEntity = new DecalEntity();
+        this.decalEntity.decal = decals[0];
+        //decal2 = Decal.newDecal(tex[1][2], true);
+
+        health = 4;
     }
     
 
@@ -50,7 +59,11 @@ public final class FlyingSkull extends Enemy {
             animTimer += dt;
             if(animTimer>.3f){
                 animTimer-=.3f;
-                decalEntity.decal = (decalEntity.decal==decal1) ? decal2 : decal1;
+                decalIdx++;
+                if (decalIdx >= this.decals.length) {
+                	decalIdx = 0;
+                }
+                decalEntity.decal = decals[decalIdx];//(decalEntity.decal==decal1) ? decal2 : decal1;
             }
             direction.set(Game.player.getPosition()).sub(position).nor();
             direction.scl(Gdx.graphics.getDeltaTime() * speed * Game.UNIT);

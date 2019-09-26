@@ -9,4 +9,6 @@ public interface IModule {
 	boolean isFinished();
 
 	void destroy();
+	
+	void setFullScreen(boolean fullscreen);
 }

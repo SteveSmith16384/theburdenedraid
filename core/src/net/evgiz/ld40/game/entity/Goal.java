@@ -19,6 +19,7 @@ public final class Goal extends Entity {
         if(position.dst2(Game.player.getPosition())< (Game.UNIT*2)*(Game.UNIT*2)) {
             Game.player.inventory.gameComplete = true;
 
+            // Attract all loot close by
             for (Entity ent : Game.entityManager.getEntities()) {
                 if (ent instanceof LootEntity){
                     if(ent.position.dst2(Game.player.getPosition())<(Game.UNIT*5)*(Game.UNIT*5)){

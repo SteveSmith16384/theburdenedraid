@@ -9,16 +9,16 @@ public class Art {
 	public TextureRegion[][] entities;
 	public TextureRegion[][] items;
 
-	public Art(){
+	public Art() {
 		entities = createSheet("entities.png",16,16);
 		items = createSheet("items.png",16,16);
 	}
 	
 
-	private TextureRegion[][] createSheet(String src, int ww, int hh){
+	public static TextureRegion[][] createSheet(String src, int ww, int hh){
 		Texture tex = new Texture(Gdx.files.internal(src));
-		int w = tex.getWidth()/ww, h = tex.getHeight()/hh;
-
+		int w = tex.getWidth()/ww;
+		int h = tex.getHeight()/hh;
 		TextureRegion reg[][]  = new TextureRegion[w][h];
 
 		for (int x = 0; x < w; x++) {

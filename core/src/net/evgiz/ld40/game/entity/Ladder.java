@@ -9,18 +9,19 @@ import net.evgiz.ld40.game.player.Player;
 
 public class Ladder extends Entity implements IInteractable {
 
-    private String targetLevel = "nil";
+    private String targetLevel;// = "nil";
     public boolean upLadder = false;
 
     public Ladder(TextureRegion[][] tex, int x, int y, String level) {
-        super(tex, x, y, 3, 1);
+    	this(tex, x, y, level, false);
+        /*super(tex, x, y, 3, 1);
 
-        targetLevel = level;
+        targetLevel = level;*/
     }
     
 
     public Ladder(TextureRegion[][] tex, int x, int y, String level, boolean upLadder) {
-        super(tex, x, y, upLadder ? 2 : 3,1);
+        super(tex, x, y, upLadder ? 2 : 3, 1);
 
         targetLevel = level;
 
@@ -29,13 +30,14 @@ public class Ladder extends Entity implements IInteractable {
     }
 
     
-    public void interact(Player player){
-        if(upLadder || targetLevel==null) {
+    @Override
+    public void interact(Player player) {
+        if(upLadder || targetLevel == null) {
         	return;
         }
 
-        player.getPosition().x = Game.world.spawnx*Game.UNIT;
-        player.getPosition().z = Game.world.spawny*Game.UNIT;
+        player.getPosition().x = Game.world.playersStartX*Game.UNIT;
+        player.getPosition().z = Game.world.playerStartY*Game.UNIT;
         Game.audio.play("ladder");
         Game.changeLevel(targetLevel);
     }

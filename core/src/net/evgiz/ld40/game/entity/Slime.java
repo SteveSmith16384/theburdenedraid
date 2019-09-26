@@ -45,7 +45,7 @@ public final class Slime extends Enemy {
         idleDecal.setColor(Color.DARK_GRAY);
         remove = false;
 
-        Game.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
+        Game.entityManager.dropLoot(position);//.add(new LootEntity(Game.art.items, position.x, position.z));
     }
 
     
@@ -53,10 +53,10 @@ public final class Slime extends Enemy {
     public void update(World world) {
         super.update(world);
 
-        if (health <= 0) {
+        /*if (health <= 0) { scs new
             decalEntity.decal.setColor(Color.DARK_GRAY);
             return;
-        }
+        }*/
 
         float dt = Gdx.graphics.getDeltaTime();
         
@@ -103,7 +103,6 @@ public final class Slime extends Enemy {
         } else {
             decalEntity.decal = idleDecal;
         }
-
 
     }
 

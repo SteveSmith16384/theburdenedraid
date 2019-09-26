@@ -30,7 +30,7 @@ public class World {
 	public int width;
 	public int height;
 
-	public int spawnx, spawny; // Player start pos
+	public int playersStartX, playerStartY;
 
 	public ArrayList<ModelInstance> modelInstances;
 
@@ -101,8 +101,8 @@ public class World {
 		width = pixmap.getWidth();
 		height = pixmap.getHeight();
 
-		spawnx = 1;
-		spawny = 1;
+		playersStartX = 1;
+		playerStartY = 1;
 
 		world = new int[width * height];
 
@@ -118,8 +118,8 @@ public class World {
 				switch (pix) {
 				//Red
 				case -16776961:
-					spawnx = x;
-					spawny = y;
+					playersStartX = x;
+					playerStartY = y;
 					break;
 					//Special wall 1 pink-ish
 				case 1799323647:
@@ -265,35 +265,36 @@ public class World {
 			return WALL;
 		}
 	}
+	
 
-	public boolean rectangleFree(float center_x, float center_y, float w, float h){
+	public boolean rectangleFree(float center_x, float center_z, float width, float depth) {
 		//Upper left
-		float x = center_x/Game.UNIT-w/2 + 0.5f;
-		float y = center_y/Game.UNIT-h/2 + 0.5f;
+		float x = (center_x/Game.UNIT)-(width/2) + 0.5f;
+		float y = center_z/Game.UNIT-depth/2 + 0.5f;
 
 		if (getMapSquareAt((int)(x), (int)(y))!=0) {
 			return false;
 		}
 
 		//Down left
-		x = center_x/Game.UNIT-w/2 + 0.5f;
-		y = center_y/Game.UNIT+h/2 + 0.5f;
+		x = center_x/Game.UNIT-width/2 + 0.5f;
+		y = center_z/Game.UNIT+depth/2 + 0.5f;
 
 		if (getMapSquareAt((int)(x), (int)(y))!=0) {
 			return false;
 		}
 		
 		//Upper right
-		x = center_x/Game.UNIT+w/2 + 0.5f;
-		y = center_y/Game.UNIT-h/2 + 0.5f;
+		x = center_x/Game.UNIT+width/2 + 0.5f;
+		y = center_z/Game.UNIT-depth/2 + 0.5f;
 
 		if (getMapSquareAt((int)(x), (int)(y))!=0) {
 			return false;
 		}
 
 		//Down right
-		x = center_x/Game.UNIT+w/2 + 0.5f;
-		y = center_y/Game.UNIT+h/2 + 0.5f;
+		x = center_x/Game.UNIT+width/2 + 0.5f;
+		y = center_z/Game.UNIT+depth/2 + 0.5f;
 
 		if (getMapSquareAt((int)(x), (int)(y))!=0) {
 			return false;

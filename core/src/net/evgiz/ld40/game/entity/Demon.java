@@ -43,8 +43,8 @@ public final class Demon extends Enemy {
 	public void death() {
 		super.death();
 
-		Game.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
-		Game.entityManager.add(new LootEntity(Game.art.items, position.x, position.z));
+		Game.entityManager.dropLoot(position);//.add(new LootEntity(Game.art.items, position.x, position.z));
+		Game.entityManager.dropLoot(position);//.add(new LootEntity(Game.art.items, position.x, position.z));
 
 	}
 
@@ -59,11 +59,9 @@ public final class Demon extends Enemy {
 		}
 
 		float dt = Gdx.graphics.getDeltaTime();
-
 		if (Game.player.getPosition().dst2(position) < (Game.UNIT * 6) * (Game.UNIT * 6) && world.canSee(position, Game.player.getPosition())) {
 			attackTimer += dt;
-
-			if(attackTimer>1f){
+			if(attackTimer > 1f){
 				if(speed==0){
 					direction.set(Game.player.getPosition()).sub(position).nor();
 					direction.scl(Game.UNIT);
@@ -71,7 +69,9 @@ public final class Demon extends Enemy {
 				}
 
 				speed += dt*8f;
-				if(speed>5)speed=5;
+				if(speed>5) {
+					speed=5;
+				}
 
 				decalEntity.decal = decal2;
 
@@ -82,13 +82,14 @@ public final class Demon extends Enemy {
 				tryMove(world, moveVec, true);
 			}
 
-			if(attackTimer>2f){
+			if (attackTimer > 2f) {
 				speed = 0;
 				attackTimer = -Game.random.nextFloat();
 				decalEntity.decal = decal1;
 			}
 
 		} else {
+			// Can't see or out of range of player
 			speed = 0;
 			attackTimer = 0;
 			decalEntity.decal = decal1;
