@@ -30,7 +30,6 @@ public class Wraith extends Enemy {
         }
         this.decalEntity = new DecalEntity();
         this.decalEntity.decal = decals[0];
-        //decal2 = Decal.newDecal(tex[1][2], true);
 
         health = 4;
     }

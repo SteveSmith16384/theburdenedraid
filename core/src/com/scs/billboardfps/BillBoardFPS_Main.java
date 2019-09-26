@@ -71,6 +71,7 @@ public class BillBoardFPS_Main extends ApplicationAdapter {
 				Gdx.gl.glViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 				fullscreen = true;
 			}
+			this.current_module.setFullScreen(fullscreen);
 		}
 
 	}

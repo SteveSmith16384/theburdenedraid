@@ -1,14 +1,18 @@
 package com.scs.billboardfps.game.entity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.billboardfps.Settings;
+import com.scs.billboardfps.game.Art;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.components.IDamagable;
 import com.scs.billboardfps.game.decals.DecalEntity;
 
-public class Bullet extends Entity {
-	
+public class ChaosBolt extends Entity {
+
 	private static final float SIZE = 0.3f;
 	private static final float SPEED = 0.1f;
 
@@ -16,27 +20,48 @@ public class Bullet extends Entity {
 	private Vector3 dir;
 	private Vector3 origPos = new Vector3();
 	private Object shooter;
+	private Decal[] decals = new Decal[4];
+	private int decalIdx;
+	private float animTimer = 0f;
 
-	public Bullet(Object _shooter, Vector3 pos, Vector3 _dir) {
+	public ChaosBolt(Object _shooter, Vector3 pos, Vector3 _dir) {
 		super();
 
 		shooter = _shooter;
 		position = new Vector3(pos);
 		dir = new Vector3(_dir);
 
-		this.decalEntity = new DecalEntity("fireball.png");//tr);
+		TextureRegion[][] tr = Art.createSheet("chaosbolt.png", 4, 1);
 
-		decalEntity.setScalePropertionToSqSize(SIZE);
+		this.decalEntity = new DecalEntity();
+		for (int i=0 ; i<4 ; i++) {
+			decals[i] = Decal.newDecal(tr[i][0], true);
+
+			// Scale all
+			this.decalEntity.decal = decals[i];
+			decalEntity.setScalePropertionToSqSize(SIZE);
+		}
+		this.decalEntity.decal = decals[0];
 
 		decalEntity.faceCameraTilted = true;
-		
+
 		this.sizeAsFracOfMapsquare = SIZE;
 	}
 
 
 	@Override
 	public void update(World world) {
-		//float dt = Gdx.graphics.getDeltaTime();
+		float dt = Gdx.graphics.getDeltaTime();
+
+		animTimer += dt;
+		if (animTimer>.03f) {
+			animTimer-=.03f;
+			decalIdx++;
+			if (decalIdx >= this.decals.length) {
+				decalIdx = 0;
+			}
+			decalEntity.decal = decals[decalIdx];
+		}
 
 		origPos.set(this.position);
 		Vector3 offset = new Vector3(dir);

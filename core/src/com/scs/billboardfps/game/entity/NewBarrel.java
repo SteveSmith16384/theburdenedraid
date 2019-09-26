@@ -18,7 +18,7 @@ public class NewBarrel extends Entity {
 		decalEntity.setScalePropertionToSqSize(.6f);
 		decalEntity.faceCamera = true;
 		
-		position = new Vector3(Game.UNIT*map_x, 0,Game.UNIT*map_y);
+		position = new Vector3(Game.UNIT*map_x, 0, Game.UNIT*map_y);
 
 	}
 

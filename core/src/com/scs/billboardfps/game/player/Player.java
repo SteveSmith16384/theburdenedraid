@@ -18,6 +18,7 @@ import com.scs.billboardfps.game.components.IDamagable;
 import com.scs.billboardfps.game.components.IHarmsPlayer;
 import com.scs.billboardfps.game.components.IInteractable;
 import com.scs.billboardfps.game.entity.Bullet;
+import com.scs.billboardfps.game.entity.ChaosBolt;
 import com.scs.billboardfps.game.entity.Entity;
 import com.scs.billboardfps.game.entity.EntityManager;
 
@@ -211,7 +212,7 @@ public class Player implements IDamagable {
 			checkAttackHit(entityManager);
 
 			if (Settings.PLAYER_SHOOTING) {
-				Bullet b = new Bullet(this, this.position, camera.direction);
+				Entity b = new ChaosBolt(this, this.position, camera.direction);
 				Game.entityManager.add(b);
 			}
 		}
