@@ -3,6 +3,7 @@ package com.scs.billboardfps.game.entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.scs.billboardfps.game.Game;
+import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.components.IInteractable;
 import com.scs.billboardfps.game.player.Player;
 
@@ -26,7 +27,7 @@ public final class Door extends Entity implements IInteractable {
     @Override
     public void interact(Player player){
         if (locked && player.inventory.keys>0) {
-        	Game.world.world[world_x + world_y * Game.world.width] = 0;
+        	Game.world.world[world_x + world_y * Game.world.width] = World.NOTHING;
             decalEntity.decal = openDecal;
             interactable = false;
             player.inventory.keys--;

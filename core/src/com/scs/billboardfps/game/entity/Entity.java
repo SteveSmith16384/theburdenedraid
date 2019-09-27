@@ -47,7 +47,7 @@ public class Entity {
 	public void bindWorldTile(World wrld, int tx, int ty) {
 		world_x = tx;
 		world_y = ty;
-		wrld.world[tx + ty*wrld.width] = 2;
+		wrld.world[tx + ty*wrld.width] = World.BLOCKED;
 	}
 
 

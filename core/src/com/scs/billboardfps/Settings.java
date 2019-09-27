@@ -5,6 +5,7 @@ public class Settings {
 	public static final boolean RELEASE_MODE = false;
 	
 	// Hacks
+	public static final boolean USE_WAND = true;
 	public static final boolean USE_WRAITHS = true;
 	public static final boolean NEW_BARRELS = true;
 	public static final String START_LEVEL = "";//"Demon Lair";

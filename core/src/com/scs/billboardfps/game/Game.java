@@ -68,7 +68,6 @@ public class Game implements IModule {
 		batch2d = new SpriteBatch();
 		font = new BitmapFont(Gdx.files.internal("font.fnt"));
 
-
 		shaderProvider = new GameShaderProvider();
 		batch = new ModelBatch(shaderProvider);
 
@@ -92,11 +91,11 @@ public class Game implements IModule {
 	}
 
 
-	public void setSettings(int retro, int difficulty, int lookSensitivity) {
-		downscale = scales[retro];
+	public void setSettings(int difficulty, int lookSensitivity) {
+		downscale = 1; // scales[retro];
 		player.cameraController = new CameraController(camera, lookSensitivity);
 
-		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth()/downscale, Gdx.graphics.getHeight()/downscale, true);
+		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 	}
@@ -145,7 +144,7 @@ public class Game implements IModule {
 		camera.update();
 		entityManager.update(world);
 
-		if(player.getHealth() <= 0 && !gameComplete) {
+		if (player.getHealth() <= 0 && !gameComplete) {
 			game_over = true;
 			Game.audio.play("gameover");
 		}

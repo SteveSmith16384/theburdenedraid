@@ -79,9 +79,9 @@ public class BillBoardFPS_Main extends ApplicationAdapter {
 
 	@Override
 	public void resize(int width, int height) {
-		/*if(game != null) {
-			game.resize(width,height);
-		}*/
+		if(this.current_module != null) {
+			this.current_module.resize(width,height);
+		}
 	}
 
 

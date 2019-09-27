@@ -1,14 +1,15 @@
 package com.scs.billboardfps.game.decals;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.billboardfps.game.Game;
-
-import java.util.Random;
 
 public class DecalEntity {
 
@@ -54,6 +55,7 @@ public class DecalEntity {
 
 
 	public void setScalePropertionToSqSize(float s) {
+		//decal.transformationOffset = new Vector2(0, 0);//.y = 0;
 		decal.setScale((Game.UNIT / decal.getWidth()) * s);
 	}
 	

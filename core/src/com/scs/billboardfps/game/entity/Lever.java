@@ -28,11 +28,11 @@ public class Lever extends Entity implements IInteractable {
 
     @Override
     public void interact(Player player) {
-        if(decalEntity.decal == left){
+        if (decalEntity.decal == left) {
             direction = 1;
             decalEntity.decal = center;
             state = 0;
-        }else if(decalEntity.decal == center){
+        } else if(decalEntity.decal == center) {
             if(direction == 1) {
                 decalEntity.decal = right;
                 state = 1;

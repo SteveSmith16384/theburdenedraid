@@ -24,6 +24,7 @@ public class World {
 
 	public static final int NOTHING = 0;
 	public static final int WALL = 1;
+	public static final int BLOCKED = 2;
 
 	public int world[];
 	public int width;
@@ -134,7 +135,7 @@ public class World {
 					break;
 					//Sign, prevent details from spawning here
 				case 2140340223:
-					result = 2;
+					result = BLOCKED;
 					break;
 					
 				case 0xff: //Black
@@ -213,7 +214,7 @@ public class World {
 						instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 0, tileType, 6, 6);
 					}
 					modelInstances.add(instance);
-				} else if(block>2 && block<=5) {
+				} else if(block >= 3 && block <= 5) {
 					ModelInstance instance = new ModelInstance(box_model);
 					instance.transform.translate(x* Game.UNIT,Game.UNIT/2f, y*Game.UNIT);
 					instance.transform.rotate(Vector3.Z, 90);

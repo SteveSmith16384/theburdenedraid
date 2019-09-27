@@ -55,7 +55,7 @@ public class Player implements IDamagable {
 	private float footstepTimer;
 	private int health, max_health;
 	private float hurtTimer = 0f;
-	private Texture hurtTexture;
+	private Texture hurtTexture; // Screen goes red when hit
 	private Texture heart;
 	public IInteractable interactTarget;
 
@@ -72,12 +72,20 @@ public class Player implements IDamagable {
 		moveVector = new Vector3();
 		tmpVector = new Vector3();
 
-		Texture weaponTex = new Texture(Gdx.files.internal("sword.png"));
-		weaponSprite = new Sprite(weaponTex);
+		if (Settings.USE_WAND) {
+			Texture weaponTex = new Texture(Gdx.files.internal("wand2.png"));
+			weaponSprite = new Sprite(weaponTex);
+			weaponSprite.setOrigin(32, 20);
+			weaponSprite.setScale(7.5f, 5f);
+			weaponPosition = new Vector2(0,0);
+		} else {
+			Texture weaponTex = new Texture(Gdx.files.internal("sword.png"));
+			weaponSprite = new Sprite(weaponTex);
+			weaponSprite.setOrigin(32, 0);
+			weaponSprite.setScale(7.5f, 5f);
+			weaponPosition = new Vector2(0,0);
+		}
 
-		weaponSprite.setOrigin(32, 0);
-		weaponSprite.setScale(7.5f, 5f);
-		weaponPosition = new Vector2(0,0);
 		weaponRotation = defaultWeaponRotation;
 		weaponSprite.setRotation(defaultWeaponRotation);
 
@@ -262,7 +270,7 @@ public class Player implements IDamagable {
 
 		if (onGround) {
 			if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-				gravity = jumpScale; // todo - was commented out
+				gravity = jumpScale;
 			} else {
 				gravity = 0f;
 			}

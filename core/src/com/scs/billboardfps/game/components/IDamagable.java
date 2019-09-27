@@ -2,7 +2,7 @@ package com.scs.billboardfps.game.components;
 
 import com.badlogic.gdx.math.Vector3;
 
-public interface IDamagable { // todo - use this
+public interface IDamagable {
 
 	int getHealth();
 	

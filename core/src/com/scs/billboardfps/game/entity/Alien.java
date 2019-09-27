@@ -1,7 +1,6 @@
 package com.scs.billboardfps.game.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +10,7 @@ import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.decals.DecalEntity;
 
-public class Wraith extends Enemy {
+public class Alien extends Enemy {
 
     private static final float speed = 2f;
 
@@ -20,7 +19,7 @@ public class Wraith extends Enemy {
     private int decalIdx;
     private float animTimer = 0f;
 
-    public Wraith(int x, int y) {
+    public Alien(int x, int y) {
         super(x, y);
 
         TextureRegion[][] tr = Art.createSheet("chaoswraith.png", 4, 1);
@@ -38,8 +37,6 @@ public class Wraith extends Enemy {
     @Override
     public void death() {
         super.death();
-        decalEntity.decal.setColor(Color.DARK_GRAY);
-        Game.entityManager.dropLoot(position);
     }
     
 
@@ -48,7 +45,6 @@ public class Wraith extends Enemy {
         super.update(world);
 
         if (health <= 0) {
-            //decalEntity.decal.setColor(Color.DARK_GRAY);
             return;
         }
 
