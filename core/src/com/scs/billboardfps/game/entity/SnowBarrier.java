@@ -8,30 +8,33 @@ import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.components.IAttackable;
 import com.scs.billboardfps.game.components.IDamagable;
 
-public class SnowWall extends Entity implements IAttackable, IDamagable {
+public class SnowBarrier extends Entity implements IAttackable, IDamagable {
 
     private Decal destroyedDecal;
     private boolean attackable = true;
 
-    public SnowWall(TextureRegion[][] tex, int x, int y) {
-        super(tex, x, y, 2,2);
+    public SnowBarrier(TextureRegion[][] tex, int x, int y) {
+        super(SnowBarrier.class.getSimpleName(), tex, x, y, 2,2);
 
         destroyedDecal = Decal.newDecal(tex[3][2], true);
     }
 
+    
     @Override
     public void damaged(int amt, Vector3 direction) {
-    	Game.world.world[world_x + world_y * Game.world.width] = World.NOTHING;
+    	Game.world.world[world_x + world_y * Game.world.width].type = World.NOTHING;
         attackable = false;
         decalEntity.decal = destroyedDecal;
         Game.audio.play("hurt");
     }
 
+    
 	@Override
 	public boolean isAttackable() {
 		return attackable;
 	}
 
+	
 	@Override
 	public int getHealth() {
 		return attackable ? 1 : 0;

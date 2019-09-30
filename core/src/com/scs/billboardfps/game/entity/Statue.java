@@ -22,7 +22,7 @@ public final class Statue extends Entity implements IInteractable {
 	};
 
 	public Statue(TextureRegion[][] tex, int x, int y) {
-		super(tex, x, y, 3, 4);
+		super(Statue.class.getSimpleName(), tex, x, y, 3, 4);
 
 		//position = new Vector3();
 

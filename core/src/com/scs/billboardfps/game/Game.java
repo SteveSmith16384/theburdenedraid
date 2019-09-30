@@ -34,7 +34,6 @@ public class Game implements IModule {
 
 	private SpriteBatch batch2d;
 	private BitmapFont font;
-
 	private ModelBatch batch;
 	private ShaderProvider shaderProvider;
 
@@ -48,9 +47,9 @@ public class Game implements IModule {
 
 	private DecalManager decalManager;
 
-	private int downscale = 2;
+	private static final int downscale = 1;
 
-	private int[] scales = new int[]{1,2,6,8};
+	//private int[] scales = new int[]{1,2,6,8};
 	private int[] health = new int[]{8,5,3,1};
 
 	private static boolean transition = false; // todo - what's this?
@@ -63,7 +62,7 @@ public class Game implements IModule {
 
 
 	public Game(int retro, int diff, int lookSens) {
-		downscale = scales[retro];
+		//downscale = scales[retro];
 
 		batch2d = new SpriteBatch();
 		font = new BitmapFont(Gdx.files.internal("font.fnt"));
@@ -92,7 +91,7 @@ public class Game implements IModule {
 
 
 	public void setSettings(int difficulty, int lookSensitivity) {
-		downscale = 1; // scales[retro];
+		//downscale = 1; // scales[retro];
 		player.cameraController = new CameraController(camera, lookSensitivity);
 
 		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
@@ -126,7 +125,7 @@ public class Game implements IModule {
 				Game.hasLoaded = true;
 				world.load(Game.targetLevel);
 
-				player.getPosition().set(world.playersStartX*Game.UNIT, 0, world.playerStartY*Game.UNIT);
+				player.getPosition().set(world.playersStartMapX*Game.UNIT, 0, world.playerStartMapY*Game.UNIT);
 				entityManager.update(world);
 				camera.rotate(Vector3.Y, (float)Math.toDegrees(Math.atan2(camera.direction.z, camera.direction.x)));
 				player.update(entityManager);

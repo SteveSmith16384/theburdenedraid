@@ -17,7 +17,7 @@ public final class Demon extends Enemy {
 	private float speed = 0f;
 
 	public Demon(TextureRegion[][] tex, int x, int y) {
-		super(tex, x, y, 4, 0);
+		super(Demon.class.getSimpleName(), tex, x, y, 4, 0);
 
 		decal1 = decalEntity.decal;
 		decal2 = Decal.newDecal(tex[5][0], true);

@@ -63,10 +63,12 @@ public class GameShaderProvider extends DefaultShaderProvider {
         @Override
         public void render(Renderable renderable, Attributes combinedAttributes) {
             RenderData renderData = (RenderData)renderable.userData;
+            if (renderData != null) {
             set(u_tilemapOffset, renderData.tilemapOffset);
             set(u_tilemapSize, renderData.tilemapSize);
             set(u_textureRepeat, renderData.textureRepeat);
             super.render(renderable, combinedAttributes);
+            }
         }
     }
 

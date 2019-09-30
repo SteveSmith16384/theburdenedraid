@@ -9,6 +9,7 @@ import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.decals.DecalManager;
+import com.scs.billboardfps.game.entity.chaos.Wraith;
 
 public class EntityManager {
 
@@ -36,8 +37,8 @@ public class EntityManager {
 	public boolean spawnEntity(World world, int col, int x, int y) {
 		solvedLevers = false;
 
-		if (x==0 && y==0) { // todo - why this here?
-				levers.clear();
+		if (x==0 && y==0) {
+			levers.clear();
 		}
 
 		boolean result = true;
@@ -75,7 +76,7 @@ public class EntityManager {
 			break;
 			//Cyan snowblock
 		case 16777215:
-			SnowWall snowWall = new SnowWall(Game.art.entities, x , y);
+			SnowBarrier snowWall = new SnowBarrier(Game.art.entities, x , y);
 			snowWall.bindWorldTile(world, x, y);
 			add(snowWall);
 			break;
@@ -102,13 +103,13 @@ public class EntityManager {
 
 			//Details, barrel/pot etc
 		case -1600085761:
-			if (Settings.NEW_BARRELS) {
+			/*if (Settings.NEW_BARRELS) {
 				Entity det = new NewBarrel(x, y);
 				add(det);
-			} else {
-				Entity det = new Entity(Game.art.entities, x, y, world.getTileType(world.currentLevelName), 5);
-				add(det);
-			}
+			} else {*/
+			Entity det = new Entity("RandomLoot", Game.art.entities, x, y, world.getTileType(world.currentLevelName), 5);
+			add(det);
+			//}
 			break;
 
 			//Lightblue final goal
@@ -119,11 +120,11 @@ public class EntityManager {
 		case -16720641:
 			for (int i = 0; i < 5; i++) {
 				Entity le = null;
-				if (Settings.NEW_BARRELS) {
+				/*if (Settings.NEW_BARRELS) {
 					le = new NewBarrel(x, y);
-				} else {
-					le = new LootEntity(Game.art.items, x, y);
-				}
+				} else {*/
+				le = new LootEntity(Game.art.items, x, y);
+				//}
 				le.position.x += Game.random.nextFloat()*Game.UNIT*1.5f - Game.UNIT*.75f;
 				le.position.z += Game.random.nextFloat()*Game.UNIT*1.5f - Game.UNIT*.75f;
 				le.position.y += Game.random.nextFloat()*Game.UNIT*.15;
@@ -142,7 +143,9 @@ public class EntityManager {
 
 	public void add(Entity ent) {
 		entities.add(ent);
-		decalManager.add(ent.decalEntity);
+		if (ent.decalEntity != null) {
+			decalManager.add(ent.decalEntity);
+		}
 	}
 
 
@@ -177,7 +180,9 @@ public class EntityManager {
 				continue;
 			}
 			ent.update(world);
-			ent.decalEntity.setPosition(ent.position.x, ent.position.y, ent.position.z);
+			if (ent.decalEntity != null) {
+				ent.decalEntity.setPosition(ent.position.x, ent.position.y, ent.position.z);
+			}
 		}
 
 
@@ -209,8 +214,8 @@ public class EntityManager {
 			// Is wall movement complete?
 			if (tmp.y < -Game.UNIT/1.9f) {
 				for (int x = 0; x < world.width*world.height; x++) {
-					if (world.world[x]>=3 && world.world[x]<=5) {
-						world.world[x] = World.NOTHING;
+					if (world.world[x].type >=3 && world.world[x].type <=5) {
+						world.world[x].type  = World.NOTHING;
 					}
 				}
 				leverComplete = true;

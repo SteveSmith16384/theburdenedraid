@@ -1,5 +1,8 @@
 package com.scs.billboardfps.game;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,13 +15,12 @@ import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.billboardfps.Settings;
+import com.scs.billboardfps.game.data.WorldSquare;
 import com.scs.billboardfps.game.decals.DecalEntity;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entity.EntityManager;
+import com.scs.billboardfps.game.entity.FloorSquare;
 import com.scs.billboardfps.game.renderable.RenderData;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class World {
 
@@ -26,11 +28,11 @@ public class World {
 	public static final int WALL = 1;
 	public static final int BLOCKED = 2;
 
-	public int world[];
+	public WorldSquare world[];
 	public int width;
 	public int height;
 
-	public int playersStartX, playerStartY;
+	public int playersStartMapX, playerStartMapY;
 
 	public ArrayList<ModelInstance> modelInstances;
 
@@ -68,8 +70,9 @@ public class World {
 
 	public int getTileType(String level) {
 		for (int i = 0; i < Settings.levelOrder.length; i++) {
-			if(Settings.levelOrder[i].equals(level))
+			if (Settings.levelOrder[i].equals(level)) {
 				return i;
+			}
 		}
 		return 0;
 	}
@@ -77,7 +80,7 @@ public class World {
 
 	public String getNextLevel(){
 		for (int i = 0; i < Settings.levelOrder.length-1; i++) {
-			if(Settings.levelOrder[i].equals(currentLevelName)) {
+			if (Settings.levelOrder[i].equals(currentLevelName)) {
 				return Settings.levelOrder[i+1];
 			}
 		}
@@ -101,14 +104,14 @@ public class World {
 		width = pixmap.getWidth();
 		height = pixmap.getHeight();
 
-		playersStartX = 1;
-		playerStartY = 1;
+		playersStartMapX = 1;
+		playerStartMapY = 1;
 
-		world = new int[width * height];
+		world = new WorldSquare[width * height];
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				world[x + y*width] = NOTHING;
+				world[x + y*width] = new WorldSquare();//NOTHING;
 
 				int pix = pixmap.getPixel(x,y);
 				int result = 0;
@@ -118,8 +121,8 @@ public class World {
 				switch (pix) {
 				//Red
 				case -16776961:
-					playersStartX = x;
-					playerStartY = y;
+					playersStartMapX = x;
+					playerStartMapY = y;
 					break;
 					//Special wall 1 pink-ish
 				case 1799323647:
@@ -151,7 +154,7 @@ public class World {
 				}
 
 				if (result > 0) {
-					world[x + y*width] = result;
+					world[x + y*width].type = result;
 				}
 			}
 		}
@@ -195,17 +198,30 @@ public class World {
 		Material material = new Material(TextureAttribute.createDiffuse(tiles));		
 		Model box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 
-		Material material_alien = new Material(TextureAttribute.createDiffuse(new Texture(Gdx.files.internal("alienskin2.jpg"))));
-		Model model_alien = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material_alien, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
+		//Material material_alien = new Material(TextureAttribute.createDiffuse(new Texture(Gdx.files.internal("alienskin2.jpg"))));
+		//Model model_alien = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material_alien, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
 
 		modelInstances = new ArrayList<ModelInstance>();
 		specialBlocks = new ArrayList<ModelInstance>();
 
+		if (Settings.TEST_FLOOR_SQ) {
+			FloorSquare fs = new FloorSquare(this.playersStartMapX, this.playerStartMapY);
+			this.entityManager.add(fs);
+			this.modelInstances.add(fs.instance);
+		}
+		
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				int block = world[x + y*width];
+
+				/*if (Settings.TEST_FLOOR_SQ) {
+					FloorSquare fs = new FloorSquare(x, y);
+					this.entityManager.add(fs);
+					this.modelInstances.add(fs.instance);
+				}
+				*/
+				int block = world[x + y*width].type;
 				if (block == WALL) {
-					ModelInstance instance = new ModelInstance(model_alien);
+					ModelInstance instance = new ModelInstance(box_model);
 					instance.transform.translate(x*Game.UNIT, Game.UNIT/2f, y*Game.UNIT);
 					instance.transform.rotate(Vector3.Z, 90);
 					if (Settings.TRY_NEW_TEX) {
@@ -249,6 +265,7 @@ public class World {
 			instance.transform.translate(0,0,-(float)width* Game.UNIT);
 			modelInstances.add(instance);
 		}
+		
 	}
 
 
@@ -260,7 +277,7 @@ public class World {
 		
 		int t = x + y*width;
 		if(t < world.length) {
-			return world[t];
+			return world[t].type;
 		} else {
 			return WALL;
 		}

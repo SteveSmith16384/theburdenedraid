@@ -18,7 +18,7 @@ public class Bat extends Enemy {
     private float moveTimer = 0f;
     
     public Bat(TextureRegion[][] tex, int x, int y) {
-        super(tex, x, y, 0, 3);
+        super(Bat.class.getSimpleName(), tex, x, y, 0, 3);
 
         decal1 = decalEntity.decal;
         decal2 = Decal.newDecal(tex[1][3], true);

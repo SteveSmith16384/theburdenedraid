@@ -7,7 +7,7 @@ import com.scs.billboardfps.game.World;
 public final class Goal extends Entity {
 
     public Goal(TextureRegion[][] tex, int x, int y) {
-        super(tex, x, y);
+        super(Goal.class.getSimpleName(), tex, x, y);
     }
 
 

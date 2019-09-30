@@ -8,7 +8,7 @@ import com.scs.billboardfps.game.player.Player;
 public class KeyEntity extends Entity implements IInteractable {
 
     public KeyEntity(TextureRegion[][] tex, int x, int y, int tx, int ty) {
-        super(tex, x, y, tx, ty);
+        super("Key", tex, x, y, tx, ty);
 
         decalEntity.faceCameraTilted = true;
 

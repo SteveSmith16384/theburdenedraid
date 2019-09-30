@@ -14,7 +14,7 @@ public class Lever extends Entity implements IInteractable {
     private int state = -1;
 
     public Lever(TextureRegion[][] tex, int x, int y) {
-        super(tex, x, y, 0,4);
+        super(Lever.class.getSimpleName(), tex, x, y, 0,4);
 
         left = decalEntity.decal;
         center = Decal.newDecal(tex[1][4], true);

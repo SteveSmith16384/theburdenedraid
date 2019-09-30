@@ -14,7 +14,7 @@ public final class Door extends Entity implements IInteractable {
     private boolean locked = true;
 
     public Door(TextureRegion[][] tex, int x, int y) {
-        super(tex, x, y, 0,1);
+        super(Door.class.getSimpleName(), tex, x, y, 0,1);
 
         interactable = true;
         openDecal = Decal.newDecal(tex[1][1], true);
@@ -27,7 +27,7 @@ public final class Door extends Entity implements IInteractable {
     @Override
     public void interact(Player player){
         if (locked && player.inventory.keys>0) {
-        	Game.world.world[world_x + world_y * Game.world.width] = World.NOTHING;
+        	Game.world.world[world_x + world_y * Game.world.width].type = World.NOTHING;
             decalEntity.decal = openDecal;
             interactable = false;
             player.inventory.keys--;

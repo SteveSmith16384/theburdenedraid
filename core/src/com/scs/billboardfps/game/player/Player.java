@@ -17,10 +17,9 @@ import com.scs.billboardfps.game.components.IAttackable;
 import com.scs.billboardfps.game.components.IDamagable;
 import com.scs.billboardfps.game.components.IHarmsPlayer;
 import com.scs.billboardfps.game.components.IInteractable;
-import com.scs.billboardfps.game.entity.Bullet;
-import com.scs.billboardfps.game.entity.ChaosBolt;
 import com.scs.billboardfps.game.entity.Entity;
 import com.scs.billboardfps.game.entity.EntityManager;
+import com.scs.billboardfps.game.entity.chaos.ChaosBolt;
 
 public class Player implements IDamagable {
 
@@ -68,12 +67,12 @@ public class Player implements IDamagable {
 
 		cameraController = new CameraController(camera, lookSens);
 
-		position = new Vector3(world.playersStartX * Game.UNIT,0f,world.playerStartY * Game.UNIT);
+		position = new Vector3(world.playersStartMapX * Game.UNIT,0f,world.playerStartMapY * Game.UNIT);
 		moveVector = new Vector3();
 		tmpVector = new Vector3();
 
 		if (Settings.USE_WAND) {
-			Texture weaponTex = new Texture(Gdx.files.internal("wand2.png"));
+			Texture weaponTex = new Texture(Gdx.files.internal("chaos/wand2.png"));
 			weaponSprite = new Sprite(weaponTex);
 			weaponSprite.setOrigin(32, 20);
 			weaponSprite.setScale(7.5f, 5f);

@@ -18,25 +18,25 @@ public class Entity {
 	protected float sizeAsFracOfMapsquare = 0.75f;
 
 	
-	public Entity() {
-		name = this.getClass().getSimpleName();// _name;
+	public Entity(String _name) {
+		name = _name;
 	}
 
 	
-	public Entity(int map_x, int map_y) {
-		this();
+	public Entity(String name, int map_x, int map_y) {
+		this(name);
 		
 		position = new Vector3(Game.UNIT*map_x, 0,Game.UNIT*map_y);
 	}
 	
 
-	public Entity(TextureRegion tex[][], int map_x, int map_y) {
-		this(tex, map_x, map_y, 0, 0);
+	public Entity(String name, TextureRegion tex[][], int map_x, int map_y) {
+		this(name, tex, map_x, map_y, 0, 0);
 	}
 	
 
-	public Entity(TextureRegion tex[][], int map_x, int map_y, int tx, int ty) {
-		this(map_x, map_y);
+	public Entity(String name, TextureRegion tex[][], int map_x, int map_y, int tx, int ty) {
+		this(name, map_x, map_y);
 		
 		texture = tex;
 
@@ -47,7 +47,7 @@ public class Entity {
 	public void bindWorldTile(World wrld, int tx, int ty) {
 		world_x = tx;
 		world_y = ty;
-		wrld.world[tx + ty*wrld.width] = World.BLOCKED;
+		wrld.world[tx + ty*wrld.width].type = World.BLOCKED;
 	}
 
 

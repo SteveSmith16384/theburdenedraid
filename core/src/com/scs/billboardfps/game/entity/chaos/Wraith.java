@@ -1,6 +1,7 @@
-package com.scs.billboardfps.game.entity;
+package com.scs.billboardfps.game.entity.chaos;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector2;
@@ -9,8 +10,9 @@ import com.scs.billboardfps.game.Art;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.decals.DecalEntity;
+import com.scs.billboardfps.game.entity.Enemy;
 
-public class Alien extends Enemy {
+public class Wraith extends Enemy {
 
     private static final float speed = 2f;
 
@@ -19,10 +21,10 @@ public class Alien extends Enemy {
     private int decalIdx;
     private float animTimer = 0f;
 
-    public Alien(int x, int y) {
-        super(x, y);
+    public Wraith(int x, int y) {
+        super(Wraith.class.getSimpleName(), x, y);
 
-        TextureRegion[][] tr = Art.createSheet("chaoswraith.png", 4, 1);
+        TextureRegion[][] tr = Art.createSheet("chaos/chaoswraith.png", 4, 1);
 
         for (int i=0 ; i<4 ; i++) {
         	decals[i] = Decal.newDecal(tr[i][0], true);
@@ -37,6 +39,8 @@ public class Alien extends Enemy {
     @Override
     public void death() {
         super.death();
+        decalEntity.decal.setColor(Color.DARK_GRAY);
+        Game.entityManager.dropLoot(position);
     }
     
 
@@ -45,6 +49,7 @@ public class Alien extends Enemy {
         super.update(world);
 
         if (health <= 0) {
+            //decalEntity.decal.setColor(Color.DARK_GRAY);
             return;
         }
 

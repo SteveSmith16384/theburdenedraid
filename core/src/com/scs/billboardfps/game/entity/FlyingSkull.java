@@ -18,7 +18,7 @@ public final class FlyingSkull extends Enemy {
     private float animTimer = 0f;
 
     public FlyingSkull(TextureRegion[][] tex, int x, int y) {
-        super(tex, x, y, 0, 2);
+        super(FlyingSkull.class.getSimpleName(), tex, x, y, 0, 2);
 
         decal1 = decalEntity.decal;
         decal2 = Decal.newDecal(tex[1][2], true);

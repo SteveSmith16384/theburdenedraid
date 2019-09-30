@@ -20,7 +20,7 @@ public class Ladder extends Entity implements IInteractable {
     
 
     public Ladder(TextureRegion[][] tex, int x, int y, String level, boolean upLadder) {
-        super(tex, x, y, upLadder ? 2 : 3, 1);
+        super(Ladder.class.getSimpleName(), tex, x, y, upLadder ? 2 : 3, 1);
 
         targetLevel = level;
 
@@ -35,8 +35,8 @@ public class Ladder extends Entity implements IInteractable {
         	return;
         }
 
-        player.getPosition().x = Game.world.playersStartX*Game.UNIT;
-        player.getPosition().z = Game.world.playerStartY*Game.UNIT;
+        player.getPosition().x = Game.world.playersStartMapX*Game.UNIT;
+        player.getPosition().z = Game.world.playerStartMapY*Game.UNIT;
         Game.audio.play("ladder");
         Game.changeLevel(targetLevel);
     }

@@ -26,7 +26,7 @@ public final class Slime extends Enemy {
     private float shootTimer = 0;
 
     public Slime(TextureRegion[][] tex, int x, int y) {
-        super(tex, x, y);
+        super(Slime.class.getSimpleName(), tex, x, y);
 
         idleDecal = decalEntity.decal;
         jumpDecal = Decal.newDecal(tex[1][0], true);

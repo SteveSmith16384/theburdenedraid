@@ -18,7 +18,7 @@ public class Bullet extends Entity {
 	private Object shooter;
 
 	public Bullet(Object _shooter, Vector3 pos, Vector3 _dir) {
-		super();
+		super(Bullet.class.getSimpleName());
 
 		shooter = _shooter;
 		position = new Vector3(pos);

@@ -19,19 +19,19 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable, I
 	private float pushScale = 0f;
 	public int health = Settings.ENEMY_HEALTH;
 
-	public Enemy(int x, int y) {
-		super(x, y);
+	public Enemy(String name, int x, int y) {
+		super(name, x, y);
 
 	}
 
-	public Enemy(TextureRegion[][] tex, int x, int y) {
-		super(tex, x, y);
+	public Enemy(String name, TextureRegion[][] tex, int x, int y) {
+		super(name, tex, x, y);
 
 	}
 
 
-	public Enemy(TextureRegion[][] tex, int x, int y, int tx, int ty) {
-		super(tex, x, y, tx, ty);
+	public Enemy(String name, TextureRegion[][] tex, int x, int y, int tx, int ty) {
+		super(name, tex, x, y, tx, ty);
 
 	}
 

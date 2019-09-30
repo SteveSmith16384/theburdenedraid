@@ -24,6 +24,8 @@ public final class LootEntity extends Entity {
 
 	
 	public LootEntity(TextureRegion[][] tex, float x, float y) {
+		super(LootEntity.class.getSimpleName());
+		
 		texture = tex;
 
 		type = Game.random.nextInt(MAX_LOOT_TYPES)+1;

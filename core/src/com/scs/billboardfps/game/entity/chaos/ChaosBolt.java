@@ -1,4 +1,4 @@
-package com.scs.billboardfps.game.entity;
+package com.scs.billboardfps.game.entity.chaos;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +10,7 @@ import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.components.IDamagable;
 import com.scs.billboardfps.game.decals.DecalEntity;
+import com.scs.billboardfps.game.entity.Entity;
 
 public class ChaosBolt extends Entity {
 
@@ -25,13 +26,13 @@ public class ChaosBolt extends Entity {
 	private float animTimer = 0f;
 
 	public ChaosBolt(Object _shooter, Vector3 pos, Vector3 _dir) {
-		super();
+		super(ChaosBolt.class.getSimpleName());
 
 		shooter = _shooter;
 		position = new Vector3(pos);
 		dir = new Vector3(_dir);
 
-		TextureRegion[][] tr = Art.createSheet("chaosbolt.png", 4, 1);
+		TextureRegion[][] tr = Art.createSheet("chaos/chaosbolt.png", 4, 1);
 
 		this.decalEntity = new DecalEntity();
 		for (int i=0 ; i<4 ; i++) {
