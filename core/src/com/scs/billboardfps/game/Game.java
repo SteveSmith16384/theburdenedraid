@@ -28,7 +28,6 @@ public class Game implements IModule {
 
 	public static final float UNIT = 16f; // Square/box size
 	
-	//public static final Random random = new Random();
 	public static final CollisionDetector collision = new CollisionDetector();
 	public static final Art art = new Art();
 	public static final Audio audio = new Audio();
@@ -48,7 +47,7 @@ public class Game implements IModule {
 
 	private DecalManager decalManager;
 
-	private static final int downscale = 1;
+	//private static final int downscale = 1;
 
 	private static boolean transition = true;
 	private static float transitionProgress = 0f;
@@ -60,10 +59,9 @@ public class Game implements IModule {
 	
 	public static AbstractLevel gameLevel;
 	
-	public Game() {//int retro, int diff, int lookSens) {
-		//downscale = scales[retro];
+	public Game() {
 		batch2d = new SpriteBatch();
-		font = new BitmapFont(Gdx.files.internal("font.fnt"));
+		font = new BitmapFont(Gdx.files.internal("font/spectrum1white.fnt"));
 
 		shaderProvider = new GameShaderProvider();
 		batch = new ModelBatch(shaderProvider);
@@ -85,7 +83,7 @@ public class Game implements IModule {
 
 		gameLevel = new TheBurdenLair(this.entityManager, this.decalManager);
 
-		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth()/downscale, Gdx.graphics.getHeight()/downscale, true);
+		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 	}
 
@@ -193,7 +191,7 @@ public class Game implements IModule {
 		batch2d.draw(frameBuffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), - Gdx.graphics.getHeight());
 
 		if (!transition) {
-			player.renderUI(batch2d, font, downscale);
+			player.renderUI(batch2d, font);
 		}
 
 		if (Settings.SHOW_FPS) {

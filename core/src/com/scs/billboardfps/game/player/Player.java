@@ -339,12 +339,14 @@ public class Player implements IDamagable {
 	}
 
 
-	public void renderUI(SpriteBatch batch, BitmapFont font, int downscale) {
+	public void renderUI(SpriteBatch batch, BitmapFont font) {
+		//font.draw(batch, "Test", Gdx.graphics.getWidth() / 2 - 32, Gdx.graphics.getHeight() / 2 + 50/8);
+
 		if (interactTarget != null) {
 			String str = interactTarget.getInteractText(this);
 			int w2 = str.length() * 8;
 			font.setColor(1,1,1,1);
-			font.draw(batch, str, Gdx.graphics.getWidth() / 2 - w2, Gdx.graphics.getHeight() / 2 + 50/downscale + 8);
+			font.draw(batch, str, Gdx.graphics.getWidth() / 2 - w2, Gdx.graphics.getHeight() / 2 + 50/8);
 		}
 
 		int sx = Gdx.graphics.getWidth()/2 - health*18;
