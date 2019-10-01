@@ -22,7 +22,7 @@ public class SnowBarrier extends Entity implements IAttackable, IDamagable {
     
     @Override
     public void damaged(int amt, Vector3 direction) {
-    	Game.world.world[world_x + world_y * Game.world.width].type = World.NOTHING;
+    	Game.world.world[world_x][world_y].type = World.NOTHING;
         attackable = false;
         decalEntity.decal = destroyedDecal;
         Game.audio.play("hurt");

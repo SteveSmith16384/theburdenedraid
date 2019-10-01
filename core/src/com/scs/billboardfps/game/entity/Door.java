@@ -26,8 +26,8 @@ public final class Door extends Entity implements IInteractable {
 
     @Override
     public void interact(Player player){
-        if (locked && player.inventory.keys>0) {
-        	Game.world.world[world_x + world_y * Game.world.width].type = World.NOTHING;
+        if (locked && player.inventory.keys > 0) {
+        	Game.world.world[world_x][world_y].type = World.NOTHING;
             decalEntity.decal = openDecal;
             interactable = false;
             player.inventory.keys--;

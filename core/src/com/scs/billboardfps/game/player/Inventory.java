@@ -1,5 +1,7 @@
 package com.scs.billboardfps.game.player;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,9 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.scs.billboardfps.Settings;
-import com.scs.billboardfps.game.Game;
-
-import java.util.ArrayList;
 
 public class Inventory {
 
@@ -90,11 +89,11 @@ public class Inventory {
 
         if(gameComplete) {
             CarriedItem item = new CarriedItem(itemTexture, tx, ty);
-            item.position = new Vector2(Game.random.nextFloat(), Game.random.nextFloat());
+            item.position = new Vector2(Settings.random.nextFloat(), Settings.random.nextFloat());
             items.add(item);
 
             item = new CarriedItem(itemTexture, tx, ty);
-            item.position = new Vector2(Game.random.nextFloat(), Game.random.nextFloat());
+            item.position = new Vector2(Settings.random.nextFloat(), Settings.random.nextFloat());
             items.add(item);
 
             return;
@@ -119,7 +118,7 @@ public class Inventory {
         }
 
         CarriedItem item = new CarriedItem(itemTexture, tx, ty);
-        ItemPos ip = options.get(Game.random.nextInt(options.size()));
+        ItemPos ip = options.get(Settings.random.nextInt(options.size()));
         item.position = ip.position;
 
         items.add(item);

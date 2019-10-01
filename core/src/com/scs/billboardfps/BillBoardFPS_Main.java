@@ -15,7 +15,7 @@ public class BillBoardFPS_Main extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		current_module = new Game(0, 0, 1);//menu.retro, menu.difficulty, menu.lookSensitivity);
+		current_module = new Game();//menu.retro, menu.difficulty, menu.lookSensitivity);
 	}
 
 

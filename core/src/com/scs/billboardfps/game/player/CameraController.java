@@ -30,7 +30,7 @@ public class CameraController {
 	final float maxLookY = 80f;
 	float lookY = 0f;
 
-	public CameraController(Camera cam, int sens){
+	public CameraController(Camera cam, int sens) {
 		camera = cam;
 		tmp = new Vector3();
 

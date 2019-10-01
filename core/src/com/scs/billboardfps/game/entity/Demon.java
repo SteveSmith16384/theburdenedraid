@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 
@@ -83,7 +84,7 @@ public final class Demon extends Enemy {
 
 			if (attackTimer > 2f) {
 				speed = 0;
-				attackTimer = -Game.random.nextFloat();
+				attackTimer = -Settings.random.nextFloat();
 				decalEntity.decal = decal1;
 			}
 

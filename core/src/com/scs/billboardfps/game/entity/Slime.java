@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 
@@ -32,7 +33,7 @@ public final class Slime extends Enemy {
         jumpDecal = Decal.newDecal(tex[1][0], true);
         airDecal = Decal.newDecal(tex[2][0], true);
 
-        jumpTimer = Game.random.nextFloat() + .5f;
+        jumpTimer = Settings.random.nextFloat() + .5f;
     }
 
     
@@ -79,7 +80,7 @@ public final class Slime extends Enemy {
                 direction.set(Game.player.getPosition()).sub(position).nor();
                 direction.y = 0f;
 
-                direction.rotate(Vector3.Y, Game.random.nextFloat() * 20f - 10f);
+                direction.rotate(Vector3.Y, Settings.random.nextFloat() * 20f - 10f);
                 direction.scl(Gdx.graphics.getDeltaTime() * speed * Game.UNIT);
 
             }
@@ -94,7 +95,7 @@ public final class Slime extends Enemy {
             if (position.y <= 0 && offsetY <= 0) {
                 position.y = 0;
                 offsetY = 0;
-                jumpTimer = Game.random.nextFloat() * 1.25f + .5f;
+                jumpTimer = Settings.random.nextFloat() * 1.25f + .5f;
             }
             tryMove(world, moveVec, true);
         } else if (jumpTimer < .2f) {

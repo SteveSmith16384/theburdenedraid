@@ -1,6 +1,7 @@
 package com.scs.billboardfps.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 
@@ -23,7 +24,7 @@ public final class Goal extends Entity {
                 if (ent instanceof LootEntity){
                     if(ent.position.dst2(Game.player.getPosition())<(Game.UNIT*5)*(Game.UNIT*5)){
                         ((LootEntity)ent).isAttracted = true;
-                        ((LootEntity)ent).attractWaitTime = Game.random.nextFloat();
+                        ((LootEntity)ent).attractWaitTime = Settings.random.nextFloat();
                     }
                 }
             }

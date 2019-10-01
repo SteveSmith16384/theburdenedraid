@@ -35,8 +35,8 @@ public class Ladder extends Entity implements IInteractable {
         	return;
         }
 
-        player.getPosition().x = Game.world.playersStartMapX*Game.UNIT;
-        player.getPosition().z = Game.world.playerStartMapY*Game.UNIT;
+        player.getPosition().x = Game.gameLevel.getPlayerStartX()*Game.UNIT;
+        player.getPosition().z = Game.gameLevel.getPlayerStartY()*Game.UNIT;
         Game.audio.play("ladder");
         Game.changeLevel(targetLevel);
     }

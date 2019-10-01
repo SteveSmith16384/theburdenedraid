@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.decals.DecalEntity;
@@ -28,12 +29,12 @@ public final class LootEntity extends Entity {
 		
 		texture = tex;
 
-		type = Game.random.nextInt(MAX_LOOT_TYPES)+1;
+		type = Settings.random.nextInt(MAX_LOOT_TYPES)+1;
 		tx = type%4;
 		ty = type/4;
 
 		decalEntity = new DecalEntity(tex[tx][ty]);
-		position = new Vector3(x+Game.random.nextFloat()*Game.UNIT/2-Game.UNIT/4, 0, y+Game.random.nextFloat()*Game.UNIT/2-Game.UNIT/4);
+		position = new Vector3(x+Settings.random.nextFloat()*Game.UNIT/2-Game.UNIT/4, 0, y+Settings.random.nextFloat()*Game.UNIT/2-Game.UNIT/4);
 
 		decalEntity.faceCameraTilted = true;
 		decalEntity.decal.setScale(decalEntity.decal.getScaleX()/2f);

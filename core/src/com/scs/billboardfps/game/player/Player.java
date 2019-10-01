@@ -67,7 +67,7 @@ public class Player implements IDamagable {
 
 		cameraController = new CameraController(camera, lookSens);
 
-		position = new Vector3(world.playersStartMapX * Game.UNIT,0f,world.playerStartMapY * Game.UNIT);
+		position = new Vector3();//world.playersStartMapX * Game.UNIT, 0f, world.playerStartMapY * Game.UNIT);
 		moveVector = new Vector3();
 		tmpVector = new Vector3();
 
@@ -98,11 +98,11 @@ public class Player implements IDamagable {
 	}
 
 
-	public void update(EntityManager entityManager) {
+	public void update() {
 		move();
 		gravity();
-		checkForAttack(entityManager);
-		interact(entityManager);
+		checkForAttack();
+		interact();
 
 		cameraController.update();
 
@@ -117,7 +117,7 @@ public class Player implements IDamagable {
 		} else {
 			// Check if any enemies are harming us
 			//float hurtDistance = Game.UNIT * .5f;
-			for (Entity ent : entityManager.getEntities()) {
+			for (Entity ent : Game.entityManager.getEntities()) {
 				if (ent instanceof IHarmsPlayer) {
 					IHarmsPlayer hp = (IHarmsPlayer)ent;
 					if (hp.harmsPlayer()) {
@@ -132,7 +132,7 @@ public class Player implements IDamagable {
 	}
 
 
-	private void interact(EntityManager entityManager) {
+	private void interact() {
 		interactTarget = null;
 
 		float dist = 0f;
@@ -140,7 +140,7 @@ public class Player implements IDamagable {
 
 		Vector3 hitPos = new Vector3().set(position).mulAdd(camera.direction, Game.UNIT/2f);
 
-		for(Entity ent : entityManager.getEntities()) {
+		for(Entity ent : Game.entityManager.getEntities()) {
 			if (ent instanceof IInteractable) {
 				IInteractable ii = (IInteractable)ent;
 				if (ii.isInteractable()) {
@@ -160,7 +160,7 @@ public class Player implements IDamagable {
 	}
 
 
-	private void checkForAttack(EntityManager entityManager) {
+	private void checkForAttack() {
 		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && attackAnimation<=0){
 			attackAnimation = 1.0f;
 			didAttack = false;
@@ -216,7 +216,7 @@ public class Player implements IDamagable {
 
 		if (attackAnimation < 0.3f && !didAttack) {
 			didAttack = true;
-			checkAttackHit(entityManager);
+			checkAttackHit();
 
 			if (Settings.PLAYER_SHOOTING) {
 				Entity b = new ChaosBolt(this, this.position, camera.direction);
@@ -226,13 +226,13 @@ public class Player implements IDamagable {
 	}
 
 
-	private void checkAttackHit(EntityManager entityManager) {
+	private void checkAttackHit() {
 		IDamagable closest = null;
 		float dist = 0f;
 
 		Vector3 tmp = new Vector3();
 
-		for (Entity ent : entityManager.getEntities()) {
+		for (Entity ent : Game.entityManager.getEntities()) {
 			if(ent instanceof IAttackable == false) {
 				continue;
 			}
@@ -252,7 +252,7 @@ public class Player implements IDamagable {
 
 		}
 
-		if (closest != null){
+		if (closest != null) {
 			closest.damaged(1, this.camera.direction);
 		}
 
@@ -278,12 +278,13 @@ public class Player implements IDamagable {
 
 
 	private void move() {
+		//showPosition();
 		float dt = Gdx.graphics.getDeltaTime();
 
 		moveVector.setZero();
 
 		//Movement
-		if (Settings.DEBUG_MOVEMENT || Gdx.input.isKeyPressed(Input.Keys.W)) {
+		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			tmpVector.set(camera.direction);
 			tmpVector.y = 0;
 			moveVector.add(tmpVector.nor().scl(dt * moveSpeed));
@@ -302,26 +303,34 @@ public class Player implements IDamagable {
 			moveVector.add(tmpVector.nor().scl(dt * moveSpeed));
 		}
 
-		float colX = moveVector.x==0 ? 0 : (moveVector.x>0 ? 1 : -1);
-		float colZ = moveVector.z==0 ? 0 : (moveVector.z>0 ? 1 : -1);
+		if (moveVector.len2() > 0) {
+			float colX = moveVector.x==0 ? 0 : (moveVector.x>0 ? 1 : -1);
+			float colZ = moveVector.z==0 ? 0 : (moveVector.z>0 ? 1 : -1);
 
-		if (world.getMapSquareAt(position.x + moveVector.x + colX * colliderSize, position.z) == World.NOTHING) {
-			position.add(moveVector.x, 0, 0);
-		}
-		if (world.getMapSquareAt(position.x, position.z + moveVector.z + colZ * colliderSize) == World.NOTHING) {
-			position.add(0, 0, moveVector.z);
+			if (world.getMapSquareAt(position.x + moveVector.x + colX * colliderSize, position.z) == World.NOTHING) {
+				position.add(moveVector.x, 0, 0);
+			}
+			if (world.getMapSquareAt(position.x, position.z + moveVector.z + colZ * colliderSize) == World.NOTHING) {
+				position.add(0, 0, moveVector.z);
+			}
 		}
 
 		camera.position.set(position.x, position.y + playerHeight, position.z);
 
-		if (moveVector.len2() > 0){
+		if (moveVector.len2() > 0) {
 			footstepTimer += Gdx.graphics.getDeltaTime();
 
-			if (footstepTimer>0.45f){
+			if (footstepTimer > 0.45f) {
 				footstepTimer -= 0.45f;
 				Game.audio.play("step");
 			}
 		}
+		//showPosition();
+	}
+
+
+	private void showPosition() {
+		Settings.p("Player pos: " + this.position);
 	}
 
 
@@ -331,7 +340,7 @@ public class Player implements IDamagable {
 
 
 	public void renderUI(SpriteBatch batch, BitmapFont font, int downscale) {
-		if(interactTarget != null) {
+		if (interactTarget != null) {
 			String str = interactTarget.getInteractText(this);
 			int w2 = str.length() * 8;
 			font.setColor(1,1,1,1);
@@ -348,7 +357,7 @@ public class Player implements IDamagable {
 			batch.draw(heart, sx + i*36, Gdx.graphics.getHeight()-40, 32, 32);
 		}
 
-		if(hurtTimer>0 && (int)(hurtTimer*5)%2==0){
+		if (hurtTimer > 0 && (int)(hurtTimer*5)%2 == 0) {
 			batch.setColor(1,1,1,.25f);
 			batch.draw(hurtTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 			batch.setColor(1,1,1,1);
@@ -375,4 +384,6 @@ public class Player implements IDamagable {
 	public void resetHealth() {
 		this.health = this.max_health;
 	}
+
 }
+

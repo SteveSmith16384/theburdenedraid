@@ -15,7 +15,7 @@ public class NewBarrel extends Entity {
 		Texture tex = new Texture(Gdx.files.internal("barrel.png"));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
 		this.decalEntity = new DecalEntity(tr);
-		//decalEntity.decal.transformationOffset = new Vector2(.5f, .5f); // todo - fix this
+		//decalEntity.decal.transformationOffset = new Vector2(.5f, .5f);
 		//decalEntity.setScalePropertionToSqSize(.6f);
 		decalEntity.faceCamera = true;
 		

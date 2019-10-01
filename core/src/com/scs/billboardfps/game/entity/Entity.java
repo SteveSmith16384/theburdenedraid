@@ -9,12 +9,12 @@ import com.scs.billboardfps.game.decals.DecalEntity;
 
 public class Entity {
 
-	protected Vector3 position;
-	protected boolean remove = false;
+	public Vector3 position;
+	public boolean remove = false;
 	protected DecalEntity decalEntity;
 	protected TextureRegion texture[][];
 	protected int world_x, world_y;
-	protected String name;
+	public String name;
 	protected float sizeAsFracOfMapsquare = 0.75f;
 
 	
@@ -47,7 +47,7 @@ public class Entity {
 	public void bindWorldTile(World wrld, int tx, int ty) {
 		world_x = tx;
 		world_y = ty;
-		wrld.world[tx + ty*wrld.width].type = World.BLOCKED;
+		wrld.world[tx][ty].type = World.BLOCKED;
 	}
 
 

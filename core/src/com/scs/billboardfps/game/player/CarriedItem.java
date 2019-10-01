@@ -1,10 +1,9 @@
 package com.scs.billboardfps.game.player;
 
-import java.util.Random;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 
 public class CarriedItem {
@@ -19,7 +18,7 @@ public class CarriedItem {
 
         sprite = new Sprite(src, tx*unit, ty*unit, unit, unit);
 
-        rotation = new Random().nextFloat()*40 - 20;
+        rotation = Settings.random.nextFloat()*40 - 20;
     }
 
 }
