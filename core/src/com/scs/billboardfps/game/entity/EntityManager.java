@@ -2,14 +2,10 @@ package com.scs.billboardfps.game.entity;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.Vector3;
-import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.decals.DecalManager;
-import com.scs.billboardfps.game.entity.chaos.Wraith;
 
 public class EntityManager {
 

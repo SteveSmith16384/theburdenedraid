@@ -30,7 +30,7 @@ public final class FlyingSkull extends Enemy {
     @Override
     public void death() {
         super.death();
-        Game.entityManager.dropLoot(position);//.add(new LootEntity(Game.art.items, position.x, position.z));
+        Game.entityManager.dropLoot(position);
     }
     
 

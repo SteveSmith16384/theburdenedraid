@@ -14,7 +14,7 @@ public final class Goal extends Entity {
 
     @Override
     public void update(World world) {
-        decalEntity.decal.setPosition(0,10,10);
+        decalEntity.decal.setPosition(0, 10, 10);
 
         if(position.dst2(Game.player.getPosition())< (Game.UNIT*2)*(Game.UNIT*2)) {
             Game.player.inventory.gameComplete = true;
@@ -30,11 +30,9 @@ public final class Goal extends Entity {
             }
 
             remove = true;
-
             Game.gameComplete = true;
 
         }
-
 
     }
 

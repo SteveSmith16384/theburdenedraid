@@ -1,25 +1,10 @@
 package com.scs.billboardfps.game;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
-import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.data.WorldSquare;
-import com.scs.billboardfps.game.decals.DecalEntity;
-import com.scs.billboardfps.game.decals.DecalManager;
-import com.scs.billboardfps.game.entity.EntityManager;
-import com.scs.billboardfps.game.entity.FloorSquare;
-import com.scs.billboardfps.game.renderable.RenderData;
 
 public class World {
 
@@ -27,22 +12,10 @@ public class World {
 	public static final int WALL = 1;
 	public static final int BLOCKED = 2;
 
-	public WorldSquare world[][]; // todo - make 2d
-	//public int width;
-	//public int height;
-
-	//public int playersStartMapX, playerStartMapY;
-
-	public ArrayList<ModelInstance> modelInstances = new ArrayList<ModelInstance>();
-
+	public WorldSquare world[][];
 	public TextureRegion detailTexture[];
 
-	public ArrayList<ModelInstance> specialBlocks;
-
-	public World(DecalManager decalMan, EntityManager entityMan) {
-		//entityManager = entityMan;
-		//decalManager = decalMan;
-
+	public World() {
 		Texture detailTex = new Texture(Gdx.files.internal("detail.png"));
 
 		int w = detailTex.getWidth()/16;
@@ -55,9 +28,6 @@ public class World {
 				detailTexture[x + y*w] = new TextureRegion(detailTex, x*16, y*16, 16, 16);
 			}
 		}
-
-		//load(Settings.START_LEVEL.length() > 0 ? Settings.START_LEVEL : Settings.levelOrder[0]);
-
 	}
 
 
@@ -67,13 +37,8 @@ public class World {
 			return WALL;
 		}
 
-		//int t = x + y*width;
-		//if(t < world.length) {
 		try {
 			return world[x][y].type;
-			/*} else {
-			return WALL;
-		}*/
 		} catch (ArrayIndexOutOfBoundsException ex) {
 			return WALL;
 		}

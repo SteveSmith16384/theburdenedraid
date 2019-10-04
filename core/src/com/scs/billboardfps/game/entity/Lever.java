@@ -47,6 +47,7 @@ public class Lever extends Entity implements IInteractable {
         }
         Game.audio.play("door");
     }
+    
 
     @Override
     public String getInteractText(Player player) {

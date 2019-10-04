@@ -52,6 +52,8 @@ public class TheBurdenLair extends AbstractLevel {
 	private boolean solvedLevers = false;
 	private boolean leverComplete = false;
 
+	public ArrayList<ModelInstance> specialBlocks;
+
 	public TheBurdenLair(EntityManager _entityManager, DecalManager _decalManager) {
 		super(_entityManager, _decalManager);
 
@@ -61,8 +63,8 @@ public class TheBurdenLair extends AbstractLevel {
 
 
 	@Override
-	public void load() {//String level) {
-		Game.world.modelInstances.clear();
+	public void load(Game game) {//String level) {
+		specialBlocks = new ArrayList<ModelInstance>();
 
 		previousLevelName = currentLevelName;
 		currentLevelName = this.targetLevel;
@@ -75,13 +77,13 @@ public class TheBurdenLair extends AbstractLevel {
 
 		Pixmap pixmap = texture.getTextureData().consumePixmap();
 
-		width = pixmap.getWidth();
-		height = pixmap.getHeight();
+		map_width = pixmap.getWidth();
+		map_height = pixmap.getHeight();
 
-		Game.world.world = new WorldSquare[width][height];
+		Game.world.world = new WorldSquare[map_width][map_height];
 
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		for (int x = 0; x < map_width; x++) {
+			for (int y = 0; y < map_height; y++) {
 				Game.world.world[x][y] = new WorldSquare();//NOTHING;
 
 				int pix = pixmap.getPixel(x,y);
@@ -130,7 +132,7 @@ public class TheBurdenLair extends AbstractLevel {
 			}
 		}
 
-		createModels();
+		createModels(game);
 
 		if (currentLevelName.equals(DEMON_LAIR)) {
 			return;
@@ -243,11 +245,11 @@ public class TheBurdenLair extends AbstractLevel {
 
 
 	private void addDetail() {
-		int count = width*height / 3;
+		int count = map_width*map_height / 3;
 
 		for (int i = 0; i < count; i++) {
-			int x = Settings.random.nextInt(width);
-			int y = Settings.random.nextInt(height);
+			int x = Settings.random.nextInt(map_width);
+			int y = Settings.random.nextInt(map_height);
 
 			if (Game.world.getMapSquareAt(x,y) == World.NOTHING) {
 				DecalEntity ent = new DecalEntity(Game.world.detailTexture[Settings.random.nextInt(2)]);
@@ -260,7 +262,7 @@ public class TheBurdenLair extends AbstractLevel {
 	}
 
 
-	private void createModels() {
+	private void createModels(Game game) {
 		int tileType = getTileType(currentLevelName);
 
 		ModelBuilder modelBuilder = new ModelBuilder();
@@ -269,29 +271,25 @@ public class TheBurdenLair extends AbstractLevel {
 		Material material = new Material(TextureAttribute.createDiffuse(tiles));		
 		Model box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 
-		Game.world.modelInstances = new ArrayList<ModelInstance>();
-		Game.world.specialBlocks = new ArrayList<ModelInstance>();
+		game.modelInstances = new ArrayList<ModelInstance>();
+		specialBlocks = new ArrayList<ModelInstance>();
 
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
+		for (int x = 0; x < map_width; x++) {
+			for (int y = 0; y < map_height; y++) {
 				int block = Game.world.world[x][y].type;
 				if (block == World.WALL) {
 					ModelInstance instance = new ModelInstance(box_model);
 					instance.transform.translate(x*Game.UNIT, Game.UNIT/2f, y*Game.UNIT);
 					instance.transform.rotate(Vector3.Z, 90);
-					if (Settings.TRY_NEW_TEX) {
-						//instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE);
-					} else {
-						instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 0, tileType, 6, 6);
-					}
-					Game.world.modelInstances.add(instance);
+					instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 0, tileType, 6, 6);
+					game.modelInstances.add(instance);
 				} else if(block >= 3 && block <= 5) {
 					ModelInstance instance = new ModelInstance(box_model);
 					instance.transform.translate(x* Game.UNIT,Game.UNIT/2f, y*Game.UNIT);
 					instance.transform.rotate(Vector3.Z, 90);
 					instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 3+block-3, tileType, 6, 6);
-					Game.world.modelInstances.add(instance);
-					Game.world.specialBlocks.add(instance);
+					game.modelInstances.add(instance);
+					specialBlocks.add(instance);
 				}
 
 			}
@@ -300,26 +298,26 @@ public class TheBurdenLair extends AbstractLevel {
 
 		//Create floor
 		Model floor = modelBuilder.createRect(
-				0f,0f, (float) height*Game.UNIT,
-				(float)width*Game.UNIT,0f, (float)height*Game.UNIT,
-				(float)width*Game.UNIT, 0f, 0f,
+				0f,0f, (float) map_height*Game.UNIT,
+				(float)map_width*Game.UNIT,0f, (float)map_height*Game.UNIT,
+				(float)map_width*Game.UNIT, 0f, 0f,
 				0f,0f,0f,
 				1f,1f,1f,
 				material,
 				VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 		ModelInstance instance = new ModelInstance(floor);
-		instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 1, tileType, 6, 6, width, height);
-		Game.world.modelInstances.add(instance);
+		instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 1, tileType, 6, 6, map_width, map_height);
+		game.modelInstances.add(instance);
 
 		// ceiling
-		if (Settings.HIDE_CEILING == false) {
-			instance = new ModelInstance(floor);
-			instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 2, tileType, 6, 6, width, height);
-			instance.transform.translate(0, Game.UNIT,0);
-			instance.transform.rotate(Vector3.X, 180);
-			instance.transform.translate(0,0,-(float)width* Game.UNIT);
-			Game.world.modelInstances.add(instance);
-		}
+		//if (Settings.HIDE_CEILING == false) {
+		instance = new ModelInstance(floor);
+		instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 2, tileType, 6, 6, map_width, map_height);
+		instance.transform.translate(0, Game.UNIT,0);
+		instance.transform.rotate(Vector3.X, 180);
+		instance.transform.translate(0,0,-(float)map_width* Game.UNIT);
+		game.modelInstances.add(instance);
+		//}
 
 	}
 
@@ -346,7 +344,7 @@ public class TheBurdenLair extends AbstractLevel {
 
 
 	@Override
-	public void update(World world) {
+	public void update(Game game, World world) {
 		if (!solvedLevers && levers.size() > 0) {
 			boolean isCorrect = true;
 			for (int i = 0; i < levers.size(); i++) {
@@ -368,14 +366,14 @@ public class TheBurdenLair extends AbstractLevel {
 		if (solvedLevers && !leverComplete) {
 			// Move walls down
 			Vector3 tmp = new Vector3();
-			for (ModelInstance inst : world.specialBlocks) {
+			for (ModelInstance inst : specialBlocks) {
 				inst.transform.translate(-Gdx.graphics.getDeltaTime()*Game.UNIT, 0, 0);
 				inst.transform.getTranslation(tmp);
 			}
 			// Is wall movement complete?
 			if (tmp.y < -Game.UNIT/1.9f) {
-				for (int y = 0; y < height; y++) {
-					for (int x = 0; x < width; x++) {
+				for (int y = 0; y < map_height; y++) {
+					for (int x = 0; x < map_width; x++) {
 						if (world.world[x][y].type >=3 && world.world[x][y].type <=5) {
 							world.world[x][y].type  = World.NOTHING;
 						}
@@ -409,7 +407,7 @@ public class TheBurdenLair extends AbstractLevel {
 	@Override
 	public void levelComplete() {
 		this.targetLevel = getNextLevel();
-		
+
 	}
 
 

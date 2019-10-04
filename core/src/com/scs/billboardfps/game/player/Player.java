@@ -18,7 +18,6 @@ import com.scs.billboardfps.game.components.IDamagable;
 import com.scs.billboardfps.game.components.IHarmsPlayer;
 import com.scs.billboardfps.game.components.IInteractable;
 import com.scs.billboardfps.game.entity.Entity;
-import com.scs.billboardfps.game.entity.EntityManager;
 import com.scs.billboardfps.game.entity.chaos.ChaosBolt;
 
 public class Player implements IDamagable {

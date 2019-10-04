@@ -12,11 +12,10 @@ public class Entity {
 	public Vector3 position;
 	public boolean remove = false;
 	protected DecalEntity decalEntity;
-	protected TextureRegion texture[][];
+	protected TextureRegion textureRegion[][];
 	protected int world_x, world_y;
 	public String name;
-	protected float sizeAsFracOfMapsquare = 0.75f;
-
+	protected float sizeAsFracOfMapsquare = 0.75f; // For wall collisions
 	
 	public Entity(String _name) {
 		name = _name;
@@ -38,7 +37,7 @@ public class Entity {
 	public Entity(String name, TextureRegion tex[][], int map_x, int map_y, int tx, int ty) {
 		this(name, map_x, map_y);
 		
-		texture = tex;
+		textureRegion = tex;
 
 		decalEntity = new DecalEntity(tex[tx][ty]);
 
