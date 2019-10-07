@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
-import com.scs.billboardfps.game.components.IInteractable;
+import com.scs.billboardfps.game.interfaces.IInteractable;
 import com.scs.billboardfps.game.player.Player;
 
 public final class Door extends Entity implements IInteractable {

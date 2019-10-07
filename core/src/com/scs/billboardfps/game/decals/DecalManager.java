@@ -30,11 +30,8 @@ public class DecalManager {
     public void remove(DecalEntity ent) {
         decals.remove(ent);
     }
-/*
-    public DecalBatch getBatch() {
-        return batch;
-    }
-*/
+
+
     public void clear() {
         decals.clear();
     }

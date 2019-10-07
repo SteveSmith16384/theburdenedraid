@@ -1,40 +1,40 @@
 package com.scs.billboardfps.game.entity.androids;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
-import com.scs.billboardfps.game.World;
-import com.scs.billboardfps.game.entity.Enemy;
+import com.scs.billboardfps.game.components.HasDecal;
+import com.scs.billboardfps.game.components.HasPositionAndRotation;
 
-public class AndroidsAndroid extends Enemy {
-
-    private static final float speed = 2f;
-
-    private Vector3 direction = new Vector3();
-    private Decal decal1, decal2;
-    private float animTimer = 0f;
+public class AndroidsAndroid extends AbstractEntity {
 
     public AndroidsAndroid(int x, int y) {
-        super(AndroidsAndroid.class.getSimpleName(), null, x, y, 0, 2); // todo
+        super(AndroidsAndroid.class.getSimpleName());//, null, x, y, 0, 2);
 
-        decal1 = decalEntity.decal;
-        //decal2 = Decal.newDecal(tex[1][2], true);
+        HasPositionAndRotation pos = new HasPositionAndRotation();
+        pos.position = new Vector3(x*Game.UNIT, 0, y*Game.UNIT);
+        this.addComponent(pos);
+        
+		HasDecal hasDecal = new HasDecal();
+		Texture tex = new Texture(Gdx.files.internal("androids/android.png"));
+		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
 
-        health = 2;
+        hasDecal.decal = Decal.newDecal(tr, true);
+        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth()); // Scale to sq size by default
+        hasDecal.decal.setPosition(pos.position);
+
+        hasDecal.faceCamera = true;
+        hasDecal.faceCameraTilted = true;
+        
+        this.addComponent(hasDecal);
+        
     }
     
-
-    @Override
-    public void death() {
-        super.death();
-        Game.entityManager.dropLoot(position);
-    }
-    
-
+/*
     @Override
     public void update(World world) {
         super.update(world);
@@ -65,5 +65,5 @@ public class AndroidsAndroid extends Enemy {
 
 
     }
-
+*/
 }

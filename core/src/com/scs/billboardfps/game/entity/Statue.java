@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
-import com.scs.billboardfps.game.components.IInteractable;
+import com.scs.billboardfps.game.interfaces.IInteractable;
 import com.scs.billboardfps.game.player.Player;
 
 public final class Statue extends Entity implements IInteractable {

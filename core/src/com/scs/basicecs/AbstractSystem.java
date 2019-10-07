@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.scs.billboardfps.Settings;
-
 public abstract class AbstractSystem {
 
 	protected BasicECS ecs;
-	protected List<AbstractEntity> entities;// = new ArrayList<AbstractEntity>();
+	protected List<AbstractEntity> entities;
 
 	public AbstractSystem(BasicECS _ecs) {
 		this.ecs = _ecs;
@@ -22,7 +20,11 @@ public abstract class AbstractSystem {
 	}
 
 
-	public Class<Object> getEntityClass() {
+	/**
+	 * Override
+	 * @return
+	 */
+	public Class<?> getEntityClass() {
 		return null;
 	}
 

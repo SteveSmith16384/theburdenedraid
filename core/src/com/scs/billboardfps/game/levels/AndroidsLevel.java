@@ -12,12 +12,14 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.data.WorldSquare;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entity.EntityManager;
+import com.scs.billboardfps.game.entity.androids.AndroidsAndroid;
 import com.scs.billboardfps.game.entity.androids.GSquare;
 import com.scs.billboardfps.game.entity.androids.SSquare;
 import com.scs.billboardfps.game.entity.androids.SlidingDoor;
@@ -66,8 +68,8 @@ public class AndroidsLevel extends AbstractLevel {
 
 				case 247909119: // door?
 				case 336565503:
-					SlidingDoor door = new SlidingDoor(mapX, mapZ);
-					Game.entityManager.add(door);
+					//todo SlidingDoor door = new SlidingDoor(mapX, mapZ);
+					//Game.entityManager.add(door);
 					break;
 
 				case 1338133247: // baddy?
@@ -111,6 +113,14 @@ public class AndroidsLevel extends AbstractLevel {
 		/*FloorSquare fs = new FloorSquare(playerStartMapX-1, playerStartMapY-1);
 		Game.entityManager.add(fs);
 		game.modelInstances.add(fs.instance);*/
+		AbstractEntity e = new AndroidsAndroid(playerStartMapX-1, playerStartMapY-1);
+		game.basicEcs.addEntity(e);
+		e = new AndroidsAndroid(playerStartMapX-1, playerStartMapY+1);
+		game.basicEcs.addEntity(e);
+		e = new AndroidsAndroid(playerStartMapX+1, playerStartMapY-1);
+		game.basicEcs.addEntity(e);
+		e = new AndroidsAndroid(playerStartMapX+1, playerStartMapY+1);
+		game.basicEcs.addEntity(e);
 
 	}
 

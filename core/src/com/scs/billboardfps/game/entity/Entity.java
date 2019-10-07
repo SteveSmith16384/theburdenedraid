@@ -3,22 +3,23 @@ package com.scs.billboardfps.game.entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.decals.DecalEntity;
 
-public class Entity {
+public class Entity extends AbstractEntity {
+
+	protected float sizeAsFracOfMapsquare = 0.75f; // For wall collisions
 
 	public Vector3 position;
 	public boolean remove = false;
 	protected DecalEntity decalEntity;
 	protected TextureRegion textureRegion[][];
 	protected int world_x, world_y;
-	public String name;
-	protected float sizeAsFracOfMapsquare = 0.75f; // For wall collisions
 	
 	public Entity(String _name) {
-		name = _name;
+		super(_name);
 	}
 
 	

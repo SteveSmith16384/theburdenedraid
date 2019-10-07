@@ -3,7 +3,7 @@ package com.scs.billboardfps.game.entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
-import com.scs.billboardfps.game.components.IInteractable;
+import com.scs.billboardfps.game.interfaces.IInteractable;
 import com.scs.billboardfps.game.player.Player;
 
 public class Ladder extends Entity implements IInteractable {

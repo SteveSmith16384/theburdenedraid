@@ -23,6 +23,4 @@ public class NewBarrel extends Entity {
 
 	}
 
-
-
 }

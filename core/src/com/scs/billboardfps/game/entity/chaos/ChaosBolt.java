@@ -8,9 +8,9 @@ import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Art;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
-import com.scs.billboardfps.game.components.IDamagable;
 import com.scs.billboardfps.game.decals.DecalEntity;
 import com.scs.billboardfps.game.entity.Entity;
+import com.scs.billboardfps.game.interfaces.IDamagable;
 
 public class ChaosBolt extends Entity {
 

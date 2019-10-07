@@ -7,7 +7,7 @@ import java.util.List;
 
 public class BasicECS {
 
-	private HashMap<Class, AbstractSystem> systems = new HashMap<Class, AbstractSystem>();
+	private HashMap<Class<?>, AbstractSystem> systems = new HashMap<Class<?>, AbstractSystem>();
 	private List<AbstractEntity> entities = new ArrayList<AbstractEntity>();
 	private List<AbstractEntity> to_add_entities = new ArrayList<AbstractEntity>();
 
@@ -26,7 +26,18 @@ public class BasicECS {
 	}
 
 
-	public void process() {
+	/**
+	 * In your game loop, you can either call this method, or call the process()
+	 * method on all your systems individually as required.
+	 */
+	public void processAllSystems() {
+		for (AbstractSystem system : this.systems.values()) {
+			system.process();
+		}
+	}
+	
+	
+	public void addAndRemoveEntities() {
 		// Remove any entities
 		for (int i = this.entities.size()-1 ; i >= 0; i--) {
 			AbstractEntity entity = this.entities.get(i);
@@ -35,7 +46,7 @@ public class BasicECS {
 
 				// Remove from systems
 				for(AbstractSystem system : this.systems.values()) {
-					Class clazz = system.getEntityClass();
+					Class<?> clazz = system.getEntityClass();
 					if (clazz != null) {
 						if (entity.getComponents().containsKey(clazz)) {
 							//MyGdxGame.p("Removing " + entity + " from " + system + " system");
@@ -77,15 +88,10 @@ public class BasicECS {
 	}
 
 	public void removeAllEntities() {
-		/*while (this.entities.size() > 0) {
-			AbstractEntity entity = this.entities.get(0);
-			this.entities.remove(entity);
-			//this.eventListener.EntityRemoved(entity);
-		}*/
 		for(AbstractEntity e : this.entities) {
 			e.remove();
 		}
+		this.to_add_entities.clear();
 	}
-
 
 }

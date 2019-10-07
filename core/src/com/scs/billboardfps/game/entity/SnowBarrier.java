@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
-import com.scs.billboardfps.game.components.IAttackable;
-import com.scs.billboardfps.game.components.IDamagable;
+import com.scs.billboardfps.game.interfaces.IAttackable;
+import com.scs.billboardfps.game.interfaces.IDamagable;
 
 public class SnowBarrier extends Entity implements IAttackable, IDamagable {
 

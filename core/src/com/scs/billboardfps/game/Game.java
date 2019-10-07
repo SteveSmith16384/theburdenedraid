@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g3d.utils.ShaderProvider;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.basicecs.BasicECS;
 import com.scs.billboardfps.Audio;
 import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.decals.DecalManager;
@@ -25,6 +26,7 @@ import com.scs.billboardfps.game.player.CameraController;
 import com.scs.billboardfps.game.player.Inventory;
 import com.scs.billboardfps.game.player.Player;
 import com.scs.billboardfps.game.renderable.GameShaderProvider;
+import com.scs.billboardfps.game.systems.DrawDecalSystem;
 import com.scs.billboardfps.modules.IModule;
 
 public class Game implements IModule {
@@ -38,7 +40,7 @@ public class Game implements IModule {
 	private SpriteBatch batch2d;
 	private BitmapFont font;
 	private ModelBatch batch;
-	private ShaderProvider shaderProvider;
+	//private ShaderProvider shaderProvider;
 
 	private PerspectiveCamera camera;
 	private FrameBuffer frameBuffer = null;
@@ -46,9 +48,9 @@ public class Game implements IModule {
 	public static Player player;
 	public static World world;
 	public Inventory inventory;
-	public static EntityManager entityManager;
-	public ArrayList<ModelInstance> modelInstances;// = new ArrayList<ModelInstance>();
-	//public ArrayList<ModelInstance> specialBlocks;
+	public static EntityManager entityManager; // This is slowly being removed, to be replaced by BasicECS
+	public BasicECS basicEcs;
+	public ArrayList<ModelInstance> modelInstances;
 
 	private DecalManager decalManager;
 
@@ -65,8 +67,8 @@ public class Game implements IModule {
 		batch2d = new SpriteBatch();
 		font = new BitmapFont(Gdx.files.internal("font/spectrum1white.fnt"));
 
-		shaderProvider = new GameShaderProvider();
-		batch = new ModelBatch(shaderProvider);
+		//shaderProvider = new GameShaderProvider();
+		batch = new ModelBatch(new GameShaderProvider());
 
 		camera = new PerspectiveCamera(65, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.position.set(10f, 0, 10f);
@@ -78,6 +80,9 @@ public class Game implements IModule {
 		decalManager = new DecalManager(camera);
 
 		entityManager = new EntityManager(decalManager);
+		basicEcs = new BasicECS();
+		basicEcs.addSystem(new DrawDecalSystem(basicEcs, camera));
+
 		world = new World();
 
 		inventory = new Inventory();
@@ -121,7 +126,6 @@ public class Game implements IModule {
 			transitionProgress += Gdx.graphics.getDeltaTime()/3f;
 
 			if (transitionProgress >= 0.5f && !hasLoaded){
-				//modelInstances = new ArrayList<ModelInstance>();
 				gameLevel.load(this);
 				hasLoaded = true;
 
@@ -139,6 +143,10 @@ public class Game implements IModule {
 				return;
 			}
 		}
+		
+		this.basicEcs.addAndRemoveEntities();
+		//this.basicEcs.processAllSystems();
+		
 		player.update();
 		camera.update();
 		entityManager.update(world);
@@ -170,6 +178,7 @@ public class Game implements IModule {
 		}
 
 		decalManager.render();
+		this.basicEcs.getSystem(DrawDecalSystem.class).process();
 
 		batch2d.begin();
 		inventory.render(batch2d, player);

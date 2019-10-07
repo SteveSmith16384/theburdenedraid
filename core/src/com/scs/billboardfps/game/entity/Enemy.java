@@ -8,9 +8,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
-import com.scs.billboardfps.game.components.IAttackable;
-import com.scs.billboardfps.game.components.IDamagable;
-import com.scs.billboardfps.game.components.IHarmsPlayer;
+import com.scs.billboardfps.game.interfaces.IAttackable;
+import com.scs.billboardfps.game.interfaces.IDamagable;
+import com.scs.billboardfps.game.interfaces.IHarmsPlayer;
 
 public abstract class Enemy extends Entity implements IDamagable, IAttackable, IHarmsPlayer {
 

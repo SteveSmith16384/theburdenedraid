@@ -1,4 +1,4 @@
-package com.scs.billboardfps.game.components;
+package com.scs.billboardfps.game.interfaces;
 
 import com.scs.billboardfps.game.player.Player;
 

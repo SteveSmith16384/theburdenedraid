@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
-import com.scs.billboardfps.game.components.IDamagable;
 import com.scs.billboardfps.game.decals.DecalEntity;
+import com.scs.billboardfps.game.interfaces.IDamagable;
 
 public class Bullet extends Entity {
 	
