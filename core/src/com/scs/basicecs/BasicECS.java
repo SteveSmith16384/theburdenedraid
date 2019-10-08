@@ -46,7 +46,7 @@ public class BasicECS {
 
 				// Remove from systems
 				for(AbstractSystem system : this.systems.values()) {
-					Class<?> clazz = system.getEntityClass();
+					Class<?> clazz = system.getComponentClass();
 					if (clazz != null) {
 						if (entity.getComponents().containsKey(clazz)) {
 							//MyGdxGame.p("Removing " + entity + " from " + system + " system");
@@ -59,7 +59,7 @@ public class BasicECS {
 
 		for(AbstractEntity e : this.to_add_entities) {
 			for(AbstractSystem system : this.systems.values()) {
-				Class clazz = system.getEntityClass();
+				Class clazz = system.getComponentClass();
 				if (clazz != null) {
 					if (e.getComponents().containsKey(clazz)) {
 						system.entities.add(e);

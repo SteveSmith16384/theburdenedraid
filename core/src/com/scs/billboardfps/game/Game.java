@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.utils.ShaderProvider;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
@@ -26,7 +25,10 @@ import com.scs.billboardfps.game.player.CameraController;
 import com.scs.billboardfps.game.player.Inventory;
 import com.scs.billboardfps.game.player.Player;
 import com.scs.billboardfps.game.renderable.GameShaderProvider;
+import com.scs.billboardfps.game.systems.AndroidsAISystem;
+import com.scs.billboardfps.game.systems.CycleThruDecalsSystem;
 import com.scs.billboardfps.game.systems.DrawDecalSystem;
+import com.scs.billboardfps.game.systems.MovementSystem;
 import com.scs.billboardfps.modules.IModule;
 
 public class Game implements IModule {
@@ -67,7 +69,6 @@ public class Game implements IModule {
 		batch2d = new SpriteBatch();
 		font = new BitmapFont(Gdx.files.internal("font/spectrum1white.fnt"));
 
-		//shaderProvider = new GameShaderProvider();
 		batch = new ModelBatch(new GameShaderProvider());
 
 		camera = new PerspectiveCamera(65, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -82,7 +83,10 @@ public class Game implements IModule {
 		entityManager = new EntityManager(decalManager);
 		basicEcs = new BasicECS();
 		basicEcs.addSystem(new DrawDecalSystem(basicEcs, camera));
-
+		basicEcs.addSystem(new CycleThruDecalsSystem(basicEcs));
+		basicEcs.addSystem(new AndroidsAISystem(basicEcs));		
+		basicEcs.addSystem(new MovementSystem(basicEcs));		
+		
 		world = new World();
 
 		inventory = new Inventory();
@@ -101,9 +105,9 @@ public class Game implements IModule {
 
 		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
 	}
 
+	
 	public void resize(int w, int h) {
 	}
 
@@ -145,7 +149,8 @@ public class Game implements IModule {
 		}
 		
 		this.basicEcs.addAndRemoveEntities();
-		//this.basicEcs.processAllSystems();
+		this.basicEcs.getSystem(AndroidsAISystem.class).process();
+		this.basicEcs.getSystem(MovementSystem.class).process();
 		
 		player.update();
 		camera.update();
@@ -178,6 +183,7 @@ public class Game implements IModule {
 		}
 
 		decalManager.render();
+		this.basicEcs.getSystem(CycleThruDecalsSystem.class).process();
 		this.basicEcs.getSystem(DrawDecalSystem.class).process();
 
 		batch2d.begin();

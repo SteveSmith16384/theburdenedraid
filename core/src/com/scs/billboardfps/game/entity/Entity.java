@@ -105,9 +105,6 @@ public class Entity extends AbstractEntity {
 		
 		if (moveVec.y != 0) {
 			position.y += moveVec.y;
-			/*if (position.z < 0 || position.z > Game.UNIT) {
-				return false;
-			}*/
 		}
 		
 		return resultX && resultZ;

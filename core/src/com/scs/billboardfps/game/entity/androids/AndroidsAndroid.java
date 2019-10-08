@@ -7,30 +7,38 @@ import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
+import com.scs.billboardfps.game.components.HasAI;
 import com.scs.billboardfps.game.components.HasDecal;
-import com.scs.billboardfps.game.components.HasPositionAndRotation;
+import com.scs.billboardfps.game.components.IsDamagable;
+import com.scs.billboardfps.game.components.MovementData;
+import com.scs.billboardfps.game.components.PositionData;
 
 public class AndroidsAndroid extends AbstractEntity {
 
     public AndroidsAndroid(int x, int y) {
         super(AndroidsAndroid.class.getSimpleName());//, null, x, y, 0, 2);
 
-        HasPositionAndRotation pos = new HasPositionAndRotation();
+        PositionData pos = new PositionData();
         pos.position = new Vector3(x*Game.UNIT, 0, y*Game.UNIT);
         this.addComponent(pos);
         
 		HasDecal hasDecal = new HasDecal();
 		Texture tex = new Texture(Gdx.files.internal("androids/android.png"));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
-
         hasDecal.decal = Decal.newDecal(tr, true);
         hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth()); // Scale to sq size by default
         hasDecal.decal.setPosition(pos.position);
-
         hasDecal.faceCamera = true;
-        hasDecal.faceCameraTilted = true;
-        
+        hasDecal.faceCameraTilted = true;        
         this.addComponent(hasDecal);
+        
+        IsDamagable damagable = new IsDamagable(2);
+        this.addComponent(damagable);
+        
+        HasAI ai = new HasAI(2f);
+        this.addComponent(ai);
+        
+        this.addComponent(new MovementData(.75f));
         
     }
     

@@ -29,26 +29,16 @@ public class Player implements IDamagable {
 	private static final float jumpScale = 4f * Game.UNIT;
 	private static final float hurtDistanceSquared = Game.UNIT * .5f * Game.UNIT * .5f;
 
-	private static final float defaultWeaponRotation = 30f;
-	private static final float chargeWeaponRotation = -20f;
-	private static final float attackWeaponRotation = 120f;
-
-	private Camera camera;
+	public Camera camera;
 	private World world;
 	public Inventory inventory;
 	public CameraController cameraController;
-	private Vector3 position;
+	public Vector3 position;
 	private Vector3 moveVector;
 	private Vector3 tmpVector;
 	private boolean onGround = false;
 	private float gravity = 0f;
-	private Sprite weaponSprite;
-	private float weaponRotation;
-	private Vector2 weaponPosition;
-	private float attackAnimation;
-	private float weaponScaleY = 1f;
-	private boolean didAttack = true;
-	private boolean didPlayAudio = false;
+	//private boolean didAttack = true;
 	private boolean mouseReleased = false;
 	private float footstepTimer;
 	private int health, max_health;
@@ -56,6 +46,7 @@ public class Player implements IDamagable {
 	private Texture hurtTexture; // Screen goes red when hit
 	private Texture heart;
 	public IInteractable interactTarget;
+	private PlayersWeapon weapon;
 
 	public Player(Camera cam, World wrld, Inventory inv, int lookSens, int maxHealth) {
 		inventory = inv;
@@ -70,22 +61,7 @@ public class Player implements IDamagable {
 		moveVector = new Vector3();
 		tmpVector = new Vector3();
 
-		if (Settings.USE_WAND) {
-			Texture weaponTex = new Texture(Gdx.files.internal("chaos/wand2.png"));
-			weaponSprite = new Sprite(weaponTex);
-			weaponSprite.setOrigin(32, 20);
-			weaponSprite.setScale(7.5f, 5f);
-			weaponPosition = new Vector2(0,0);
-		} else {
-			Texture weaponTex = new Texture(Gdx.files.internal("sword.png"));
-			weaponSprite = new Sprite(weaponTex);
-			weaponSprite.setOrigin(32, 0);
-			weaponSprite.setScale(7.5f, 5f);
-			weaponPosition = new Vector2(0,0);
-		}
-
-		weaponRotation = defaultWeaponRotation;
-		weaponSprite.setRotation(defaultWeaponRotation);
+		weapon = new PlayersWeapon();
 
 		hurtTexture = new Texture(Gdx.files.internal("red.png"));
 		heart = new Texture(Gdx.files.internal("heart.png"));
@@ -105,11 +81,7 @@ public class Player implements IDamagable {
 
 		cameraController.update();
 
-		float weaponBob = (float)Math.cos(cameraController.bobbing * 15f + .15f) * 20f;
-		weaponSprite.setPosition(Gdx.graphics.getWidth()-300 + weaponPosition.x, -20 + weaponBob+weaponPosition.y);
-		weaponSprite.setScale(6f, Math.min(5f*weaponScaleY,8f));
-		weaponSprite.setRotation(weaponRotation + (float)Math.cos(cameraController.bobbing*7.5f)*5f - 2.5f);
-
+		weapon.update(cameraController);
 
 		if (hurtTimer>0) {
 			hurtTimer -= Gdx.graphics.getDeltaTime();
@@ -160,13 +132,13 @@ public class Player implements IDamagable {
 
 
 	private void checkForAttack() {
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && attackAnimation<=0){
+		/* if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && attackAnimation <= 0){
 			attackAnimation = 1.0f;
 			didAttack = false;
 			didPlayAudio = false;
 		}
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-			if (mouseReleased && Gdx.input.isCursorCatched() && attackAnimation<=0) {
+			if (mouseReleased && Gdx.input.isCursorCatched() && attackAnimation <= 0) {
 				attackAnimation = 1.0f;
 				didAttack = false;
 				didPlayAudio = false;
@@ -175,52 +147,22 @@ public class Player implements IDamagable {
 		} else {
 			mouseReleased = true;
 		}
-
-		if (attackAnimation > 0f) {
-			attackAnimation -= Gdx.graphics.getDeltaTime()*4;
-			if(attackAnimation>.3f) {
-				weaponRotation = MathUtils.lerp(weaponRotation, chargeWeaponRotation, Gdx.graphics.getDeltaTime() * 8f);
-				weaponPosition.set(
-						MathUtils.lerp(weaponPosition.x, 30, Gdx.graphics.getDeltaTime()*20f),
-						MathUtils.lerp(weaponPosition.y, -80, Gdx.graphics.getDeltaTime()*20f)
-						);
-
-				if(!didPlayAudio && attackAnimation<.8f){
-					didPlayAudio = true;
-					Game.audio.play("weapon");
-				}
-
-			} else {
-				weaponRotation = MathUtils.lerp(weaponRotation, attackWeaponRotation, Gdx.graphics.getDeltaTime() * 15f);
-				weaponPosition.set(
-						MathUtils.lerp(weaponPosition.x, -150, Gdx.graphics.getDeltaTime()*20f),
-						MathUtils.lerp(weaponPosition.y, 150, Gdx.graphics.getDeltaTime()*20f)
-						);
-				weaponScaleY = MathUtils.lerp(weaponScaleY, 2f, Gdx.graphics.getDeltaTime()*3);
-
-				//In case of low framerate skip, unlikely
-				if(!didPlayAudio){
-					didPlayAudio = true;
-					Game.audio.play("weapon");
-				}
+		 */
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+			weapon.attackPressed();
+		} else if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+			mouseReleased = true;
+			if (mouseReleased && Gdx.input.isCursorCatched()) {
+				mouseReleased = false;
+				weapon.attackPressed();
 			}
-		} else {
-			weaponRotation = MathUtils.lerp(weaponRotation, defaultWeaponRotation, Gdx.graphics.getDeltaTime()*5f);
-			weaponPosition.set(
-					MathUtils.lerp(weaponPosition.x, 0, Gdx.graphics.getDeltaTime()*10f),
-					MathUtils.lerp(weaponPosition.y, 0, Gdx.graphics.getDeltaTime()*10f)
-					);
-			weaponScaleY = MathUtils.lerp(weaponScaleY, 1f, Gdx.graphics.getDeltaTime()*10);
 		}
 
-		if (attackAnimation < 0.3f && !didAttack) {
-			didAttack = true;
-			checkAttackHit();
+		weapon.checkForAttack();
 
-			if (Settings.PLAYER_SHOOTING) {
-				Entity b = new ChaosBolt(this, this.position, camera.direction);
-				Game.entityManager.add(b);
-			}
+		if (weapon.IsAttackMade(this)) {// attackAnimation < 0.3f && !didAttack) {
+			//didAttack = true;
+			checkAttackHit();
 		}
 	}
 
@@ -254,8 +196,8 @@ public class Player implements IDamagable {
 		if (closest != null) {
 			closest.damaged(1, this.camera.direction);
 		}
-
 	}
+
 
 	private void gravity() {
 		gravity -= gravityScale*Gdx.graphics.getDeltaTime();
@@ -327,20 +269,18 @@ public class Player implements IDamagable {
 		//showPosition();
 	}
 
-
+	/*
 	private void showPosition() {
 		Settings.p("Player pos: " + this.position);
 	}
-
+	 */
 
 	public void render(SpriteBatch batch){
-		weaponSprite.draw(batch);
+		weapon.render(batch);
 	}
 
 
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		//font.draw(batch, "Test", Gdx.graphics.getWidth() / 2 - 32, Gdx.graphics.getHeight() / 2 + 50/8);
-
 		if (interactTarget != null) {
 			String str = interactTarget.getInteractText(this);
 			int w2 = str.length() * 8;
