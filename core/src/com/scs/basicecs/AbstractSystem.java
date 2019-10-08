@@ -14,17 +14,17 @@ public abstract class AbstractSystem {
 
 		this.ecs.addSystem(this);
 
-		if (this.getEntityClass() != null) {
+		if (this.getComponentClass() != null) {
 			entities = new ArrayList<AbstractEntity>();
 		}
 	}
 
 
 	/**
-	 * Override
+	 * Override if this system should only deal with entities that have a specific component.
 	 * @return
 	 */
-	public Class<?> getEntityClass() {
+	public Class<?> getComponentClass() {
 		return null;
 	}
 
@@ -34,7 +34,7 @@ public abstract class AbstractSystem {
 	}
 
 
-	// Override if required to run against all entities
+	// Override if required to run against specific entities
 	public void process() {
 		if (this.entities == null) {
 			Iterator<AbstractEntity> it = ecs.getIterator();
@@ -52,8 +52,8 @@ public abstract class AbstractSystem {
 	}
 
 
+	// Override if required to run against all entities.
 	public void processEntity(AbstractEntity entity) {
-		// Override if required to run against a single entity.
 	}
 
 }
