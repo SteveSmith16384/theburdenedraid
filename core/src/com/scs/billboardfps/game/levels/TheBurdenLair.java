@@ -33,6 +33,8 @@ import com.scs.billboardfps.game.entity.Slime;
 import com.scs.billboardfps.game.entity.SnowBarrier;
 import com.scs.billboardfps.game.entity.Statue;
 import com.scs.billboardfps.game.entity.chaos.Wraith;
+import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
+import com.scs.billboardfps.game.player.weapons.PlayersSword;
 import com.scs.billboardfps.game.renderable.RenderData;
 
 public class TheBurdenLair extends AbstractLevel {
@@ -408,6 +410,12 @@ public class TheBurdenLair extends AbstractLevel {
 	public void levelComplete() {
 		this.targetLevel = getNextLevel();
 
+	}
+
+
+	@Override
+	public IPlayersWeapon getWeapon() {
+		return new PlayersSword(Settings.USE_WAND);
 	}
 
 

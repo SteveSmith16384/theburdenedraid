@@ -25,7 +25,7 @@ import com.scs.billboardfps.game.player.CameraController;
 import com.scs.billboardfps.game.player.Inventory;
 import com.scs.billboardfps.game.player.Player;
 import com.scs.billboardfps.game.renderable.GameShaderProvider;
-import com.scs.billboardfps.game.systems.AndroidsAISystem;
+import com.scs.billboardfps.game.systems.MobAISystem;
 import com.scs.billboardfps.game.systems.CycleThruDecalsSystem;
 import com.scs.billboardfps.game.systems.DrawDecalSystem;
 import com.scs.billboardfps.game.systems.MovementSystem;
@@ -84,16 +84,17 @@ public class Game implements IModule {
 		basicEcs = new BasicECS();
 		basicEcs.addSystem(new DrawDecalSystem(basicEcs, camera));
 		basicEcs.addSystem(new CycleThruDecalsSystem(basicEcs));
-		basicEcs.addSystem(new AndroidsAISystem(basicEcs));		
+		basicEcs.addSystem(new MobAISystem(basicEcs));		
 		basicEcs.addSystem(new MovementSystem(basicEcs));		
 		
 		world = new World();
 
 		inventory = new Inventory();
-		player = new Player(camera, world, inventory, 1, 4);
 
 		//gameLevel = new TheBurdenLair(this.entityManager, this.decalManager);
 		gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
+
+		player = new Player(camera, world, inventory, 1, 4, gameLevel.getWeapon());
 
 		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -149,7 +150,7 @@ public class Game implements IModule {
 		}
 		
 		this.basicEcs.addAndRemoveEntities();
-		this.basicEcs.getSystem(AndroidsAISystem.class).process();
+		this.basicEcs.getSystem(MobAISystem.class).process();
 		this.basicEcs.getSystem(MovementSystem.class).process();
 		
 		player.update();

@@ -21,8 +21,10 @@ import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entity.EntityManager;
 import com.scs.billboardfps.game.entity.androids.AndroidsAndroid;
 import com.scs.billboardfps.game.entity.androids.GSquare;
+import com.scs.billboardfps.game.entity.androids.PlayersLaserGun;
 import com.scs.billboardfps.game.entity.androids.SSquare;
 import com.scs.billboardfps.game.entity.androids.SlidingDoor;
+import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 
 public class AndroidsLevel extends AbstractLevel {
 
@@ -68,12 +70,14 @@ public class AndroidsLevel extends AbstractLevel {
 
 				case 247909119: // door?
 				case 336565503:
-					//todo SlidingDoor door = new SlidingDoor(mapX, mapZ);
-					//Game.entityManager.add(door);
+					SlidingDoor door = new SlidingDoor(mapX, mapZ);
+					game.basicEcs.addEntity(door);
 					break;
 
 				case 1338133247: // baddy?
 				case -1798385153:
+					AbstractEntity e = new AndroidsAndroid(playerStartMapX-1, playerStartMapY-1);
+					game.basicEcs.addEntity(e);
 					break;
 
 				case 437736447: // G square
@@ -105,23 +109,6 @@ public class AndroidsLevel extends AbstractLevel {
 		}
 
 		createModels(game);
-
-		// todo - remove
-		GSquare gs2 = new GSquare(playerStartMapX, playerStartMapY);
-		Game.entityManager.add(gs2);
-		game.modelInstances.add(gs2.instance);
-		/*FloorSquare fs = new FloorSquare(playerStartMapX-1, playerStartMapY-1);
-		Game.entityManager.add(fs);
-		game.modelInstances.add(fs.instance);*/
-		AbstractEntity e = new AndroidsAndroid(playerStartMapX-1, playerStartMapY-1);
-		game.basicEcs.addEntity(e);
-		e = new AndroidsAndroid(playerStartMapX-1, playerStartMapY+1);
-		game.basicEcs.addEntity(e);
-		e = new AndroidsAndroid(playerStartMapX+1, playerStartMapY-1);
-		game.basicEcs.addEntity(e);
-		e = new AndroidsAndroid(playerStartMapX+1, playerStartMapY+1);
-		game.basicEcs.addEntity(e);
-
 	}
 
 
@@ -142,7 +129,6 @@ public class AndroidsLevel extends AbstractLevel {
 						ModelInstance instance = new ModelInstance(box_model);
 						instance.transform.translate(x*Game.UNIT, Game.UNIT/2f, y*Game.UNIT);
 						instance.transform.rotate(Vector3.Z, 90);
-						//instance.userData = new RenderData(RenderData.ShaderType.FOG_TEXTURE, 0, tileType, 6, 6);
 						game.modelInstances.add(instance);
 					}
 				} catch (NullPointerException ex) {
@@ -163,19 +149,14 @@ public class AndroidsLevel extends AbstractLevel {
 		
 		//Create floor
 		ModelInstance instance = new ModelInstance(floor);
-		//instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 1, tileType, 6, 6, width, height);
 		game.modelInstances.add(instance);
 
 		// ceiling
-		//if (Settings.HIDE_CEILING == false) {
 		instance = new ModelInstance(floor);
-		//instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 2, tileType, 6, 6, width, height);
 		instance.transform.translate(0, Game.UNIT,0);
 		instance.transform.rotate(Vector3.X, 180);
 		instance.transform.translate(0,0,-(float)map_width* Game.UNIT);
 		game.modelInstances.add(instance);
-		//}
-
 	}
 
 
@@ -189,5 +170,10 @@ public class AndroidsLevel extends AbstractLevel {
 
 	}
 
+
+	@Override
+	public IPlayersWeapon getWeapon() {
+		return null;//new PlayersLaserGun();
+	}
 
 }

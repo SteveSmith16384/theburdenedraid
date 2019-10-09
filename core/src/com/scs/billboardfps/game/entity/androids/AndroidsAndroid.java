@@ -12,11 +12,12 @@ import com.scs.billboardfps.game.components.HasDecal;
 import com.scs.billboardfps.game.components.IsDamagable;
 import com.scs.billboardfps.game.components.MovementData;
 import com.scs.billboardfps.game.components.PositionData;
+import com.scs.billboardfps.game.systems.MobAISystem.Mode;
 
 public class AndroidsAndroid extends AbstractEntity {
 
     public AndroidsAndroid(int x, int y) {
-        super(AndroidsAndroid.class.getSimpleName());//, null, x, y, 0, 2);
+        super(AndroidsAndroid.class.getSimpleName());
 
         PositionData pos = new PositionData();
         pos.position = new Vector3(x*Game.UNIT, 0, y*Game.UNIT);
@@ -35,7 +36,7 @@ public class AndroidsAndroid extends AbstractEntity {
         IsDamagable damagable = new IsDamagable(2);
         this.addComponent(damagable);
         
-        HasAI ai = new HasAI(2f);
+        HasAI ai = new HasAI(Mode.MoveLikeRook, .3f);
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.75f));

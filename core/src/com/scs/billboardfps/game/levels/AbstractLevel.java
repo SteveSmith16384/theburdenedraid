@@ -4,6 +4,7 @@ import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entity.EntityManager;
+import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 
 public abstract class AbstractLevel {
 
@@ -14,7 +15,6 @@ public abstract class AbstractLevel {
 	protected int map_height;
 	protected int playerStartMapX, playerStartMapY;
 	
-
 	public AbstractLevel(EntityManager _entityManager, DecalManager _decalManager) {
 		entityManager = _entityManager;
 		this.decalManager = _decalManager;
@@ -26,6 +26,8 @@ public abstract class AbstractLevel {
 	public abstract void load(Game game);
 	
 	public void update(Game game, World world) {};
+	
+	public abstract IPlayersWeapon getWeapon();
 	
 	public int getPlayerStartX() {
 		return this.playerStartMapX;

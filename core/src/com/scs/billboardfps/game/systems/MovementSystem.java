@@ -6,6 +6,7 @@ import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
+import com.scs.billboardfps.game.components.HarmsPlayer;
 import com.scs.billboardfps.game.components.MovementData;
 import com.scs.billboardfps.game.components.PositionData;
 
@@ -24,11 +25,10 @@ public class MovementSystem extends AbstractSystem {
 	
 	@Override
 	public void processEntity(AbstractEntity entity) {
-		PositionData pos = (PositionData)entity.getComponent(PositionData.class);
 		MovementData movementData = (MovementData)entity.getComponent(MovementData.class);
 
 		if (movementData.offset.x != 0 || movementData.offset.y != 0 || movementData.offset.z != 0) {
-			this.tryMove(Game.world, pos.position, movementData.offset, movementData.size, true);
+			this.tryMove(entity, Game.world, movementData.offset, movementData.sizeAsFracOfMapsquare, true);
 		}
 	}
 
@@ -36,10 +36,14 @@ public class MovementSystem extends AbstractSystem {
 	/**
 	 * Returns false if entity fails to move on any axis.
 	 */
-	private boolean tryMove(World world, Vector3 position, Vector3 moveVec, float sizeAsFracOfMapsquare, boolean doFine) {
+	private boolean tryMove(AbstractEntity entity, World world, Vector3 moveVec, float sizeAsFracOfMapsquare, boolean doFine) {
 		if (moveVec.len() <= 0) {
 			return true;
 		}
+		
+		PositionData pos = (PositionData)entity.getComponent(PositionData.class);
+		pos.originalPosition.set(pos.position);
+		Vector3 position = pos.position;
 		
 		boolean resultX = false;
 		if (world.rectangleFree(position.x+moveVec.x, position.z, sizeAsFracOfMapsquare, sizeAsFracOfMapsquare)) {
@@ -75,7 +79,25 @@ public class MovementSystem extends AbstractSystem {
 			position.y += moveVec.y;
 		}
 		
+		if (checkForPlayerCollision(entity, position)) {
+			pos.position.set(pos.originalPosition); // Move back
+			return false;
+		}
+		
 		return resultX && resultZ;
+	}
+	
+	
+	private boolean checkForPlayerCollision(AbstractEntity entity, Vector3 pos) {
+		HarmsPlayer hp = (HarmsPlayer)entity.getComponent(HarmsPlayer.class) ;
+		if (hp != null) {
+			float dist = pos.dst(Game.player.position);
+			if (dist < .5f) {
+				Game.player.damaged(hp.damageCaused, new Vector3()); // todo - direction
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

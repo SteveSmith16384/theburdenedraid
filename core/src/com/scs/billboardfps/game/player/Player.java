@@ -5,20 +5,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.entity.Entity;
-import com.scs.billboardfps.game.entity.chaos.ChaosBolt;
 import com.scs.billboardfps.game.interfaces.IAttackable;
 import com.scs.billboardfps.game.interfaces.IDamagable;
 import com.scs.billboardfps.game.interfaces.IHarmsPlayer;
 import com.scs.billboardfps.game.interfaces.IInteractable;
+import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
+import com.scs.billboardfps.game.player.weapons.PlayersSword;
 
 public class Player implements IDamagable {
 
@@ -38,7 +36,6 @@ public class Player implements IDamagable {
 	private Vector3 tmpVector;
 	private boolean onGround = false;
 	private float gravity = 0f;
-	//private boolean didAttack = true;
 	private boolean mouseReleased = false;
 	private float footstepTimer;
 	private int health, max_health;
@@ -46,9 +43,9 @@ public class Player implements IDamagable {
 	private Texture hurtTexture; // Screen goes red when hit
 	private Texture heart;
 	public IInteractable interactTarget;
-	private PlayersWeapon weapon;
+	private IPlayersWeapon weapon;
 
-	public Player(Camera cam, World wrld, Inventory inv, int lookSens, int maxHealth) {
+	public Player(Camera cam, World wrld, Inventory inv, int lookSens, int maxHealth, IPlayersWeapon _weapon) {
 		inventory = inv;
 		camera = cam;
 		world = wrld;
@@ -61,7 +58,7 @@ public class Player implements IDamagable {
 		moveVector = new Vector3();
 		tmpVector = new Vector3();
 
-		weapon = new PlayersWeapon();
+		weapon = _weapon;//new SwordWeapon(Settings.USE_WAND);
 
 		hurtTexture = new Texture(Gdx.files.internal("red.png"));
 		heart = new Texture(Gdx.files.internal("heart.png"));
@@ -76,12 +73,16 @@ public class Player implements IDamagable {
 	public void update() {
 		move();
 		gravity();
-		checkForAttack();
+		if (weapon != null) {
+			checkForAttack();
+		}
 		interact();
 
 		cameraController.update();
 
-		weapon.update(cameraController);
+		if (weapon != null) {
+			weapon.update(cameraController);
+		}
 
 		if (hurtTimer>0) {
 			hurtTimer -= Gdx.graphics.getDeltaTime();
@@ -149,53 +150,21 @@ public class Player implements IDamagable {
 		}
 		 */
 		if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-			weapon.attackPressed();
+			weapon.attackPressed(this.position, this.camera.direction);
 		} else if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 			mouseReleased = true;
 			if (mouseReleased && Gdx.input.isCursorCatched()) {
 				mouseReleased = false;
-				weapon.attackPressed();
+				weapon.attackPressed(this.position, this.camera.direction);
 			}
 		}
 
-		weapon.checkForAttack();
+		//weapon.checkForAttack();
 
-		if (weapon.IsAttackMade(this)) {// attackAnimation < 0.3f && !didAttack) {
+		/*if (weapon.IsAttackMade(this)) {// attackAnimation < 0.3f && !didAttack) {
 			//didAttack = true;
 			checkAttackHit();
-		}
-	}
-
-
-	private void checkAttackHit() {
-		IDamagable closest = null;
-		float dist = 0f;
-
-		Vector3 tmp = new Vector3();
-
-		for (Entity ent : Game.entityManager.getEntities()) {
-			if(ent instanceof IAttackable == false) {
-				continue;
-			}
-			if(ent instanceof IDamagable == false) {
-				continue;
-			}
-
-			tmp.set(position).mulAdd(camera.direction, Game.UNIT*.75f);
-
-			if(Game.collision.hitCircle(ent.getPosition(), tmp, Game.UNIT*.75f)){
-				float d = position.dst2(ent.getPosition());
-				if(closest == null || d<dist){
-					dist = d;
-					closest = (IDamagable)ent;
-				}
-			}
-
-		}
-
-		if (closest != null) {
-			closest.damaged(1, this.camera.direction);
-		}
+		}*/
 	}
 
 
@@ -275,8 +244,10 @@ public class Player implements IDamagable {
 	}
 	 */
 
-	public void render(SpriteBatch batch){
-		weapon.render(batch);
+	public void render(SpriteBatch batch) {
+		if (weapon != null) {
+			weapon.render(batch);
+		}
 	}
 
 
