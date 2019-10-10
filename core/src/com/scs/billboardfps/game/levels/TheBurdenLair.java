@@ -6,6 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
@@ -18,21 +20,22 @@ import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.data.WorldSquare;
 import com.scs.billboardfps.game.decals.DecalEntity;
 import com.scs.billboardfps.game.decals.DecalManager;
-import com.scs.billboardfps.game.entity.Bat;
-import com.scs.billboardfps.game.entity.Demon;
-import com.scs.billboardfps.game.entity.Door;
-import com.scs.billboardfps.game.entity.Entity;
-import com.scs.billboardfps.game.entity.EntityManager;
-import com.scs.billboardfps.game.entity.FlyingSkull;
-import com.scs.billboardfps.game.entity.Goal;
-import com.scs.billboardfps.game.entity.KeyEntity;
-import com.scs.billboardfps.game.entity.Ladder;
-import com.scs.billboardfps.game.entity.Lever;
-import com.scs.billboardfps.game.entity.LootEntity;
-import com.scs.billboardfps.game.entity.Slime;
-import com.scs.billboardfps.game.entity.SnowBarrier;
-import com.scs.billboardfps.game.entity.Statue;
-import com.scs.billboardfps.game.entity.chaos.Wraith;
+import com.scs.billboardfps.game.entities.Entity;
+import com.scs.billboardfps.game.entities.EntityManager;
+import com.scs.billboardfps.game.entities.burdenlair.Bat;
+import com.scs.billboardfps.game.entities.burdenlair.Demon;
+import com.scs.billboardfps.game.entities.burdenlair.Door;
+import com.scs.billboardfps.game.entities.burdenlair.FlyingSkull;
+import com.scs.billboardfps.game.entities.burdenlair.Goal;
+import com.scs.billboardfps.game.entities.burdenlair.KeyEntity;
+import com.scs.billboardfps.game.entities.burdenlair.Ladder;
+import com.scs.billboardfps.game.entities.burdenlair.Lever;
+import com.scs.billboardfps.game.entities.burdenlair.LootEntity;
+import com.scs.billboardfps.game.entities.burdenlair.Slime;
+import com.scs.billboardfps.game.entities.burdenlair.SnowBarrier;
+import com.scs.billboardfps.game.entities.burdenlair.Statue;
+import com.scs.billboardfps.game.entities.chaos.Wraith;
+import com.scs.billboardfps.game.player.Inventory;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 import com.scs.billboardfps.game.player.weapons.PlayersSword;
 import com.scs.billboardfps.game.renderable.RenderData;
@@ -48,7 +51,7 @@ public class TheBurdenLair extends AbstractLevel {
 
 	private String targetLevel;
 	public String previousLevelName;
-	public String currentLevelName; // todo - use a level num instead
+	public String currentLevelName;
 
 	private ArrayList<Lever> levers = new ArrayList<Lever>();
 	private boolean solvedLevers = false;
@@ -134,7 +137,7 @@ public class TheBurdenLair extends AbstractLevel {
 			}
 		}
 
-		createModels(game);
+		createWalls(game);
 
 		if (currentLevelName.equals(DEMON_LAIR)) {
 			return;
@@ -264,7 +267,7 @@ public class TheBurdenLair extends AbstractLevel {
 	}
 
 
-	private void createModels(Game game) {
+	private void createWalls(Game game) {
 		int tileType = getTileType(currentLevelName);
 
 		ModelBuilder modelBuilder = new ModelBuilder();
@@ -298,7 +301,7 @@ public class TheBurdenLair extends AbstractLevel {
 		}
 
 
-		//Create floor
+		// Create floor
 		Model floor = modelBuilder.createRect(
 				0f,0f, (float) map_height*Game.UNIT,
 				(float)map_width*Game.UNIT,0f, (float)map_height*Game.UNIT,
@@ -312,15 +315,12 @@ public class TheBurdenLair extends AbstractLevel {
 		game.modelInstances.add(instance);
 
 		// ceiling
-		//if (Settings.HIDE_CEILING == false) {
 		instance = new ModelInstance(floor);
 		instance.userData = new RenderData(RenderData.ShaderType.FOG_COLOR, 2, tileType, 6, 6, map_width, map_height);
 		instance.transform.translate(0, Game.UNIT,0);
 		instance.transform.rotate(Vector3.X, 180);
 		instance.transform.translate(0,0,-(float)map_width* Game.UNIT);
 		game.modelInstances.add(instance);
-		//}
-
 	}
 
 
@@ -345,6 +345,15 @@ public class TheBurdenLair extends AbstractLevel {
 	}
 
 
+	@Override
+	public void renderUI(SpriteBatch batch, BitmapFont font) {
+    	Inventory inv = (Inventory)Game.player.inventory;
+		for (int i = 0; i < inv.keys; i++) {
+			batch.draw(Game.art.items[0][0], 10 + i*50, Gdx.graphics.getHeight()-40, 48, 48);
+		}
+	}
+	
+	
 	@Override
 	public void update(Game game, World world) {
 		if (!solvedLevers && levers.size() > 0) {

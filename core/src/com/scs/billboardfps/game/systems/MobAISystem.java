@@ -48,7 +48,7 @@ public class MobAISystem extends AbstractSystem {
 				break;
 
 			case MoveLikeRook:
-				if (ai.direction.len2() == 0 || Settings.random.nextFloat() <= 0.1f) {
+				if (ai.direction.len2() == 0 || Settings.random.nextFloat() <= 0.03f) {
 					ai.direction = getRandomDirection();
 				}
 				movementData.offset.x = ai.direction.x;

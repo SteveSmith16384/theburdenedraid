@@ -18,12 +18,12 @@ import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.data.WorldSquare;
 import com.scs.billboardfps.game.decals.DecalManager;
-import com.scs.billboardfps.game.entity.EntityManager;
-import com.scs.billboardfps.game.entity.androids.AndroidsAndroid;
-import com.scs.billboardfps.game.entity.androids.GSquare;
-import com.scs.billboardfps.game.entity.androids.PlayersLaserGun;
-import com.scs.billboardfps.game.entity.androids.SSquare;
-import com.scs.billboardfps.game.entity.androids.SlidingDoor;
+import com.scs.billboardfps.game.entities.EntityManager;
+import com.scs.billboardfps.game.entities.androids.AndroidsAndroid;
+import com.scs.billboardfps.game.entities.androids.GSquare;
+import com.scs.billboardfps.game.entities.androids.PlayersLaserGun;
+import com.scs.billboardfps.game.entities.androids.SSquare;
+import com.scs.billboardfps.game.entities.androids.SlidingDoor;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 
 public class AndroidsLevel extends AbstractLevel {
@@ -34,10 +34,53 @@ public class AndroidsLevel extends AbstractLevel {
 
 
 	@Override
-	public void load(Game game) {//String level) {
+	public void load(Game game) {
 		entityManager.getEntities().clear();
 		decalManager.clear();
+		game.modelInstances = new ArrayList<ModelInstance>();
 
+		//loadMapFromImage(game);
+		loadTestMap(game);
+
+		createWalls(game);
+	}
+
+
+	private void loadTestMap(Game game) {
+		this.map_width = 5;
+		this.map_height = 5;
+
+		Game.world.world = new WorldSquare[map_width][map_height];
+
+		for (int z=0 ; z<map_height ; z++) {
+			for (int x=0 ; x<map_width ; x++) {
+				int type = World.NOTHING;
+				if (x == 0 || z == 0 || x >= map_width-1 || z >= map_height-1) {
+					//type = World.WALL;
+				} else if (x == 2 && z == 2) {
+					SlidingDoor door = new SlidingDoor(x, z);
+					game.basicEcs.addEntity(door);
+				} else if (x == 1 && z == 3) {
+					GSquare gs = new GSquare(x, z);
+					Game.entityManager.add(gs);
+					game.modelInstances.add(gs.instance);
+				} else if (x == 1 && z == 1) {
+					playerStartMapX = x;
+					this.playerStartMapY = z;
+				} else if (x == 3 && z == 1) {
+					SSquare ss = new SSquare(x, z);
+					Game.entityManager.add(ss);
+					game.modelInstances.add(ss.instance);
+				}
+
+				Game.world.world[x][z] = new WorldSquare();
+				Game.world.world[x][z].type = type;
+			}
+		}
+	}
+
+
+	private void loadMapFromImage(Game game) {
 		Texture texture = new Texture(Gdx.files.internal("androids/androids_map.png"));
 		texture.getTextureData().prepare();
 		Pixmap pixmap = texture.getTextureData().consumePixmap();
@@ -45,7 +88,6 @@ public class AndroidsLevel extends AbstractLevel {
 		this.map_width = pixmap.getWidth() / 16;
 		this.map_height = pixmap.getHeight() / 16;
 		Game.world.world = new WorldSquare[map_width+1][map_height+1];
-
 
 		playerStartMapX = map_width/2;
 		this.playerStartMapY = map_height/2;
@@ -61,7 +103,6 @@ public class AndroidsLevel extends AbstractLevel {
 				switch (col) {
 				case 65791: // Wall
 					type = World.WALL;
-					//todo terrainUDG.addRectRange_Blocks(BlockCodes.ANDROIDS_WALL, new Vector3Int(mapX, 0, mapZ), new Vector3Int(1, WALL_HEIGHT, 1));
 					break;
 
 				case -825437953: // floor
@@ -76,24 +117,29 @@ public class AndroidsLevel extends AbstractLevel {
 
 				case 1338133247: // baddy?
 				case -1798385153:
-					AbstractEntity e = new AndroidsAndroid(playerStartMapX-1, playerStartMapY-1);
+					AbstractEntity e = new AndroidsAndroid(mapX, mapZ);//playerStartMapX-1, playerStartMapY-1);
 					game.basicEcs.addEntity(e);
+					Settings.p("Created " + e.name + " at " + mapX + "," + mapZ);
 					break;
 
 				case 437736447: // G square
 				case -1706648833:
 					GSquare gs = new GSquare(mapX, mapZ);
 					Game.entityManager.add(gs);
+					game.modelInstances.add(gs.instance);
 					break;
 
 				case -15462508: // start
 					playerStartMapX = mapX;
 					this.playerStartMapY = mapZ;
+					GSquare gs2 = new GSquare(mapX+1, mapZ-1);
+					Game.entityManager.add(gs2);
 					break;
 
 				case -155191809: // S square
 					SSquare ss = new SSquare(mapX, mapZ);
 					Game.entityManager.add(ss);
+					game.modelInstances.add(ss.instance);
 					break;
 
 				default:
@@ -108,18 +154,15 @@ public class AndroidsLevel extends AbstractLevel {
 			mapZ++;
 		}
 
-		createModels(game);
 	}
 
 
-	private void createModels(Game game) {
+	private void createWalls(Game game) {
 		ModelBuilder modelBuilder = new ModelBuilder();
 
 		Material white_material = new Material(TextureAttribute.createDiffuse(new Texture("androids/white.png")));		
 		Material black_material = new Material(TextureAttribute.createDiffuse(new Texture("androids/black.png")));		
 		Model box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, black_material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-
-		game.modelInstances = new ArrayList<ModelInstance>();
 
 		for (int y = 0; y < map_height; y++) {
 			for (int x = 0; x < map_width; x++) {
@@ -146,7 +189,7 @@ public class AndroidsLevel extends AbstractLevel {
 				1f,1f,1f,
 				white_material,
 				VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-		
+
 		//Create floor
 		ModelInstance instance = new ModelInstance(floor);
 		game.modelInstances.add(instance);

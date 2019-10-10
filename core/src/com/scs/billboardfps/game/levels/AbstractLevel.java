@@ -1,9 +1,11 @@
 package com.scs.billboardfps.game.levels;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.decals.DecalManager;
-import com.scs.billboardfps.game.entity.EntityManager;
+import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 
 public abstract class AbstractLevel {
@@ -20,13 +22,12 @@ public abstract class AbstractLevel {
 		this.decalManager = _decalManager;
 	}
 	
-
-	public abstract void levelComplete();
-	
 	public abstract void load(Game game);
 	
 	public void update(Game game, World world) {};
 	
+	public void renderUI(SpriteBatch batch, BitmapFont font) {};
+
 	public abstract IPlayersWeapon getWeapon();
 	
 	public int getPlayerStartX() {
@@ -37,4 +38,5 @@ public abstract class AbstractLevel {
 		return this.playerStartMapY;
 	}
 	
+	public abstract void levelComplete();
 }

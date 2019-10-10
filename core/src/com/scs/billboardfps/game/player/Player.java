@@ -7,16 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
-import com.scs.billboardfps.game.entity.Entity;
-import com.scs.billboardfps.game.interfaces.IAttackable;
+import com.scs.billboardfps.game.entities.Entity;
 import com.scs.billboardfps.game.interfaces.IDamagable;
 import com.scs.billboardfps.game.interfaces.IHarmsPlayer;
 import com.scs.billboardfps.game.interfaces.IInteractable;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
-import com.scs.billboardfps.game.player.weapons.PlayersSword;
 
 public class Player implements IDamagable {
 
@@ -29,7 +26,7 @@ public class Player implements IDamagable {
 
 	public Camera camera;
 	private World world;
-	public Inventory inventory;
+	public IInventory inventory;
 	public CameraController cameraController;
 	public Vector3 position;
 	private Vector3 moveVector;
@@ -43,9 +40,10 @@ public class Player implements IDamagable {
 	private Texture hurtTexture; // Screen goes red when hit
 	private Texture heart;
 	public IInteractable interactTarget;
+	
 	private IPlayersWeapon weapon;
 
-	public Player(Camera cam, World wrld, Inventory inv, int lookSens, int maxHealth, IPlayersWeapon _weapon) {
+	public Player(Camera cam, World wrld, IInventory inv, int lookSens, int maxHealth, IPlayersWeapon _weapon) {
 		inventory = inv;
 		camera = cam;
 		world = wrld;
@@ -259,15 +257,16 @@ public class Player implements IDamagable {
 			font.draw(batch, str, Gdx.graphics.getWidth() / 2 - w2, Gdx.graphics.getHeight() / 2 + 50/8);
 		}
 
-		int sx = Gdx.graphics.getWidth()/2 - health*18;
-		for (int i = 0; i < inventory.keys; i++) {
+		/*for (int i = 0; i < inventory.keys; i++) {
 			batch.draw(Game.art.items[0][0], 10 + i*50, Gdx.graphics.getHeight()-40, 48, 48);
-		}
+		}*/
 
-
+		int sx = Gdx.graphics.getWidth()/2 - health*18;
 		for (int i = 0; i < health; i++) {
 			batch.draw(heart, sx + i*36, Gdx.graphics.getHeight()-40, 32, 32);
 		}
+		
+		Game.gameLevel.renderUI(batch, font);
 
 		if (hurtTimer > 0 && (int)(hurtTimer*5)%2 == 0) {
 			batch.setColor(1,1,1,.25f);

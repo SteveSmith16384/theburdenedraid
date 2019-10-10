@@ -18,16 +18,16 @@ import com.scs.basicecs.BasicECS;
 import com.scs.billboardfps.Audio;
 import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.decals.DecalManager;
-import com.scs.billboardfps.game.entity.EntityManager;
+import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.levels.AbstractLevel;
 import com.scs.billboardfps.game.levels.AndroidsLevel;
 import com.scs.billboardfps.game.player.CameraController;
 import com.scs.billboardfps.game.player.Inventory;
 import com.scs.billboardfps.game.player.Player;
 import com.scs.billboardfps.game.renderable.GameShaderProvider;
-import com.scs.billboardfps.game.systems.MobAISystem;
 import com.scs.billboardfps.game.systems.CycleThruDecalsSystem;
 import com.scs.billboardfps.game.systems.DrawDecalSystem;
+import com.scs.billboardfps.game.systems.MobAISystem;
 import com.scs.billboardfps.game.systems.MovementSystem;
 import com.scs.billboardfps.modules.IModule;
 
@@ -42,7 +42,6 @@ public class Game implements IModule {
 	private SpriteBatch batch2d;
 	private BitmapFont font;
 	private ModelBatch batch;
-	//private ShaderProvider shaderProvider;
 
 	private PerspectiveCamera camera;
 	private FrameBuffer frameBuffer = null;
@@ -93,6 +92,7 @@ public class Game implements IModule {
 
 		//gameLevel = new TheBurdenLair(this.entityManager, this.decalManager);
 		gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
+		//gameLevel = new EricAndTheFloatersLevel(this.entityManager, this.decalManager);
 
 		player = new Player(camera, world, inventory, 1, 4, gameLevel.getWeapon());
 
@@ -223,7 +223,6 @@ public class Game implements IModule {
 
 
 	public void destroy() {
-		// todo
 	}
 
 

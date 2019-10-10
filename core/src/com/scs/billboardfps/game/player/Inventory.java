@@ -10,12 +10,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.scs.billboardfps.Settings;
 
-public class Inventory {
+public class Inventory implements IInventory {
 
     private Texture itemTexture;
     private ArrayList<CarriedItem> items;
 
-    public boolean gameComplete = false;
+    public boolean gameComplete = false; // todo - move
 
     public int totalLoot = 0;
     private ArrayList<ItemPos> itemPositions;
@@ -26,7 +26,7 @@ public class Inventory {
         public Vector2 position;
         private int priority = 0;
 
-        public ItemPos(Vector2 vec, int p){
+        public ItemPos(Vector2 vec, int p) {
             position = vec;
             priority = p;
         }
@@ -84,10 +84,10 @@ public class Inventory {
     }
     
 
-    public void addLoot(int tx, int ty){
+    public void addLoot(int tx, int ty) {
         totalLoot++;
 
-        if(gameComplete) {
+        if (gameComplete) {
             CarriedItem item = new CarriedItem(itemTexture, tx, ty);
             item.position = new Vector2(Settings.random.nextFloat(), Settings.random.nextFloat());
             items.add(item);
