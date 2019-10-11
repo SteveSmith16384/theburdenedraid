@@ -14,14 +14,20 @@ public class BasicECS {
 	public BasicECS() {
 	}
 
-
+/*
+	public AbstractEntity createEntity(String name) {
+		AbstractEntity e = new AbstractEntity(name);
+		this.addEntity(e);
+	}
+	*/
+	
 	public void addSystem(AbstractSystem system) {
 		this.systems.put(system.getClass(), system);
 	}
 
 
 
-	public AbstractSystem getSystem(Class clazz) {
+	public AbstractSystem getSystem(Class<?> clazz) {
 		return this.systems.get(clazz);
 	}
 
@@ -59,7 +65,7 @@ public class BasicECS {
 
 		for(AbstractEntity e : this.to_add_entities) {
 			for(AbstractSystem system : this.systems.values()) {
-				Class clazz = system.getComponentClass();
+				Class<?> clazz = system.getComponentClass();
 				if (clazz != null) {
 					if (e.getComponents().containsKey(clazz)) {
 						system.entities.add(e);

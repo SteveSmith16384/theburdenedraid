@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.BasicECS;
 import com.scs.billboardfps.Audio;
 import com.scs.billboardfps.Settings;
+import com.scs.billboardfps.game.components.PositionData;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.levels.AbstractLevel;
@@ -27,6 +28,7 @@ import com.scs.billboardfps.game.player.Player;
 import com.scs.billboardfps.game.renderable.GameShaderProvider;
 import com.scs.billboardfps.game.systems.CycleThruDecalsSystem;
 import com.scs.billboardfps.game.systems.DrawDecalSystem;
+import com.scs.billboardfps.game.systems.DrawModelSystem;
 import com.scs.billboardfps.game.systems.MobAISystem;
 import com.scs.billboardfps.game.systems.MovementSystem;
 import com.scs.billboardfps.modules.IModule;
@@ -85,7 +87,8 @@ public class Game implements IModule {
 		basicEcs.addSystem(new CycleThruDecalsSystem(basicEcs));
 		basicEcs.addSystem(new MobAISystem(basicEcs));		
 		basicEcs.addSystem(new MovementSystem(basicEcs));		
-		
+		basicEcs.addSystem(new DrawModelSystem(basicEcs, batch));
+
 		world = new World();
 
 		inventory = new Inventory();
@@ -94,8 +97,9 @@ public class Game implements IModule {
 		gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
 		//gameLevel = new EricAndTheFloatersLevel(this.entityManager, this.decalManager);
 
-		player = new Player(camera, world, inventory, 1, 4, gameLevel.getWeapon());
-
+		player = new Player(camera, inventory, 1, 4, gameLevel.getWeapon());
+		basicEcs.addEntity(player);
+		
 		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 	}
@@ -108,7 +112,7 @@ public class Game implements IModule {
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 	}
 
-	
+
 	public void resize(int w, int h) {
 	}
 
@@ -134,7 +138,9 @@ public class Game implements IModule {
 				gameLevel.load(this);
 				hasLoaded = true;
 
-				player.getPosition().set(gameLevel.getPlayerStartX()*Game.UNIT, 0, gameLevel.getPlayerStartY()*Game.UNIT);
+				PositionData posData = (PositionData)this.player.getComponent(PositionData.class);
+				posData.position.set(gameLevel.getPlayerStartX()*Game.UNIT, 0, gameLevel.getPlayerStartY()*Game.UNIT);
+				//player.getPosition().set(gameLevel.getPlayerStartX()*Game.UNIT, 0, gameLevel.getPlayerStartY()*Game.UNIT);
 				entityManager.update(world);
 				camera.rotate(Vector3.Y, (float)Math.toDegrees(Math.atan2(camera.direction.z, camera.direction.x)));
 				player.update();
@@ -148,13 +154,14 @@ public class Game implements IModule {
 				return;
 			}
 		}
-		
+
+		player.update();
+		camera.update();
+
 		this.basicEcs.addAndRemoveEntities();
 		this.basicEcs.getSystem(MobAISystem.class).process();
 		this.basicEcs.getSystem(MovementSystem.class).process();
-		
-		player.update();
-		camera.update();
+
 		entityManager.update(world);
 		gameLevel.update(this, world);
 
@@ -175,13 +182,14 @@ public class Game implements IModule {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		Gdx.gl.glClearColor(0,0,0,1);
 
+		batch.begin(camera);
 		if (modelInstances != null) {
-			batch.begin(camera);
 			for (int i = 0; i < modelInstances.size(); i++) {
 				batch.render(modelInstances.get(i));
 			}
-			batch.end();
 		}
+		this.basicEcs.getSystem(DrawModelSystem.class).process();
+		batch.end();
 
 		decalManager.render();
 		this.basicEcs.getSystem(CycleThruDecalsSystem.class).process();

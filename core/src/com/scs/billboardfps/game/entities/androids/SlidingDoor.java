@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
-import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.components.HasDecal;
 import com.scs.billboardfps.game.components.PositionData;
 

@@ -8,7 +8,6 @@ import com.scs.basicecs.BasicECS;
 import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.components.HasAI;
-import com.scs.billboardfps.game.components.HasDecal;
 import com.scs.billboardfps.game.components.MovementData;
 import com.scs.billboardfps.game.components.PositionData;
 

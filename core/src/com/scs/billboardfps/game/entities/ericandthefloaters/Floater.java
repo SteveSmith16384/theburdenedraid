@@ -12,7 +12,6 @@ import com.scs.billboardfps.game.components.HasDecal;
 import com.scs.billboardfps.game.components.IsDamagable;
 import com.scs.billboardfps.game.components.MovementData;
 import com.scs.billboardfps.game.components.PositionData;
-import com.scs.billboardfps.game.entities.androids.AndroidsAndroid;
 import com.scs.billboardfps.game.systems.MobAISystem.Mode;
 
 public class Floater extends AbstractEntity {

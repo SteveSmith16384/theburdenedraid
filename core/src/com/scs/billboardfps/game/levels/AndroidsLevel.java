@@ -21,7 +21,6 @@ import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.entities.androids.AndroidsAndroid;
 import com.scs.billboardfps.game.entities.androids.GSquare;
-import com.scs.billboardfps.game.entities.androids.PlayersLaserGun;
 import com.scs.billboardfps.game.entities.androids.SSquare;
 import com.scs.billboardfps.game.entities.androids.SlidingDoor;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;

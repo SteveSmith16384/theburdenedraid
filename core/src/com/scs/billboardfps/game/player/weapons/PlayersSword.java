@@ -14,7 +14,6 @@ import com.scs.billboardfps.game.entities.chaos.ChaosBolt;
 import com.scs.billboardfps.game.interfaces.IAttackable;
 import com.scs.billboardfps.game.interfaces.IDamagable;
 import com.scs.billboardfps.game.player.CameraController;
-import com.scs.billboardfps.game.player.Player;
 
 public class PlayersSword implements IPlayersWeapon {
 

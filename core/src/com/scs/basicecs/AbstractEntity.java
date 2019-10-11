@@ -8,12 +8,14 @@ public abstract class AbstractEntity {
 
 	public int id;
 	public String name;
-	private HashMap<Class, Object> components = new HashMap<Class, Object>();
+	private HashMap<Class<?>, Object> components = new HashMap<Class<?>, Object>();
 	private boolean markForRemoval = false;
 
 	public AbstractEntity(String _name) {
 		this.id = next_id++;
 		this.name = _name;
+		
+		//ecs.addEntity(this);
 	}
 
 
@@ -36,7 +38,7 @@ public abstract class AbstractEntity {
 	}
 
 
-	public HashMap<Class, Object> getComponents() {
+	public HashMap<Class<?>, Object> getComponents() {
 		return this.components;
 	}
 

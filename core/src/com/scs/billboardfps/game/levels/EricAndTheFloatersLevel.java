@@ -18,7 +18,6 @@ import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.entities.androids.GSquare;
 import com.scs.billboardfps.game.entities.androids.SSquare;
 import com.scs.billboardfps.game.entities.androids.SlidingDoor;
-import com.scs.billboardfps.game.entities.ericandthefloaters.EricBombDropper;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 
 public class EricAndTheFloatersLevel extends AbstractLevel {

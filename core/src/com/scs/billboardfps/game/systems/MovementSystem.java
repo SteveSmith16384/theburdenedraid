@@ -91,7 +91,7 @@ public class MovementSystem extends AbstractSystem {
 	private boolean checkForPlayerCollision(AbstractEntity entity, Vector3 pos) {
 		HarmsPlayer hp = (HarmsPlayer)entity.getComponent(HarmsPlayer.class) ;
 		if (hp != null) {
-			float dist = pos.dst(Game.player.position);
+			float dist = pos.dst(Game.player.getPosition());
 			if (dist < .5f) {
 				Game.player.damaged(hp.damageCaused, new Vector3()); // todo - direction
 				return true;
