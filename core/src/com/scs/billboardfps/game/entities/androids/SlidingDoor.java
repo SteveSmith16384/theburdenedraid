@@ -25,9 +25,9 @@ public class SlidingDoor extends AbstractEntity {
         hasDecal.decal = Decal.newDecal(tr, true);
         hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth()); // Scale to sq size by default
         hasDecal.decal.setPosition(pos.position);
-        hasDecal.faceCamera = false;
+        hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = false;
-        hasDecal.rotation = -90f;
+        //hasDecal.rotation = -90f;
         this.addComponent(hasDecal);
         
     }

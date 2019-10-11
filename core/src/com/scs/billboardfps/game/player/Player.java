@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
+import com.scs.billboardfps.game.components.CanCollect;
 import com.scs.billboardfps.game.components.MovementData;
 import com.scs.billboardfps.game.components.PositionData;
 import com.scs.billboardfps.game.entities.Entity;
@@ -55,7 +56,8 @@ public class Player extends AbstractEntity implements IDamagable {
 		this.addComponent(movementData);
 		this.positionData = new PositionData();
 		this.addComponent(positionData);
-			
+		this.addComponent(new CanCollect());
+
 		inventory = inv;
 		camera = cam;
 		this.max_health = maxHealth;

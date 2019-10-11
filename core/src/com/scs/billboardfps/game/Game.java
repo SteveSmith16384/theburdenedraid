@@ -26,6 +26,7 @@ import com.scs.billboardfps.game.player.CameraController;
 import com.scs.billboardfps.game.player.Inventory;
 import com.scs.billboardfps.game.player.Player;
 import com.scs.billboardfps.game.renderable.GameShaderProvider;
+import com.scs.billboardfps.game.systems.CollectionSystem;
 import com.scs.billboardfps.game.systems.CycleThruDecalsSystem;
 import com.scs.billboardfps.game.systems.DrawDecalSystem;
 import com.scs.billboardfps.game.systems.DrawModelSystem;
@@ -52,7 +53,7 @@ public class Game implements IModule {
 	public static World world;
 	public Inventory inventory;
 	public static EntityManager entityManager; // This is slowly being removed, to be replaced by BasicECS
-	public BasicECS basicEcs;
+	public BasicECS ecs;
 	public ArrayList<ModelInstance> modelInstances;
 
 	private DecalManager decalManager;
@@ -82,12 +83,13 @@ public class Game implements IModule {
 		decalManager = new DecalManager(camera);
 
 		entityManager = new EntityManager(decalManager);
-		basicEcs = new BasicECS();
-		basicEcs.addSystem(new DrawDecalSystem(basicEcs, camera));
-		basicEcs.addSystem(new CycleThruDecalsSystem(basicEcs));
-		basicEcs.addSystem(new MobAISystem(basicEcs));		
-		basicEcs.addSystem(new MovementSystem(basicEcs));		
-		basicEcs.addSystem(new DrawModelSystem(basicEcs, batch));
+		ecs = new BasicECS();
+		ecs.addSystem(new DrawDecalSystem(ecs, camera));
+		ecs.addSystem(new CycleThruDecalsSystem(ecs));
+		ecs.addSystem(new MobAISystem(ecs));		
+		ecs.addSystem(new MovementSystem(ecs));		
+		ecs.addSystem(new DrawModelSystem(ecs, batch));
+		ecs.addSystem(new CollectionSystem(ecs));
 
 		world = new World();
 
@@ -98,7 +100,7 @@ public class Game implements IModule {
 		//gameLevel = new EricAndTheFloatersLevel(this.entityManager, this.decalManager);
 
 		player = new Player(camera, inventory, 1, 4, gameLevel.getWeapon());
-		basicEcs.addEntity(player);
+		ecs.addEntity(player);
 		
 		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -158,9 +160,10 @@ public class Game implements IModule {
 		player.update();
 		camera.update();
 
-		this.basicEcs.addAndRemoveEntities();
-		this.basicEcs.getSystem(MobAISystem.class).process();
-		this.basicEcs.getSystem(MovementSystem.class).process();
+		this.ecs.addAndRemoveEntities();
+		this.ecs.getSystem(MobAISystem.class).process();
+		this.ecs.getSystem(MovementSystem.class).process();
+		this.ecs.getSystem(CollectionSystem.class).process();
 
 		entityManager.update(world);
 		gameLevel.update(this, world);
@@ -188,12 +191,12 @@ public class Game implements IModule {
 				batch.render(modelInstances.get(i));
 			}
 		}
-		this.basicEcs.getSystem(DrawModelSystem.class).process();
+		this.ecs.getSystem(DrawModelSystem.class).process();
 		batch.end();
 
 		decalManager.render();
-		this.basicEcs.getSystem(CycleThruDecalsSystem.class).process();
-		this.basicEcs.getSystem(DrawDecalSystem.class).process();
+		this.ecs.getSystem(CycleThruDecalsSystem.class).process();
+		this.ecs.getSystem(DrawDecalSystem.class).process();
 
 		batch2d.begin();
 		inventory.render(batch2d, player);

@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g3d.Material;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Matrix3;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.Settings;
@@ -55,21 +58,19 @@ public class AndroidsLevel extends AbstractLevel {
 			for (int x=0 ; x<map_width ; x++) {
 				int type = World.NOTHING;
 				if (x == 0 || z == 0 || x >= map_width-1 || z >= map_height-1) {
-					//type = World.WALL;
+					type = World.WALL;
 				} else if (x == 2 && z == 2) {
 					SlidingDoor door = new SlidingDoor(x, z);
-					game.basicEcs.addEntity(door);
+					game.ecs.addEntity(door);
 				} else if (x == 1 && z == 3) {
-					GSquare gs = new GSquare(x, z);
-					Game.entityManager.add(gs);
-					game.modelInstances.add(gs.instance);
+					GSquare ss = new GSquare(x, z);
+					game.ecs.addEntity(ss);
 				} else if (x == 1 && z == 1) {
 					playerStartMapX = x;
 					this.playerStartMapY = z;
 				} else if (x == 3 && z == 1) {
 					SSquare ss = new SSquare(x, z);
-					Game.entityManager.add(ss);
-					game.modelInstances.add(ss.instance);
+					game.ecs.addEntity(ss);
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
@@ -94,10 +95,10 @@ public class AndroidsLevel extends AbstractLevel {
 		int image_width = pixmap.getWidth();
 		int image_height = pixmap.getHeight();
 		int mapZ = 0;
-		for (int z=8 ; z<image_height ; z+=16) {
+		for (int pixel_z=8 ; pixel_z<image_height ; pixel_z+=16) {
 			int mapX = 0;
-			for (int x=8 ; x<image_width ; x+=16) {
-				int col = pixmap.getPixel(x, z);
+			for (int pixel_x=8 ; pixel_x<image_width ; pixel_x+=16) {
+				int col = pixmap.getPixel(pixel_x, pixel_z);
 				int type = World.NOTHING;
 				switch (col) {
 				case 65791: // Wall
@@ -111,34 +112,30 @@ public class AndroidsLevel extends AbstractLevel {
 				case 247909119: // door?
 				case 336565503:
 					SlidingDoor door = new SlidingDoor(mapX, mapZ);
-					game.basicEcs.addEntity(door);
+					game.ecs.addEntity(door);
 					break;
 
 				case 1338133247: // baddy?
 				case -1798385153:
 					AbstractEntity e = new AndroidsAndroid(mapX, mapZ);//playerStartMapX-1, playerStartMapY-1);
-					game.basicEcs.addEntity(e);
+					game.ecs.addEntity(e);
 					Settings.p("Created " + e.name + " at " + mapX + "," + mapZ);
 					break;
 
 				case 437736447: // G square
 				case -1706648833:
 					GSquare gs = new GSquare(mapX, mapZ);
-					Game.entityManager.add(gs);
-					game.modelInstances.add(gs.instance);
+					game.ecs.addEntity(gs);
 					break;
 
 				case -15462508: // start
 					playerStartMapX = mapX;
 					this.playerStartMapY = mapZ;
-					GSquare gs2 = new GSquare(mapX+1, mapZ-1);
-					Game.entityManager.add(gs2);
 					break;
 
 				case -155191809: // S square
 					SSquare ss = new SSquare(mapX, mapZ);
-					Game.entityManager.add(ss);
-					game.modelInstances.add(ss.instance);
+					game.ecs.addEntity(ss);
 					break;
 
 				default:
@@ -159,7 +156,6 @@ public class AndroidsLevel extends AbstractLevel {
 	private void createWalls(Game game) {
 		ModelBuilder modelBuilder = new ModelBuilder();
 
-		Material white_material = new Material(TextureAttribute.createDiffuse(new Texture("androids/white.png")));		
 		Material black_material = new Material(TextureAttribute.createDiffuse(new Texture("androids/black.png")));		
 		Model box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, black_material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 
@@ -180,24 +176,31 @@ public class AndroidsLevel extends AbstractLevel {
 		}
 
 
+		Texture tex = new Texture("unit_highlighter_nw.png");
+		tex.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		Material white_material = new Material(TextureAttribute.createDiffuse(tex));		
+
 		Model floor = modelBuilder.createRect(
 				0f,0f, (float) map_height*Game.UNIT,
-				(float)map_width*Game.UNIT,0f, (float)map_height*Game.UNIT,
+				(float)map_width*Game.UNIT, 0f, (float)map_height*Game.UNIT,
 				(float)map_width*Game.UNIT, 0f, 0f,
 				0f,0f,0f,
 				1f,1f,1f,
 				white_material,
 				VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-
+		Matrix3 mat = new Matrix3();
+		mat.scl(new Vector2(map_width, map_height));
+		floor.meshes.get(0).transformUV(mat);
+		
 		//Create floor
 		ModelInstance instance = new ModelInstance(floor);
 		game.modelInstances.add(instance);
 
 		// ceiling
 		instance = new ModelInstance(floor);
-		instance.transform.translate(0, Game.UNIT,0);
+		instance.transform.translate(0, Game.UNIT, 0);
 		instance.transform.rotate(Vector3.X, 180);
-		instance.transform.translate(0,0,-(float)map_width* Game.UNIT);
+		instance.transform.translate(0, 0, -(float)map_width* Game.UNIT);
 		game.modelInstances.add(instance);
 	}
 

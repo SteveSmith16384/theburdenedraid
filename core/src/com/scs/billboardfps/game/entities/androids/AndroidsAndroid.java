@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
+import com.scs.billboardfps.game.components.HarmsPlayer;
 import com.scs.billboardfps.game.components.HasAI;
 import com.scs.billboardfps.game.components.HasDecal;
 import com.scs.billboardfps.game.components.IsDamagable;
@@ -40,6 +41,8 @@ public class AndroidsAndroid extends AbstractEntity {
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.75f));
+        
+        this.addComponent(new HarmsPlayer(1));
         
     }
     
