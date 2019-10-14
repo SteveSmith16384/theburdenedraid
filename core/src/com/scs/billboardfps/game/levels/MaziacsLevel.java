@@ -10,14 +10,13 @@ import com.scs.billboardfps.game.data.WorldSquare;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.entities.Floor;
-import com.scs.billboardfps.game.entities.GenericScenery;
 import com.scs.billboardfps.game.entities.Wall;
-import com.scs.billboardfps.game.entities.androids.PlayersLaserGun;
+import com.scs.billboardfps.game.entities.maziacs.Gold;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 
-public class LaserSquadLevel extends AbstractLevel {
+public class MaziacsLevel extends AbstractLevel {
 
-	public LaserSquadLevel(EntityManager _entityManager, DecalManager _decalManager) {
+	public MaziacsLevel(EntityManager _entityManager, DecalManager _decalManager) {
 		super(_entityManager, _decalManager);
 	}
 
@@ -49,9 +48,12 @@ public class LaserSquadLevel extends AbstractLevel {
 				} else if (x == 1 && z == 1) {
 					this.playerStartMapX = x;
 					this.playerStartMapY = z;
+				} else if (x == 2 && z == 2) {
+					type = World.WALL;
 				} else if (x == 3 && z == 3) {
-					GenericScenery s = new GenericScenery("GasCan", "lasersquad/gas_cannisters.png", x, z);
-					game.ecs.addEntity(s);
+					Gold gold = new Gold(x, z);
+					game.ecs.addEntity(gold);
+				} else {
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
@@ -67,7 +69,7 @@ public class LaserSquadLevel extends AbstractLevel {
 				try {
 					int block = Game.world.world[x][y].type;
 					if (block == World.WALL) {
-						game.ecs.addEntity(new Wall("lasersquad/moonbase_wall.png", x, y));
+						game.ecs.addEntity(new Wall("colours/blue.png", x, y));
 					}
 				} catch (NullPointerException ex) {
 					ex.printStackTrace();
@@ -75,7 +77,7 @@ public class LaserSquadLevel extends AbstractLevel {
 			}
 		}
 
-		game.ecs.addEntity(new Floor("lasersquad/moonbase_interior_floor.png", map_width, map_height));
+		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height));
 		//game.ecs.addEntity(new Ceiling("colours/cyan.png", map_width, map_height));
 
 	}
@@ -94,7 +96,7 @@ public class LaserSquadLevel extends AbstractLevel {
 
 	@Override
 	public IPlayersWeapon getWeapon() {
-		return new PlayersLaserGun();
+		return null;
 	}
 
 

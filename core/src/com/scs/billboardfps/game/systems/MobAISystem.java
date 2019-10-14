@@ -35,19 +35,21 @@ public class MobAISystem extends AbstractSystem {
 		movementData.offset.y = 0;
 		movementData.offset.z = 0;
 
-		if (Game.player.getPosition().dst2(pos.position) < (Game.UNIT * 5) * (Game.UNIT * 5) && Game.world.canSee(pos.position, Game.player.getPosition())) {
+		if (Game.player.getPosition().dst2(pos.position) < (Game.UNIT * 5) * (Game.UNIT * 5)) { //&& Game.world.canSee(pos.position, Game.player.getPosition())) {
 			switch (ai.mode) {
-			case GoForPlayer:			
-				ai.direction.set(Game.player.getPosition()).sub(pos.position).nor();
-				ai.direction.scl(Gdx.graphics.getDeltaTime() * ai.speed * Game.UNIT);
-				ai.direction.y = 0f;
+			case GoForPlayer:
+				if (Game.world.canSee(pos.position, Game.player.getPosition())) {
+					ai.direction.set(Game.player.getPosition()).sub(pos.position).nor();
+					ai.direction.scl(Gdx.graphics.getDeltaTime() * ai.speed * Game.UNIT);
+					ai.direction.y = 0f;
 
-				movementData.offset.x = ai.direction.x;
-				movementData.offset.z = ai.direction.z;
+					movementData.offset.x = ai.direction.x;
+					movementData.offset.z = ai.direction.z;
+				}
 				break;
 
 			case MoveLikeRook:
-				if (ai.direction.len2() == 0 || Settings.random.nextFloat() <= 0.03f) {
+				if (ai.direction.len2() == 0 || Settings.random.nextFloat() <= 0.003f) { // todo - check every second
 					ai.direction = getRandomDirection();
 				}
 				movementData.offset.x = ai.direction.x;
@@ -62,8 +64,8 @@ public class MobAISystem extends AbstractSystem {
 		}
 
 	}
-	
-	
+
+
 	private Vector3 getRandomDirection() {
 		int i = Settings.random.nextInt(4);
 		switch (i) {

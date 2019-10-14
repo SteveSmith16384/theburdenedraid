@@ -2,17 +2,8 @@ package com.scs.billboardfps.game.levels;
 
 import java.util.ArrayList;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureWrap;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.math.Matrix3;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.data.WorldSquare;
@@ -59,7 +50,9 @@ public class GulpmanLevel extends AbstractLevel {
 				} else if (x == 1 && z == 1) {
 					this.playerStartMapX = x;
 					this.playerStartMapY = z;
-				} else if (x == 4 && z == 4) {
+				} else if (x == 2 && z == 2) {
+					type = World.WALL;
+				} else if (x == 3 && z == 3) {
 					Nasty n = new Nasty(x, z);
 					game.ecs.addEntity(n);
 				} else {
@@ -108,6 +101,12 @@ public class GulpmanLevel extends AbstractLevel {
 	@Override
 	public IPlayersWeapon getWeapon() {
 		return null;//new PlayersLaserGun();
+	}
+
+
+	@Override
+	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
+		
 	}
 
 }

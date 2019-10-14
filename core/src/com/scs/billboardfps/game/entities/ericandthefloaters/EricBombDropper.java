@@ -7,7 +7,7 @@ import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 public class EricBombDropper extends AbstractIntervalWeapon implements IPlayersWeapon {
 
 	public EricBombDropper() {
-		super("todo", 3f);
+		super("ericandthefloaters/bomb.png", 3f);
 	}
 
 	

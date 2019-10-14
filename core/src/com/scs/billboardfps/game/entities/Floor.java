@@ -37,6 +37,7 @@ public class Floor extends AbstractEntity {
 		floor.meshes.get(0).transformUV(mat);
 
 		ModelInstance instance = new ModelInstance(floor);
+		instance.transform.translate(Game.UNIT/2, 0, Game.UNIT/2);
 		
 		HasModel model = new HasModel(instance);
 		this.addComponent(model);

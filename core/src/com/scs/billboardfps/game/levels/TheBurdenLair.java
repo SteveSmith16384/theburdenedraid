@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
@@ -427,5 +428,10 @@ public class TheBurdenLair extends AbstractLevel {
 		return new PlayersSword(Settings.USE_WAND);
 	}
 
+
+	@Override
+	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
+		
+	}
 
 }

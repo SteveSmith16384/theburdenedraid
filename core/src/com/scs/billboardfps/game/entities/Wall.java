@@ -19,9 +19,10 @@ public class Wall extends AbstractEntity {
 		
 		Material black_material = new Material(TextureAttribute.createDiffuse(new Texture(tex_filename)));
 		ModelBuilder modelBuilder = new ModelBuilder();
-		Model box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, black_material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
+		Model box_model = modelBuilder.createBox(Game.UNIT, Game.UNIT, Game.UNIT, black_material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 
 		ModelInstance instance = new ModelInstance(box_model);
+		//instance.transform.translate(map_width*Game.UNIT-(Game.UNIT/2), Game.UNIT/2f, map_height*Game.UNIT-(Game.UNIT/2));
 		instance.transform.translate(map_width*Game.UNIT, Game.UNIT/2f, map_height*Game.UNIT);
 		instance.transform.rotate(Vector3.Z, 90);
 

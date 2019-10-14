@@ -30,7 +30,6 @@ public class Floater extends AbstractEntity {
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
         hasDecal.decal = Decal.newDecal(tr, true);
         hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth()); // Scale to sq size by default
-        //hasDecal.decal.setPosition(pos.position);
         hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = true;        
         this.addComponent(hasDecal);
@@ -43,7 +42,7 @@ public class Floater extends AbstractEntity {
         IsDamagable damagable = new IsDamagable(1);
         this.addComponent(damagable);
         
-        HasAI ai = new HasAI(Mode.MoveLikeRook, .05f);
+        HasAI ai = new HasAI(Mode.MoveLikeRook, .005f);
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.85f));

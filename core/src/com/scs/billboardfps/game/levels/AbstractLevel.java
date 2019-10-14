@@ -3,12 +3,13 @@ package com.scs.billboardfps.game.levels;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.billboardfps.game.Game;
+import com.scs.billboardfps.game.ICollectionHandler;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 
-public abstract class AbstractLevel {
+public abstract class AbstractLevel implements ICollectionHandler {
 
 	protected DecalManager decalManager;
 	protected EntityManager entityManager;

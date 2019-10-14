@@ -1,5 +1,6 @@
 package com.scs.billboardfps.game.levels;
 
+import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
@@ -24,6 +25,12 @@ public class MinedOutLevel extends AbstractLevel {
 	@Override
 	public IPlayersWeapon getWeapon() {
 		return null;
+	}
+
+
+	@Override
+	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
+		
 	}
 
 }

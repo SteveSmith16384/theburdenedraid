@@ -6,13 +6,20 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 import com.scs.billboardfps.Settings;
+import com.scs.billboardfps.game.Game;
+import com.scs.billboardfps.game.ICollectionHandler;
 import com.scs.billboardfps.game.components.CanCollect;
 import com.scs.billboardfps.game.components.IsCollectable;
+import com.scs.billboardfps.game.components.PositionData;
 
 public class CollectionSystem extends AbstractSystem {
 
-	public CollectionSystem(BasicECS ecs) {
+	private ICollectionHandler collectionHandler;
+	
+	public CollectionSystem(BasicECS ecs, ICollectionHandler _collectionHandler) {
 		super(ecs);
+		
+		collectionHandler = _collectionHandler;
 	}
 
 
@@ -20,20 +27,24 @@ public class CollectionSystem extends AbstractSystem {
 	public Class<?> getComponentClass() {
 		return CanCollect.class;
 	}
-	
-	
+
+
 	@Override
-	public void processEntity(AbstractEntity entity) {
+	public void processEntity(AbstractEntity collector) {
+		PositionData collector_pos = (PositionData)collector.getComponent(PositionData.class);
 		Iterator<AbstractEntity> it = ecs.getIterator();
 		while (it.hasNext()) {
-			AbstractEntity e = it.next();
-			IsCollectable ic = (IsCollectable)e.getComponent(IsCollectable.class);
+			AbstractEntity collectable = it.next();
+			IsCollectable ic = (IsCollectable)collectable.getComponent(IsCollectable.class);
 			if (ic != null) {
-				// todo - check distance!
-				//Settings.p(this + " collected");
-				//e.remove();
+				PositionData collectable_pos = (PositionData)collectable.getComponent(PositionData.class);
+				if (collector_pos.position.dst(collectable_pos.position) < Game.UNIT/2f) {
+					Settings.p(this + " collected");
+					collectable.remove();
+					collectionHandler.entityCollected(collector, collectable);
+				}
 			}
 		}
 	}
-	
+
 }

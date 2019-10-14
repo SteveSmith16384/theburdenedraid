@@ -1,13 +1,15 @@
 package com.scs.billboardfps.game.levels;
 
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.data.WorldSquare;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.entities.Wall;
-import com.scs.billboardfps.game.entities.androids.SlidingDoor;
+import com.scs.billboardfps.game.entities.ericandthefloaters.EricBombDropper;
+import com.scs.billboardfps.game.entities.ericandthefloaters.Floater;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 
 public class EricAndTheFloatersLevel extends AbstractLevel {
@@ -40,12 +42,14 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 				int type = World.NOTHING;
 				if (x == 0 || z == 0 || x >= map_width-1 || z >= map_height-1) {
 					type = World.WALL;
-				} else if (x == 2 && z == 2) {
-					SlidingDoor door = new SlidingDoor(x, z);
-					game.ecs.addEntity(door);
 				} else if (x == 1 && z == 1) {
 					this.playerStartMapX = x;
 					this.playerStartMapY = z;
+				} else if (x == 2 && z == 2) {
+					type = World.WALL;
+				} else if (x == 3 && z == 1) {
+					Floater floater = new Floater(x, z);
+					game.ecs.addEntity(floater);
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
@@ -116,7 +120,7 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 
 	@Override
 	public IPlayersWeapon getWeapon() {
-		return null;// new EricBombDropper();
+		return new EricBombDropper();
 	}
 
 
@@ -124,5 +128,10 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 	public void levelComplete() {
 	}
 
+
+	@Override
+	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
+		
+	}
 
 }

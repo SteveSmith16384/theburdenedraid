@@ -220,4 +220,10 @@ public class AndroidsLevel extends AbstractLevel {
 		return null;//new PlayersLaserGun();
 	}
 
+
+	@Override
+	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
+		
+	}
+
 }

@@ -34,8 +34,8 @@ public class SSquare extends AbstractEntity {
 		super(SSquare.class.getSimpleName());
 		
 		ModelInstance instance = new ModelInstance(floor);
-		//instance.transform.translate((map_x*Game.UNIT)-(Game.UNIT/2), 0.1f, (map_y*Game.UNIT)-(Game.UNIT/2));
-		instance.transform.translate((map_x*Game.UNIT), 0.1f, (map_y*Game.UNIT));
+		instance.transform.translate((map_x*Game.UNIT)-(Game.UNIT/2), 0.1f, (map_y*Game.UNIT)-(Game.UNIT/2));
+		//instance.transform.translate((map_x*Game.UNIT), 0.1f, (map_y*Game.UNIT));
 		this.addComponent(new HasModel(instance));
 
 	}

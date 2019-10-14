@@ -21,7 +21,7 @@ import com.scs.billboardfps.game.components.PositionData;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.levels.AbstractLevel;
-import com.scs.billboardfps.game.levels.GulpmanLevel;
+import com.scs.billboardfps.game.levels.EricAndTheFloatersLevel;
 import com.scs.billboardfps.game.player.CameraController;
 import com.scs.billboardfps.game.player.Inventory;
 import com.scs.billboardfps.game.player.Player;
@@ -89,7 +89,6 @@ public class Game implements IModule {
 		ecs.addSystem(new MobAISystem(ecs));		
 		ecs.addSystem(new MovementSystem(ecs));		
 		ecs.addSystem(new DrawModelSystem(ecs, batch));
-		ecs.addSystem(new CollectionSystem(ecs));
 
 		world = new World();
 
@@ -97,8 +96,11 @@ public class Game implements IModule {
 
 		//gameLevel = new TheBurdenLair(this.entityManager, this.decalManager);
 		//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
-		//gameLevel = new EricAndTheFloatersLevel(this.entityManager, this.decalManager);
-		gameLevel = new GulpmanLevel(this.entityManager, this.decalManager);
+		gameLevel = new EricAndTheFloatersLevel(this.entityManager, this.decalManager);
+		//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager);
+		//gameLevel = new LaserSquadLevel(this.entityManager, this.decalManager);
+
+		ecs.addSystem(new CollectionSystem(ecs, gameLevel));
 
 		player = new Player(camera, inventory, 1, 4, gameLevel.getWeapon());
 		ecs.addEntity(player);
