@@ -1,5 +1,5 @@
 package com.scs.billboardfps.game.entities;
-
+/*
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttributes;
@@ -41,3 +41,4 @@ public class FloorSquare extends Entity {
 
 
 }
+*/

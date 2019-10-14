@@ -5,6 +5,7 @@ import java.util.Iterator;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
+import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.components.CanCollect;
 import com.scs.billboardfps.game.components.IsCollectable;
 
@@ -28,7 +29,9 @@ public class CollectionSystem extends AbstractSystem {
 			AbstractEntity e = it.next();
 			IsCollectable ic = (IsCollectable)e.getComponent(IsCollectable.class);
 			if (ic != null) {
-				e.remove();
+				// todo - check distance!
+				//Settings.p(this + " collected");
+				//e.remove();
 			}
 		}
 	}

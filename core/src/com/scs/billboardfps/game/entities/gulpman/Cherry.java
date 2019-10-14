@@ -24,7 +24,7 @@ public class Cherry extends AbstractEntity {
 		Texture tex = new Texture(Gdx.files.internal("gulpman/cherry.png"));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
         hasDecal.decal = Decal.newDecal(tr, true);
-        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth()); // Scale to sq size by default
+        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth() / 2);
         hasDecal.decal.setPosition(pos.position);
         hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = true;        

@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.billboardfps.game.Art;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.components.HasAI;
 import com.scs.billboardfps.game.components.HasDecal;
+import com.scs.billboardfps.game.components.HasDecalCycle;
 import com.scs.billboardfps.game.components.IsDamagable;
 import com.scs.billboardfps.game.components.MovementData;
 import com.scs.billboardfps.game.components.PositionData;
@@ -24,14 +26,19 @@ public class Floater extends AbstractEntity {
         this.addComponent(pos);
         
 		HasDecal hasDecal = new HasDecal();
-		Texture tex = new Texture(Gdx.files.internal("ericandthefloaters/floater.png"));
+		Texture tex = new Texture(Gdx.files.internal("ericandthefloaters/floater1.png"));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
         hasDecal.decal = Decal.newDecal(tr, true);
         hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth()); // Scale to sq size by default
-        hasDecal.decal.setPosition(pos.position);
+        //hasDecal.decal.setPosition(pos.position);
         hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = true;        
         this.addComponent(hasDecal);
+        
+        HasDecalCycle cycle = new HasDecalCycle(.5f, 2);
+        cycle.decals[0] = hasDecal.decal;
+        cycle.decals[1] = Art.DecalHelper("ericandthefloaters/floater2.png", 1f);
+        this.addComponent(cycle);
         
         IsDamagable damagable = new IsDamagable(1);
         this.addComponent(damagable);

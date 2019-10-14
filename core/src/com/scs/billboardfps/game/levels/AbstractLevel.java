@@ -15,7 +15,7 @@ public abstract class AbstractLevel {
 
 	protected int map_width;
 	protected int map_height;
-	protected int playerStartMapX, playerStartMapY;
+	protected int playerStartMapX = -1, playerStartMapY = -1;
 	
 	public AbstractLevel(EntityManager _entityManager, DecalManager _decalManager) {
 		entityManager = _entityManager;

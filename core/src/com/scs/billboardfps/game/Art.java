@@ -3,6 +3,7 @@ package com.scs.billboardfps.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.decals.Decal;
 
 public class Art {
 
@@ -29,6 +30,15 @@ public class Art {
 
 		return reg;
 
+	}
+	
+	
+	public static Decal DecalHelper(String filename, float sizePcent) {
+		Texture tex = new Texture(Gdx.files.internal(filename));
+		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
+		Decal decal = Decal.newDecal(tr, true);
+        decal.setScale(Game.UNIT * sizePcent / tr.getRegionWidth());
+        return decal;
 	}
 
 }

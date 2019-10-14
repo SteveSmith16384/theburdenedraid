@@ -1,20 +1,12 @@
 package com.scs.billboardfps.game.levels;
 
-import java.util.ArrayList;
-
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.math.Vector3;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.data.WorldSquare;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
+import com.scs.billboardfps.game.entities.Wall;
 import com.scs.billboardfps.game.entities.androids.SlidingDoor;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 
@@ -52,7 +44,7 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 					SlidingDoor door = new SlidingDoor(x, z);
 					game.ecs.addEntity(door);
 				} else if (x == 1 && z == 1) {
-					playerStartMapX = x;
+					this.playerStartMapX = x;
 					this.playerStartMapY = z;
 				}
 
@@ -64,7 +56,7 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 
 
 	private void createWalls(Game game) {
-		ModelBuilder modelBuilder = new ModelBuilder();
+		/*ModelBuilder modelBuilder = new ModelBuilder();
 
 		Material outer_wall_material = new Material(TextureAttribute.createDiffuse(new Texture("ericandthefloaters/ericouterwall.png")));		
 		Material inner_wall_material = new Material(TextureAttribute.createDiffuse(new Texture("ericandthefloaters/ericwall.png")));		
@@ -73,7 +65,7 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 		Model inner_wall_box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, inner_wall_material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 
 		game.modelInstances = new ArrayList<ModelInstance>();
-
+		 */
 		for (int z = 0; z < map_height; z++) {
 			for (int x = 0; x < map_width; x++) {
 				try {
@@ -81,13 +73,16 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 					if (block == World.WALL) {
 						ModelInstance instance = null;
 						if (x == 0 || z == 0 || x >= map_width-1 || z >= map_height-1) {
-							instance = new ModelInstance(outer_wall_box_model);
+							game.ecs.addEntity(new Wall("ericandthefloaters/ericouterwall.png", x, z));
+							//instance = new ModelInstance(outer_wall_box_model);
 						} else {
-							instance = new ModelInstance(inner_wall_box_model);
-						}							
-							instance.transform.translate(x*Game.UNIT, Game.UNIT/2f, z*Game.UNIT);
-							instance.transform.rotate(Vector3.Z, 90);
-							game.modelInstances.add(instance);
+							game.ecs.addEntity(new Wall("ericandthefloaters/ericwall.png", x, z));
+							//instance = new ModelInstance(inner_wall_box_model);
+						}		
+						/*
+						instance.transform.translate(x*Game.UNIT, Game.UNIT/2f, z*Game.UNIT);
+						instance.transform.rotate(Vector3.Z, 90);
+						game.modelInstances.add(instance);*/
 					}
 				} catch (NullPointerException ex) {
 					ex.printStackTrace();

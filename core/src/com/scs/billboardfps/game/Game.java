@@ -21,7 +21,7 @@ import com.scs.billboardfps.game.components.PositionData;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.levels.AbstractLevel;
-import com.scs.billboardfps.game.levels.AndroidsLevel;
+import com.scs.billboardfps.game.levels.GulpmanLevel;
 import com.scs.billboardfps.game.player.CameraController;
 import com.scs.billboardfps.game.player.Inventory;
 import com.scs.billboardfps.game.player.Player;
@@ -96,8 +96,9 @@ public class Game implements IModule {
 		inventory = new Inventory();
 
 		//gameLevel = new TheBurdenLair(this.entityManager, this.decalManager);
-		gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
+		//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
 		//gameLevel = new EricAndTheFloatersLevel(this.entityManager, this.decalManager);
+		gameLevel = new GulpmanLevel(this.entityManager, this.decalManager);
 
 		player = new Player(camera, inventory, 1, 4, gameLevel.getWeapon());
 		ecs.addEntity(player);
@@ -138,6 +139,10 @@ public class Game implements IModule {
 
 			if (transitionProgress >= 0.5f && !hasLoaded){
 				gameLevel.load(this);
+				
+				if (gameLevel.getPlayerStartX() < 0 || gameLevel.getPlayerStartY() < 0) {
+					throw new RuntimeException ("No player start position set");
+				}
 				hasLoaded = true;
 
 				PositionData posData = (PositionData)this.player.getComponent(PositionData.class);

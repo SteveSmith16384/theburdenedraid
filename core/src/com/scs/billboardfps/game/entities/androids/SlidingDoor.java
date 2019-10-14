@@ -20,7 +20,7 @@ public class SlidingDoor extends AbstractEntity {
         this.addComponent(pos);
         
 		HasDecal hasDecal = new HasDecal();
-		Texture tex = new Texture(Gdx.files.internal("androids/door.png"));
+		Texture tex = new Texture(Gdx.files.internal("colours/cyan.png"));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
         hasDecal.decal = Decal.newDecal(tr, true);
         hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth()); // Scale to sq size by default

@@ -5,23 +5,17 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureWrap;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
-import com.badlogic.gdx.math.Matrix3;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.Settings;
 import com.scs.billboardfps.game.Game;
 import com.scs.billboardfps.game.World;
 import com.scs.billboardfps.game.data.WorldSquare;
 import com.scs.billboardfps.game.decals.DecalManager;
+import com.scs.billboardfps.game.entities.Ceiling;
 import com.scs.billboardfps.game.entities.EntityManager;
+import com.scs.billboardfps.game.entities.Floor;
+import com.scs.billboardfps.game.entities.Wall;
 import com.scs.billboardfps.game.entities.androids.AndroidsAndroid;
 import com.scs.billboardfps.game.entities.androids.GSquare;
 import com.scs.billboardfps.game.entities.androids.SSquare;
@@ -154,20 +148,21 @@ public class AndroidsLevel extends AbstractLevel {
 
 
 	private void createWalls(Game game) {
-		ModelBuilder modelBuilder = new ModelBuilder();
+		/*ModelBuilder modelBuilder = new ModelBuilder();
 
-		Material black_material = new Material(TextureAttribute.createDiffuse(new Texture("androids/black.png")));		
+		Material black_material = new Material(TextureAttribute.createDiffuse(new Texture("androids/black.png")));
 		Model box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, black_material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-
+*/
 		for (int y = 0; y < map_height; y++) {
 			for (int x = 0; x < map_width; x++) {
 				try {
 					int block = Game.world.world[x][y].type;
 					if (block == World.WALL) {
-						ModelInstance instance = new ModelInstance(box_model);
+						/*ModelInstance instance = new ModelInstance(box_model);
 						instance.transform.translate(x*Game.UNIT, Game.UNIT/2f, y*Game.UNIT);
 						instance.transform.rotate(Vector3.Z, 90);
-						game.modelInstances.add(instance);
+						game.modelInstances.add(instance);*/
+						game.ecs.addEntity(new Wall("colours/black.png", x, y));
 					}
 				} catch (NullPointerException ex) {
 					ex.printStackTrace();
@@ -175,7 +170,7 @@ public class AndroidsLevel extends AbstractLevel {
 			}
 		}
 
-
+/*
 		Texture tex = new Texture("unit_highlighter_nw.png");
 		tex.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 		Material white_material = new Material(TextureAttribute.createDiffuse(tex));		
@@ -202,6 +197,10 @@ public class AndroidsLevel extends AbstractLevel {
 		instance.transform.rotate(Vector3.X, 180);
 		instance.transform.translate(0, 0, -(float)map_width* Game.UNIT);
 		game.modelInstances.add(instance);
+		*/
+		
+		game.ecs.addEntity(new Floor("unit_highlighter_nw.png", map_width, map_height));
+		game.ecs.addEntity(new Ceiling("unit_highlighter_nw.png", map_width, map_height));
 	}
 
 
