@@ -28,11 +28,8 @@ public class Player extends AbstractEntity implements IDamagable {
 	private static final float hurtDistanceSquared = Game.UNIT * .5f * Game.UNIT * .5f;
 
 	public Camera camera;
-	//private World world;
 	public IInventory inventory;
 	public CameraController cameraController;
-	//public Vector3 position;
-	//private Vector3 moveVector;
 	private Vector3 tmpVector;
 	private boolean onGround = false;
 	private float gravity = 0f;
@@ -65,8 +62,6 @@ public class Player extends AbstractEntity implements IDamagable {
 
 		cameraController = new CameraController(camera, lookSens);
 
-		//position = new Vector3();//world.playersStartMapX * Game.UNIT, 0f, world.playerStartMapY * Game.UNIT);
-		//moveVector = new Vector3();
 		tmpVector = new Vector3();
 
 		weapon = _weapon;//new SwordWeapon(Settings.USE_WAND);
@@ -222,18 +217,6 @@ public class Player extends AbstractEntity implements IDamagable {
 			this.movementData.offset.add(tmpVector.nor().scl(dt * moveSpeed));
 		}
 
-		//if (moveVector.len2() > 0) {
-			/*float colX = moveVector.x==0 ? 0 : (moveVector.x>0 ? 1 : -1);
-			float colZ = moveVector.z==0 ? 0 : (moveVector.z>0 ? 1 : -1);
-
-			if (world.getMapSquareAt(position.x + moveVector.x + colX * colliderSize, position.z) == World.NOTHING) {
-				position.add(moveVector.x, 0, 0);
-			}
-			if (world.getMapSquareAt(position.x, position.z + moveVector.z + colZ * colliderSize) == World.NOTHING) {
-				position.add(0, 0, moveVector.z);
-			}*/
-		//}
-
 		camera.position.set(getPosition().x, getPosition().y + playerHeight, getPosition().z);
 
 		if (this.movementData.offset.len2() > 0) {
@@ -298,6 +281,11 @@ public class Player extends AbstractEntity implements IDamagable {
 
 	public void resetHealth() {
 		this.health = this.max_health;
+	}
+	
+	
+	public void setWeapon(IPlayersWeapon w) {
+		this.weapon = w;
 	}
 
 }

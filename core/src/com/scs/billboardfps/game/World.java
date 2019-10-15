@@ -102,11 +102,12 @@ public class World {
 	}
 
 
-	public int getMapSquareAt(float x, float y){
+	public int getMapSquareAt(float x, float y) {
 		return getMapSquareAt((int)(x/Game.UNIT+0.5f), (int)(y/Game.UNIT+0.5f));
 	}
 
-	public int getMapSquareAt(Vector3 vec){
+	
+	public int getMapSquareAt(Vector3 vec) {
 		return getMapSquareAt((int)(vec.x+0.5f), (int)(vec.z+0.5f));
 	}
 

@@ -425,7 +425,7 @@ public class TheBurdenLair extends AbstractLevel {
 
 	@Override
 	public IPlayersWeapon getWeapon() {
-		return new PlayersSword(Settings.USE_WAND);
+		return new PlayersSword();
 	}
 
 

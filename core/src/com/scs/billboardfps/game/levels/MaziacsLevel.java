@@ -2,6 +2,8 @@ package com.scs.billboardfps.game.levels;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
@@ -12,7 +14,11 @@ import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.entities.Floor;
 import com.scs.billboardfps.game.entities.Wall;
 import com.scs.billboardfps.game.entities.maziacs.Gold;
+import com.scs.billboardfps.game.entities.maziacs.Maziac;
+import com.scs.billboardfps.game.entities.maziacs.SwordPickup;
+import com.scs.billboardfps.game.player.Player;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
+import com.scs.billboardfps.game.player.weapons.PlayersSword;
 
 public class MaziacsLevel extends AbstractLevel {
 
@@ -49,11 +55,14 @@ public class MaziacsLevel extends AbstractLevel {
 					this.playerStartMapX = x;
 					this.playerStartMapY = z;
 				} else if (x == 2 && z == 2) {
-					type = World.WALL;
+					SwordPickup sword = new SwordPickup(x, z);
+					game.ecs.addEntity(sword);
+				} else if (x == 3 && z == 3) {
+					Maziac m = new Maziac(x, z);
+					game.ecs.addEntity(m);
 				} else if (x == 3 && z == 3) {
 					Gold gold = new Gold(x, z);
 					game.ecs.addEntity(gold);
-				} else {
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
@@ -102,7 +111,16 @@ public class MaziacsLevel extends AbstractLevel {
 
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
-		
+		if (collectable instanceof SwordPickup) {
+			Player player = (Player)collector;
+			player.setWeapon(new PlayersSword());
+		}
+	}
+
+
+	@Override
+	public void renderUI(SpriteBatch batch, BitmapFont font) {
+		font.draw(batch, "MAZIACS", 10, 30);
 	}
 
 }

@@ -15,7 +15,7 @@ import com.scs.billboardfps.game.interfaces.IAttackable;
 import com.scs.billboardfps.game.interfaces.IDamagable;
 import com.scs.billboardfps.game.player.CameraController;
 
-public class PlayersSword implements IPlayersWeapon {
+public class Wand implements IPlayersWeapon {
 
 	private static final float defaultWeaponRotation = 30f;
 	private static final float chargeWeaponRotation = -20f;
@@ -29,10 +29,10 @@ public class PlayersSword implements IPlayersWeapon {
 	private boolean didPlayAudio = false;
 	private boolean didAttack = true;
 
-	public PlayersSword() {
-		Texture weaponTex = new Texture(Gdx.files.internal("sword.png"));
+	public Wand() {
+		Texture weaponTex = new Texture(Gdx.files.internal("chaos/wand2.png"));
 		weaponSprite = new Sprite(weaponTex);
-		weaponSprite.setOrigin(32, 0);
+		weaponSprite.setOrigin(32, 20);
 		weaponSprite.setScale(7.5f, 5f);
 		weaponPosition = new Vector2(0,0);
 

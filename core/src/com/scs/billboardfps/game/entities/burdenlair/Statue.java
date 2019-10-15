@@ -14,7 +14,6 @@ public final class Statue extends Entity implements IInteractable {
 	private int readProgress = 0;
 	private float readTimer = 0f;
 	private float soundTimer = 0f;
-	//private Vector3 position;
 
 	private String readText[] = new String[]{
 			"Stars Above Us All"," ",
@@ -24,11 +23,9 @@ public final class Statue extends Entity implements IInteractable {
 
 	public Statue(TextureRegion[][] tex, int x, int y) {
 		super(Statue.class.getSimpleName(), tex, x, y, 3, 4);
-
-		//position = new Vector3();
-
 	}
 
+	
 	@Override
 	public String getInteractText(Player player) {
 		String txt = " ";
@@ -41,7 +38,6 @@ public final class Statue extends Entity implements IInteractable {
 	
 	@Override
 	public void interact(Player player) {
-		// scs new position.set(player.getPosition());
 		reading = true;
 		readProgress = 0;
 		readTimer = 0;
@@ -51,14 +47,13 @@ public final class Statue extends Entity implements IInteractable {
 
 	@Override
 	public void update(World world) {
-		if(reading) {
-			//scs new Game.player.getPosition().set(position);
+		if (reading) {
 			Game.player.interactTarget = this;
 
 			if(readTimer<1f && (readText[readProgress].equals(" ") == false))
 				soundTimer += Gdx.graphics.getDeltaTime();
 
-			if(soundTimer>0.1f){
+			if(soundTimer > 0.1f){
 				soundTimer-=0.1f;
 				Game.audio.play("read");
 			}

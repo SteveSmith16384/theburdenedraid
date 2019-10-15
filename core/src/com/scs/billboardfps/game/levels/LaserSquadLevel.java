@@ -2,6 +2,8 @@ package com.scs.billboardfps.game.levels;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
@@ -105,6 +107,12 @@ public class LaserSquadLevel extends AbstractLevel {
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
 		
+	}
+
+
+	@Override
+	public void renderUI(SpriteBatch batch, BitmapFont font) {
+		font.draw(batch, "LASER SQUAD", 10, 30);
 	}
 
 }

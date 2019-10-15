@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.Settings;
@@ -224,6 +226,12 @@ public class AndroidsLevel extends AbstractLevel {
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
 		
+	}
+
+
+	@Override
+	public void renderUI(SpriteBatch batch, BitmapFont font) {
+		font.draw(batch, "ANDROIDS", 10, 30);
 	}
 
 }

@@ -27,7 +27,7 @@ public abstract class AbstractLevel implements ICollectionHandler {
 	
 	public void update(Game game, World world) {};
 	
-	public void renderUI(SpriteBatch batch, BitmapFont font) {};
+	public abstract void renderUI(SpriteBatch batch, BitmapFont font);
 
 	public abstract IPlayersWeapon getWeapon();
 	

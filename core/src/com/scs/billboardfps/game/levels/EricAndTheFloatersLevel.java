@@ -1,5 +1,7 @@
 package com.scs.billboardfps.game.levels;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.billboardfps.game.Game;
@@ -132,6 +134,12 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
 		
+	}
+
+
+	@Override
+	public void renderUI(SpriteBatch batch, BitmapFont font) {
+		font.draw(batch, "Eric and the Floaters", 10, 30);
 	}
 
 }

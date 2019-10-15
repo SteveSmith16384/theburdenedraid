@@ -21,7 +21,7 @@ import com.scs.billboardfps.game.components.PositionData;
 import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.levels.AbstractLevel;
-import com.scs.billboardfps.game.levels.LaserSquadLevel;
+import com.scs.billboardfps.game.levels.MinedOutLevel;
 import com.scs.billboardfps.game.player.CameraController;
 import com.scs.billboardfps.game.player.Inventory;
 import com.scs.billboardfps.game.player.Player;
@@ -98,7 +98,9 @@ public class Game implements IModule {
 		//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
 		//gameLevel = new EricAndTheFloatersLevel(this.entityManager, this.decalManager);
 		//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager);
-		gameLevel = new LaserSquadLevel(this.entityManager, this.decalManager);
+		//gameLevel = new LaserSquadLevel(this.entityManager, this.decalManager);
+		//gameLevel = new MaziacsLevel(this.entityManager, this.decalManager);
+		gameLevel = new MinedOutLevel(this.entityManager, this.decalManager);
 
 		ecs.addSystem(new CollectionSystem(ecs, gameLevel));
 
