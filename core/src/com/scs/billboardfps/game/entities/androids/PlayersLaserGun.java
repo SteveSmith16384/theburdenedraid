@@ -7,7 +7,7 @@ import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
 public class PlayersLaserGun extends AbstractIntervalWeapon implements IPlayersWeapon {
 
 	public PlayersLaserGun() {
-		super("todo", .5f);
+		super("lasergun1.png", .5f);
 	}
 
 	@Override

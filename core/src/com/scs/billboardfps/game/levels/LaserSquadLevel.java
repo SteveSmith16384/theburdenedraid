@@ -11,6 +11,7 @@ import com.scs.billboardfps.game.decals.DecalManager;
 import com.scs.billboardfps.game.entities.EntityManager;
 import com.scs.billboardfps.game.entities.Floor;
 import com.scs.billboardfps.game.entities.GenericScenery;
+import com.scs.billboardfps.game.entities.GenericWallScenery;
 import com.scs.billboardfps.game.entities.Wall;
 import com.scs.billboardfps.game.entities.androids.PlayersLaserGun;
 import com.scs.billboardfps.game.player.weapons.IPlayersWeapon;
@@ -49,6 +50,9 @@ public class LaserSquadLevel extends AbstractLevel {
 				} else if (x == 1 && z == 1) {
 					this.playerStartMapX = x;
 					this.playerStartMapY = z;
+				} else if (x == 3 && z == 1) {
+					GenericWallScenery s = new GenericWallScenery("VidScreen", "lasersquad/vidscreen.png", x, z, GenericWallScenery.Side.Back);
+					game.ecs.addEntity(s);
 				} else if (x == 3 && z == 3) {
 					GenericScenery s = new GenericScenery("GasCan", "lasersquad/gas_cannisters.png", x, z);
 					game.ecs.addEntity(s);
@@ -94,7 +98,7 @@ public class LaserSquadLevel extends AbstractLevel {
 
 	@Override
 	public IPlayersWeapon getWeapon() {
-		return new PlayersLaserGun();
+		return null;//new PlayersLaserGun();
 	}
 
 
