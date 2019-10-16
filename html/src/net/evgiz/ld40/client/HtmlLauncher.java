@@ -3,7 +3,7 @@ package net.evgiz.ld40.client;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.scs.billboardfps.BillBoardFPS_Main;
+import com.scs.lostinthegame.BillBoardFPS_Main;
 
 public class HtmlLauncher extends GwtApplication {
 

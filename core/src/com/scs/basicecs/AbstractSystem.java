@@ -22,7 +22,6 @@ public abstract class AbstractSystem {
 
 	/**
 	 * Override if this system should only deal with entities that have a specific component.
-	 * @return
 	 */
 	public Class<?> getComponentClass() {
 		return null;

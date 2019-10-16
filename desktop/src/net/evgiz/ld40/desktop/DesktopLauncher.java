@@ -2,8 +2,8 @@ package net.evgiz.ld40.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.scs.billboardfps.BillBoardFPS_Main;
-import com.scs.billboardfps.Settings;
+import com.scs.lostinthegame.BillBoardFPS_Main;
+import com.scs.lostinthegame.Settings;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
