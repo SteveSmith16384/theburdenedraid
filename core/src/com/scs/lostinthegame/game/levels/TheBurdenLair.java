@@ -251,7 +251,7 @@ public class TheBurdenLair extends AbstractLevel {
 			int x = Settings.random.nextInt(map_width);
 			int y = Settings.random.nextInt(map_height);
 
-			if (Game.world.getMapSquareAt(x,y) == World.NOTHING) {
+			if (Game.world.getMapSquareAt(x,y).type == World.NOTHING) {
 				DecalEntity ent = new DecalEntity(Game.world.detailTexture[Settings.random.nextInt(2)]);
 				ent.position.set(x * Game.UNIT, 0, y * Game.UNIT);
 				decalManager.add(ent);

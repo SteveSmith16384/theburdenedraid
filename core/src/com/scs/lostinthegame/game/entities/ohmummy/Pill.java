@@ -27,10 +27,8 @@ public class Pill extends AbstractEntity {
         hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth() / 2);
         hasDecal.decal.setPosition(pos.position);
         hasDecal.faceCamera = true;
-        hasDecal.faceCameraTilted = true;        
+        hasDecal.faceCameraTilted = true;
         this.addComponent(hasDecal);
-        
-        this.addComponent(new IsCollectable());
 	}
 
 }

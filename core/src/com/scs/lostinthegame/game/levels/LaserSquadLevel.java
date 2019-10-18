@@ -16,6 +16,7 @@ import com.scs.lostinthegame.game.entities.GenericScenery;
 import com.scs.lostinthegame.game.entities.GenericWallScenery;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.androids.PlayersLaserGun;
+import com.scs.lostinthegame.game.entities.androids.SlidingDoor;
 import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 
 public class LaserSquadLevel extends AbstractLevel {
@@ -44,20 +45,26 @@ public class LaserSquadLevel extends AbstractLevel {
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
+		this.playerStartMapX = 1;
+		this.playerStartMapY = 1;
+
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
 				int type = World.NOTHING;
 				if (x == 0 || z == 0 || x >= map_width-1 || z >= map_height-1) {
 					type = World.WALL;
-				} else if (x == 1 && z == 1) {
-					this.playerStartMapX = x;
-					this.playerStartMapY = z;
 				} else if (x == 3 && z == 1) {
 					GenericWallScenery s = new GenericWallScenery("VidScreen", "lasersquad/vidscreen.png", x, z, GenericWallScenery.Side.Back);
+					game.ecs.addEntity(s);
+				} else if (x == 3 && z == 2) {
+					GenericScenery s = new GenericScenery("Barrel", "lasersquad/barrel.png", x, z);
 					game.ecs.addEntity(s);
 				} else if (x == 3 && z == 3) {
 					GenericScenery s = new GenericScenery("GasCan", "lasersquad/gas_cannisters.png", x, z);
 					game.ecs.addEntity(s);
+				} else if (x == 1 && z == 2) {
+					SlidingDoor door = new SlidingDoor(x, z, "lasersquad/interior_door.png");
+					game.ecs.addEntity(door);
 				}
 
 				Game.world.world[x][z] = new WorldSquare();

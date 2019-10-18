@@ -52,7 +52,7 @@ public class Game implements IModule {
 	public static World world;
 	public Inventory inventory;
 	public static EntityManager entityManager; // This is slowly being removed, to be replaced by BasicECS
-	public BasicECS ecs;
+	public static BasicECS ecs;
 	public ArrayList<ModelInstance> modelInstances;
 
 	private DecalManager decalManager;

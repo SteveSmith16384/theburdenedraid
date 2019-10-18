@@ -50,20 +50,20 @@ public class AndroidsLevel extends AbstractLevel {
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
+		this.playerStartMapX = 1;
+		this.playerStartMapY = 1;
+
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
 				int type = World.NOTHING;
 				if (x == 0 || z == 0 || x >= map_width-1 || z >= map_height-1) {
 					type = World.WALL;
 				} else if (x == 2 && z == 2) {
-					SlidingDoor door = new SlidingDoor(x, z);
+					SlidingDoor door = new SlidingDoor(x, z, "colours/cyan.png");
 					game.ecs.addEntity(door);
 				} else if (x == 1 && z == 3) {
 					GSquare ss = new GSquare(x, z);
 					game.ecs.addEntity(ss);
-				} else if (x == 1 && z == 1) {
-					playerStartMapX = x;
-					this.playerStartMapY = z;
 				} else if (x == 3 && z == 1) {
 					SSquare ss = new SSquare(x, z);
 					game.ecs.addEntity(ss);
@@ -107,7 +107,7 @@ public class AndroidsLevel extends AbstractLevel {
 
 				case 247909119: // door?
 				case 336565503:
-					SlidingDoor door = new SlidingDoor(mapX, mapZ);
+					SlidingDoor door = new SlidingDoor(mapX, mapZ, "colours/cyan.png");
 					game.ecs.addEntity(door);
 					break;
 
