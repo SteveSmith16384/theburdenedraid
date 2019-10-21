@@ -46,7 +46,7 @@ public class Player extends AbstractEntity implements IDamagable {
 	
 	private IPlayersWeapon weapon;
 
-	public Player(Camera cam, IInventory inv, int lookSens, int maxHealth, IPlayersWeapon _weapon) {
+	public Player(Camera cam, IInventory inv, int lookSens, int maxHealth) {//, IPlayersWeapon _weapon) {
 		super(Player.class.getSimpleName());
 		
 		this.movementData = new MovementData(0.5f);
@@ -64,7 +64,7 @@ public class Player extends AbstractEntity implements IDamagable {
 
 		tmpVector = new Vector3();
 
-		weapon = _weapon;//new SwordWeapon(Settings.USE_WAND);
+		//weapon = _weapon;//new SwordWeapon(Settings.USE_WAND);
 
 		hurtTexture = new Texture(Gdx.files.internal("red.png"));
 		heart = new Texture(Gdx.files.internal("heart.png"));

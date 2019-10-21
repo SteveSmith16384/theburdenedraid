@@ -17,15 +17,16 @@ public class Pill extends AbstractEntity {
 		super(Pill.class.getSimpleName());
 		
         PositionData pos = new PositionData();
-        pos.position = new Vector3(x*Game.UNIT, 0, y*Game.UNIT);
+        pos.position = new Vector3(x*Game.UNIT, -Game.UNIT/4, y*Game.UNIT);
         this.addComponent(pos);
         
 		HasDecal hasDecal = new HasDecal();
 		Texture tex = new Texture(Gdx.files.internal("ohmummy/pill.png"));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
         hasDecal.decal = Decal.newDecal(tr, true);
-        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth() / 2);
+        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth() / 4);
         hasDecal.decal.setPosition(pos.position);
+        hasDecal.decal.setColor(1f,  1f,  1f, .6f);
         hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = true;
         this.addComponent(hasDecal);

@@ -13,6 +13,7 @@ import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.ericandthefloaters.EricBombDropper;
 import com.scs.lostinthegame.game.entities.ericandthefloaters.Floater;
 import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
+import com.scs.lostinthegame.game.systems.EricAndTheFloatersExplosionSystem;
 
 public class EricAndTheFloatersLevel extends AbstractLevel {
 
@@ -23,13 +24,16 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		entityManager.getEntities().clear();
-		decalManager.clear();
+		//entityManager.getEntities().clear();
+		//decalManager.clear();
 
 		//loadMapFromImage(game);
 		loadTestMap(game);
 
 		createWalls(game);
+
+		game.player.setWeapon(new EricBombDropper());
+		game.ecs.addSystem(new EricAndTheFloatersExplosionSystem(game.ecs));
 	}
 
 
@@ -119,13 +123,19 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 		 */
 	}
 
-
+/*
 	@Override
 	public IPlayersWeapon getWeapon() {
 		return new EricBombDropper();
 	}
+*/
 
+	@Override
+	public void update(Game game, World world) {
+		game.ecs.getSystem(EricAndTheFloatersExplosionSystem.class).process();
+	}
 
+	
 	@Override
 	public void levelComplete() {
 	}
@@ -133,13 +143,18 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
-		
 	}
 
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		font.draw(batch, "Eric and the Floaters", 10, 30);
+		//font.draw(batch, "Eric and the Floaters", 10, 30);
+	}
+
+
+	@Override
+	public String GetName() {
+		return "ERICANDTHEFLOATERS";
 	}
 
 }

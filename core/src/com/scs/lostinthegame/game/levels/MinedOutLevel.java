@@ -29,9 +29,9 @@ public class MinedOutLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		entityManager.getEntities().clear();
-		decalManager.clear();
-		game.modelInstances = new ArrayList<ModelInstance>();
+		//entityManager.getEntities().clear();
+		//decalManager.clear();
+		//game.modelInstances = new ArrayList<ModelInstance>();
 
 		//loadMapFromImage(game);
 		loadTestMap(game);
@@ -84,13 +84,13 @@ public class MinedOutLevel extends AbstractLevel {
 
 	}
 
-
+/*
 	@Override
 	public IPlayersWeapon getWeapon() {
 		return null;
 	}
 
-
+*/
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
 		
@@ -99,7 +99,7 @@ public class MinedOutLevel extends AbstractLevel {
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		font.draw(batch, "MINED OUT", 10, 30);
+		//font.draw(batch, "MINED OUT", 10, 30);
 	}
 	
 	
@@ -108,5 +108,10 @@ public class MinedOutLevel extends AbstractLevel {
 		// todo - count close mines
 	};
 
+
+	@Override
+	public String GetName() {
+		return "MINEDOUT";
+	}
 
 }

@@ -33,9 +33,9 @@ public class AndroidsLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		entityManager.getEntities().clear();
-		decalManager.clear();
-		game.modelInstances = new ArrayList<ModelInstance>();
+		//entityManager.getEntities().clear();
+		//decalManager.clear();
+		//game.modelInstances = new ArrayList<ModelInstance>();
 
 		//loadMapFromImage(game);
 		loadTestMap(game);
@@ -216,12 +216,12 @@ public class AndroidsLevel extends AbstractLevel {
 
 	}
 
-
+/*
 	@Override
 	public IPlayersWeapon getWeapon() {
 		return null;//new PlayersLaserGun();
 	}
-
+*/
 
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
@@ -231,7 +231,15 @@ public class AndroidsLevel extends AbstractLevel {
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		font.draw(batch, "ANDROIDS", 10, 30);
+		//font.draw(batch, "ANDROIDS", 10, 30);
 	}
+	
+	
+	@Override
+	public String GetName() {
+		return "ANDROIDS";
+	}
+
+
 
 }

@@ -75,8 +75,8 @@ public class TheBurdenLair extends AbstractLevel {
 		previousLevelName = currentLevelName;
 		currentLevelName = this.targetLevel;
 
-		entityManager.getEntities().clear();
-		decalManager.clear();
+		//entityManager.getEntities().clear();
+		//decalManager.clear();
 
 		Texture texture = new Texture(Gdx.files.internal("level/" + targetLevel + ".png"));
 		texture.getTextureData().prepare();
@@ -416,16 +416,22 @@ public class TheBurdenLair extends AbstractLevel {
 
 	}
 
-
+/*
 	@Override
 	public IPlayersWeapon getWeapon() {
 		return new PlayersSword();
 	}
-
+*/
 
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
 		
+	}
+
+
+	@Override
+	public String GetName() {
+		return "bURDEN lAIR";
 	}
 
 }

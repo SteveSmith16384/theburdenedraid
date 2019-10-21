@@ -14,14 +14,15 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
 import com.scs.lostinthegame.Audio;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
+import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.OhMummyLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -29,8 +30,10 @@ import com.scs.lostinthegame.game.systems.CollectionSystem;
 import com.scs.lostinthegame.game.systems.CycleThruDecalsSystem;
 import com.scs.lostinthegame.game.systems.DrawDecalSystem;
 import com.scs.lostinthegame.game.systems.DrawModelSystem;
+import com.scs.lostinthegame.game.systems.DrawTextSystem;
 import com.scs.lostinthegame.game.systems.MobAISystem;
 import com.scs.lostinthegame.game.systems.MovementSystem;
+import com.scs.lostinthegame.game.systems.RemoveAfterTimeSystem;
 import com.scs.lostinthegame.modules.IModule;
 
 public class Game implements IModule {
@@ -44,7 +47,6 @@ public class Game implements IModule {
 	private SpriteBatch batch2d;
 	private BitmapFont font;
 	private ModelBatch batch;
-
 	private PerspectiveCamera camera;
 	private FrameBuffer frameBuffer = null;
 
@@ -60,11 +62,12 @@ public class Game implements IModule {
 	private static boolean transition = true;
 	private static float transitionProgress = 0f;
 	private static boolean hasLoaded = false;
-
 	public boolean game_over = false;
 	public static boolean gameComplete = false;
-
+	public static boolean levelComplete = false;
+	private Levels levels = new Levels();
 	public static AbstractLevel gameLevel;
+
 
 	public Game() {
 		batch2d = new SpriteBatch();
@@ -82,16 +85,12 @@ public class Game implements IModule {
 		decalManager = new DecalManager(camera);
 
 		entityManager = new EntityManager(decalManager);
-		ecs = new BasicECS();
-		ecs.addSystem(new DrawDecalSystem(ecs, camera));
-		ecs.addSystem(new CycleThruDecalsSystem(ecs));
-		ecs.addSystem(new MobAISystem(ecs));		
-		ecs.addSystem(new MovementSystem(ecs));		
-		ecs.addSystem(new DrawModelSystem(ecs, batch));
 
 		world = new World();
 
 		inventory = new Inventory();
+
+		//gameLevel = this.levels.getNextLevel(this.entityManager, this.decalManager);
 
 		//gameLevel = new TheBurdenLair(this.entityManager, this.decalManager);
 		//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
@@ -99,37 +98,42 @@ public class Game implements IModule {
 		//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager);
 		//gameLevel = new LaserSquadLevel(this.entityManager, this.decalManager);
 		//gameLevel = new MaziacsLevel(this.entityManager, this.decalManager);
-		gameLevel = new OhMummyLevel(this.entityManager, this.decalManager);
+		//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager);
 		//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager);
 
-		ecs.addSystem(new CollectionSystem(ecs, gameLevel));
-
-		player = new Player(camera, inventory, 1, 4, gameLevel.getWeapon());
-		ecs.addEntity(player);
-		
-		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
-		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-	}
-
-/*
-	public void setSettings(int difficulty, int lookSensitivity) {
-		player.cameraController = new CameraController(camera, lookSensitivity);
+		player = new Player(camera, inventory, 1, 4);//, gameLevel.getWeapon());
 
 		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-	}
-*/
 
-	@Override
-	public void resize(int w, int h) {
+		levelComplete = true; // So we load the level 
+		transition = true;
 	}
 
-
-	public static void changeLevel(String level) {
+	/*
+	public void changeLevel() {
 		gameLevel.levelComplete();
 		transition = true;
 		transitionProgress = 0f;
 		hasLoaded = false;
+		resetECS();
+	}
+
+	 */
+	private void resetECS() {
+		ecs = new BasicECS();
+		ecs.addSystem(new DrawDecalSystem(ecs, camera));
+		ecs.addSystem(new CycleThruDecalsSystem(ecs));
+		ecs.addSystem(new MobAISystem(ecs));		
+		ecs.addSystem(new MovementSystem(ecs));		
+		ecs.addSystem(new DrawModelSystem(ecs, batch));
+		ecs.addSystem(new RemoveAfterTimeSystem(ecs));
+		ecs.addSystem(new CollectionSystem(ecs, gameLevel));
+		ecs.addSystem(new DrawTextSystem(ecs, batch2d, font));
+
+		ecs.addEntity(player);
+
+
 	}
 
 
@@ -139,25 +143,19 @@ public class Game implements IModule {
 			player.cameraController.bobbing = 0;
 		}*/
 
+		if (levelComplete) {
+			levelComplete = false;
+			transition = true;
+			transitionProgress = 0;
+			levels.nextLevel();
+			this.gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
+		}
+
 		if (transition) {
 			transitionProgress += Gdx.graphics.getDeltaTime()/3f;
 
-			if (transitionProgress >= 0.5f && !hasLoaded){
-				gameLevel.load(this);
-				
-				if (gameLevel.getPlayerStartX() < 0 || gameLevel.getPlayerStartY() < 0) {
-					throw new RuntimeException ("No player start position set");
-				}
-				hasLoaded = true;
-
-				PositionData posData = (PositionData)this.player.getComponent(PositionData.class);
-				posData.position.set(gameLevel.getPlayerStartX()*Game.UNIT, 0, gameLevel.getPlayerStartY()*Game.UNIT);
-				//player.getPosition().set(gameLevel.getPlayerStartX()*Game.UNIT, 0, gameLevel.getPlayerStartY()*Game.UNIT);
-				entityManager.update(world);
-				camera.rotate(Vector3.Y, (float)Math.toDegrees(Math.atan2(camera.direction.z, camera.direction.x)));
-				player.update();
-				camera.update();
-
+			if (transitionProgress >= 0.5f && !hasLoaded) {
+				loadLevel();
 			}
 			if (transitionProgress > 1f) {
 				transitionProgress = 0;
@@ -170,6 +168,7 @@ public class Game implements IModule {
 		player.update();
 		camera.update();
 
+		this.ecs.getSystem(RemoveAfterTimeSystem.class).process();
 		this.ecs.addAndRemoveEntities();
 		this.ecs.getSystem(MobAISystem.class).process();
 		this.ecs.getSystem(MovementSystem.class).process();
@@ -201,16 +200,22 @@ public class Game implements IModule {
 				batch.render(modelInstances.get(i));
 			}
 		}
-		this.ecs.getSystem(DrawModelSystem.class).process();
+		if (ecs != null) {
+			this.ecs.getSystem(DrawModelSystem.class).process();
+		}
 		batch.end();
 
 		decalManager.render();
-		this.ecs.getSystem(CycleThruDecalsSystem.class).process();
-		this.ecs.getSystem(DrawDecalSystem.class).process();
-
+		if (ecs != null) {
+			this.ecs.getSystem(CycleThruDecalsSystem.class).process();
+			this.ecs.getSystem(DrawDecalSystem.class).process();
+		}
 		batch2d.begin();
 		inventory.render(batch2d, player);
 		player.render(batch2d);
+		if (ecs != null) {
+			this.ecs.getSystem(DrawTextSystem.class).process();
+		}
 		batch2d.end();
 
 		frameBuffer.end();
@@ -243,6 +248,35 @@ public class Game implements IModule {
 	}
 
 
+	private void loadLevel() {
+		entityManager.getEntities().clear();
+		decalManager.clear();
+		modelInstances = new ArrayList<ModelInstance>();
+		this.resetECS();
+		gameLevel.load(this);
+		
+		AbstractEntity text = new TextEntity("LOADING: " + gameLevel.GetName(), 30, 30, 4);
+		ecs.addEntity(text);
+
+		if (gameLevel.getPlayerStartX() < 0 || gameLevel.getPlayerStartY() < 0) {
+			throw new RuntimeException ("No player start position set");
+		}
+		PositionData posData = (PositionData)this.player.getComponent(PositionData.class);
+		posData.position.set(gameLevel.getPlayerStartX()*Game.UNIT, 0, gameLevel.getPlayerStartY()*Game.UNIT);
+		entityManager.update(world);
+		camera.rotate(Vector3.Y, (float)Math.toDegrees(Math.atan2(camera.direction.z, camera.direction.x)));
+		player.update();
+		camera.update();
+
+		hasLoaded = true;
+	}
+
+
+	@Override
+	public void resize(int w, int h) {
+	}
+
+
 	public void destroy() {
 	}
 
@@ -255,11 +289,11 @@ public class Game implements IModule {
 
 	@Override
 	public void setFullScreen(boolean fullscreen) {
-		if (fullscreen) {
+		//if (fullscreen) {
+		batch2d.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		/*} else {
 			batch2d.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		} else {
-			batch2d.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		}
+		}*/
 
 	}
 

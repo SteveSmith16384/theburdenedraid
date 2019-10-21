@@ -1,10 +1,7 @@
 package com.scs.lostinthegame.game.levels;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.math.GridPoint2;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.Settings;
@@ -16,13 +13,13 @@ import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.ohmummy.Pill;
-import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 
 public class OhMummyLevel extends AbstractLevel {
 
 	private static final int RECT_SIZE_EXCLUDING_EDGES = 1;
 
 	private boolean[][] pill_map;
+	//private boolean completed = false;
 
 	public OhMummyLevel(EntityManager _entityManager, DecalManager _decalManager) {
 		super(_entityManager, _decalManager);
@@ -31,9 +28,9 @@ public class OhMummyLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		entityManager.getEntities().clear();
-		decalManager.clear();
-		game.modelInstances = new ArrayList<ModelInstance>();
+		//entityManager.getEntities().clear();
+		//decalManager.clear();
+		//game.modelInstances = new ArrayList<ModelInstance>();
 
 		loadMap(game);
 
@@ -110,29 +107,26 @@ public class OhMummyLevel extends AbstractLevel {
 
 	@Override
 	public void update(Game game, World world) {
+		// Drop pill?
 		boolean checkForCircled = false;
-		// Drop pill
 		PositionData posData = (PositionData)Game.player.getComponent(PositionData.class);
-		//int map_x = (int)(posData.position.x / Game.UNIT);
-		//int map_y = (int)(posData.position.z / Game.UNIT);
 		GridPoint2 map_pos = posData.getMapPos();
 		if (this.pill_map[map_pos.x][map_pos.y] == false) {
 			Pill ch = new Pill(map_pos.x, map_pos.y);
 			game.ecs.addEntity(ch);
 			this.pill_map[map_pos.x][map_pos.y] = true;
 			Settings.p("Adding pill to " + map_pos.x + "," + map_pos.y);
-
 			checkForCircled = true;
 		}
 
 
-		//todo - re-add if (checkForCircled) {
-		for (int z=1 ; z<map_height-2 ; z+=RECT_SIZE_EXCLUDING_EDGES+1) {
-			for (int x=1 ; x<map_width-2 ; x+=RECT_SIZE_EXCLUDING_EDGES+1) {
-				checkRect(x, z); 
+		if (checkForCircled) {
+			for (int z=1 ; z<map_height-2 ; z+=RECT_SIZE_EXCLUDING_EDGES+1) {
+				for (int x=1 ; x<map_width-2 ; x+=RECT_SIZE_EXCLUDING_EDGES+1) {
+					checkRect(x, z); 
+				}
 			}
 		}
-		//}
 	}
 
 
@@ -158,19 +152,31 @@ public class OhMummyLevel extends AbstractLevel {
 					Game.world.world[x][z].wall = wall;
 				}
 			}
+
+			checkForCompletion();
 		}
 	}
 
 
-	@Override
-	public void levelComplete() {
+	private void checkForCompletion() {
+		/*if (this.completed) {
+			return;
+		}*/
 
-	}
-
-
-	@Override
-	public IPlayersWeapon getWeapon() {
-		return null;//new PlayersLaserGun();
+		boolean c = true;
+		for (int z=0 ; z<map_height ; z++) {
+			for (int x=0 ; x<map_width ; x++) {
+				if (Game.world.world[x][z].type != World.WALL) {
+					if (this.pill_map[x][z] == false) {
+						c = false;
+						break;
+					}
+				}
+			}
+		}
+		if (c) {
+			Game.levelComplete = true;
+		}
 	}
 
 
@@ -182,7 +188,13 @@ public class OhMummyLevel extends AbstractLevel {
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		font.draw(batch, "Oh Mummy!", 10, 30);
+		//font.draw(batch, "Oh Mummy!", 10, 30);
+	}
+
+
+	@Override
+	public String GetName() {
+		return "OH MUMMY!";
 	}
 
 }
