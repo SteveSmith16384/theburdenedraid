@@ -37,8 +37,6 @@ import com.scs.lostinthegame.game.entities.burdenlair.SnowBarrier;
 import com.scs.lostinthegame.game.entities.burdenlair.Statue;
 import com.scs.lostinthegame.game.entities.chaos.Wraith;
 import com.scs.lostinthegame.game.player.Inventory;
-import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
-import com.scs.lostinthegame.game.player.weapons.PlayersSword;
 import com.scs.lostinthegame.game.renderable.RenderData;
 
 public class TheBurdenLair extends AbstractLevel {

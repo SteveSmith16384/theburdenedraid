@@ -10,7 +10,6 @@ import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.HasDecal;
 import com.scs.lostinthegame.game.components.IsCollectable;
 import com.scs.lostinthegame.game.components.PositionData;
-import com.scs.lostinthegame.game.entities.gulpman.Cherry;
 
 public class Treasure extends AbstractEntity {
 

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.scs.basicecs.AbstractEntity;
-import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.components.PositionData;

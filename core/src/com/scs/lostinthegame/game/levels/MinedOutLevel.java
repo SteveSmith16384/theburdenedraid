@@ -12,6 +12,7 @@ import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.minedout.Damsel;
 import com.scs.lostinthegame.game.entities.minedout.Mine;
+import com.scs.lostinthegame.game.entities.minedout.MinedOutExit;
 import com.scs.lostinthegame.game.systems.CountMinesSystem;
 
 public class MinedOutLevel extends AbstractLevel {
@@ -88,7 +89,9 @@ public class MinedOutLevel extends AbstractLevel {
 		if (collectable instanceof Damsel) {
 			this.num_damsels--;
 			if (this.num_damsels <= 0) {
-				// todo - place exit
+				Game.world.world[map_width][(int)map_height/2].wall.remove();
+				MinedOutExit exit = new MinedOutExit(map_width, (int)map_height/2);
+				Game.ecs.addEntity(exit);
 			}
 		}
 	}

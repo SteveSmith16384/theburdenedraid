@@ -12,7 +12,6 @@ import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.ericandthefloaters.EricBombDropper;
 import com.scs.lostinthegame.game.entities.ericandthefloaters.Floater;
-import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 import com.scs.lostinthegame.game.systems.EricAndTheFloatersExplosionSystem;
 
 public class EricAndTheFloatersLevel extends AbstractLevel {

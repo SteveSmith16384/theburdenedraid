@@ -1,10 +1,7 @@
 package com.scs.lostinthegame.game.levels;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
@@ -17,7 +14,6 @@ import com.scs.lostinthegame.game.entities.maziacs.Gold;
 import com.scs.lostinthegame.game.entities.maziacs.Maziac;
 import com.scs.lostinthegame.game.entities.maziacs.SwordPickup;
 import com.scs.lostinthegame.game.player.Player;
-import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 import com.scs.lostinthegame.game.player.weapons.PlayersSword;
 
 public class MaziacsLevel extends AbstractLevel {

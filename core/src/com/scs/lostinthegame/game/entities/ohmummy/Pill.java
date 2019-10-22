@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.HasDecal;
-import com.scs.lostinthegame.game.components.IsCollectable;
 import com.scs.lostinthegame.game.components.PositionData;
 
 public class Pill extends AbstractEntity {

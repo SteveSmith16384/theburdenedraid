@@ -14,7 +14,6 @@ import com.scs.lostinthegame.game.components.HasDecalCycle;
 import com.scs.lostinthegame.game.components.IsDamagable;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
-import com.scs.lostinthegame.game.entities.ericandthefloaters.Floater;
 import com.scs.lostinthegame.game.systems.MobAISystem.Mode;
 
 public class Maziac extends AbstractEntity {

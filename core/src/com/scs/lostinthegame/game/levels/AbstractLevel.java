@@ -7,7 +7,6 @@ import com.scs.lostinthegame.game.ICollectionHandler;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
-import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 
 public abstract class AbstractLevel implements ICollectionHandler {
 

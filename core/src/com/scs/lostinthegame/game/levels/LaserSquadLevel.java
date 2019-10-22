@@ -1,10 +1,7 @@
 package com.scs.lostinthegame.game.levels;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
@@ -17,7 +14,6 @@ import com.scs.lostinthegame.game.entities.GenericWallScenery;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.androids.PlayersLaserGun;
 import com.scs.lostinthegame.game.entities.androids.SlidingDoor;
-import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 
 public class LaserSquadLevel extends AbstractLevel {
 
@@ -28,10 +24,6 @@ public class LaserSquadLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		//entityManager.getEntities().clear();
-		//decalManager.clear();
-		//game.modelInstances = new ArrayList<ModelInstance>();
-
 		//loadMapFromImage(game);
 		loadTestMap(game);
 
