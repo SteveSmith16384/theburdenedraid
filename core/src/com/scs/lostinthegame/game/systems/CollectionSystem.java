@@ -39,7 +39,7 @@ public class CollectionSystem extends AbstractSystem {
 			if (ic != null) {
 				PositionData collectable_pos = (PositionData)collectable.getComponent(PositionData.class);
 				if (collector_pos.position.dst(collectable_pos.position) < Game.UNIT/2f) {
-					Settings.p(this + " collected");
+					Settings.p(collectable.name + " collected");
 					collectable.remove();
 					collectionHandler.entityCollected(collector, collectable);
 				}

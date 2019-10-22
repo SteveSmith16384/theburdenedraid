@@ -123,12 +123,6 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 		 */
 	}
 
-/*
-	@Override
-	public IPlayersWeapon getWeapon() {
-		return new EricBombDropper();
-	}
-*/
 
 	@Override
 	public void update(Game game, World world) {
@@ -136,11 +130,6 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 	}
 
 	
-	@Override
-	public void levelComplete() {
-	}
-
-
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
 	}

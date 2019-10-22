@@ -1,10 +1,7 @@
 package com.scs.lostinthegame.game.levels;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
@@ -16,10 +13,11 @@ import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.gulpman.Cherry;
 import com.scs.lostinthegame.game.entities.gulpman.Nasty;
-import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 
 public class GulpmanLevel extends AbstractLevel {
 
+	private int num_cherries = 0;
+	
 	public GulpmanLevel(EntityManager _entityManager, DecalManager _decalManager) {
 		super(_entityManager, _decalManager);
 	}
@@ -27,10 +25,6 @@ public class GulpmanLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		//entityManager.getEntities().clear();
-		//decalManager.clear();
-		//game.modelInstances = new ArrayList<ModelInstance>();
-
 		//loadMapFromImage(game);
 		loadTestMap(game);
 
@@ -60,6 +54,7 @@ public class GulpmanLevel extends AbstractLevel {
 				} else {
 					Cherry ch = new Cherry(x, z);
 					game.ecs.addEntity(ch);
+					this.num_cherries++;
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
@@ -95,26 +90,19 @@ public class GulpmanLevel extends AbstractLevel {
 
 
 	@Override
-	public void levelComplete() {
-
-	}
-
-/*
-	@Override
-	public IPlayersWeapon getWeapon() {
-		return null;//new PlayersLaserGun();
-	}
-*/
-
-	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
-		
+		if (collectable instanceof Cherry) {
+			this.num_cherries--;
+			if (this.num_cherries <= 0) {
+				Game.levelComplete = true;
+			}
+		}
 	}
 
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		//font.draw(batch, "GULPMAN", 10, 30);
+		font.draw(batch, num_cherries + " remaining", 10, 30);
 	}
 
 

@@ -27,6 +27,7 @@ public class DrawTextSystem extends AbstractSystem {
 	}
 
 
+	@Override
 	public void processEntity(AbstractEntity entity) {
 		DrawTextData dtd = (DrawTextData)entity.getComponent(DrawTextData.class);
 

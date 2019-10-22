@@ -98,18 +98,6 @@ public class MaziacsLevel extends AbstractLevel {
 
 
 	@Override
-	public void levelComplete() {
-
-	}
-
-/*
-	@Override
-	public IPlayersWeapon getWeapon() {
-		return null;
-	}
-*/
-
-	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
 		if (collectable instanceof SwordPickup) {
 			Player player = (Player)collector;

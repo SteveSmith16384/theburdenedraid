@@ -4,7 +4,10 @@ import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
 import com.scs.lostinthegame.game.levels.AndroidsLevel;
+import com.scs.lostinthegame.game.levels.EricAndTheFloatersLevel;
 import com.scs.lostinthegame.game.levels.GulpmanLevel;
+import com.scs.lostinthegame.game.levels.MaziacsLevel;
+import com.scs.lostinthegame.game.levels.MinedOutLevel;
 import com.scs.lostinthegame.game.levels.OhMummyLevel;
 
 public class Levels {
@@ -22,10 +25,13 @@ public class Levels {
 			return new GulpmanLevel(entityManager, decalManager);
 		case 3:
 			return new AndroidsLevel(entityManager, decalManager);
-			//gameLevel = new EricAndTheFloatersLevel(entityManager, decalManager);
+		case 4:
+			return new EricAndTheFloatersLevel(entityManager, decalManager);
+		case 5:
+			return new MinedOutLevel(entityManager, decalManager);
+		case 6:
+			return new MaziacsLevel(entityManager, decalManager);
 			//gameLevel = new LaserSquadLevel(this.entityManager, this.decalManager);
-			//gameLevel = new MaziacsLevel(entityManager, decalManager);
-			//gameLevel = new MinedOutLevel(entityManager, decalManager);
 
 		default:
 			throw new RuntimeException("Todo");

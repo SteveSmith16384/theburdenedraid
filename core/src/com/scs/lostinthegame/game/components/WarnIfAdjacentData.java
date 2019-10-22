@@ -1,6 +1,5 @@
 package com.scs.lostinthegame.game.components;
 
-public class CanCollect {
-
+public class WarnIfAdjacentData {
 
 }

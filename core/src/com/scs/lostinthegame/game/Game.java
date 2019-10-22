@@ -31,6 +31,7 @@ import com.scs.lostinthegame.game.systems.CycleThruDecalsSystem;
 import com.scs.lostinthegame.game.systems.DrawDecalSystem;
 import com.scs.lostinthegame.game.systems.DrawModelSystem;
 import com.scs.lostinthegame.game.systems.DrawTextSystem;
+import com.scs.lostinthegame.game.systems.GotToExitSystem;
 import com.scs.lostinthegame.game.systems.MobAISystem;
 import com.scs.lostinthegame.game.systems.MovementSystem;
 import com.scs.lostinthegame.game.systems.RemoveAfterTimeSystem;
@@ -130,6 +131,7 @@ public class Game implements IModule {
 		ecs.addSystem(new RemoveAfterTimeSystem(ecs));
 		ecs.addSystem(new CollectionSystem(ecs, gameLevel));
 		ecs.addSystem(new DrawTextSystem(ecs, batch2d, font));
+		ecs.addSystem(new GotToExitSystem(ecs));
 
 		ecs.addEntity(player);
 
@@ -146,6 +148,7 @@ public class Game implements IModule {
 		if (levelComplete) {
 			levelComplete = false;
 			transition = true;
+			hasLoaded = false;
 			transitionProgress = 0;
 			levels.nextLevel();
 			this.gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
@@ -173,6 +176,7 @@ public class Game implements IModule {
 		this.ecs.getSystem(MobAISystem.class).process();
 		this.ecs.getSystem(MovementSystem.class).process();
 		this.ecs.getSystem(CollectionSystem.class).process();
+		this.ecs.getSystem(GotToExitSystem.class).process();
 
 		entityManager.update(world);
 		gameLevel.update(this, world);

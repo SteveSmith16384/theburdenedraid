@@ -115,7 +115,7 @@ public class OhMummyLevel extends AbstractLevel {
 			Pill ch = new Pill(map_pos.x, map_pos.y);
 			game.ecs.addEntity(ch);
 			this.pill_map[map_pos.x][map_pos.y] = true;
-			Settings.p("Adding pill to " + map_pos.x + "," + map_pos.y);
+			//Settings.p("Adding pill to " + map_pos.x + "," + map_pos.y);
 			checkForCircled = true;
 		}
 

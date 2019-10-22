@@ -1,13 +1,10 @@
 package com.scs.lostinthegame.game.levels;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
@@ -19,10 +16,10 @@ import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.androids.AndroidsAndroid;
+import com.scs.lostinthegame.game.entities.androids.AndroidsExit;
 import com.scs.lostinthegame.game.entities.androids.GSquare;
 import com.scs.lostinthegame.game.entities.androids.SSquare;
 import com.scs.lostinthegame.game.entities.androids.SlidingDoor;
-import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 
 public class AndroidsLevel extends AbstractLevel {
 
@@ -33,10 +30,6 @@ public class AndroidsLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		//entityManager.getEntities().clear();
-		//decalManager.clear();
-		//game.modelInstances = new ArrayList<ModelInstance>();
-
 		//loadMapFromImage(game);
 		loadTestMap(game);
 
@@ -67,6 +60,9 @@ public class AndroidsLevel extends AbstractLevel {
 				} else if (x == 3 && z == 1) {
 					SSquare ss = new SSquare(x, z);
 					game.ecs.addEntity(ss);
+				} else if (x == 3 && z == 3) {
+					AndroidsExit exit = new AndroidsExit(x, z);
+					game.ecs.addEntity(exit);
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
@@ -201,8 +197,8 @@ public class AndroidsLevel extends AbstractLevel {
 		game.modelInstances.add(instance);
 		*/
 		
-		game.ecs.addEntity(new Floor("unit_highlighter_nw.png", map_width, map_height));
-		game.ecs.addEntity(new Ceiling("unit_highlighter_nw.png", map_width, map_height));
+		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height));
+		//game.ecs.addEntity(new Ceiling("unit_highlighter_nw.png", map_width, map_height));
 	}
 
 
@@ -210,18 +206,6 @@ public class AndroidsLevel extends AbstractLevel {
 	public void update(Game game, World world) {
 	}
 
-
-	@Override
-	public void levelComplete() {
-
-	}
-
-/*
-	@Override
-	public IPlayersWeapon getWeapon() {
-		return null;//new PlayersLaserGun();
-	}
-*/
 
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {

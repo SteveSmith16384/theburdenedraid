@@ -411,19 +411,6 @@ public class TheBurdenLair extends AbstractLevel {
 
 
 	@Override
-	public void levelComplete() {
-		this.targetLevel = getNextLevel();
-
-	}
-
-/*
-	@Override
-	public IPlayersWeapon getWeapon() {
-		return new PlayersSword();
-	}
-*/
-
-	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
 		
 	}

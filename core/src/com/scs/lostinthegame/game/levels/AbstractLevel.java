@@ -41,5 +41,5 @@ public abstract class AbstractLevel implements ICollectionHandler {
 		return this.playerStartMapY;
 	}
 	
-	public void levelComplete() {};
+	//public void levelComplete() {};
 }

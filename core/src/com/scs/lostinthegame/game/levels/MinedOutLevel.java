@@ -1,10 +1,7 @@
 package com.scs.lostinthegame.game.levels;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
@@ -13,30 +10,27 @@ import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
+import com.scs.lostinthegame.game.entities.minedout.Damsel;
 import com.scs.lostinthegame.game.entities.minedout.Mine;
-import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
+import com.scs.lostinthegame.game.systems.CountMinesSystem;
 
 public class MinedOutLevel extends AbstractLevel {
 
+	private int num_damsels = 0;
+	private CountMinesSystem countMinesSystem;
+	
 	public MinedOutLevel(EntityManager _entityManager, DecalManager _decalManager) {
 		super(_entityManager, _decalManager);
 	}
 
 	@Override
-	public void levelComplete() {
-	}
-	
-
-	@Override
 	public void load(Game game) {
-		//entityManager.getEntities().clear();
-		//decalManager.clear();
-		//game.modelInstances = new ArrayList<ModelInstance>();
-
-		//loadMapFromImage(game);
 		loadTestMap(game);
 
 		createWalls(game);
+	
+		this.countMinesSystem = new CountMinesSystem(Game.ecs);
+		Game.ecs.addSystem(this.countMinesSystem);
 	}
 
 
@@ -57,6 +51,10 @@ public class MinedOutLevel extends AbstractLevel {
 				} else if (x == 3 && z == 3) {
 					Mine m = new Mine(x, z);
 					game.ecs.addEntity(m);
+				} else if (x == 4 && z == 4) {
+					Damsel d = new Damsel(x, z);
+					game.ecs.addEntity(d);
+					num_damsels++;
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
@@ -84,29 +82,27 @@ public class MinedOutLevel extends AbstractLevel {
 
 	}
 
-/*
-	@Override
-	public IPlayersWeapon getWeapon() {
-		return null;
-	}
 
-*/
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
-		
+		if (collectable instanceof Damsel) {
+			this.num_damsels--;
+			if (this.num_damsels <= 0) {
+				// todo - place exit
+			}
+		}
 	}
 
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		//font.draw(batch, "MINED OUT", 10, 30);
+		font.draw(batch, "Adjacent Mines: " + this.countMinesSystem, 10, 30);
 	}
 	
 	
 	@Override
 	public void update(Game game, World world) {
-		// todo - count close mines
-	};
+	}
 
 
 	@Override

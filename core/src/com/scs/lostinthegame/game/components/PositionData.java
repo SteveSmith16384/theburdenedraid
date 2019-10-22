@@ -14,6 +14,11 @@ public class PositionData {
 	}
 	
 	
+	public PositionData(float x, float z) {
+		this.position = new Vector3(x, 0, z);
+	}
+	
+	
 	public GridPoint2 getMapPos() {
 		float x = (position.x/Game.UNIT) + 0.5f;
 		float y = position.z/Game.UNIT + 0.5f;
