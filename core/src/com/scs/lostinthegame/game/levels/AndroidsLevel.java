@@ -145,20 +145,11 @@ public class AndroidsLevel extends AbstractLevel {
 
 
 	private void createWalls(Game game) {
-		/*ModelBuilder modelBuilder = new ModelBuilder();
-
-		Material black_material = new Material(TextureAttribute.createDiffuse(new Texture("androids/black.png")));
-		Model box_model = modelBuilder.createBox(Game.UNIT,Game.UNIT,Game.UNIT, black_material, VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-*/
 		for (int y = 0; y < map_height; y++) {
 			for (int x = 0; x < map_width; x++) {
 				try {
 					int block = Game.world.world[x][y].type;
 					if (block == World.WALL) {
-						/*ModelInstance instance = new ModelInstance(box_model);
-						instance.transform.translate(x*Game.UNIT, Game.UNIT/2f, y*Game.UNIT);
-						instance.transform.rotate(Vector3.Z, 90);
-						game.modelInstances.add(instance);*/
 						game.ecs.addEntity(new Wall("colours/black.png", x, y));
 					}
 				} catch (NullPointerException ex) {
@@ -166,38 +157,8 @@ public class AndroidsLevel extends AbstractLevel {
 				}
 			}
 		}
-
-/*
-		Texture tex = new Texture("unit_highlighter_nw.png");
-		tex.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
-		Material white_material = new Material(TextureAttribute.createDiffuse(tex));		
-
-		Model floor = modelBuilder.createRect(
-				0f,0f, (float) map_height*Game.UNIT,
-				(float)map_width*Game.UNIT, 0f, (float)map_height*Game.UNIT,
-				(float)map_width*Game.UNIT, 0f, 0f,
-				0f,0f,0f,
-				1f,1f,1f,
-				white_material,
-				VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
-		Matrix3 mat = new Matrix3();
-		mat.scl(new Vector2(map_width, map_height));
-		floor.meshes.get(0).transformUV(mat);
-		
-		//Create floor
-		ModelInstance instance = new ModelInstance(floor);
-		game.modelInstances.add(instance);
-
-		// ceiling
-		instance = new ModelInstance(floor);
-		instance.transform.translate(0, Game.UNIT, 0);
-		instance.transform.rotate(Vector3.X, 180);
-		instance.transform.translate(0, 0, -(float)map_width* Game.UNIT);
-		game.modelInstances.add(instance);
-		*/
 		
 		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height));
-		//game.ecs.addEntity(new Ceiling("unit_highlighter_nw.png", map_width, map_height));
 	}
 
 
@@ -214,7 +175,6 @@ public class AndroidsLevel extends AbstractLevel {
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		//font.draw(batch, "ANDROIDS", 10, 30);
 	}
 	
 	
@@ -222,7 +182,5 @@ public class AndroidsLevel extends AbstractLevel {
 	public String GetName() {
 		return "ANDROIDS";
 	}
-
-
 
 }

@@ -101,7 +101,6 @@ public class LaserSquadLevel extends AbstractLevel {
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		//font.draw(batch, "LASER SQUAD", 10, 30);
 	}
 
 

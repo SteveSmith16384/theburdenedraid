@@ -2,9 +2,12 @@ package com.scs.lostinthegame.game.levels;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.GridPoint2;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
+import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
@@ -13,6 +16,7 @@ import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.minedout.Damsel;
 import com.scs.lostinthegame.game.entities.minedout.Mine;
 import com.scs.lostinthegame.game.entities.minedout.MinedOutExit;
+import com.scs.lostinthegame.game.entities.minedout.MinedOutTrail;
 import com.scs.lostinthegame.game.systems.CountMinesSystem;
 
 public class MinedOutLevel extends AbstractLevel {
@@ -23,6 +27,7 @@ public class MinedOutLevel extends AbstractLevel {
 	public MinedOutLevel(EntityManager _entityManager, DecalManager _decalManager) {
 		super(_entityManager, _decalManager);
 	}
+	
 
 	@Override
 	public void load(Game game) {
@@ -52,10 +57,10 @@ public class MinedOutLevel extends AbstractLevel {
 				} else if (x == 3 && z == 3) {
 					Mine m = new Mine(x, z);
 					game.ecs.addEntity(m);
-				} else if (x == 4 && z == 4) {
-					Damsel d = new Damsel(x, z);
-					game.ecs.addEntity(d);
-					num_damsels++;
+				} else if (x == 1 && z == 3) {
+					//Damsel d = new Damsel(x, z);
+					//game.ecs.addEntity(d);
+					//num_damsels++;
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
@@ -99,12 +104,22 @@ public class MinedOutLevel extends AbstractLevel {
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		font.draw(batch, "Adjacent Mines: " + this.countMinesSystem, 10, 30);
+		font.draw(batch, "Adjacent Mines: " + this.countMinesSystem.num_mines, 10, Settings.WINDOW_HEIGHT_PIXELS-40);
 	}
 	
 	
 	@Override
 	public void update(Game game, World world) {
+		countMinesSystem.process();
+		
+		// Player leave a path
+		PositionData posData = (PositionData)Game.player.getComponent(PositionData.class);
+		GridPoint2 mapPos = posData.getMapPos();
+		if (Game.world.world[mapPos.x][mapPos.y].wall == null) {
+			MinedOutTrail trail = new MinedOutTrail(mapPos.x, mapPos.y);
+			Game.ecs.addEntity(trail);
+			Game.world.world[mapPos.x][mapPos.y].wall = trail;
+		}
 	}
 
 

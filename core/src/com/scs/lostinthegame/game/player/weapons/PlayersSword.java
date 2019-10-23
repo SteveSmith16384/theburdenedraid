@@ -28,8 +28,11 @@ public class PlayersSword implements IPlayersWeapon {
 	private float weaponScaleY = 1f;
 	private boolean didPlayAudio = false;
 	private boolean didAttack = true;
+	private boolean removeAfterAttack = false;
 
-	public PlayersSword() {
+	public PlayersSword(boolean _removeAfterAttack) {
+		removeAfterAttack = _removeAfterAttack;
+		
 		Texture weaponTex = new Texture(Gdx.files.internal("sword.png"));
 		weaponSprite = new Sprite(weaponTex);
 		weaponSprite.setOrigin(32, 0);
@@ -131,7 +134,7 @@ public class PlayersSword implements IPlayersWeapon {
 
 			if(Game.collision.hitCircle(ent.getPosition(), tmp, Game.UNIT*.75f)){
 				float d = position.dst2(ent.getPosition());
-				if(closest == null || d<dist){
+				if(closest == null || d<dist) {
 					dist = d;
 					closest = (IDamagable)ent;
 				}
@@ -141,6 +144,9 @@ public class PlayersSword implements IPlayersWeapon {
 
 		if (closest != null) {
 			closest.damaged(1, direction);
+			if (removeAfterAttack) {
+				Game.player.setWeapon(null);
+			}
 		}
 	}
 
