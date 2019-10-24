@@ -37,7 +37,7 @@ public class Nasty extends AbstractEntity {
         IsDamagable damagable = new IsDamagable(2);
         this.addComponent(damagable);
         
-        HasAI ai = new HasAI(Mode.MoveLikeRook, .03f);
+        HasAI ai = new HasAI(Mode.MoveLikeRook, 1f);
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.75f));

@@ -3,7 +3,6 @@ package com.scs.lostinthegame.game.entities.burdenlair;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.scs.lostinthegame.game.Game;
-import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.entities.Entity;
 import com.scs.lostinthegame.game.interfaces.IInteractable;
 import com.scs.lostinthegame.game.player.Inventory;
@@ -30,7 +29,7 @@ public final class Door extends Entity implements IInteractable {
     public void interact(Player player) {
     	Inventory inv = (Inventory)player.inventory;
         if (locked && inv.keys > 0) {
-        	Game.world.world[world_x][world_y].type = World.NOTHING;
+        	Game.world.world[world_x][world_y].blocked = false;
             decalEntity.decal = openDecal;
             interactable = false;
             inv.keys--;

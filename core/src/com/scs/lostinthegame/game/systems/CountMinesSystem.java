@@ -29,7 +29,7 @@ public class CountMinesSystem extends AbstractSystem {
 		PositionData ourPos = (PositionData)entity.getComponent(PositionData.class);
 		PositionData playerPos = (PositionData)Game.player.getComponent(PositionData.class);
 		float dist = ourPos.position.dst(playerPos.position);
-		if (dist < Game.UNIT) {
+		if (dist < Game.UNIT/2) {
 			Settings.p("Player walked on mine!");
 			// todo
 		} else if (dist < Game.UNIT * 2) {

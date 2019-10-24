@@ -42,6 +42,7 @@ public class CollectionSystem extends AbstractSystem {
 					Settings.p(collectable.name + " collected");
 					collectable.remove();
 					collectionHandler.entityCollected(collector, collectable);
+					Game.audio.play("beepfx_samples/28_item_1.wav");
 				}
 			}
 		}

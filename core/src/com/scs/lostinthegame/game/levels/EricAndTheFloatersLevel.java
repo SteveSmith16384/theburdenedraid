@@ -2,7 +2,6 @@ package com.scs.lostinthegame.game.levels;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
@@ -63,7 +62,7 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 					game.ecs.addEntity(floater);
 				}
 
-				Game.world.world[x][z].type = type;
+				Game.world.world[x][z].blocked = type == World.WALL;
 			}
 		}
 	}

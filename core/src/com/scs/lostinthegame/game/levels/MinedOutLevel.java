@@ -58,13 +58,13 @@ public class MinedOutLevel extends AbstractLevel {
 					Mine m = new Mine(x, z);
 					game.ecs.addEntity(m);
 				} else if (x == 1 && z == 3) {
-					//Damsel d = new Damsel(x, z);
-					//game.ecs.addEntity(d);
-					//num_damsels++;
+					Damsel d = new Damsel(x, z);
+					game.ecs.addEntity(d);
+					num_damsels++;
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
-				Game.world.world[x][z].type = type;
+				Game.world.world[x][z].blocked = type == World.WALL;
 			}
 		}
 	}
@@ -74,9 +74,11 @@ public class MinedOutLevel extends AbstractLevel {
 		for (int y = 0; y < map_height; y++) {
 			for (int x = 0; x < map_width; x++) {
 				try {
-					int block = Game.world.world[x][y].type;
-					if (block == World.WALL) {
-						game.ecs.addEntity(new Wall("minedout/wall.png", x, y));
+					boolean block = Game.world.world[x][y].blocked;
+					if (block) {
+						AbstractEntity wall = new Wall("minedout/wall.png", x, y); 
+						game.ecs.addEntity(wall);
+						Game.world.world[x][y].wall = wall;
 					}
 				} catch (NullPointerException ex) {
 					ex.printStackTrace();
@@ -94,8 +96,9 @@ public class MinedOutLevel extends AbstractLevel {
 		if (collectable instanceof Damsel) {
 			this.num_damsels--;
 			if (this.num_damsels <= 0) {
-				Game.world.world[map_width][(int)map_height/2].wall.remove();
-				MinedOutExit exit = new MinedOutExit(map_width, (int)map_height/2);
+				Game.world.world[map_width-1][(int)map_height/2].wall.remove();
+				Game.world.world[map_width-1][(int)map_height/2].blocked = false;
+				MinedOutExit exit = new MinedOutExit(map_width-1, (int)map_height/2);
 				Game.ecs.addEntity(exit);
 			}
 		}

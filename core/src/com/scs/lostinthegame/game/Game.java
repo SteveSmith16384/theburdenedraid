@@ -23,7 +23,7 @@ import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.EricAndTheFloatersLevel;
+import com.scs.lostinthegame.game.levels.MonsterMazeLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -67,6 +67,7 @@ public class Game implements IModule {
 	public boolean game_over = false;
 	public static boolean gameComplete = false;
 	public static boolean levelComplete = false;
+	public static boolean restartLevel = false;
 	private Levels levels = new Levels();
 	public static AbstractLevel gameLevel;
 
@@ -127,12 +128,17 @@ public class Game implements IModule {
 
 		if (levelComplete) {
 			levelComplete = false;
+			levels.nextLevel();
+			restartLevel = true;
+			Game.audio.play("beepfx_samples/19_jet_burst.wav");
+		}		
+		if (restartLevel) {
+			restartLevel = false;
 			transition = true;
 			hasLoaded = false;
 			transitionProgress = 0;
-			levels.nextLevel();
-			//todo -re-ad gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
-			gameLevel = new EricAndTheFloatersLevel(this.entityManager, this.decalManager);
+			gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
+			//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager);
 			//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager);
 
 			this.resetECS();
@@ -177,13 +183,13 @@ public class Game implements IModule {
 
 	public void render() {
 		Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		Gdx.gl.glClearColor(0,0,0,1);
+		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+		//Gdx.gl.glClearColor(0,0,0,1);
 
 		frameBuffer.begin();
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		Gdx.gl.glClearColor(0,0,0,1);
+		this.gameLevel.setBackgroundColour();
 
 		batch.begin(camera);
 		if (modelInstances != null) {
@@ -276,12 +282,7 @@ public class Game implements IModule {
 
 	@Override
 	public void setFullScreen(boolean fullscreen) {
-		//if (fullscreen) {
 		batch2d.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		/*} else {
-			batch2d.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		}*/
-
 	}
 
 }

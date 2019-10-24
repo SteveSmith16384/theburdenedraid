@@ -23,7 +23,7 @@ public class Player extends AbstractEntity implements IDamagable {
 	private static final float moveSpeed = 2f * Game.UNIT;
 	private static final float gravityScale = 25 * Game.UNIT;
 	public static final float playerHeight = Game.UNIT * 0.4f;
-	private static final float colliderSize = .2f * Game.UNIT;
+	//private static final float colliderSize = .2f * Game.UNIT;
 	private static final float jumpScale = 4f * Game.UNIT;
 	private static final float hurtDistanceSquared = Game.UNIT * .5f * Game.UNIT * .5f;
 
@@ -35,7 +35,7 @@ public class Player extends AbstractEntity implements IDamagable {
 	private float gravity = 0f;
 	private boolean mouseReleased = false;
 	private float footstepTimer;
-	private int health, max_health;
+	private int lives;
 	private float hurtTimer = 0f;
 	private Texture hurtTexture; // Screen goes red when hit
 	private Texture heart;
@@ -46,7 +46,7 @@ public class Player extends AbstractEntity implements IDamagable {
 	
 	private IPlayersWeapon weapon;
 
-	public Player(Camera cam, IInventory inv, int lookSens, int maxHealth) {//, IPlayersWeapon _weapon) {
+	public Player(Camera cam, IInventory inv, int lookSens, int _lives) {
 		super(Player.class.getSimpleName());
 		
 		this.movementData = new MovementData(0.5f);
@@ -57,8 +57,7 @@ public class Player extends AbstractEntity implements IDamagable {
 
 		inventory = inv;
 		camera = cam;
-		this.max_health = maxHealth;
-		this.health = this.max_health;
+		this.lives = _lives;
 
 		cameraController = new CameraController(camera, lookSens);
 
@@ -248,8 +247,8 @@ public class Player extends AbstractEntity implements IDamagable {
 			batch.draw(Game.art.items[0][0], 10 + i*50, Gdx.graphics.getHeight()-40, 48, 48);
 		}*/
 
-		int sx = Gdx.graphics.getWidth()/2 - health*18;
-		for (int i = 0; i < health; i++) {
+		int sx = Gdx.graphics.getWidth()/2 - lives*18;
+		for (int i = 0; i < lives; i++) {
 			batch.draw(heart, sx + i*36, Gdx.graphics.getHeight()-40, 32, 32);
 		}
 		
@@ -266,23 +265,25 @@ public class Player extends AbstractEntity implements IDamagable {
 
 	@Override
 	public int getHealth() {
-		return health;
+		return lives;
 	}
 
-
+	
 	@Override
 	public void damaged(int amt, Vector3 dir) {
-		health -= amt;
-
+		//health -= amt;
+		lives--;
+		
 		hurtTimer = 1.5f;
 		Game.audio.play("player_hurt");
+		Game.restartLevel = true;
 	}
 
-
+/*
 	public void resetHealth() {
 		this.health = this.max_health;
 	}
-	
+	*/
 	
 	public void setWeapon(IPlayersWeapon w) {
 		this.weapon = w;

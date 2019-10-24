@@ -24,8 +24,11 @@ public class GotToExitSystem extends AbstractSystem {
 	public void processEntity(AbstractEntity entity) {
 		PositionData ourPos = (PositionData)entity.getComponent(PositionData.class);
 		PositionData playerPos = (PositionData)Game.player.getComponent(PositionData.class);
-		float dist = ourPos.position.dst(playerPos.position);
-		if (dist < Game.UNIT / 2) {
+		float dist = ourPos.getMapPos().dst(playerPos.getMapPos());
+		/*if (!Settings.RELEASE_MODE) {
+			Settings.p("Dist to exit: " + dist);
+		}*/
+		if (dist < 1) {//Game.UNIT / 2) {
 			Game.levelComplete = true;
 		}
 	}

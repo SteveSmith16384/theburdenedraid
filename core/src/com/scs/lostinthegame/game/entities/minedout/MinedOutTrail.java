@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.HasModel;
-import com.scs.lostinthegame.game.entities.androids.GSquare;
 
 public class MinedOutTrail extends AbstractEntity {
 

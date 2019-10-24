@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
+import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.EricAndTheFloatersBombData;
 
 public class EricAndTheFloatersExplosionSystem extends AbstractSystem {
@@ -28,6 +29,7 @@ public class EricAndTheFloatersExplosionSystem extends AbstractSystem {
 		hdc.timeRemaining -= dt;
 		if(hdc.timeRemaining <= 0) {
 			entity.remove();
+			Game.audio.play("beepfx_samples/23_boom_4.wav");
 			//todo - explosion();
 		}
 	}

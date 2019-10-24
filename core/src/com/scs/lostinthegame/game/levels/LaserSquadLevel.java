@@ -62,7 +62,7 @@ public class LaserSquadLevel extends AbstractLevel {
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
-				Game.world.world[x][z].type = type;
+				Game.world.world[x][z].blocked = type == World.WALL;
 			}
 		}
 	}
@@ -72,8 +72,8 @@ public class LaserSquadLevel extends AbstractLevel {
 		for (int y = 0; y < map_height; y++) {
 			for (int x = 0; x < map_width; x++) {
 				try {
-					int block = Game.world.world[x][y].type;
-					if (block == World.WALL) {
+					boolean block = Game.world.world[x][y].blocked;
+					if (block) {
 						game.ecs.addEntity(new Wall("lasersquad/moonbase_wall.png", x, y));
 					}
 				} catch (NullPointerException ex) {

@@ -197,8 +197,6 @@ public class ShadedGroupStrategy implements GroupStrategy, Disposable {
 				Gdx.files.internal("shaders/decal_vertex.glsl").readString(),
 				Gdx.files.internal("shaders/decal_fragment.glsl").readString()
 				);
-
-		//shader = new ShaderProgram(vertexShader, fragmentShader);
 		if (shader.isCompiled() == false) {
 			throw new IllegalArgumentException("couldn't compile shader: " + shader.getLog());
 		}
@@ -209,6 +207,7 @@ public class ShadedGroupStrategy implements GroupStrategy, Disposable {
 	public ShaderProgram getGroupShader (int group) {
 		return shader;
 	}
+	
 
 	@Override
 	public void dispose () {

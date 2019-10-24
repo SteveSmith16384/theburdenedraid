@@ -18,7 +18,6 @@ public class OhMummyLevel extends AbstractLevel {
 	private static final int RECT_SIZE_EXCLUDING_EDGES = 1;
 
 	private boolean[][] pill_map;
-	//private boolean completed = false;
 
 	public OhMummyLevel(EntityManager _entityManager, DecalManager _decalManager) {
 		super(_entityManager, _decalManager);
@@ -27,10 +26,6 @@ public class OhMummyLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		//entityManager.getEntities().clear();
-		//decalManager.clear();
-		//game.modelInstances = new ArrayList<ModelInstance>();
-
 		loadMap(game);
 
 		createWalls(game);
@@ -56,7 +51,7 @@ public class OhMummyLevel extends AbstractLevel {
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
-				Game.world.world[x][z].type = type;
+				Game.world.world[x][z].blocked = type == World.WALL;
 			}
 		}
 
@@ -72,7 +67,7 @@ public class OhMummyLevel extends AbstractLevel {
 		for (int z=sz ; z<sz+RECT_SIZE_EXCLUDING_EDGES ; z++) {
 			for (int x=sx ; x<sx+RECT_SIZE_EXCLUDING_EDGES ; x++) {
 				try {
-					Game.world.world[x][z].type = World.WALL;
+					Game.world.world[x][z].blocked = true;
 				} catch (ArrayIndexOutOfBoundsException ex) {
 					ex.printStackTrace();
 				}
@@ -85,8 +80,8 @@ public class OhMummyLevel extends AbstractLevel {
 		for (int y = 0; y < map_height; y++) {
 			for (int x = 0; x < map_width; x++) {
 				try {
-					int block = Game.world.world[x][y].type;
-					if (block == World.WALL) {
+					boolean block = Game.world.world[x][y].blocked;
+					if (block) {
 						Wall wall = null;
 						if (x == 0 || y == 0 || x >= map_width-1 || y >= map_height-1) {
 							wall = new Wall("colours/white.png", x, y);
@@ -165,7 +160,7 @@ public class OhMummyLevel extends AbstractLevel {
 		boolean c = true;
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
-				if (Game.world.world[x][z].type != World.WALL) {
+				if (Game.world.world[x][z].blocked == false) {
 					if (this.pill_map[x][z] == false) {
 						c = false;
 						break;

@@ -1,5 +1,5 @@
 package com.scs.lostinthegame.game.levels;
-
+/*
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
@@ -131,7 +131,7 @@ public class TheBurdenLair extends AbstractLevel {
 				}
 
 				if (result > 0) {
-					Game.world.world[x][y].type = result;
+					Game.world.world[x][y].blocked = result > 0;
 				}
 			}
 		}
@@ -221,9 +221,6 @@ public class TheBurdenLair extends AbstractLevel {
 		case -16720641:
 			for (int i = 0; i < 5; i++) {
 				Entity le = null;
-				/*if (Settings.NEW_BARRELS) {
-					le = new NewBarrel(x, y);
-				} else {*/
 				le = new LootEntity(Game.art.items, x, y);
 				//}
 				le.position.x += Settings.random.nextFloat()*Game.UNIT*1.5f - Game.UNIT*.75f;
@@ -249,7 +246,7 @@ public class TheBurdenLair extends AbstractLevel {
 			int x = Settings.random.nextInt(map_width);
 			int y = Settings.random.nextInt(map_height);
 
-			if (Game.world.getMapSquareAt(x,y).type == World.NOTHING) {
+			if (Game.world.getMapSquareAt(x,y).blocked == false) {
 				DecalEntity ent = new DecalEntity(Game.world.detailTexture[Settings.random.nextInt(2)]);
 				ent.position.set(x * Game.UNIT, 0, y * Game.UNIT);
 				decalManager.add(ent);
@@ -420,3 +417,4 @@ public class TheBurdenLair extends AbstractLevel {
 	}
 
 }
+*/

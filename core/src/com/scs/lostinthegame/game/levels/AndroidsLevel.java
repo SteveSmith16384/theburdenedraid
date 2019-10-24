@@ -65,7 +65,7 @@ public class AndroidsLevel extends AbstractLevel {
 				}
 
 				Game.world.world[x][z] = new WorldSquare();
-				Game.world.world[x][z].type = type;
+				Game.world.world[x][z].blocked = type == World.WALL;
 			}
 		}
 	}
@@ -134,7 +134,7 @@ public class AndroidsLevel extends AbstractLevel {
 				}
 
 				Game.world.world[mapX][mapZ] = new WorldSquare();
-				Game.world.world[mapX][mapZ].type = type;
+				Game.world.world[mapX][mapZ].blocked = type == World.WALL;
 
 				mapX++;
 			}
@@ -148,8 +148,8 @@ public class AndroidsLevel extends AbstractLevel {
 		for (int y = 0; y < map_height; y++) {
 			for (int x = 0; x < map_width; x++) {
 				try {
-					int block = Game.world.world[x][y].type;
-					if (block == World.WALL) {
+					boolean block = Game.world.world[x][y].blocked;
+					if (block) {
 						game.ecs.addEntity(new Wall("colours/black.png", x, y));
 					}
 				} catch (NullPointerException ex) {

@@ -23,12 +23,10 @@ vec4 add_fog(vec4 fragColour) {
 
 
 void main() {
-
     vec2 tex0 = fract(v_texCoord0 * u_textureRepeat);
 
     vec2 tex = (tex0 + u_tilemapOffset) / u_tilemapSize;
     vec4 col = texture2D(u_diffuseTexture, tex);
-
 
     gl_FragColor = add_fog(col);
 }

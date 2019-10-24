@@ -42,7 +42,7 @@ public class Floater extends AbstractEntity {
         IsDamagable damagable = new IsDamagable(1);
         this.addComponent(damagable);
         
-        HasAI ai = new HasAI(Mode.MoveLikeRook, .005f);
+        HasAI ai = new HasAI(Mode.MoveLikeRook, 1f);
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.85f));

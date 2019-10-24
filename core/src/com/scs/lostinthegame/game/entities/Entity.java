@@ -44,12 +44,13 @@ public class Entity extends AbstractEntity {
 
 	}
 
+	/*
 	public void bindWorldTile(World wrld, int tx, int ty) {
 		world_x = tx;
 		world_y = ty;
-		wrld.world[tx][ty].type = World.BLOCKED;
+		wrld.world[tx][ty].blocked = true;//World.BLOCKED;
 	}
-
+*/
 
 	public Vector3 getPosition() {
 		return position;

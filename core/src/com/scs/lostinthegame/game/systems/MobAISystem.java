@@ -54,7 +54,7 @@ public class MobAISystem extends AbstractSystem {
 				}
 				movementData.offset.x = ai.direction.x;
 				movementData.offset.z = ai.direction.z;
-				movementData.offset.scl(ai.speed);
+				movementData.offset.scl(Gdx.graphics.getDeltaTime() * ai.speed * Game.UNIT);
 				break;
 
 			default:

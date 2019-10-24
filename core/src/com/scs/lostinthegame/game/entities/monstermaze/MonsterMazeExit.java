@@ -2,46 +2,40 @@ package com.scs.lostinthegame.game.entities.monstermaze;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttributes;
-import com.badlogic.gdx.graphics.g3d.Material;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
-import com.badlogic.gdx.graphics.g3d.attributes.TextureAttribute;
-import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.lostinthegame.game.Art;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.CompletesLevelData;
-import com.scs.lostinthegame.game.components.HasModel;
+import com.scs.lostinthegame.game.components.HasDecal;
+import com.scs.lostinthegame.game.components.HasDecalCycle;
 import com.scs.lostinthegame.game.components.PositionData;
 
 public class MonsterMazeExit extends AbstractEntity {
 
-	private static Model floor;
-	
-	static {
-		Material material = new Material(TextureAttribute.createDiffuse(new Texture(Gdx.files.internal("monstermaze/exit.png"))));		
-		ModelBuilder modelBuilder = new ModelBuilder();
-		floor = modelBuilder.createRect(
-				0f, 0f, Game.UNIT,
-				Game.UNIT, 0f, Game.UNIT,
-				Game.UNIT, 0f, 0f,
-				0f, 0f,0f,
-				1f, 1f,1f,
-				material,
-				VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
-
-	}
-	
 	public MonsterMazeExit(int map_x, int map_y) {
 		super(MonsterMazeExit.class.getSimpleName());
 		
-		ModelInstance instance = new ModelInstance(floor);
-		instance.transform.translate((map_x*Game.UNIT)-(Game.UNIT/2), 0.1f, (map_y*Game.UNIT)-(Game.UNIT/2));
-		//instance.transform.translate((map_x*Game.UNIT), 0.1f, (map_y*Game.UNIT));
-		this.addComponent(new HasModel(instance));
+		//PositionData posData = new PositionData((map_x*Game.UNIT)-(Game.UNIT/2), (map_y*Game.UNIT)-(Game.UNIT/2));
+		PositionData posData = new PositionData((map_x*Game.UNIT), (map_y*Game.UNIT));
+		this.addComponent(posData);
 
-		this.addComponent(new PositionData((map_x*Game.UNIT)-(Game.UNIT/2), (map_y*Game.UNIT)-(Game.UNIT/2)));
+		HasDecal hasDecal = new HasDecal();
+		Texture tex = new Texture(Gdx.files.internal("monstermaze/exit1.png"));
+		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
+        hasDecal.decal = Decal.newDecal(tr, true);
+        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth());
+        hasDecal.decal.setPosition(posData.position);
+        hasDecal.faceCamera = true;
+        hasDecal.faceCameraTilted = true;        
+        this.addComponent(hasDecal);
 
+        HasDecalCycle cycle = new HasDecalCycle(.5f, 2);
+        cycle.decals[0] = hasDecal.decal;
+        cycle.decals[1] = Art.DecalHelper("monstermaze/exit2.png", 1f);
+        this.addComponent(cycle);
+        
 		this.addComponent(new CompletesLevelData());
 
 	}

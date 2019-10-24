@@ -34,13 +34,13 @@ public class World {
 	public WorldSquare getMapSquareAt(int x, int y) {
 		if (x < 0 || y < 0) {
 			//Settings.p("OOB!");
-			return new WorldSquare(WALL); // todo - return static
+			return new WorldSquare(true); // todo - return static
 		}
 
 		try {
 			return world[x][y];//.type;
 		} catch (ArrayIndexOutOfBoundsException ex) {
-			return new WorldSquare(WALL); // todo - return static
+			return new WorldSquare(true); // todo - return static
 		}
 	}
 
@@ -50,7 +50,7 @@ public class World {
 		float x = (center_x/Game.UNIT)-(width/2) + 0.5f;
 		float y = center_z/Game.UNIT-depth/2 + 0.5f;
 
-		if (getMapSquareAt((int)(x), (int)(y)).type != 0) {
+		if (getMapSquareAt((int)(x), (int)(y)).blocked) {
 			return false;
 		}
 
@@ -58,7 +58,7 @@ public class World {
 		x = center_x/Game.UNIT-width/2 + 0.5f;
 		y = center_z/Game.UNIT+depth/2 + 0.5f;
 
-		if (getMapSquareAt((int)(x), (int)(y)).type != 0) {
+		if (getMapSquareAt((int)(x), (int)(y)).blocked) {
 			return false;
 		}
 
@@ -66,7 +66,7 @@ public class World {
 		x = center_x/Game.UNIT+width/2 + 0.5f;
 		y = center_z/Game.UNIT-depth/2 + 0.5f;
 
-		if (getMapSquareAt((int)(x), (int)(y)).type != 0) {
+		if (getMapSquareAt((int)(x), (int)(y)).blocked) {
 			return false;
 		}
 
@@ -74,7 +74,7 @@ public class World {
 		x = center_x/Game.UNIT+width/2 + 0.5f;
 		y = center_z/Game.UNIT+depth/2 + 0.5f;
 
-		if (getMapSquareAt((int)(x), (int)(y)).type != 0) {
+		if (getMapSquareAt((int)(x), (int)(y)).blocked) {
 			return false;
 		}
 
@@ -94,7 +94,7 @@ public class World {
 		while(tmp.dst2(pos2) > (Game.UNIT/2f) * (Game.UNIT/2f)){
 			tmp.mulAdd(dir, -Game.UNIT/4f);
 
-			if (getMapSquareAt(tmp.x, tmp.z).type != NOTHING) {
+			if (getMapSquareAt(tmp.x, tmp.z).blocked) {
 				return false;
 			}
 		}

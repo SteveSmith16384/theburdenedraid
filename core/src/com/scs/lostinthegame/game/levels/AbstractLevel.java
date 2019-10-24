@@ -1,5 +1,6 @@
 package com.scs.lostinthegame.game.levels;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.lostinthegame.game.Game;
@@ -21,6 +22,11 @@ public abstract class AbstractLevel implements ICollectionHandler {
 		entityManager = _entityManager;
 		this.decalManager = _decalManager;
 	}
+	
+	public void setBackgroundColour() {
+		Gdx.gl.glClearColor(0,0,0,1);
+	}
+	
 	
 	public abstract void load(Game game);
 	
