@@ -38,7 +38,9 @@ public class MobAISystem extends AbstractSystem {
 		if (Game.player.getPosition().dst2(pos.position) < (Game.UNIT * 5) * (Game.UNIT * 5)) { //&& Game.world.canSee(pos.position, Game.player.getPosition())) {
 			switch (ai.mode) {
 			case GoForPlayer:
+				ai.can_see_player = false;
 				if (Game.world.canSee(pos.position, Game.player.getPosition())) {
+					ai.can_see_player = true;
 					ai.direction.set(Game.player.getPosition()).sub(pos.position).nor();
 					ai.direction.scl(Gdx.graphics.getDeltaTime() * ai.speed * Game.UNIT);
 					ai.direction.y = 0f;

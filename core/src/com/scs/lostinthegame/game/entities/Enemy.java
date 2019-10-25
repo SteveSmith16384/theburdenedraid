@@ -89,7 +89,7 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable, I
 
 
 	protected void shoot() {
-		if (Settings.ENEMY_SHOOTING) {
+		/*if (Settings.ENEMY_SHOOTING) {
 			if (Game.world.canSee(this.position, Game.player.getPosition())) {
 				Settings.p("Shooting!");
 				Vector3 dir = new Vector3();
@@ -98,7 +98,7 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable, I
 				Game.entityManager.add(b);
 			}
 			//Settings.p("Not shooting - Cannot see player!");
-		}
+		}*/
 	}
 
 

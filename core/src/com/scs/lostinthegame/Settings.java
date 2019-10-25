@@ -8,12 +8,11 @@ public class Settings {
 	
 	// Hacks
 	public static final boolean TEST_FLOOR_SQ = true;
-	public static final boolean USE_WAND = true;
-	public static final boolean USE_WRAITHS = true;
-	public static final String START_LEVEL = "";//"Demon Lair";
-	public static final boolean ENEMY_SHOOTING = false;
-	public static final boolean INFINITE_KEYS = true;
-	public static final boolean PLAYER_SHOOTING = true;
+	//public static final boolean USE_WAND = true;
+	//public static final boolean USE_WRAITHS = true;
+	//public static final String START_LEVEL = "";//"Demon Lair";
+	//public static final boolean ENEMY_SHOOTING = false;
+	//public static final boolean INFINITE_KEYS = true;
 	public static final boolean SHOW_FPS = false;
 	
 	//public static final int START_HEALTH = 5;

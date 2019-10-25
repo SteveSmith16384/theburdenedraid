@@ -106,12 +106,12 @@ public class PlayersSword implements IPlayersWeapon {
 		if (res) {
 			didAttack = true;
 
-			if (Settings.PLAYER_SHOOTING) {
+			/*if (Settings.PLAYER_SHOOTING) {
 				Entity b = new ChaosBolt(this, position, direction);
 				Game.entityManager.add(b);
-			} else {
+			} else {*/
 				checkAttackHit(position, direction);
-			}
+			//}
 		}
 	}
 

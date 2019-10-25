@@ -8,6 +8,7 @@ public class HasAI {
 	public Vector3 direction = new Vector3();
 	public float speed;
 	public Mode mode;
+	public boolean can_see_player;
 	
 	public HasAI(Mode _mode, float _speed) {
 		mode = _mode;

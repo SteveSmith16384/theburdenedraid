@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.player.CameraController;
 
 public abstract class AbstractIntervalWeapon implements IPlayersWeapon {
@@ -18,9 +19,13 @@ public abstract class AbstractIntervalWeapon implements IPlayersWeapon {
 		this.shot_interval = interval;
 		
 		weaponSprite = new Sprite(weaponTex);
-		weaponSprite.setOrigin(32, 20);
-		weaponSprite.setScale(7.5f, 5f);
-		weaponSprite.setPosition(Gdx.graphics.getWidth()-300, -20);
+		//weaponSprite.setOrigin(32, 20);
+		weaponSprite.setOrigin(weaponSprite.getWidth()/2f, 0);
+		//weaponSprite.setScale(7.5f, 5f);
+		float scale = (float)Settings.WINDOW_WIDTH_PIXELS / (float)weaponTex.getWidth() / 3f;
+		weaponSprite.setScale(scale);
+		//weaponSprite.setPosition(Gdx.graphics.getWidth()-300, -20);
+		weaponSprite.setPosition((Gdx.graphics.getWidth()-weaponSprite.getWidth())/2, 0);
 	}
 	
 	

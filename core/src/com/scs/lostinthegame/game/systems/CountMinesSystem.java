@@ -31,7 +31,7 @@ public class CountMinesSystem extends AbstractSystem {
 		float dist = ourPos.position.dst(playerPos.position);
 		if (dist < Game.UNIT/2) {
 			Settings.p("Player walked on mine!");
-			// todo
+			Game.player.damaged(1, null);
 		} else if (dist < Game.UNIT * 2) {
 			num_mines++;
 		}

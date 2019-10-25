@@ -13,6 +13,7 @@ import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.gulpman.Cherry;
 import com.scs.lostinthegame.game.entities.gulpman.Nasty;
+import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 
 public class GulpmanLevel extends AbstractLevel {
 
@@ -29,6 +30,8 @@ public class GulpmanLevel extends AbstractLevel {
 		loadTestMap(game);
 
 		createWalls(game);
+
+		game.player.setWeapon(new PlayersLaserGun());
 	}
 
 

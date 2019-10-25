@@ -19,7 +19,7 @@ public class Inventory implements IInventory {
 
     public int totalLoot = 0;
     private ArrayList<ItemPos> itemPositions;
-    public int keys = Settings.INFINITE_KEYS ? 10 : 0;
+    public int keys = 0;//Settings.INFINITE_KEYS ? 10 : 0;
 
     private class ItemPos {
     	

@@ -7,12 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.entities.Entity;
 import com.scs.lostinthegame.game.entities.chaos.ChaosBolt;
-import com.scs.lostinthegame.game.interfaces.IAttackable;
-import com.scs.lostinthegame.game.interfaces.IDamagable;
 import com.scs.lostinthegame.game.player.CameraController;
 
 public class Wand implements IPlayersWeapon {
@@ -103,46 +100,9 @@ public class Wand implements IPlayersWeapon {
 		if (res) {
 			didAttack = true;
 
-			if (Settings.PLAYER_SHOOTING) {
-				Entity b = new ChaosBolt(this, position, direction);
-				Game.entityManager.add(b);
-			} else {
-				checkAttackHit(position, direction);
-			}
+			Entity b = new ChaosBolt(this, position, direction);
+			Game.entityManager.add(b);
 		}
 	}
-
-
-	private void checkAttackHit(Vector3 position, Vector3 direction) {
-		IDamagable closest = null;
-		float dist = 0f;
-
-		Vector3 tmp = new Vector3();
-
-		for (Entity ent : Game.entityManager.getEntities()) {
-			if(ent instanceof IAttackable == false) {
-				continue;
-			}
-			if(ent instanceof IDamagable == false) {
-				continue;
-			}
-
-			tmp.set(position).mulAdd(direction, Game.UNIT*.75f);
-
-			if(Game.collision.hitCircle(ent.getPosition(), tmp, Game.UNIT*.75f)){
-				float d = position.dst2(ent.getPosition());
-				if(closest == null || d<dist){
-					dist = d;
-					closest = (IDamagable)ent;
-				}
-			}
-
-		}
-
-		if (closest != null) {
-			closest.damaged(1, direction);
-		}
-	}
-
 
 }

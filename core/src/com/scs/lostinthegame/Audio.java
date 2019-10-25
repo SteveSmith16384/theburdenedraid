@@ -22,7 +22,8 @@ public class Audio {
 		sounds = new HashMap<String, Sound>();
 
 		for(String s : preload){
-			Sound sfx = Gdx.audio.newSound(Gdx.files.internal("audio/"+s+".wav"));
+			String filename = "audio/" +s+".wav";
+			Sound sfx = Gdx.audio.newSound(Gdx.files.internal(filename));
 			sounds.put(s, sfx);
 		}
 
@@ -57,8 +58,11 @@ public class Audio {
 		if (sounds.containsKey(name)) {
 			sounds.get(name).play();
 		} else {
-
-			Sound sfx = Gdx.audio.newSound(Gdx.files.internal("audio/"+name+".wav"));
+			String filename = "audio/" + name;// + ".wav";
+			if (filename.indexOf(".") < 0) {
+				filename = filename + ".wav";
+			}
+			Sound sfx = Gdx.audio.newSound(Gdx.files.internal(filename));
 			sounds.put(name, sfx);
 			System.out.println("Sound " + name + " not preloaded");
 			play(name); // Loop round to play the newly-added file.

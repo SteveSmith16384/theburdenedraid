@@ -12,8 +12,8 @@ import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.GenericScenery;
 import com.scs.lostinthegame.game.entities.GenericWallScenery;
 import com.scs.lostinthegame.game.entities.Wall;
-import com.scs.lostinthegame.game.entities.androids.PlayersLaserGun;
 import com.scs.lostinthegame.game.entities.androids.SlidingDoor;
+import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 
 public class LaserSquadLevel extends AbstractLevel {
 

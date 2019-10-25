@@ -37,7 +37,7 @@ public class Levels {
 			//gameLevel = new LaserSquadLevel(this.entityManager, this.decalManager);
 
 		default:
-			throw new RuntimeException("Todo");
+			throw new RuntimeException("Unknown level: " + currentLevelNum);
 		}
 	}
 	
