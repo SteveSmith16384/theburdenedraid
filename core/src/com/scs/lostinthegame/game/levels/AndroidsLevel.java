@@ -41,27 +41,27 @@ public class AndroidsLevel extends AbstractLevel {
 	}
 
 
-	private void loadTestMap(Game game) {
-		this.map_width = 5;
-		this.map_height = 5;
+	private void loadMapFromMazegen(Game game) {
+		this.map_width = 20;
+		this.map_height = 20;
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 		
 		Maze maze = new Maze(map_width, map_height);
 
-		this.playerStartMapX = 1;
-		this.playerStartMapY = 1;
+		this.playerStartMapX = maze.start_pos.x;
+		this.playerStartMapY = maze.start_pos.y;
 
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
 				Game.world.world[x][z] = new WorldSquare();
-				Game.world.world[x][z].blocked = maze.map[x][z];
+				Game.world.world[x][z].blocked = !maze.map[x][z];
 			}
 		}
 	}
 
 
-	private void loadMapFromMazegen(Game game) {
+	private void loadTestMap(Game game) {
 		this.map_width = 5;
 		this.map_height = 5;
 

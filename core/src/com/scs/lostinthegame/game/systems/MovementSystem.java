@@ -41,8 +41,10 @@ public class MovementSystem extends AbstractSystem {
 		if (movementData.offset.x != 0 || movementData.offset.y != 0 || movementData.offset.z != 0) {
 			boolean res = this.tryMove(entity, Game.world, movementData.offset, movementData.sizeAsFracOfMapsquare, true);
 			if (!res) {
-				entity.remove();
-				Settings.p(entity + " removed");
+				if (movementData.removeIfHitWall) {
+					entity.remove();
+					Settings.p(entity + " removed");
+				}
 			}
 		}
 	}

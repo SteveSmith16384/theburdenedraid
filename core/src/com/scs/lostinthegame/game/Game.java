@@ -139,6 +139,7 @@ public class Game implements IModule {
 			transitionProgress = 0;
 			//gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
 			gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
+			//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager);
 
 			this.resetECS();
 

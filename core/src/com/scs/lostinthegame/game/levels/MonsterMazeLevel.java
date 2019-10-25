@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.lostinthegame.Maze;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
@@ -22,7 +23,7 @@ public class MonsterMazeLevel extends AbstractLevel {
 	private String trex_msg = "REX LIES IN WAIT";
 	private boolean has_seen = false;
 	private float next_check = 0;
-	
+
 	public MonsterMazeLevel(EntityManager _entityManager, DecalManager _decalManager) {
 		super(_entityManager, _decalManager);
 	}
@@ -31,12 +32,45 @@ public class MonsterMazeLevel extends AbstractLevel {
 	@Override
 	public void load(Game game) {
 		//loadMapFromImage(game);
-		loadTestMap(game);
+		//loadTestMap(game);
+		loadMapFromMazegen(game);
+
 	}
 
 
 	public void setBackgroundColour() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
+	}
+
+
+	private void loadMapFromMazegen(Game game) {
+		this.map_width = 20;
+		this.map_height = 20;
+
+		Game.world.world = new WorldSquare[map_width][map_height];
+
+		Maze maze = new Maze(map_width, map_height);
+
+		this.playerStartMapX = maze.start_pos.x;
+		this.playerStartMapY = maze.start_pos.y;
+
+		for (int z=0 ; z<map_height ; z++) {
+			for (int x=0 ; x<map_width ; x++) {
+				int type = World.NOTHING;
+				Game.world.world[x][z] = new WorldSquare();
+				Game.world.world[x][z].blocked = maze.map[x][z] == Maze.WALL;
+				if (Game.world.world[x][z].blocked) {
+					Wall wall = new Wall("monstermaze/wall.png", x, z);
+					game.ecs.addEntity(wall);
+				}
+			}
+		}
+
+		trex = new TRex(maze.middle_pos.x, maze.middle_pos.y);
+		game.ecs.addEntity(trex);
+
+		MonsterMazeExit exit = new MonsterMazeExit(maze.end_pos.x, maze.end_pos.y);
+		game.ecs.addEntity(exit);
 	}
 
 
@@ -82,7 +116,7 @@ public class MonsterMazeLevel extends AbstractLevel {
 			return;
 		}
 		next_check = 3;
-		
+
 		// todo - ", or RUN HE IS BEHIND YOU"
 		PositionData trexPos = (PositionData)trex.getComponent(PositionData.class);
 		PositionData playerPos = (PositionData)Game.player.getComponent(PositionData.class);

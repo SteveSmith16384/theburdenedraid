@@ -29,7 +29,7 @@ public class AndroidsAndroid extends AbstractEntity {
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
         hasDecal.decal = Decal.newDecal(tr, true);
         hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth()); // Scale to sq size by default
-        hasDecal.decal.setPosition(pos.position);
+        //hasDecal.decal.setPosition(pos.position);
         hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = true;        
         this.addComponent(hasDecal);

@@ -3,6 +3,7 @@ package com.scs.lostinthegame.game.levels;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.lostinthegame.Maze;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
@@ -10,6 +11,7 @@ import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
+import com.scs.lostinthegame.game.entities.gulpman.Cherry;
 import com.scs.lostinthegame.game.entities.maziacs.Gold;
 import com.scs.lostinthegame.game.entities.maziacs.Maziac;
 import com.scs.lostinthegame.game.entities.maziacs.SwordPickup;
@@ -25,10 +27,35 @@ public class MaziacsLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		//loadMapFromImage(game);
-		loadTestMap(game);
+		//loadTestMap(game);
+		loadMapFromMazegen(game);
 
-		createWalls(game);
+		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height));
+	}
+
+
+	private void loadMapFromMazegen(Game game) {
+		this.map_width = 20;
+		this.map_height = 20;
+
+		Game.world.world = new WorldSquare[map_width][map_height];
+
+		Maze maze = new Maze(map_width, map_height);
+
+		this.playerStartMapX = maze.start_pos.x;
+		this.playerStartMapY = maze.start_pos.y;
+
+		for (int z=0 ; z<map_height ; z++) {
+			for (int x=0 ; x<map_width ; x++) {
+				Game.world.world[x][z] = new WorldSquare();
+				Game.world.world[x][z].blocked = maze.map[x][z] == Maze.WALL;
+
+				if (Game.world.world[x][z].blocked) {
+					Wall wall = new Wall("colours/blue.png", x, z);
+					game.ecs.addEntity(wall);
+				}
+			}
+		}
 	}
 
 
@@ -61,6 +88,7 @@ public class MaziacsLevel extends AbstractLevel {
 				Game.world.world[x][z].blocked = type == World.WALL;
 			}
 		}
+		createWalls(game);
 	}
 
 
@@ -78,7 +106,6 @@ public class MaziacsLevel extends AbstractLevel {
 			}
 		}
 
-		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height));
 	}
 
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
@@ -20,15 +21,16 @@ public class PlayersLaserBullet extends AbstractEntity {
 		
         PositionData posData = new PositionData();
         posData.position = _position.cpy();
-        posData.position.y = -Game.UNIT/2;
+        //posData.position.y = -Game.UNIT/2;
         this.addComponent(posData);
         
 		HasDecal hasDecal = new HasDecal();
 		Texture tex = new Texture(Gdx.files.internal("players_bullet.png"));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
         hasDecal.decal = Decal.newDecal(tr, true);
-        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth() / 5);
-        hasDecal.decal.setPosition(posData.position.x, 0, posData.position.z);
+        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth() / 5, Game.UNIT / tr.getRegionWidth() / 10);
+        hasDecal.decal.transformationOffset = new Vector2(0, -2);//hasDecal.decal.getHeight()/2);
+        //todo - is this needed? hasDecal.decal.setPosition(posData.position.x, -Game.UNIT/2, posData.position.z);
         hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = true;        
         this.addComponent(hasDecal);
@@ -39,7 +41,7 @@ public class PlayersLaserBullet extends AbstractEntity {
 
 		this.addComponent(new HarmsNasties());
 		
-		this.addComponent(new AutoMove(_dir.cpy().scl(40)));
+		this.addComponent(new AutoMove(_dir.cpy().scl(60)));
 		
 	}
 

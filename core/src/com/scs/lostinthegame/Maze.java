@@ -3,25 +3,28 @@ package com.scs.lostinthegame;
 import java.util.LinkedList;
 import java.util.Random;
 
-import com.scs.lostinthegame.game.World;
+import com.badlogic.gdx.math.GridPoint2;
 
 public class Maze {
 
 	private static final char PASSAGE_CHAR = ' ';
-	private static final char WALL_CHAR = '▓';
+	private static final char WALL_CHAR = 'W';
 	public static final boolean WALL    = false;
 	public static final boolean PASSAGE = !WALL;
 
-	public final boolean map[][];
+	public final boolean map[][]; // wall == false!
 	private final int width;
 	private final int height;
+	public GridPoint2 start_pos; 
+	public GridPoint2 middle_pos; 
+	public GridPoint2 end_pos; 
 
 	public static void main(String args[]) {
 		System.out.println(new Maze(20, 20));
 	}
 
 
-	public Maze( final int width, final int height ){
+	public Maze(final int width, final int height) {
 		this.width = width;
 		this.height = height;
 		this.map = new boolean[width][height];
@@ -49,34 +52,51 @@ public class Maze {
 			}
 		}
 
+		// Make outer walls actual walls
 		for (int z=0 ; z<height ; z++) {
 			for (x=0 ; x<width ; x++) {
 				if (x == 0 || z == 0 || x >= width-1 || z >= height-1) {
 					map[x][z] = WALL;
+				} else {
+					if (this.start_pos == null && map[x][z] != WALL) {
+						start_pos = new GridPoint2(x, z);
+					}
 				}
 			}
 		}
 
+		// Get middle pos
+		for (int z=height/2 ; z<height ; z++) {
+			for (x=width/2 ; x<width ; x++) {
+				if (this.middle_pos == null && map[x][z] != WALL) {
+					middle_pos = new GridPoint2(x, z);
+					break;
+				}
+			}
+		}
+
+		// Get end pos
+		for (int z=height-1 ; z>=0 ; z--) {
+			for (x=width-1 ; x>=0; x--) {
+				if (this.end_pos == null && map[x][z] != WALL) {
+					end_pos = new GridPoint2(x, z);
+					break;
+				}
+			}
+		}
+
+		System.out.println(this.toString());
 	}
 
 	@Override
 	public String toString(){
 		final StringBuffer b = new StringBuffer();
-		/*for ( int x = 0; x < width + 2; x++ ) {
-			b.append( WALL_CHAR );
-		}
-		b.append( '\n' );*/
 		for ( int y = 0; y < height; y++ ){
-			//b.append( WALL_CHAR );
 			for ( int x = 0; x < width; x++ ) {
 				b.append( map[x][y] == WALL ? WALL_CHAR : PASSAGE_CHAR );
 			}
-			//b.append( WALL_CHAR );
 			b.append( '\n' );
 		}
-		/*for ( int x = 0; x < width + 2; x++ ) {
-			b.append( WALL_CHAR );
-		}*/
 		b.append( '\n' );
 		return b.toString();
 	}

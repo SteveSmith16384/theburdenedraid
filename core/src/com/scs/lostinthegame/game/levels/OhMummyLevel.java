@@ -15,7 +15,7 @@ import com.scs.lostinthegame.game.entities.ohmummy.Pill;
 
 public class OhMummyLevel extends AbstractLevel {
 
-	private static final int RECT_SIZE_EXCLUDING_EDGES = 1;
+	private static final int RECT_SIZE_EXCLUDING_EDGES = 4;
 
 	private boolean[][] pill_map;
 
@@ -33,7 +33,7 @@ public class OhMummyLevel extends AbstractLevel {
 
 
 	private void loadMap(Game game) {
-		int NUM_RECTS = 2;
+		int NUM_RECTS = 4;
 		this.map_width = 3 + ((RECT_SIZE_EXCLUDING_EDGES+1)*NUM_RECTS);
 		this.map_height = 3 + ((RECT_SIZE_EXCLUDING_EDGES+1)*NUM_RECTS);
 

@@ -3,6 +3,7 @@ package com.scs.lostinthegame.game.levels;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.lostinthegame.Maze;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
@@ -13,6 +14,8 @@ import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.gulpman.Cherry;
 import com.scs.lostinthegame.game.entities.gulpman.Nasty;
+import com.scs.lostinthegame.game.entities.monstermaze.MonsterMazeExit;
+import com.scs.lostinthegame.game.entities.monstermaze.TRex;
 import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 
 public class GulpmanLevel extends AbstractLevel {
@@ -26,12 +29,43 @@ public class GulpmanLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		//loadMapFromImage(game);
-		loadTestMap(game);
+		//loadTestMap(game);
+		loadMapFromMazegen(game);
 
-		createWalls(game);
+		game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height));
+		game.ecs.addEntity(new Ceiling("colours/cyan.png", map_width, map_height));
 
 		game.player.setWeapon(new PlayersLaserGun());
+	}
+
+
+	private void loadMapFromMazegen(Game game) {
+		this.map_width = 20;
+		this.map_height = 20;
+
+		Game.world.world = new WorldSquare[map_width][map_height];
+
+		Maze maze = new Maze(map_width, map_height);
+
+		this.playerStartMapX = maze.start_pos.x;
+		this.playerStartMapY = maze.start_pos.y;
+
+		for (int z=0 ; z<map_height ; z++) {
+			for (int x=0 ; x<map_width ; x++) {
+				Game.world.world[x][z] = new WorldSquare();
+				Game.world.world[x][z].blocked = maze.map[x][z] == Maze.WALL;
+				
+				if (Game.world.world[x][z].blocked) {
+					Wall wall = new Wall("colours/blue.png", x, z);
+					game.ecs.addEntity(wall);
+				} else {
+					Cherry ch = new Cherry(x, z);
+					game.ecs.addEntity(ch);
+					this.num_cherries++;
+				}
+			}
+		}
+
 	}
 
 
@@ -64,6 +98,7 @@ public class GulpmanLevel extends AbstractLevel {
 				Game.world.world[x][z].blocked = type == World.WALL;
 			}
 		}
+		createWalls(game);
 	}
 
 
@@ -80,9 +115,6 @@ public class GulpmanLevel extends AbstractLevel {
 				}
 			}
 		}
-
-		game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height));
-		game.ecs.addEntity(new Ceiling("colours/cyan.png", map_width, map_height));
 
 	}
 
