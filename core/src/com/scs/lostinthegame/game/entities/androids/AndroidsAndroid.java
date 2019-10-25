@@ -10,7 +10,7 @@ import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.HarmsPlayer;
 import com.scs.lostinthegame.game.components.HasAI;
 import com.scs.lostinthegame.game.components.HasDecal;
-import com.scs.lostinthegame.game.components.IsDamagable;
+import com.scs.lostinthegame.game.components.IsDamagableNasty;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.systems.MobAISystem.Mode;
@@ -34,7 +34,7 @@ public class AndroidsAndroid extends AbstractEntity {
         hasDecal.faceCameraTilted = true;        
         this.addComponent(hasDecal);
         
-        IsDamagable damagable = new IsDamagable(2);
+        IsDamagableNasty damagable = new IsDamagableNasty(2);
         this.addComponent(damagable);
         
         HasAI ai = new HasAI(Mode.MoveLikeRook, 2f);

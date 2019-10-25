@@ -3,20 +3,23 @@ package com.scs.lostinthegame;
 import java.util.LinkedList;
 import java.util.Random;
 
+import com.scs.lostinthegame.game.World;
+
 public class Maze {
 
-	public static final char PASSAGE_CHAR = ' ';
-	public static final char WALL_CHAR = '▓';
+	private static final char PASSAGE_CHAR = ' ';
+	private static final char WALL_CHAR = '▓';
 	public static final boolean WALL    = false;
 	public static final boolean PASSAGE = !WALL;
 
-	private final boolean map[][];
+	public final boolean map[][];
 	private final int width;
 	private final int height;
 
 	public static void main(String args[]) {
 		System.out.println(new Maze(20, 20));
 	}
+
 
 	public Maze( final int width, final int height ){
 		this.width = width;
@@ -25,16 +28,15 @@ public class Maze {
 
 		final LinkedList<int[]> frontiers = new LinkedList<int[]>();
 		final Random random = new Random();
-		int x = random.nextInt(width);
-		int y = random.nextInt(height);
+		int x = 1+random.nextInt(width-2);
+		int y = 1+random.nextInt(height-2);
 		frontiers.add(new int[]{x,y,x,y});
 
 		while ( !frontiers.isEmpty() ){
 			final int[] f = frontiers.remove( random.nextInt( frontiers.size() ) );
 			x = f[2];
 			y = f[3];
-			if ( map[x][y] == WALL )
-			{
+			if ( map[x][y] == WALL ) {
 				map[f[0]][f[1]] = map[x][y] = PASSAGE;
 				if ( x >= 2 && map[x-2][y] == WALL )
 					frontiers.add( new int[]{x-1,y,x-2,y} );
@@ -46,6 +48,15 @@ public class Maze {
 					frontiers.add( new int[]{x,y+1,x,y+2} );
 			}
 		}
+
+		for (int z=0 ; z<height ; z++) {
+			for (x=0 ; x<width ; x++) {
+				if (x == 0 || z == 0 || x >= width-1 || z >= height-1) {
+					map[x][z] = WALL;
+				}
+			}
+		}
+
 	}
 
 	@Override

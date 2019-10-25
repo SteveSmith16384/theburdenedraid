@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.lostinthegame.Maze;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
@@ -19,6 +20,7 @@ import com.scs.lostinthegame.game.entities.androids.AndroidsExit;
 import com.scs.lostinthegame.game.entities.androids.GSquare;
 import com.scs.lostinthegame.game.entities.androids.SSquare;
 import com.scs.lostinthegame.game.entities.androids.SlidingDoor;
+import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 
 public class AndroidsLevel extends AbstractLevel {
 
@@ -30,13 +32,36 @@ public class AndroidsLevel extends AbstractLevel {
 	@Override
 	public void load(Game game) {
 		//loadMapFromImage(game);
-		loadTestMap(game);
+		//loadTestMap(game);
+		loadMapFromMazegen(game);
 
 		createWalls(game);
+
+		game.player.setWeapon(new PlayersLaserGun());
 	}
 
 
 	private void loadTestMap(Game game) {
+		this.map_width = 5;
+		this.map_height = 5;
+
+		Game.world.world = new WorldSquare[map_width][map_height];
+		
+		Maze maze = new Maze(map_width, map_height);
+
+		this.playerStartMapX = 1;
+		this.playerStartMapY = 1;
+
+		for (int z=0 ; z<map_height ; z++) {
+			for (int x=0 ; x<map_width ; x++) {
+				Game.world.world[x][z] = new WorldSquare();
+				Game.world.world[x][z].blocked = maze.map[x][z];
+			}
+		}
+	}
+
+
+	private void loadMapFromMazegen(Game game) {
 		this.map_width = 5;
 		this.map_height = 5;
 

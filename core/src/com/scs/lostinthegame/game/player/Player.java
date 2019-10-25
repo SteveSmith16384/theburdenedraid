@@ -40,15 +40,15 @@ public class Player extends AbstractEntity implements IDamagable {
 	private Texture hurtTexture; // Screen goes red when hit
 	private Texture heart;
 	public IInteractable interactTarget;
-	
+
 	private MovementData movementData;
 	private PositionData positionData;
-	
+
 	private IPlayersWeapon weapon;
 
 	public Player(Camera cam, IInventory inv, int lookSens, int _lives) {
 		super(Player.class.getSimpleName());
-		
+
 		this.movementData = new MovementData(0.5f);
 		this.addComponent(movementData);
 		this.positionData = new PositionData();
@@ -171,7 +171,7 @@ public class Player extends AbstractEntity implements IDamagable {
 		}*/
 	}
 
-/*
+	/*
 	private void gravity() {
 		gravity -= gravityScale*Gdx.graphics.getDeltaTime();
 		position.y += gravity*Gdx.graphics.getDeltaTime();
@@ -189,7 +189,7 @@ public class Player extends AbstractEntity implements IDamagable {
 			}
 		}
 	}
-*/
+	 */
 
 	private void move() {
 		float dt = Gdx.graphics.getDeltaTime();
@@ -251,7 +251,7 @@ public class Player extends AbstractEntity implements IDamagable {
 		for (int i = 0; i < lives; i++) {
 			batch.draw(heart, sx + i*36, Gdx.graphics.getHeight()-40, 32, 32);
 		}
-		
+
 		Game.gameLevel.renderUI(batch, font);
 
 		if (hurtTimer > 0 && (int)(hurtTimer*5)%2 == 0) {
@@ -268,23 +268,21 @@ public class Player extends AbstractEntity implements IDamagable {
 		return lives;
 	}
 
-	
+
 	@Override
 	public void damaged(int amt, Vector3 dir) {
 		//health -= amt;
 		lives--;
-		
 		hurtTimer = 1.5f;
-		Game.audio.play("player_hurt");
-		Game.restartLevel = true;
+		if (lives >= 0) {
+			Game.audio.play("player_hurt");
+			Game.restartLevel = true;
+		} else {
+			//todo Game.game_over;
+		}
 	}
 
-/*
-	public void resetHealth() {
-		this.health = this.max_health;
-	}
-	*/
-	
+
 	public void setWeapon(IPlayersWeapon w) {
 		this.weapon = w;
 	}

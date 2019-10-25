@@ -1,10 +1,10 @@
 package com.scs.lostinthegame.game.components;
 
-public class IsDamagable {
+public class IsDamagableNasty {
 
 	public int health;
 	
-	public IsDamagable(int h) {
+	public IsDamagableNasty(int h) {
 		this.health = h;
 	}
 

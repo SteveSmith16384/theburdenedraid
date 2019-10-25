@@ -12,7 +12,7 @@ import com.scs.lostinthegame.game.decals.DecalEntity;
 import com.scs.lostinthegame.game.entities.Entity;
 import com.scs.lostinthegame.game.interfaces.IDamagable;
 
-public class ChaosBolt extends Entity {
+public class ChaosBolt extends Entity { // todo - extend AbstractEntity
 
 	private static final float SIZE = 0.3f;
 	private static final float SPEED = 0.1f;

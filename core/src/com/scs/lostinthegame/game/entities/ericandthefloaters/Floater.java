@@ -11,7 +11,7 @@ import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.HasAI;
 import com.scs.lostinthegame.game.components.HasDecal;
 import com.scs.lostinthegame.game.components.HasDecalCycle;
-import com.scs.lostinthegame.game.components.IsDamagable;
+import com.scs.lostinthegame.game.components.IsDamagableNasty;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.systems.MobAISystem.Mode;
@@ -39,7 +39,7 @@ public class Floater extends AbstractEntity {
         cycle.decals[1] = Art.DecalHelper("ericandthefloaters/floater2.png", 1f);
         this.addComponent(cycle);
         
-        IsDamagable damagable = new IsDamagable(1);
+        IsDamagableNasty damagable = new IsDamagableNasty(1);
         this.addComponent(damagable);
         
         HasAI ai = new HasAI(Mode.MoveLikeRook, 1f);

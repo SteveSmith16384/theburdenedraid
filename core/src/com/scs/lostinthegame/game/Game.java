@@ -23,7 +23,7 @@ import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.GulpmanLevel;
+import com.scs.lostinthegame.game.levels.AndroidsLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -138,7 +138,7 @@ public class Game implements IModule {
 			hasLoaded = false;
 			transitionProgress = 0;
 			//gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
-			gameLevel = new GulpmanLevel(this.entityManager, this.decalManager);
+			gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
 
 			this.resetECS();
 
