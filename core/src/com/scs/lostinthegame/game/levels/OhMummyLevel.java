@@ -19,8 +19,8 @@ public class OhMummyLevel extends AbstractLevel {
 
 	private boolean[][] pill_map;
 
-	public OhMummyLevel(EntityManager _entityManager, DecalManager _decalManager) {
-		super(_entityManager, _decalManager);
+	public OhMummyLevel(EntityManager _entityManager, DecalManager _decalManager, int diff) {
+		super(_entityManager, _decalManager, diff);
 	}
 
 

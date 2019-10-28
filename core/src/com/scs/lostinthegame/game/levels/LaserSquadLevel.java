@@ -17,8 +17,8 @@ import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 
 public class LaserSquadLevel extends AbstractLevel {
 
-	public LaserSquadLevel(EntityManager _entityManager, DecalManager _decalManager) {
-		super(_entityManager, _decalManager);
+	public LaserSquadLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
+		super(_entityManager, _decalManager, difficulty);
 	}
 
 

@@ -24,8 +24,8 @@ import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 
 public class AndroidsLevel extends AbstractLevel {
 
-	public AndroidsLevel(EntityManager _entityManager, DecalManager _decalManager) {
-		super(_entityManager, _decalManager);
+	public AndroidsLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
+		super(_entityManager, _decalManager, difficulty);
 	}
 
 

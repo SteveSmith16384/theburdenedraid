@@ -24,8 +24,8 @@ public class MonsterMazeLevel extends AbstractLevel {
 	private boolean has_seen = false;
 	private float next_check = 0;
 
-	public MonsterMazeLevel(EntityManager _entityManager, DecalManager _decalManager) {
-		super(_entityManager, _decalManager);
+	public MonsterMazeLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
+		super(_entityManager, _decalManager, difficulty);
 	}
 
 

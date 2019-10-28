@@ -14,6 +14,7 @@ import com.scs.lostinthegame.game.levels.OhMummyLevel;
 public class Levels {
 	
 	private int currentLevelNum = 0; 
+	public int numberTimesLoopAround = 0;
 
 	public Levels() {
 	}
@@ -21,23 +22,26 @@ public class Levels {
 	public AbstractLevel getNextLevel(EntityManager entityManager, DecalManager decalManager) {
 		switch (currentLevelNum) {
 		case 1:
-			return new OhMummyLevel(entityManager, decalManager); // done!
+			return new OhMummyLevel(entityManager, decalManager, numberTimesLoopAround); // done!
 		case 2:
-			return new GulpmanLevel(entityManager, decalManager); // done!
+			return new GulpmanLevel(entityManager, decalManager, numberTimesLoopAround); // done!
 		case 3:
-			return new AndroidsLevel(entityManager, decalManager);
+			return new AndroidsLevel(entityManager, decalManager, numberTimesLoopAround);
 		case 4:
-			return new EricAndTheFloatersLevel(entityManager, decalManager);
+			return new MonsterMazeLevel(entityManager, decalManager, numberTimesLoopAround);
 		case 5:
-			return new MinedOutLevel(entityManager, decalManager); // done!
-		case 6:
-			return new MonsterMazeLevel(entityManager, decalManager);
-		case 7:
-			return new MaziacsLevel(entityManager, decalManager);
+			return new MinedOutLevel(entityManager, decalManager, numberTimesLoopAround); // done!
+		//case 6:
+			//return new EricAndTheFloatersLevel(entityManager, decalManager);
+			//return new MaziacsLevel(entityManager, decalManager);
 			//gameLevel = new LaserSquadLevel(this.entityManager, this.decalManager);
 
 		default:
-			throw new RuntimeException("Unknown level: " + currentLevelNum);
+			//throw new RuntimeException("Unknown level: " + currentLevelNum);
+			// Loop around
+			currentLevelNum -= 5;
+			numberTimesLoopAround++;
+			return getNextLevel(entityManager, decalManager);
 		}
 	}
 	

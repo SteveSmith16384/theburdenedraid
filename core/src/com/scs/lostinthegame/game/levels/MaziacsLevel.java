@@ -20,8 +20,8 @@ import com.scs.lostinthegame.game.player.weapons.PlayersSword;
 
 public class MaziacsLevel extends AbstractLevel {
 
-	public MaziacsLevel(EntityManager _entityManager, DecalManager _decalManager) {
-		super(_entityManager, _decalManager);
+	public MaziacsLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
+		super(_entityManager, _decalManager, difficulty);
 	}
 
 

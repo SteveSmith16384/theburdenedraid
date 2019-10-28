@@ -17,10 +17,12 @@ public abstract class AbstractLevel implements ICollectionHandler {
 	protected int map_width;
 	protected int map_height;
 	protected int playerStartMapX = -1, playerStartMapY = -1;
+	protected int difficulty;
 	
-	public AbstractLevel(EntityManager _entityManager, DecalManager _decalManager) {
+	public AbstractLevel(EntityManager _entityManager, DecalManager _decalManager, int _difficulty) {
 		entityManager = _entityManager;
 		this.decalManager = _decalManager;
+		difficulty = difficulty;
 	}
 	
 	public void setBackgroundColour() {

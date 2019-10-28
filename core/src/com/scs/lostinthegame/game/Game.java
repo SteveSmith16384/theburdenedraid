@@ -143,7 +143,7 @@ public class Game implements IModule {
 				gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
 			} else {
 				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager);
-				gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager);
+				gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
 				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager);
 			}

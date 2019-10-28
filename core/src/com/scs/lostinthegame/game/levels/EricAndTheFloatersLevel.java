@@ -15,8 +15,8 @@ import com.scs.lostinthegame.game.systems.EricAndTheFloatersExplosionSystem;
 
 public class EricAndTheFloatersLevel extends AbstractLevel {
 
-	public EricAndTheFloatersLevel(EntityManager _entityManager, DecalManager _decalManager) {
-		super(_entityManager, _decalManager);
+	public EricAndTheFloatersLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
+		super(_entityManager, _decalManager, difficulty);
 	}
 
 

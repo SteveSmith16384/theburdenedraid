@@ -11,7 +11,6 @@ import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
-import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.minedout.Damsel;
 import com.scs.lostinthegame.game.entities.minedout.Mine;
@@ -19,22 +18,28 @@ import com.scs.lostinthegame.game.entities.minedout.MinedOutExit;
 import com.scs.lostinthegame.game.entities.minedout.MinedOutTrail;
 import com.scs.lostinthegame.game.systems.CountMinesSystem;
 
-public class MinedOutLevel extends AbstractLevel {
+import ssmith.astar.AStar;
+import ssmith.astar.IAStarMapInterface;
+import ssmith.lang.NumberFunctions;
+
+public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 
 	private int num_damsels = 0;
 	private CountMinesSystem countMinesSystem;
-	
-	public MinedOutLevel(EntityManager _entityManager, DecalManager _decalManager) {
-		super(_entityManager, _decalManager);
+	private GridPoint2 exit_pos;
+	private boolean[][] mine_map;
+
+	public MinedOutLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
+		super(_entityManager, _decalManager, difficulty);
 	}
-	
+
 
 	@Override
 	public void load(Game game) {
 		loadTestMap(game);
 
-		createWalls(game);
-	
+		//createWalls(game);
+
 		this.countMinesSystem = new CountMinesSystem(Game.ecs);
 		Game.ecs.addSystem(this.countMinesSystem);
 	}
@@ -44,32 +49,62 @@ public class MinedOutLevel extends AbstractLevel {
 		this.map_width = 5;
 		this.map_height = 5;
 
-		Game.world.world = new WorldSquare[map_width][map_height];
+		int num_mines = 20 + (this.difficulty * 10);
+		int num_damsels = 2 + this.difficulty;
 
-		this.playerStartMapX = 1;
-		this.playerStartMapY = 1;
+		while (true) {
+			Game.world.world = new WorldSquare[map_width][map_height];
 
-		for (int z=0 ; z<map_height ; z++) {
-			for (int x=0 ; x<map_width ; x++) {
-				int type = World.NOTHING;
-				if (x == 0 || z == 0 || x >= map_width-1 || z >= map_height-1) {
-					type = World.WALL;
-				} else if (x == 3 && z == 3) {
-					Mine m = new Mine(x, z);
-					game.ecs.addEntity(m);
-				} else if (x == 1 && z == 3) {
-					Damsel d = new Damsel(x, z);
-					game.ecs.addEntity(d);
-					num_damsels++;
+			this.playerStartMapX = map_width/2;
+			this.playerStartMapY = 1;
+
+			exit_pos = new GridPoint2(map_width/2, map_height-1);
+
+			for (int z=0 ; z<map_height ; z++) {
+				for (int x=0 ; x<map_width ; x++) {
+					Game.world.world[x][z] = new WorldSquare();
+					if (x == 0 || z == 0 || x >= map_width-1 || z >= map_height-1) {
+						AbstractEntity wall = new Wall("minedout/wall.png", x, z); 
+						game.ecs.addEntity(wall);
+						Game.world.world[x][z].wall = wall;
+						Game.world.world[x][z].blocked = true;
+					}
+
 				}
+			}
 
-				Game.world.world[x][z] = new WorldSquare();
-				Game.world.world[x][z].blocked = type == World.WALL;
+			for (int i=0 ; i<num_mines ; i++) {
+				int x = NumberFunctions.rnd(2,  map_width-2);
+				int y = NumberFunctions.rnd(2,  map_width-2);
+				if (mine_map[x][y] == false) {
+					AbstractEntity mine = new Mine(x, y); 
+					game.ecs.addEntity(mine);
+					mine_map[x][y] = true;
+				} else {
+					i--;
+				}
+			}
+
+			for (int i=0 ; i<num_damsels ; i++) {
+				int x = NumberFunctions.rnd(2,  map_width-2);
+				int y = NumberFunctions.rnd(2,  map_width-2);
+				if (mine_map[x][y] == false) {
+					AbstractEntity damsel = new Damsel(x, y); 
+					game.ecs.addEntity(damsel);
+				} else {
+					i--;
+				}
+			}
+
+			AStar astar = new AStar(this);
+			astar.findPath(this.playerStartMapX, this.playerStartMapY, this.exit_pos.x, this.exit_pos.y, false);
+			if (astar.wasSuccessful()) {
+				break;
 			}
 		}
 	}
 
-
+	/*
 	private void createWalls(Game game) {
 		for (int y = 0; y < map_height; y++) {
 			for (int x = 0; x < map_width; x++) {
@@ -89,16 +124,16 @@ public class MinedOutLevel extends AbstractLevel {
 		game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height));
 
 	}
-
+	 */
 
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
 		if (collectable instanceof Damsel) {
 			this.num_damsels--;
 			if (this.num_damsels <= 0) {
-				Game.world.world[map_width-1][(int)map_height/2].wall.remove();
-				Game.world.world[map_width-1][(int)map_height/2].blocked = false;
-				MinedOutExit exit = new MinedOutExit(map_width-1, (int)map_height/2);
+				Game.world.world[exit_pos.x][exit_pos.y].wall.remove();
+				Game.world.world[exit_pos.x][exit_pos.y].blocked = false;
+				MinedOutExit exit = new MinedOutExit(exit_pos.x, exit_pos.y);
 				Game.ecs.addEntity(exit);
 			}
 		}
@@ -109,12 +144,12 @@ public class MinedOutLevel extends AbstractLevel {
 	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
 		font_white.draw(batch, "Adjacent Mines: " + this.countMinesSystem.num_mines, 10, Settings.WINDOW_HEIGHT_PIXELS-40);
 	}
-	
-	
+
+
 	@Override
 	public void update(Game game, World world) {
 		countMinesSystem.process();
-		
+
 		// Player leave a path
 		PositionData posData = (PositionData)Game.player.getComponent(PositionData.class);
 		GridPoint2 mapPos = posData.getMapPos();
@@ -129,6 +164,32 @@ public class MinedOutLevel extends AbstractLevel {
 	@Override
 	public String GetName() {
 		return "MINEDOUT";
+	}
+
+
+	// AStar
+
+	@Override
+	public int getMapWidth() {
+		return super.map_width;
+	}
+
+
+	@Override
+	public int getMapHeight() {
+		return super.map_height;
+	}
+
+
+	@Override
+	public boolean isMapSquareTraversable(int x, int z) {
+		return mine_map[x][z] == false;
+	}
+
+
+	@Override
+	public float getMapSquareDifficulty(int x, int z) {
+		return 1;
 	}
 
 }
