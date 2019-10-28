@@ -1,9 +1,11 @@
 package com.scs.lostinthegame.game.levels;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.Maze;
+import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
@@ -32,8 +34,8 @@ public class GulpmanLevel extends AbstractLevel {
 		//loadTestMap(game);
 		loadMapFromMazegen(game);
 
-		game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height));
-		game.ecs.addEntity(new Ceiling("colours/cyan.png", map_width, map_height));
+		//game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height));
+		//game.ecs.addEntity(new Ceiling("colours/cyan.png", map_width, map_height));
 
 		game.player.setWeapon(new PlayersLaserGun());
 	}
@@ -66,6 +68,11 @@ public class GulpmanLevel extends AbstractLevel {
 			}
 		}
 
+	}
+
+
+	public void setBackgroundColour() {
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 	}
 
 
@@ -136,8 +143,8 @@ public class GulpmanLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		font.draw(batch, num_cherries + " remaining", 10, 30);
+	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
+		font_white.draw(batch, num_cherries + " remaining", 10, Settings.WINDOW_HEIGHT_PIXELS-40);
 	}
 
 

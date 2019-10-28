@@ -64,7 +64,7 @@ public class Audio {
 			}
 			Sound sfx = Gdx.audio.newSound(Gdx.files.internal(filename));
 			sounds.put(name, sfx);
-			System.out.println("Sound " + name + " not preloaded");
+			//System.out.println("Sound " + name + " not preloaded");
 			play(name); // Loop round to play the newly-added file.
 		}
 

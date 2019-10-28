@@ -7,13 +7,9 @@ public class Settings {
 	public static final boolean RELEASE_MODE = false;
 	
 	// Hacks
-	public static final boolean TEST_FLOOR_SQ = true;
-	//public static final boolean USE_WAND = true;
-	//public static final boolean USE_WRAITHS = true;
-	//public static final String START_LEVEL = "";//"Demon Lair";
-	//public static final boolean ENEMY_SHOOTING = false;
-	//public static final boolean INFINITE_KEYS = true;
-	public static final boolean SHOW_FPS = false;
+	public static final boolean TEST_SPECIFIC_LEVEL = !RELEASE_MODE && true;
+	public static final boolean TEST_FLOOR_SQ = !RELEASE_MODE && true;
+	public static final boolean SHOW_FPS = !RELEASE_MODE && false;
 	
 	//public static final int START_HEALTH = 5;
 	public static final int ENEMY_HEALTH = 3;

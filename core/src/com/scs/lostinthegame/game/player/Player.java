@@ -252,8 +252,6 @@ public class Player extends AbstractEntity implements IDamagable {
 			batch.draw(heart, sx + i*36, Gdx.graphics.getHeight()-40, 32, 32);
 		}
 
-		Game.gameLevel.renderUI(batch, font);
-
 		if (hurtTimer > 0 && (int)(hurtTimer*5)%2 == 0) {
 			batch.setColor(1,1,1,.25f);
 			batch.draw(hurtTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

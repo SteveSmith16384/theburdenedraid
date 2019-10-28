@@ -12,7 +12,7 @@ import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.decals.DecalEntity;
 import com.scs.lostinthegame.game.entities.Enemy;
 
-public class Wraith extends Enemy {
+public class Wraith extends Enemy { // todo - recreate as ECS entity
 
     private static final float speed = 2f;
 

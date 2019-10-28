@@ -23,7 +23,7 @@ import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.AndroidsLevel;
+import com.scs.lostinthegame.game.levels.MonsterMazeLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -47,7 +47,7 @@ public class Game implements IModule {
 	public static final Audio audio = new Audio();
 
 	private SpriteBatch batch2d;
-	private BitmapFont font;
+	private BitmapFont font_white, font_black;
 	private ModelBatch batch;
 	private PerspectiveCamera camera;
 	private FrameBuffer frameBuffer = null;
@@ -74,7 +74,8 @@ public class Game implements IModule {
 
 	public Game() {
 		batch2d = new SpriteBatch();
-		font = new BitmapFont(Gdx.files.internal("font/spectrum1white.fnt"));
+		font_white = new BitmapFont(Gdx.files.internal("font/spectrum1white.fnt"));
+		font_black = new BitmapFont(Gdx.files.internal("font/spectrum1black.fnt"));
 
 		batch = new ModelBatch(new GameShaderProvider());
 
@@ -112,7 +113,7 @@ public class Game implements IModule {
 		ecs.addSystem(new DrawModelSystem(ecs, batch));
 		ecs.addSystem(new RemoveAfterTimeSystem(ecs));
 		ecs.addSystem(new CollectionSystem(ecs, gameLevel));
-		ecs.addSystem(new DrawTextSystem(ecs, batch2d, font));
+		ecs.addSystem(new DrawTextSystem(ecs, batch2d, font_white));
 		ecs.addSystem(new GotToExitSystem(ecs));
 
 		ecs.addEntity(player);
@@ -137,9 +138,15 @@ public class Game implements IModule {
 			transition = true;
 			hasLoaded = false;
 			transitionProgress = 0;
-			//gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
-			gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
-			//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager);
+
+			if (Settings.TEST_SPECIFIC_LEVEL == false) {
+				gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
+			} else {
+				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager);
+				gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager);
+				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
+				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager);
+			}
 
 			this.resetECS();
 
@@ -233,11 +240,12 @@ public class Game implements IModule {
 		batch2d.draw(frameBuffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), - Gdx.graphics.getHeight());
 
 		if (!transition) {
-			player.renderUI(batch2d, font);
+			player.renderUI(batch2d, font_white);
+			gameLevel.renderUI(batch2d, font_white, font_black);
 		}
 
 		if (Settings.SHOW_FPS) {
-			font.draw(batch2d, "FPS: "+Gdx.graphics.getFramesPerSecond(), 10, 20);
+			font_white.draw(batch2d, "FPS: "+Gdx.graphics.getFramesPerSecond(), 10, 20);
 		}
 
 		batch2d.end();
@@ -250,7 +258,7 @@ public class Game implements IModule {
 		decalManager.clear();
 		modelInstances = new ArrayList<ModelInstance>();
 		gameLevel.load(this);
-		
+
 		if (gameLevel.getPlayerStartX() < 0 || gameLevel.getPlayerStartY() < 0) {
 			throw new RuntimeException ("No player start position set");
 		}

@@ -106,8 +106,8 @@ public class MinedOutLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		font.draw(batch, "Adjacent Mines: " + this.countMinesSystem.num_mines, 10, Settings.WINDOW_HEIGHT_PIXELS-40);
+	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
+		font_white.draw(batch, "Adjacent Mines: " + this.countMinesSystem.num_mines, 10, Settings.WINDOW_HEIGHT_PIXELS-40);
 	}
 	
 	

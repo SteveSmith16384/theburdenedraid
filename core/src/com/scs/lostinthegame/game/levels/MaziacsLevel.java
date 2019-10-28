@@ -124,7 +124,7 @@ public class MaziacsLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font) {
+	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
 	}
 
 

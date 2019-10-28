@@ -7,26 +7,27 @@ import com.badlogic.gdx.math.GridPoint2;
 
 public class Maze {
 
-	private static final char PASSAGE_CHAR = ' ';
+	private static final char PASSAGE_CHAR = '.';
 	private static final char WALL_CHAR = 'W';
 	public static final boolean WALL    = false;
 	public static final boolean PASSAGE = !WALL;
 
-	public final boolean map[][]; // wall == false!
-	private final int width;
-	private final int height;
+	public boolean map[][]; // wall == false!
+	private int width;
+	private int height;
 	public GridPoint2 start_pos; 
 	public GridPoint2 middle_pos; 
 	public GridPoint2 end_pos; 
 
 	public static void main(String args[]) {
-		System.out.println(new Maze(20, 20));
+		//System.out.println(new Maze(21, 21));
+		new Maze(16, 16);
 	}
 
 
-	public Maze(final int width, final int height) {
-		this.width = width;
-		this.height = height;
+	public Maze(final int _width, final int _height) {
+		this.width = _width;
+		this.height = _height;
 		this.map = new boolean[width][height];
 
 		final LinkedList<int[]> frontiers = new LinkedList<int[]>();
@@ -35,32 +36,46 @@ public class Maze {
 		int y = 1+random.nextInt(height-2);
 		frontiers.add(new int[]{x,y,x,y});
 
-		while ( !frontiers.isEmpty() ){
-			final int[] f = frontiers.remove( random.nextInt( frontiers.size() ) );
+		while ( !frontiers.isEmpty()) {
+			final int[] f = frontiers.remove(random.nextInt(frontiers.size()));
 			x = f[2];
 			y = f[3];
-			if ( map[x][y] == WALL ) {
+			if (map[x][y] == WALL) {
 				map[f[0]][f[1]] = map[x][y] = PASSAGE;
-				if ( x >= 2 && map[x-2][y] == WALL )
+				if ( x >= 3 && map[x-2][y] == WALL )
 					frontiers.add( new int[]{x-1,y,x-2,y} );
-				if ( y >= 2 && map[x][y-2] == WALL )
+				if ( y >= 3 && map[x][y-2] == WALL )
 					frontiers.add( new int[]{x,y-1,x,y-2} );
-				if ( x < width-2 && map[x+2][y] == WALL )
+				if ( x < width-3 && map[x+2][y] == WALL )
 					frontiers.add( new int[]{x+1,y,x+2,y} );
-				if ( y < height-2 && map[x][y+2] == WALL )
+				if ( y < height-3 && map[x][y+2] == WALL )
 					frontiers.add( new int[]{x,y+1,x,y+2} );
 			}
 		}
 
-		// Make outer walls actual walls
+		// Shift the maze by 1 to create outer walls
+		/*width = width+2;
+		height = height+2;
+		boolean map2[][] = new boolean[width][height];
 		for (int z=0 ; z<height ; z++) {
 			for (x=0 ; x<width ; x++) {
-				if (x == 0 || z == 0 || x >= width-1 || z >= height-1) {
-					map[x][z] = WALL;
+				if (x == 0 || z == 0) {
+					map2[x][z] = !WALL;
+				} else if (x >= width-1 || z >= height-1) {
+					map2[x][z] = !WALL;
 				} else {
-					if (this.start_pos == null && map[x][z] != WALL) {
-						start_pos = new GridPoint2(x, z);
-					}
+					map2[x][z] = map[x-1][z-1];
+				}
+			}
+		}
+		map = map2;*/
+
+		// Get start pos
+		for (int z=0 ; z<height ; z++) {
+			for (x=0 ; x<width ; x++) {
+				if (this.start_pos == null && map[x][z] != WALL) {
+					start_pos = new GridPoint2(x, z);
+					break;
 				}
 			}
 		}

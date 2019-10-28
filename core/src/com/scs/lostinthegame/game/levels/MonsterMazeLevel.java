@@ -44,8 +44,8 @@ public class MonsterMazeLevel extends AbstractLevel {
 
 
 	private void loadMapFromMazegen(Game game) {
-		this.map_width = 20;
-		this.map_height = 20;
+		this.map_width = 16;
+		this.map_height = 16;
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
@@ -56,7 +56,6 @@ public class MonsterMazeLevel extends AbstractLevel {
 
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
-				int type = World.NOTHING;
 				Game.world.world[x][z] = new WorldSquare();
 				Game.world.world[x][z].blocked = maze.map[x][z] == Maze.WALL;
 				if (Game.world.world[x][z].blocked) {
@@ -150,9 +149,14 @@ public class MonsterMazeLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font) {		
-		font.draw(batch, trex_msg, 10, Settings.WINDOW_HEIGHT_PIXELS-40);
-	}
+	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {		
+		font_black.draw(batch, trex_msg, 10-1, Settings.WINDOW_HEIGHT_PIXELS-40);
+		font_black.draw(batch, trex_msg, 10, Settings.WINDOW_HEIGHT_PIXELS-40-1);
+		font_black.draw(batch, trex_msg, 10+1, Settings.WINDOW_HEIGHT_PIXELS-40);
+		font_black.draw(batch, trex_msg, 10, Settings.WINDOW_HEIGHT_PIXELS-40+1);
+
+		font_white.draw(batch, trex_msg, 10, Settings.WINDOW_HEIGHT_PIXELS-40);
+}
 
 
 	@Override

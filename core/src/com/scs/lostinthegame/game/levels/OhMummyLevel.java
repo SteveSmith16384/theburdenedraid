@@ -15,7 +15,7 @@ import com.scs.lostinthegame.game.entities.ohmummy.Pill;
 
 public class OhMummyLevel extends AbstractLevel {
 
-	private static final int RECT_SIZE_EXCLUDING_EDGES = 4;
+	private static final int RECT_SIZE_EXCLUDING_EDGES = 3;
 
 	private boolean[][] pill_map;
 
@@ -26,13 +26,13 @@ public class OhMummyLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		loadMap(game);
+		createMap(game);
 
 		createWalls(game);
 	}
 
 
-	private void loadMap(Game game) {
+	private void createMap(Game game) {
 		int NUM_RECTS = 4;
 		this.map_width = 3 + ((RECT_SIZE_EXCLUDING_EDGES+1)*NUM_RECTS);
 		this.map_height = 3 + ((RECT_SIZE_EXCLUDING_EDGES+1)*NUM_RECTS);
@@ -86,7 +86,7 @@ public class OhMummyLevel extends AbstractLevel {
 						if (x == 0 || y == 0 || x >= map_width-1 || y >= map_height-1) {
 							wall = new Wall("colours/white.png", x, y);
 						} else {
-							wall = new Wall("colours/magenta.png", x, y);
+							wall = new Wall("ohmummy/wall1.png", x, y);
 						}
 						game.ecs.addEntity(wall);
 						Game.world.world[x][y].wall = wall;
@@ -141,7 +141,7 @@ public class OhMummyLevel extends AbstractLevel {
 				for (int x=sx+1 ; x<=sx+RECT_SIZE_EXCLUDING_EDGES; x++) {
 					AbstractEntity wall = Game.world.world[x][z].wall;
 					wall.remove();
-					wall = new Wall("ohmummy/wall1.png", x, z);
+					wall = new Wall("colours/magenta.png", x, z);
 					Game.ecs.addEntity(wall);
 					Game.world.world[x][z].wall = wall;
 				}
@@ -153,10 +153,6 @@ public class OhMummyLevel extends AbstractLevel {
 
 
 	private void checkForCompletion() {
-		/*if (this.completed) {
-			return;
-		}*/
-
 		boolean c = true;
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
@@ -181,7 +177,7 @@ public class OhMummyLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font) {
+	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
 		//font.draw(batch, "Oh Mummy!", 10, 30);
 	}
 

@@ -11,13 +11,13 @@ import com.scs.lostinthegame.game.components.DrawTextData;
 public class DrawTextSystem extends AbstractSystem {
 
 	private SpriteBatch batch2d;
-	private BitmapFont font;
+	private BitmapFont font_white;
 
-	public DrawTextSystem(BasicECS ecs, SpriteBatch _batch2d, BitmapFont _font) {
+	public DrawTextSystem(BasicECS ecs, SpriteBatch _batch2d, BitmapFont _font_white) {
 		super(ecs);
 
 		batch2d = _batch2d;
-		font = _font;
+		font_white = _font_white;
 	}
 
 
@@ -35,7 +35,7 @@ public class DrawTextSystem extends AbstractSystem {
 		if (dtd.drawUntil <= 0) {
 			entity.remove();
 		} else {
-			font.draw(batch2d, dtd.text, dtd.x, dtd.y);
+			font_white.draw(batch2d, dtd.text, dtd.x, dtd.y);
 		}
 
 	}
