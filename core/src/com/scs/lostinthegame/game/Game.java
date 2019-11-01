@@ -3,6 +3,7 @@ package com.scs.lostinthegame.game;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -94,12 +95,12 @@ public class Game implements IModule {
 
 		inventory = new Inventory();
 
-		player = new Player(camera, inventory, 1, 4);//, gameLevel.getWeapon());
+		player = new Player(camera, inventory, 1, 4);
 
 		frameBuffer = FrameBuffer.createFrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-		levelComplete = true; // So we load the level 
+		levelComplete = true; // So we load the first level 
 		transition = true;
 	}
 
@@ -127,6 +128,12 @@ public class Game implements IModule {
 			player.cameraController.bobbing = 0;
 		}*/
 
+		if (Settings.RELEASE_MODE == false) {
+			if (Gdx.input.isKeyPressed(Input.Keys.X)) {
+				this.levelComplete = true;
+			}
+		}
+		
 		if (levelComplete) {
 			levelComplete = false;
 			levels.nextLevel();

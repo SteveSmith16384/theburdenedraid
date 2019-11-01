@@ -7,8 +7,8 @@ public class Settings {
 	public static final boolean RELEASE_MODE = false;
 	
 	// Hacks
-	public static final boolean TEST_SPECIFIC_LEVEL = !RELEASE_MODE && true;
-	public static final boolean TEST_FLOOR_SQ = !RELEASE_MODE && true;
+	public static final boolean TEST_SPECIFIC_LEVEL = !RELEASE_MODE && false;
+	public static final boolean TEST_FLOOR_SQ = !RELEASE_MODE && false;
 	public static final boolean SHOW_FPS = !RELEASE_MODE && false;
 	
 	//public static final int START_HEALTH = 5;

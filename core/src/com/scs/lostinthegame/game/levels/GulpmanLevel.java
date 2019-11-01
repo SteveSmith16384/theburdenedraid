@@ -15,7 +15,7 @@ import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.gulpman.Cherry;
-import com.scs.lostinthegame.game.entities.gulpman.Nasty;
+import com.scs.lostinthegame.game.entities.gulpman.GulpmanNasty;
 import com.scs.lostinthegame.game.entities.monstermaze.MonsterMazeExit;
 import com.scs.lostinthegame.game.entities.monstermaze.TRex;
 import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
@@ -93,7 +93,7 @@ public class GulpmanLevel extends AbstractLevel {
 				} else if (x == 2 && z == 2) {
 					type = World.WALL;
 				} else if (x == 3 && z == 3) {
-					Nasty n = new Nasty(x, z);
+					GulpmanNasty n = new GulpmanNasty(x, z);
 					game.ecs.addEntity(n);
 				} else {
 					Cherry ch = new Cherry(x, z);

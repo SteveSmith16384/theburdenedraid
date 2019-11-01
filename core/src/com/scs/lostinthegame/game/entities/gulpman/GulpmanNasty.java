@@ -15,10 +15,10 @@ import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.systems.MobAISystem.Mode;
 
-public class Nasty extends AbstractEntity {
+public class GulpmanNasty extends AbstractEntity {
 
-    public Nasty(int x, int y) {
-        super(Nasty.class.getSimpleName());
+    public GulpmanNasty(int x, int y) {
+        super(GulpmanNasty.class.getSimpleName());
 
         PositionData pos = new PositionData();
         pos.position = new Vector3(x*Game.UNIT, 0, y*Game.UNIT);
