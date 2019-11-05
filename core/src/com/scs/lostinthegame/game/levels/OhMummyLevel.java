@@ -111,7 +111,7 @@ public class OhMummyLevel extends AbstractLevel {
 						if (x == 0 || y == 0 || x >= map_width-1 || y >= map_height-1) {
 							wall = new Wall("colours/white.png", x, y);
 						} else {
-							wall = new Wall("ohmummy/wall1.png", x, y);
+							wall = new Wall("ohmummy/wall.png", x, y);
 						}
 						game.ecs.addEntity(wall);
 						Game.world.world[x][y].wall = wall;
@@ -181,8 +181,8 @@ public class OhMummyLevel extends AbstractLevel {
 	private String getRandomTexFilename() {
 		int i = NumberFunctions.rnd(0,  2);
 		switch (i) {
-		case 0: return "wall2.png";
-		case 1: return "wall3.png";
+		case 0: return "mummy.png";
+		case 1: return "scroll.png";
 		case 2: return "key.png";
 		default: throw new RuntimeException("todo");
 		}

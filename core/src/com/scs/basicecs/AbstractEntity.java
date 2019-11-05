@@ -29,7 +29,7 @@ public abstract class AbstractEntity {
 	}
 
 
-	public Object getComponent(Class name) {
+	public Object getComponent(Class<?> name) {
 		if (this.components.containsKey(name)) {
 			return this.components.get(name);
 		} else {

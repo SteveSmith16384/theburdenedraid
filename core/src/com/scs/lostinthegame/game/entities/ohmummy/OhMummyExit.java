@@ -5,13 +5,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.scs.basicecs.AbstractEntity;
-import com.scs.lostinthegame.game.Art;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.CompletesLevelData;
 import com.scs.lostinthegame.game.components.HasDecal;
-import com.scs.lostinthegame.game.components.HasDecalCycle;
 import com.scs.lostinthegame.game.components.PositionData;
-import com.scs.lostinthegame.game.entities.monstermaze.MonsterMazeExit;
 
 public class OhMummyExit extends AbstractEntity {
 

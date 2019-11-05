@@ -21,6 +21,7 @@ import com.scs.lostinthegame.Audio;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.decals.DecalManager;
+import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
@@ -166,6 +167,9 @@ public class Game implements IModule {
 
 			if (transitionProgress >= 0.5f && !hasLoaded) {
 				loadLevel();
+				
+				ecs.addEntity(new Ceiling("gamer1.jpg", (int)Game.UNIT * 30, (int)Game.UNIT * 30));
+
 			}
 			if (transitionProgress > 1f) {
 				transitionProgress = 0;

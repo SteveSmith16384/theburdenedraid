@@ -1,7 +1,5 @@
 package ssmith.lang;
 
-import com.badlogic.gdx.math.GridPoint2;
-
 public class GeometryFuncs {
 
 	public static double distance(int x1, int y1, int x2, int y2) {

@@ -22,7 +22,7 @@ public abstract class AbstractLevel implements ICollectionHandler {
 	public AbstractLevel(EntityManager _entityManager, DecalManager _decalManager, int _difficulty) {
 		entityManager = _entityManager;
 		this.decalManager = _decalManager;
-		difficulty = difficulty;
+		difficulty = _difficulty;
 	}
 	
 	public void setBackgroundColour() {

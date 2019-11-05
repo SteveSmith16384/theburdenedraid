@@ -10,14 +10,10 @@ import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.decals.DecalManager;
-import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.EntityManager;
-import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.gulpman.Cherry;
 import com.scs.lostinthegame.game.entities.gulpman.GulpmanNasty;
-import com.scs.lostinthegame.game.entities.monstermaze.MonsterMazeExit;
-import com.scs.lostinthegame.game.entities.monstermaze.TRex;
 import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 
 public class GulpmanLevel extends AbstractLevel {
