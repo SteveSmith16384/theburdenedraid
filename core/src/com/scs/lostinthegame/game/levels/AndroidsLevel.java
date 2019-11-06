@@ -31,16 +31,16 @@ public class AndroidsLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		//loadMapFromImage(game);
+		loadMapFromImage(game);
 		//loadTestMap(game);
-		loadMapFromMazegen(game);
+		//loadMapFromMazegen(game);
 
 		createWalls(game);
 
 		game.player.setWeapon(new PlayersLaserGun());
 	}
 
-
+/*
 	private void loadMapFromMazegen(Game game) {
 		this.map_width = 20;
 		this.map_height = 20;
@@ -51,6 +51,8 @@ public class AndroidsLevel extends AbstractLevel {
 
 		this.playerStartMapX = maze.start_pos.x;
 		this.playerStartMapY = maze.start_pos.y;
+		
+		// todo - add exit and
 
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
@@ -59,7 +61,7 @@ public class AndroidsLevel extends AbstractLevel {
 			}
 		}
 	}
-
+*/
 
 	private void loadMapFromImage(Game game) {
 		Texture texture = new Texture(Gdx.files.internal("androids/androids_map.png"));
@@ -148,7 +150,7 @@ public class AndroidsLevel extends AbstractLevel {
 			}
 		}
 		
-		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height));
+		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height, false));
 	}
 
 

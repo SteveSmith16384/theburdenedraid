@@ -124,12 +124,8 @@ public class Game implements IModule {
 
 
 	public void update() {
-		/*if(!gameComplete) {
-			player.getPosition().set(world.spawnx * Game.UNIT, 0, world.spawny * Game.UNIT);
-			player.cameraController.bobbing = 0;
-		}*/
-
 		if (Settings.RELEASE_MODE == false) {
+			// Cheat mode!
 			if (Gdx.input.isKeyPressed(Input.Keys.X)) {
 				this.levelComplete = true;
 			}
@@ -139,7 +135,7 @@ public class Game implements IModule {
 			levelComplete = false;
 			levels.nextLevel();
 			restartLevel = true;
-			Game.audio.play("beepfx_samples/19_jet_burst.wav");
+			Game.audio.play("zxspectrumloadingnoise.ogg");
 		}		
 		if (restartLevel) {
 			restartLevel = false;
@@ -167,9 +163,7 @@ public class Game implements IModule {
 
 			if (transitionProgress >= 0.5f && !hasLoaded) {
 				loadLevel();
-				
-				ecs.addEntity(new Ceiling("gamer1.jpg", (int)Game.UNIT * 30, (int)Game.UNIT * 30));
-
+				ecs.addEntity(new Ceiling("gamer1.jpg", -10, -10, 40, 40, false, Game.UNIT*8));
 			}
 			if (transitionProgress > 1f) {
 				transitionProgress = 0;

@@ -29,7 +29,7 @@ public class MaziacsLevel extends AbstractLevel {
 		//loadTestMap(game);
 		loadMapFromMazegen(game);
 
-		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height));
+		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height, false));
 	}
 
 

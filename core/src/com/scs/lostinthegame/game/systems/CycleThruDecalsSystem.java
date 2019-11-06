@@ -28,8 +28,8 @@ public class CycleThruDecalsSystem extends AbstractSystem {
 		float dt = Gdx.graphics.getDeltaTime();
 
 		hdc.animTimer += dt;
-		if(hdc.animTimer>.3f){
-			hdc.animTimer-=.3f;
+		if(hdc.animTimer > hdc.interval){
+			hdc.animTimer -= hdc.interval;
 			hdc.decalIdx++;
 			if (hdc.decalIdx >= hdc.decals.length) {
 				hdc.decalIdx = 0;

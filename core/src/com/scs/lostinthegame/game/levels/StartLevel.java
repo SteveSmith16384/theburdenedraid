@@ -9,6 +9,8 @@ import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
+import com.scs.lostinthegame.game.entities.Floor;
+import com.scs.lostinthegame.game.entities.startlevel.StartExit;
 
 public class StartLevel extends AbstractLevel {
 
@@ -24,13 +26,13 @@ public class StartLevel extends AbstractLevel {
 
 
 	private void loadMap(Game game) {
-		this.map_width = 20;
-		this.map_height = 20;
+		this.map_width = 7;
+		this.map_height = 7;
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
-		this.playerStartMapX = map_width/2;
-		this.playerStartMapY = map_height/2;
+		this.playerStartMapX = 1;
+		this.playerStartMapY = 1;
 
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
@@ -39,11 +41,13 @@ public class StartLevel extends AbstractLevel {
 			}
 		}
 
+		game.ecs.addEntity(new Floor("start/spectrumscreen.gif", map_width, map_height, false));
+		game.ecs.addEntity(new StartExit(map_width-1, map_height-1));
 	}
 
 
 	public void setBackgroundColour() {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
 	}
 
 

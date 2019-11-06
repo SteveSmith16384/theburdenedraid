@@ -16,7 +16,7 @@ import com.scs.lostinthegame.game.components.HasModel;
 
 public class Floor extends AbstractEntity {
 
-	public Floor(String tex_filename, int map_width, int map_height) {
+	public Floor(String tex_filename, int map_width, int map_height, boolean tile) {
 		super(Floor.class.getSimpleName());
 		
 		Texture tex = new Texture(tex_filename);
@@ -32,8 +32,11 @@ public class Floor extends AbstractEntity {
 				1f,1f,1f,
 				white_material,
 				VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
+
 		Matrix3 mat = new Matrix3();
-		mat.scl(new Vector2(map_width, map_height));
+		if (tile) {
+			mat.scl(new Vector2(map_width, map_height));
+		}
 		floor.meshes.get(0).transformUV(mat);
 
 		ModelInstance instance = new ModelInstance(floor);

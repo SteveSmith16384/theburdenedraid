@@ -17,16 +17,16 @@ import com.scs.lostinthegame.game.components.HasModel;
 
 public class Ceiling extends AbstractEntity {
 
-	public Ceiling(String tex_filename, int map_width, int map_height) {
+	public Ceiling(String tex_filename, int mapOffX, int mapOffZ, int map_width, int map_height, boolean tile, float height) {
 		super(Ceiling.class.getSimpleName());
 		
 		Texture tex = new Texture(tex_filename);
-		tex.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		tex.setWrap(TextureWrap.Repeat, TextureWrap.ClampToEdge);
 		Material white_material = new Material(TextureAttribute.createDiffuse(tex));		
 
 		ModelBuilder modelBuilder = new ModelBuilder();
 		Model floor = modelBuilder.createRect(
-				0f,0f, (float) map_height*Game.UNIT,
+				0f, 0f, (float) map_height*Game.UNIT,
 				(float)map_width*Game.UNIT, 0f, (float)map_height*Game.UNIT,
 				(float)map_width*Game.UNIT, 0f, 0f,
 				0f,0f,0f,
@@ -34,11 +34,13 @@ public class Ceiling extends AbstractEntity {
 				white_material,
 				VertexAttributes.Usage.Position | VertexAttributes.Usage.TextureCoordinates);
 		Matrix3 mat = new Matrix3();
-		mat.scl(new Vector2(map_width, map_height));
+		if (tile) {
+			mat.scl(new Vector2(map_width, map_height));
+		}
 		floor.meshes.get(0).transformUV(mat);
 
 		ModelInstance instance = new ModelInstance(floor);
-		instance.transform.translate(0, Game.UNIT, 0);
+		instance.transform.translate(mapOffX * Game.UNIT, height, mapOffZ * Game.UNIT);
 		instance.transform.rotate(Vector3.X, 180);
 		instance.transform.translate(0, 0, -(float)map_width* Game.UNIT);
 

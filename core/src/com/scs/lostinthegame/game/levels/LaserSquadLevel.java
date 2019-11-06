@@ -82,7 +82,7 @@ public class LaserSquadLevel extends AbstractLevel {
 			}
 		}
 
-		game.ecs.addEntity(new Floor("lasersquad/moonbase_interior_floor.png", map_width, map_height));
+		game.ecs.addEntity(new Floor("lasersquad/moonbase_interior_floor.png", map_width, map_height, true));
 		//game.ecs.addEntity(new Ceiling("colours/cyan.png", map_width, map_height));
 
 	}

@@ -11,7 +11,6 @@ public class Settings {
 	public static final boolean TEST_FLOOR_SQ = !RELEASE_MODE && false;
 	public static final boolean SHOW_FPS = !RELEASE_MODE && false;
 	
-	//public static final int START_HEALTH = 5;
 	public static final int ENEMY_HEALTH = 3;
 	
 	public static final String TITLE ="Lost in the Game";
