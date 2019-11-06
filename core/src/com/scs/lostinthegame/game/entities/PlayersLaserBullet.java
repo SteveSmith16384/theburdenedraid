@@ -20,7 +20,7 @@ public class PlayersLaserBullet extends AbstractEntity {
 		super(PlayersLaserBullet.class.getSimpleName());
 		
         PositionData posData = new PositionData();
-        posData.position = _position.cpy();
+        posData.position = _position.cpy().add(_dir.cpy().scl(3));
         //posData.position.y = -Game.UNIT/2;
         this.addComponent(posData);
         

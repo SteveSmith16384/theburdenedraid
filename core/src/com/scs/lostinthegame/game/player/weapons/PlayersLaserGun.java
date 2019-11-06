@@ -13,7 +13,6 @@ public class PlayersLaserGun extends AbstractIntervalWeapon implements IPlayersW
 	
 	@Override
 	protected void weaponFired(Vector3 position, Vector3 direction) {
-		//Entity b = new ChaosBolt(this, position, direction);
 		Game.ecs.addEntity(new PlayersLaserBullet(position, direction));
 	}
 

@@ -21,8 +21,12 @@ public class OhMummyLevel extends AbstractLevel {
 
 	private static final int RECT_SIZE_EXCLUDING_EDGES = 3;
 
-	private boolean[][] pill_map;
-	private int[][] rect_types;
+	/*private static final int TYPE_MUMMY = 1;
+	private static final int TYPE_SCROLL = 2;
+	private static final int TYPE_KEY = 3;
+*/
+	private int[][] pill_map; // And rect types - 1=pill, or >0=tex code for walls
+	//private int[][] rect_types;
 	private boolean exit_created = false;
 
 	public OhMummyLevel(EntityManager _entityManager, DecalManager _decalManager, int diff) {
@@ -39,17 +43,17 @@ public class OhMummyLevel extends AbstractLevel {
 
 
 	private void createMap(Game game) {
-		int NUM_RECTS = 4;
+		int NUM_RECTS = 3;
 		this.map_width = 3 + ((RECT_SIZE_EXCLUDING_EDGES+1)*NUM_RECTS);
 		this.map_height = 3 + ((RECT_SIZE_EXCLUDING_EDGES+1)*NUM_RECTS);
 
 		Game.world.world = new WorldSquare[map_width][map_height];
-		pill_map = new boolean[map_width][map_height];
-		rect_types = new int[NUM_RECTS][NUM_RECTS];
+		pill_map = new int[map_width][map_height];
+		//rect_types = new int[NUM_RECTS][NUM_RECTS];
 
 		this.playerStartMapX = 1;
 		this.playerStartMapY = 1;
-		
+
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
 				int type = World.NOTHING;
@@ -73,18 +77,18 @@ public class OhMummyLevel extends AbstractLevel {
 			}
 		}
 
-		int num_baddies = 2+this.difficulty;
-
 		for (int z=2 ; z<map_height-2 ; z+=RECT_SIZE_EXCLUDING_EDGES+1) {
 			for (int x=2 ; x<map_width-2 ; x+=RECT_SIZE_EXCLUDING_EDGES+1) {
 				createRect(x, z);
-				if (num_baddies>0) {
-					AbstractEntity nasty = new OhMummyNasty(x+RECT_SIZE_EXCLUDING_EDGES+2, z+RECT_SIZE_EXCLUDING_EDGES+2);
-					Game.ecs.addEntity(nasty);
-					num_baddies--;
-				}
 			}
 		}
+
+		// Add baddies
+		AbstractEntity nasty = new OhMummyNasty(1, map_height-2);
+		Game.ecs.addEntity(nasty);
+		AbstractEntity nasty2 = new OhMummyNasty(map_width-2, map_height-2);
+		Game.ecs.addEntity(nasty2);
+
 	}
 
 
@@ -130,10 +134,10 @@ public class OhMummyLevel extends AbstractLevel {
 		boolean checkForCircled = false;
 		PositionData posData = (PositionData)Game.player.getComponent(PositionData.class);
 		GridPoint2 map_pos = posData.getMapPos();
-		if (this.pill_map[map_pos.x][map_pos.y] == false) {
+		if (this.pill_map[map_pos.x][map_pos.y] == 0) {
 			Pill ch = new Pill(map_pos.x, map_pos.y);
 			game.ecs.addEntity(ch);
-			this.pill_map[map_pos.x][map_pos.y] = true;
+			this.pill_map[map_pos.x][map_pos.y] = 1;
 			//Settings.p("Adding pill to " + map_pos.x + "," + map_pos.y);
 			checkForCircled = true;
 		}
@@ -154,7 +158,7 @@ public class OhMummyLevel extends AbstractLevel {
 		for (int z=sz ; z<=sz+RECT_SIZE_EXCLUDING_EDGES+1 ; z++) {
 			for (int x=sx ; x<=sx+RECT_SIZE_EXCLUDING_EDGES+1; x++) {
 				if (x == sx || z == sz || x >= sx+RECT_SIZE_EXCLUDING_EDGES+1 || z >= sz+RECT_SIZE_EXCLUDING_EDGES+1) {
-					if (this.pill_map[x][z] == false) {
+					if (this.pill_map[x][z] == 0) {
 						covered = false;
 						break;
 					}
@@ -162,14 +166,18 @@ public class OhMummyLevel extends AbstractLevel {
 			}
 		}
 		if (covered) {
-			String tex = this.getRandomTexFilename();
+			int texid = NumberFunctions.rnd(1, 3);
+			String tex = this.getTexFilename(texid);
 			for (int z=sz+1 ; z<=sz+RECT_SIZE_EXCLUDING_EDGES ; z++) {
 				for (int x=sx+1 ; x<=sx+RECT_SIZE_EXCLUDING_EDGES; x++) {
-					AbstractEntity wall = Game.world.world[x][z].wall;
-					wall.remove();
-					wall = new Wall("ohmummy/"+tex, x, z);
-					Game.ecs.addEntity(wall);
-					Game.world.world[x][z].wall = wall;
+					if (this.pill_map[x][z] == 0) {
+						this.pill_map[x][z] = texid;
+						AbstractEntity wall = Game.world.world[x][z].wall;
+						wall.remove();
+						wall = new Wall("ohmummy/"+tex, x, z);
+						Game.ecs.addEntity(wall);
+						Game.world.world[x][z].wall = wall;
+					}
 				}
 			}
 
@@ -178,12 +186,11 @@ public class OhMummyLevel extends AbstractLevel {
 	}
 
 
-	private String getRandomTexFilename() {
-		int i = NumberFunctions.rnd(0,  2);
+	private String getTexFilename(int i) {
 		switch (i) {
-		case 0: return "mummy.png";
-		case 1: return "scroll.png";
-		case 2: return "key.png";
+		case 1: return "mummy.png";
+		case 2: return "scroll.png";
+		case 3: return "key.png";
 		default: throw new RuntimeException("todo");
 		}
 	}
@@ -193,12 +200,12 @@ public class OhMummyLevel extends AbstractLevel {
 		if (exit_created) {
 			return;
 		}
-		
+
 		boolean complete = true;
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
 				if (Game.world.world[x][z].blocked == false) {
-					if (this.pill_map[x][z] == false) {
+					if (this.pill_map[x][z] == 0) {
 						complete = false;
 						break;
 					}
