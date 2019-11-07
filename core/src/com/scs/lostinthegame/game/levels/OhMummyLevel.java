@@ -191,7 +191,7 @@ public class OhMummyLevel extends AbstractLevel {
 		case 1: return "mummy.png";
 		case 2: return "scroll.png";
 		case 3: return "key.png";
-		default: throw new RuntimeException("todo");
+		default: throw new RuntimeException("Unknown tex id: " + i);
 		}
 	}
 

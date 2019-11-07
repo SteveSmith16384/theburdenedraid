@@ -5,6 +5,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Input.Keys;
+import com.bitfire.postprocessing.PostProcessing;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.modules.IModule;
 

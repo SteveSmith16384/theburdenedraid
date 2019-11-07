@@ -12,6 +12,8 @@ public class World {
 	public static final int WALL = 1;
 	public static final int BLOCKED = 2;
 
+	private static final WorldSquare BLOCKED_WALL = new WorldSquare(true);
+
 	public WorldSquare world[][];
 	public TextureRegion detailTexture[];
 
@@ -34,13 +36,13 @@ public class World {
 	public WorldSquare getMapSquareAt(int x, int y) {
 		if (x < 0 || y < 0) {
 			//Settings.p("OOB!");
-			return new WorldSquare(true); // todo - return static
+			return BLOCKED_WALL;//new WorldSquare(true); // todo - return static
 		}
 
 		try {
 			return world[x][y];//.type;
 		} catch (ArrayIndexOutOfBoundsException ex) {
-			return new WorldSquare(true); // todo - return static
+			return BLOCKED_WALL;//new WorldSquare(true); // todo - return static
 		}
 	}
 

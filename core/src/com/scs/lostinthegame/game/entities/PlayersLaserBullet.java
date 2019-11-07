@@ -30,7 +30,6 @@ public class PlayersLaserBullet extends AbstractEntity {
         hasDecal.decal = Decal.newDecal(tr, true);
         hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth() / 5, Game.UNIT / tr.getRegionWidth() / 10);
         hasDecal.decal.transformationOffset = new Vector2(0, -2);//hasDecal.decal.getHeight()/2);
-        //todo - is this needed? hasDecal.decal.setPosition(posData.position.x, -Game.UNIT/2, posData.position.z);
         hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = true;        
         this.addComponent(hasDecal);

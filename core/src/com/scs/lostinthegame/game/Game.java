@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.bitfire.postprocessing.PostProcessing;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.BasicECS;
 import com.scs.lostinthegame.Audio;
@@ -25,7 +26,7 @@ import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.MonsterMazeLevel;
+import com.scs.lostinthegame.game.levels.OhMummyLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -73,6 +74,7 @@ public class Game implements IModule {
 	private Levels levels = new Levels();
 	public static AbstractLevel gameLevel;
 
+	private PostProcessing post;
 
 	public Game() {
 		batch2d = new SpriteBatch();
@@ -103,6 +105,9 @@ public class Game implements IModule {
 
 		levelComplete = true; // So we load the first level 
 		transition = true;
+
+		post = new PostProcessing();
+
 	}
 
 
@@ -144,12 +149,14 @@ public class Game implements IModule {
 			transitionProgress = 0;
 
 			if (Settings.TEST_SPECIFIC_LEVEL == false) {
-				gameLevel = levels.getNextLevel(this.entityManager, this.decalManager);
+				gameLevel = levels.getLevel(this.entityManager, this.decalManager);
 			} else {
-				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager);
-				gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager);
-				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager);
+				gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
 			}
 
 			this.resetECS();
@@ -194,6 +201,8 @@ public class Game implements IModule {
 
 
 	public void render() {
+		post.update( Gdx.graphics.getDeltaTime() );
+
 		Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		//Gdx.gl.glClearColor(0,0,0,1);
@@ -203,6 +212,7 @@ public class Game implements IModule {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		this.gameLevel.setBackgroundColour();
 
+		post.begin();
 		batch.begin(camera);
 		if (modelInstances != null) {
 			for (int i = 0; i < modelInstances.size(); i++) {
@@ -254,7 +264,8 @@ public class Game implements IModule {
 		}
 
 		batch2d.end();
-
+		
+		post.end();
 	}
 
 

@@ -116,8 +116,8 @@ public class AStar extends Thread {
 		tot_threads++;
 		//System.out.println("Tot A* threads:" + this.tot_threads);
 
-		int w = map_interface.getMapHeight();
-		int h = map_interface.getMapWidth();
+		int w = map_interface.getMapWidth();
+		int h = map_interface.getMapHeight();
 
 		map = new Node[w][h]; // Reset the map
 

@@ -1,5 +1,6 @@
 package com.scs.lostinthegame.game.systems;
 
+import com.badlogic.gdx.math.GridPoint2;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
@@ -26,13 +27,16 @@ public class CountMinesSystem extends AbstractSystem {
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		num_mines = 0;
-		PositionData ourPos = (PositionData)entity.getComponent(PositionData.class);
-		PositionData playerPos = (PositionData)Game.player.getComponent(PositionData.class);
-		float dist = ourPos.position.dst(playerPos.position);
-		if (dist < Game.UNIT/2) {
+		PositionData playerPosData = (PositionData)Game.player.getComponent(PositionData.class);
+		GridPoint2 playerPos = new GridPoint2((int)(playerPosData.position.x/Game.UNIT), (int)(playerPosData.position.z/Game.UNIT));
+		PositionData minePosData = (PositionData)entity.getComponent(PositionData.class);
+		GridPoint2 minePos = new GridPoint2((int)(minePosData.position.x/Game.UNIT), (int)(minePosData.position.z/Game.UNIT));
+		float dist = minePos.dst(playerPos);
+		Settings.p("pos: " + playerPos.x + "," + playerPos.y + " = " + dist);
+		if (dist == 0) {
 			Settings.p("Player walked on mine!");
 			Game.player.damaged(1, null);
-		} else if (dist < Game.UNIT * 2) {
+		} else if (dist <= 1) {
 			num_mines++;
 		}
 	}

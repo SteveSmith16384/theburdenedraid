@@ -18,7 +18,7 @@ public class Levels {
 	public Levels() {
 	}
 	
-	public AbstractLevel getNextLevel(EntityManager entityManager, DecalManager decalManager) {
+	public AbstractLevel getLevel(EntityManager entityManager, DecalManager decalManager) {
 		switch (currentLevelNum) {
 		case 1:
 			return new StartLevel(entityManager, decalManager, numberTimesLoopAround);
@@ -42,7 +42,7 @@ public class Levels {
 			// Loop around
 			currentLevelNum -= 5;
 			numberTimesLoopAround++;
-			return getNextLevel(entityManager, decalManager);
+			return getLevel(entityManager, decalManager);
 		}
 	}
 	

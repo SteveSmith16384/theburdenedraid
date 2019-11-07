@@ -1,5 +1,8 @@
 package com.scs.lostinthegame.game.levels;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
@@ -11,6 +14,7 @@ import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
+import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.minedout.Damsel;
 import com.scs.lostinthegame.game.entities.minedout.Mine;
@@ -36,29 +40,30 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 
 	@Override
 	public void load(Game game) {
-		loadTestMap(game);
-
-		//createWalls(game);
+		loadMap(game);
 
 		this.countMinesSystem = new CountMinesSystem(Game.ecs);
 		Game.ecs.addSystem(this.countMinesSystem);
 	}
 
 
-	private void loadTestMap(Game game) {
-		this.map_width = 5;
-		this.map_height = 5;
+	private void loadMap(Game game) {
+		this.map_width = 25;
+		this.map_height = 15;
 
-		int num_mines = 20 + (this.difficulty * 10);
+		int num_mines = Settings.DEBUG_MINES ? 1 : 20 + (this.difficulty * 10);
 		int num_damsels = 2 + this.difficulty;
 
+		this.playerStartMapX = map_width/2;
+		this.playerStartMapY = 1;
+
+		exit_pos = new GridPoint2(map_width/2, map_height-1);
+
+		List<AbstractEntity> newEnts = new ArrayList<AbstractEntity>(); 
+		
 		while (true) {
+			mine_map = new boolean[map_width][map_height];
 			Game.world.world = new WorldSquare[map_width][map_height];
-
-			this.playerStartMapX = map_width/2;
-			this.playerStartMapY = 1;
-
-			exit_pos = new GridPoint2(map_width/2, map_height-1);
 
 			for (int z=0 ; z<map_height ; z++) {
 				for (int x=0 ; x<map_width ; x++) {
@@ -66,6 +71,7 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 					if (x == 0 || z == 0 || x >= map_width-1 || z >= map_height-1) {
 						AbstractEntity wall = new Wall("minedout/wall.png", x, z); 
 						game.ecs.addEntity(wall);
+						newEnts.add(wall);
 						Game.world.world[x][z].wall = wall;
 						Game.world.world[x][z].blocked = true;
 					}
@@ -73,12 +79,14 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 				}
 			}
 
+			// Add mines
 			for (int i=0 ; i<num_mines ; i++) {
-				int x = NumberFunctions.rnd(2,  map_width-2);
-				int y = NumberFunctions.rnd(2,  map_width-2);
+				int x = NumberFunctions.rnd(2, map_width-2);
+				int y = NumberFunctions.rnd(2, map_height-2);
 				if (mine_map[x][y] == false) {
 					AbstractEntity mine = new Mine(x, y); 
 					game.ecs.addEntity(mine);
+					newEnts.add(mine);
 					mine_map[x][y] = true;
 				} else {
 					i--;
@@ -87,10 +95,11 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 
 			for (int i=0 ; i<num_damsels ; i++) {
 				int x = NumberFunctions.rnd(2,  map_width-2);
-				int y = NumberFunctions.rnd(2,  map_width-2);
+				int y = NumberFunctions.rnd(2,  map_height-2);
 				if (mine_map[x][y] == false) {
 					AbstractEntity damsel = new Damsel(x, y); 
 					game.ecs.addEntity(damsel);
+					newEnts.add(damsel);
 				} else {
 					i--;
 				}
@@ -100,31 +109,16 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 			astar.findPath(this.playerStartMapX, this.playerStartMapY, this.exit_pos.x, this.exit_pos.y, false);
 			if (astar.wasSuccessful()) {
 				break;
-			}
-		}
-	}
-
-	/*
-	private void createWalls(Game game) {
-		for (int y = 0; y < map_height; y++) {
-			for (int x = 0; x < map_width; x++) {
-				try {
-					boolean block = Game.world.world[x][y].blocked;
-					if (block) {
-						AbstractEntity wall = new Wall("minedout/wall.png", x, y); 
-						game.ecs.addEntity(wall);
-						Game.world.world[x][y].wall = wall;
-					}
-				} catch (NullPointerException ex) {
-					ex.printStackTrace();
+			} else {
+				for(AbstractEntity e : newEnts) {
+					e.remove();
 				}
 			}
 		}
 
-		game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height));
-
+		game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height, false));
 	}
-	 */
+
 
 	@Override
 	public void entityCollected(AbstractEntity collector, AbstractEntity collectable) {
