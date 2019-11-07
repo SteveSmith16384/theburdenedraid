@@ -37,7 +37,7 @@ public class AndroidsAndroid extends AbstractEntity {
         IsDamagableNasty damagable = new IsDamagableNasty(2);
         this.addComponent(damagable);
         
-        HasAI ai = new HasAI(Mode.MoveLikeRook, 2f);
+        HasAI ai = new HasAI(Mode.MoveLikeRook, 2f, Game.UNIT * 8);
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.75f));

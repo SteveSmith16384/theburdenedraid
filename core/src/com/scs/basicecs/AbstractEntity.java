@@ -14,8 +14,6 @@ public abstract class AbstractEntity {
 	public AbstractEntity(String _name) {
 		this.id = next_id++;
 		this.name = _name;
-		
-		//ecs.addEntity(this);
 	}
 
 

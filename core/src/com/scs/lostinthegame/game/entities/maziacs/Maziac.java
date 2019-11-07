@@ -42,7 +42,7 @@ public class Maziac extends AbstractEntity {
         IsDamagableNasty damagable = new IsDamagableNasty(1);
         this.addComponent(damagable);
         
-        HasAI ai = new HasAI(Mode.MoveLikeRook, 1f);
+        HasAI ai = new HasAI(Mode.MoveLikeRook, 1f, Game.UNIT * 5);
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.85f));

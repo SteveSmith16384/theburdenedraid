@@ -36,7 +36,7 @@ public class OhMummyNasty extends AbstractEntity {
         IsDamagableNasty damagable = new IsDamagableNasty(2);
         this.addComponent(damagable);
         
-        HasAI ai = new HasAI(Mode.MoveLikeRook, 1f);
+        HasAI ai = new HasAI(Mode.MoveLikeRook, 1f, 9999f);
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.75f));

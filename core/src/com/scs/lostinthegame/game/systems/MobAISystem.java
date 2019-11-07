@@ -35,7 +35,7 @@ public class MobAISystem extends AbstractSystem {
 		movementData.offset.y = 0;
 		movementData.offset.z = 0;
 
-		if (Game.player.getPosition().dst2(pos.position) < (Game.UNIT * 5) * (Game.UNIT * 5)) { //&& Game.world.canSee(pos.position, Game.player.getPosition())) {
+		if (Game.player.getPosition().dst2(pos.position) < ai.moveRange*ai.moveRange) { //&& Game.world.canSee(pos.position, Game.player.getPosition())) {
 			switch (ai.mode) {
 			case GoForPlayer:
 				ai.can_see_player = false;

@@ -38,8 +38,6 @@ public abstract class AbstractLevel implements ICollectionHandler {
 	
 	public abstract void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black);
 
-	//public abstract IPlayersWeapon getWeapon();
-	
 	public int getPlayerStartX() {
 		return this.playerStartMapX;
 	}
@@ -48,5 +46,4 @@ public abstract class AbstractLevel implements ICollectionHandler {
 		return this.playerStartMapY;
 	}
 	
-	//public void levelComplete() {};
 }

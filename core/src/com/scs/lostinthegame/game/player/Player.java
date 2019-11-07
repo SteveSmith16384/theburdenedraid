@@ -14,7 +14,6 @@ import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.entities.Entity;
 import com.scs.lostinthegame.game.interfaces.IDamagable;
-import com.scs.lostinthegame.game.interfaces.IHarmsPlayer;
 import com.scs.lostinthegame.game.interfaces.IInteractable;
 import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 
@@ -93,7 +92,7 @@ public class Player extends AbstractEntity implements IDamagable {
 			hurtTimer -= Gdx.graphics.getDeltaTime();
 		} else {
 			// Check if any enemies are harming us
-			for (Entity ent : Game.entityManager.getEntities()) {
+			/*for (Entity ent : Game.ec.entityManager.getEntities()) {
 				if (ent instanceof IHarmsPlayer) {
 					IHarmsPlayer hp = (IHarmsPlayer)ent;
 					if (hp.harmsPlayer()) {
@@ -103,7 +102,7 @@ public class Player extends AbstractEntity implements IDamagable {
 						}
 					}
 				}
-			}
+			}*/
 		}
 	}
 

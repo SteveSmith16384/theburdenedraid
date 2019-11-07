@@ -9,9 +9,11 @@ public class HasAI {
 	public float speed;
 	public Mode mode;
 	public boolean can_see_player;
+	public float moveRange; // Doesn't move unless player is in range
 	
-	public HasAI(Mode _mode, float _speed) {
+	public HasAI(Mode _mode, float _speed, float _moveRange) {
 		mode = _mode;
 		speed = _speed;
+		moveRange = _moveRange;
 	}
 }

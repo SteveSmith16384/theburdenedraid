@@ -33,7 +33,7 @@ public abstract class AbstractSystem {
 	}
 
 
-	// Override if required to run against specific entities
+	// Override if required to run against specific entities specified by getComponentClass()
 	public void process() {
 		if (this.entities == null) {
 			Iterator<AbstractEntity> it = ecs.getIterator();

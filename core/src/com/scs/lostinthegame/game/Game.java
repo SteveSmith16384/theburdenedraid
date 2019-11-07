@@ -26,7 +26,7 @@ import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.OhMummyLevel;
+import com.scs.lostinthegame.game.levels.GameOverLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -36,6 +36,7 @@ import com.scs.lostinthegame.game.systems.DrawDecalSystem;
 import com.scs.lostinthegame.game.systems.DrawModelSystem;
 import com.scs.lostinthegame.game.systems.DrawTextSystem;
 import com.scs.lostinthegame.game.systems.GotToExitSystem;
+import com.scs.lostinthegame.game.systems.HarmPlayerSystem;
 import com.scs.lostinthegame.game.systems.MobAISystem;
 import com.scs.lostinthegame.game.systems.MovementSystem;
 import com.scs.lostinthegame.game.systems.RemoveAfterTimeSystem;
@@ -71,7 +72,7 @@ public class Game implements IModule {
 	public static boolean gameComplete = false;
 	public static boolean levelComplete = false;
 	public static boolean restartLevel = false;
-	private Levels levels = new Levels();
+	public Levels levels = new Levels();
 	public static AbstractLevel gameLevel;
 
 	private PostProcessing post;
@@ -116,6 +117,7 @@ public class Game implements IModule {
 		ecs.addSystem(new DrawDecalSystem(ecs, camera));
 		ecs.addSystem(new CycleThruDecalsSystem(ecs));
 		ecs.addSystem(new MobAISystem(ecs));		
+		ecs.addSystem(new HarmPlayerSystem(ecs));		
 		ecs.addSystem(new MovementSystem(ecs));		
 		ecs.addSystem(new DrawModelSystem(ecs, batch));
 		ecs.addSystem(new RemoveAfterTimeSystem(ecs));
@@ -151,7 +153,8 @@ public class Game implements IModule {
 			if (Settings.TEST_SPECIFIC_LEVEL == false) {
 				gameLevel = levels.getLevel(this.entityManager, this.decalManager);
 			} else {
-				gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
+				gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
@@ -187,6 +190,7 @@ public class Game implements IModule {
 		this.ecs.addAndRemoveEntities();
 		this.ecs.getSystem(MobAISystem.class).process();
 		this.ecs.getSystem(MovementSystem.class).process();
+		this.ecs.getSystem(HarmPlayerSystem.class).process();
 		this.ecs.getSystem(CollectionSystem.class).process();
 		this.ecs.getSystem(GotToExitSystem.class).process();
 

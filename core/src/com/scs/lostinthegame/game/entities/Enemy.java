@@ -10,9 +10,8 @@ import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.interfaces.IAttackable;
 import com.scs.lostinthegame.game.interfaces.IDamagable;
-import com.scs.lostinthegame.game.interfaces.IHarmsPlayer;
 
-public abstract class Enemy extends Entity implements IDamagable, IAttackable, IHarmsPlayer {
+public abstract class Enemy extends Entity implements IDamagable, IAttackable {
 
 	private float damageTimer = 0f;
 	private Vector3 push; // Pushed away by attack
@@ -107,12 +106,12 @@ public abstract class Enemy extends Entity implements IDamagable, IAttackable, I
 		return health;
 	}
 
-
+/*
 	@Override
 	public boolean harmsPlayer() {
 		return this.health > 0;
 	}
-
+*/
 
 	@Override
 	public boolean isAttackable() {

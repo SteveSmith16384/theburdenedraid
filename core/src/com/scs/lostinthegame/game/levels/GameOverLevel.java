@@ -10,6 +10,7 @@ import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
+import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.entities.startlevel.StartExit;
 
 public class GameOverLevel extends AbstractLevel {
@@ -22,6 +23,8 @@ public class GameOverLevel extends AbstractLevel {
 	@Override
 	public void load(Game game) {
 		loadMap(game);
+		
+		game.levels.restart();
 	}
 
 
@@ -43,6 +46,10 @@ public class GameOverLevel extends AbstractLevel {
 
 		game.ecs.addEntity(new Floor("gameover/crashed.png", map_width, map_height, false));
 		game.ecs.addEntity(new StartExit(map_width-1, map_height-1));
+		
+		AbstractEntity text = new TextEntity("R TAPE LOADING ERROR, 0:1", 30, 30, 4);
+		Game.ecs.addEntity(text);
+
 	}
 
 

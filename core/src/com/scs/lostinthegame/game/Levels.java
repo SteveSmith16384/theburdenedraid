@@ -50,5 +50,10 @@ public class Levels {
 	public void nextLevel() {
 		this.currentLevelNum++;
 	}
+	
+	
+	public void restart() {
+		this.currentLevelNum = 0;
+	}
 
 }
