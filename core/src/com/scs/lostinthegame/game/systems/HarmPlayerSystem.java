@@ -1,5 +1,5 @@
 package com.scs.lostinthegame.game.systems;
-
+/*
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
@@ -33,3 +33,4 @@ public class HarmPlayerSystem extends AbstractSystem {
 	}
 
 }
+*/

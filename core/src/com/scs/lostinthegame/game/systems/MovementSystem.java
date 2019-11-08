@@ -32,8 +32,13 @@ public class MovementSystem extends AbstractSystem {
 
 	@Override
 	public void processEntity(AbstractEntity entity) {
+		if (entity.isMarkedForRemoval()) {
+			return;
+		}
+		
 		MovementData movementData = (MovementData)entity.getComponent(MovementData.class);
-
+		movementData.hitWall = false;
+		
 		AutoMove auto = (AutoMove)entity.getComponent(AutoMove.class);
 		if (auto != null) {
 			movementData.offset = auto.dir.cpy().scl(Gdx.graphics.getDeltaTime());
@@ -41,6 +46,7 @@ public class MovementSystem extends AbstractSystem {
 		if (movementData.offset.x != 0 || movementData.offset.y != 0 || movementData.offset.z != 0) {
 			boolean res = this.tryMove(entity, Game.world, movementData.offset, movementData.sizeAsFracOfMapsquare, true);
 			if (!res) {
+				movementData.hitWall = true;
 				if (movementData.removeIfHitWall) {
 					entity.remove();
 					Settings.p(entity + " removed");
@@ -111,6 +117,7 @@ public class MovementSystem extends AbstractSystem {
 			float dist = pos.dst(Game.player.getPosition());
 			if (dist < .5f) {
 				Game.player.damaged(hp.damageCaused, new Vector3()); // todo - direction
+				entity.remove(); // Prevent further collisions
 				return true;
 			}
 		}

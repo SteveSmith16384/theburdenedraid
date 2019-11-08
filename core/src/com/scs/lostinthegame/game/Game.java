@@ -26,7 +26,7 @@ import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.GameOverLevel;
+import com.scs.lostinthegame.game.levels.OhMummyLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -36,7 +36,6 @@ import com.scs.lostinthegame.game.systems.DrawDecalSystem;
 import com.scs.lostinthegame.game.systems.DrawModelSystem;
 import com.scs.lostinthegame.game.systems.DrawTextSystem;
 import com.scs.lostinthegame.game.systems.GotToExitSystem;
-import com.scs.lostinthegame.game.systems.HarmPlayerSystem;
 import com.scs.lostinthegame.game.systems.MobAISystem;
 import com.scs.lostinthegame.game.systems.MovementSystem;
 import com.scs.lostinthegame.game.systems.RemoveAfterTimeSystem;
@@ -117,7 +116,7 @@ public class Game implements IModule {
 		ecs.addSystem(new DrawDecalSystem(ecs, camera));
 		ecs.addSystem(new CycleThruDecalsSystem(ecs));
 		ecs.addSystem(new MobAISystem(ecs));		
-		ecs.addSystem(new HarmPlayerSystem(ecs));		
+		//ecs.addSystem(new HarmPlayerSystem(ecs));		
 		ecs.addSystem(new MovementSystem(ecs));		
 		ecs.addSystem(new DrawModelSystem(ecs, batch));
 		ecs.addSystem(new RemoveAfterTimeSystem(ecs));
@@ -137,7 +136,7 @@ public class Game implements IModule {
 				this.levelComplete = true;
 			}
 		}
-		
+
 		if (levelComplete) {
 			levelComplete = false;
 			levels.nextLevel();
@@ -153,8 +152,8 @@ public class Game implements IModule {
 			if (Settings.TEST_SPECIFIC_LEVEL == false) {
 				gameLevel = levels.getLevel(this.entityManager, this.decalManager);
 			} else {
-				gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
+				gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
@@ -190,7 +189,7 @@ public class Game implements IModule {
 		this.ecs.addAndRemoveEntities();
 		this.ecs.getSystem(MobAISystem.class).process();
 		this.ecs.getSystem(MovementSystem.class).process();
-		this.ecs.getSystem(HarmPlayerSystem.class).process();
+		//this.ecs.getSystem(HarmPlayerSystem.class).process();
 		this.ecs.getSystem(CollectionSystem.class).process();
 		this.ecs.getSystem(GotToExitSystem.class).process();
 
@@ -208,25 +207,25 @@ public class Game implements IModule {
 		post.update( Gdx.graphics.getDeltaTime() );
 
 		Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		//Gdx.gl.glClearColor(0,0,0,1);
 
 		frameBuffer.begin();
 
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		this.gameLevel.setBackgroundColour();
 
-		post.begin();
+		//post.begin();
 		batch.begin(camera);
 		if (modelInstances != null) {
 			for (int i = 0; i < modelInstances.size(); i++) {
 				batch.render(modelInstances.get(i));
 			}
 		}
+
 		if (ecs != null) {
 			this.ecs.getSystem(DrawModelSystem.class).process();
 		}
 		batch.end();
+		//post.end();
 
 		decalManager.render();
 		if (ecs != null) {
@@ -242,6 +241,8 @@ public class Game implements IModule {
 		batch2d.end();
 
 		frameBuffer.end();
+		post.begin();
+
 
 		//Draw buffer and FPS
 		batch2d.begin();
@@ -268,7 +269,6 @@ public class Game implements IModule {
 		}
 
 		batch2d.end();
-		
 		post.end();
 	}
 

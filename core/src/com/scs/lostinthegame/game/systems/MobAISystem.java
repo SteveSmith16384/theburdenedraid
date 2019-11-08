@@ -35,6 +35,8 @@ public class MobAISystem extends AbstractSystem {
 		movementData.offset.y = 0;
 		movementData.offset.z = 0;
 
+		ai.changeDirTimer -= Gdx.graphics.getDeltaTime();
+
 		if (Game.player.getPosition().dst2(pos.position) < ai.moveRange*ai.moveRange) { //&& Game.world.canSee(pos.position, Game.player.getPosition())) {
 			switch (ai.mode) {
 			case GoForPlayer:
@@ -47,12 +49,20 @@ public class MobAISystem extends AbstractSystem {
 
 					movementData.offset.x = ai.direction.x;
 					movementData.offset.z = ai.direction.z;
+					break;
 				}
-				break;
-
+				// Drop down to next case!
+				
 			case MoveLikeRook:
-				if (ai.direction.len2() == 0 || Settings.random.nextFloat() <= 0.003f) { // todo - check every second
+				if (ai.direction.len2() == 0) {
 					ai.direction = getRandomDirection();
+				} else if (movementData.hitWall) {
+					ai.direction = getRandomDirection();
+				} else if (ai.changeDirTimer <= 0) {
+					ai.changeDirTimer = 1;
+					if (Settings.random.nextInt(10) <= 1) {
+						//Settings.p("Changing dir");
+					}
 				}
 				movementData.offset.x = ai.direction.x;
 				movementData.offset.z = ai.direction.z;

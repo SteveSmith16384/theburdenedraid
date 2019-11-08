@@ -10,6 +10,7 @@ public class HasAI {
 	public Mode mode;
 	public boolean can_see_player;
 	public float moveRange; // Doesn't move unless player is in range
+	public int changeDirTimer = 0;
 	
 	public HasAI(Mode _mode, float _speed, float _moveRange) {
 		mode = _mode;

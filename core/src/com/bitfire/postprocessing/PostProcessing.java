@@ -4,11 +4,10 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.utils.Disposable;
-import com.bitfire.postprocessing.PostProcessor;
-import com.bitfire.postprocessing.PostProcessorListener;
 import com.bitfire.postprocessing.effects.Bloom;
 import com.bitfire.postprocessing.effects.CrtMonitor;
 import com.bitfire.postprocessing.effects.Curvature;
+import com.bitfire.postprocessing.effects.MotionBlur;
 import com.bitfire.postprocessing.effects.Vignette;
 import com.bitfire.postprocessing.effects.Zoomer;
 import com.bitfire.postprocessing.filters.Combine;
@@ -28,6 +27,7 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 	public Curvature curvature;
 	public Zoomer zoomer;
 	public CrtMonitor crt;
+	public MotionBlur motionBlur;
 	public Vignette vignette;
 	public boolean zoomRadialBlur;
 	public float zoomAmount, zoomFactor;
@@ -59,6 +59,8 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 		combine.setSource1Saturation( 0f );
 		combine.setSource2Saturation( 1f );
 
+		this.motionBlur = new MotionBlur();
+
 		vignette = new Vignette( vpW, vpH, false );
 
 		// add them to the postprocessor
@@ -67,6 +69,7 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 		postProcessor.addEffect( vignette );
 		postProcessor.addEffect( crt );
 		postProcessor.addEffect( bloom );
+		postProcessor.addEffect( motionBlur );
 
 		initializeEffects();
 	}
@@ -79,11 +82,12 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 		curvature.setZoom( 1f );
 		vignette.setIntensity( 1f );
 
-		bloom.setEnabled(false);
-		crt.setEnabled( false );
+		bloom.setEnabled(true);
+		crt.setEnabled( true );
 		vignette.setEnabled( false );
 		curvature.setEnabled( false );
 		zoomer.setEnabled( false );
+		motionBlur.setEnabled(true);
 	}
 
 	@Override

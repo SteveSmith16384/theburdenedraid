@@ -21,12 +21,7 @@ public class OhMummyLevel extends AbstractLevel {
 
 	private static final int RECT_SIZE_EXCLUDING_EDGES = 3;
 
-	/*private static final int TYPE_MUMMY = 1;
-	private static final int TYPE_SCROLL = 2;
-	private static final int TYPE_KEY = 3;
-*/
 	private int[][] pill_map; // And rect types - 1=pill, or >0=tex code for walls
-	//private int[][] rect_types;
 	private boolean exit_created = false;
 
 	public OhMummyLevel(EntityManager _entityManager, DecalManager _decalManager, int diff) {
@@ -49,7 +44,6 @@ public class OhMummyLevel extends AbstractLevel {
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 		pill_map = new int[map_width][map_height];
-		//rect_types = new int[NUM_RECTS][NUM_RECTS];
 
 		this.playerStartMapX = 1;
 		this.playerStartMapY = 1;
@@ -87,7 +81,7 @@ public class OhMummyLevel extends AbstractLevel {
 		AbstractEntity nasty = new OhMummyNasty(1, map_height-2);
 		Game.ecs.addEntity(nasty);
 		AbstractEntity nasty2 = new OhMummyNasty(map_width-2, map_height-2);
-		Game.ecs.addEntity(nasty2);
+		//todo - re-add Game.ecs.addEntity(nasty2);
 
 	}
 

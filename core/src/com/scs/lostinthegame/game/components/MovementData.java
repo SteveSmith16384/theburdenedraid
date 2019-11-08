@@ -8,6 +8,7 @@ public class MovementData {
 	public Vector3 offset = new Vector3();
 	public float sizeAsFracOfMapsquare;
 	public boolean removeIfHitWall = false;
+	public boolean hitWall = false;
 	
 	public MovementData(float _sizeAsFracOfMapsquare) {
 		sizeAsFracOfMapsquare = _sizeAsFracOfMapsquare;
