@@ -46,7 +46,7 @@ public class MotionBlur extends PostProcessorEffect {
 		} else {
 			if (fbo == null) {
 				// Init frame buffer
-				fbo = FrameBuffer.createFrameBuffer(Format.RGBA8888, src.getWidth(), src.getHeight(), false);
+				fbo = new FrameBuffer(Format.RGBA8888, src.getWidth(), src.getHeight(), false);
 			}
 			motionFilter.setInput(src).setOutput(fbo).render();
 
