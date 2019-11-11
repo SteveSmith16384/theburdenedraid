@@ -29,6 +29,7 @@ public class GotToExitSystem extends AbstractSystem {
 			Settings.p("Dist to exit: " + dist);
 		}*/
 		if (dist < 1) {//Game.UNIT / 2) {
+			Game.audio.play("beepfx_samples/19_jet_burst.wav");
 			Game.levelComplete = true;
 		}
 	}

@@ -36,6 +36,7 @@ public class CountMinesSystem extends AbstractSystem {
 		if (dist == 0) {
 			Settings.p("Player walked on mine!");
 			Game.player.damaged(1, null);
+			Game.audio.play("beepfx_samples/24_boom_5.wav");
 		} else if (dist <= 1) {
 			num_mines++;
 		}

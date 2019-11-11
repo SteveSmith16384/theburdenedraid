@@ -13,6 +13,8 @@ public class PlayersLaserGun extends AbstractIntervalWeapon implements IPlayersW
 	
 	@Override
 	protected void weaponFired(Vector3 position, Vector3 direction) {
+		Game.audio.play("beepfx_samples/17_hit_3.wav");
+
 		Game.ecs.addEntity(new PlayersLaserBullet(position, direction));
 	}
 

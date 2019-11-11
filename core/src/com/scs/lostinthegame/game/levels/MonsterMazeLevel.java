@@ -121,11 +121,14 @@ public class MonsterMazeLevel extends AbstractLevel {
 		PositionData playerPos = (PositionData)Game.player.getComponent(PositionData.class);
 		float dist = trexPos.position.dst(playerPos.position);
 		if (dist < Game.UNIT*2) {
+			Game.audio.play("beepfx_samples/58_grr.wav");
 			trex_msg = "RUN HE IS BESIDE YOU";
 			return;
 		}
 		HasAI ai = (HasAI)trex.getComponent(HasAI.class);
 		if (ai.can_see_player) {
+			Game.audio.play("beepfx_samples/58_grr.wav");
+
 			trex_msg = "REX HAS SEEN YOU";
 			has_seen = true;
 			return;

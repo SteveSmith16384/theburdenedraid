@@ -52,7 +52,7 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 		this.map_height = 15;
 
 		int num_mines = Settings.DEBUG_MINES ? 1 : 20 + (this.difficulty * 10);
-		int num_damsels = 2 + this.difficulty;
+		num_damsels = 2 + this.difficulty;
 
 		this.playerStartMapX = map_width/2;
 		this.playerStartMapY = 1;

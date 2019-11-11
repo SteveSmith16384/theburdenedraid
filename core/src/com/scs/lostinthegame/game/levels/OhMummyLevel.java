@@ -134,6 +134,7 @@ public class OhMummyLevel extends AbstractLevel {
 			this.pill_map[map_pos.x][map_pos.y] = 1;
 			//Settings.p("Adding pill to " + map_pos.x + "," + map_pos.y);
 			checkForCircled = true;
+			Game.audio.play("beepfx_samples/00_shot_1.wav");
 		}
 
 
@@ -165,6 +166,7 @@ public class OhMummyLevel extends AbstractLevel {
 			for (int z=sz+1 ; z<=sz+RECT_SIZE_EXCLUDING_EDGES ; z++) {
 				for (int x=sx+1 ; x<=sx+RECT_SIZE_EXCLUDING_EDGES; x++) {
 					if (this.pill_map[x][z] == 0) {
+						Game.audio.play("beepfx_samples/49_alarm_3.wav");
 						this.pill_map[x][z] = texid;
 						AbstractEntity wall = Game.world.world[x][z].wall;
 						wall.remove();

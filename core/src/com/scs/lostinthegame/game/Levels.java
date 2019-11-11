@@ -27,20 +27,19 @@ public class Levels {
 		case 3:
 			return new GulpmanLevel(entityManager, decalManager, numberTimesLoopAround);
 		case 4:
-			return new AndroidsLevel(entityManager, decalManager, numberTimesLoopAround);
-		case 5:
 			return new MonsterMazeLevel(entityManager, decalManager, numberTimesLoopAround);
-		case 6:
+		case 5:
 			return new MinedOutLevel(entityManager, decalManager, numberTimesLoopAround);
 		//case 6:
 			//return new EricAndTheFloatersLevel(entityManager, decalManager);
 			//return new MaziacsLevel(entityManager, decalManager);
 			//gameLevel = new LaserSquadLevel(this.entityManager, this.decalManager);
+			//return new AndroidsLevel(entityManager, decalManager, numberTimesLoopAround);
 
 		default:
 			//throw new RuntimeException("Unknown level: " + currentLevelNum);
 			// Loop around
-			currentLevelNum -= 5;
+			currentLevelNum -= 4;
 			numberTimesLoopAround++;
 			return getLevel(entityManager, decalManager);
 		}

@@ -26,7 +26,7 @@ import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.OhMummyLevel;
+import com.scs.lostinthegame.game.levels.MinedOutLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -153,12 +153,11 @@ public class Game implements IModule {
 				gameLevel = levels.getLevel(this.entityManager, this.decalManager);
 			} else {
 				//gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
-				gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
+				gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
 			}
 
 			this.resetECS();
