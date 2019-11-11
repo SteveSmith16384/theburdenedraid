@@ -132,7 +132,9 @@ public class GulpmanLevel extends AbstractLevel {
 		if (collectable instanceof Cherry) {
 			this.num_cherries--;
 			if (this.num_cherries <= 0) {
-				Game.levelComplete = true;
+				if (Settings.DEBUG_LEVEL_JUMP) {
+					Settings.p("Cherry collected!");
+				}
 			}
 		}
 	}

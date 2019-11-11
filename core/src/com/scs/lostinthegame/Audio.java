@@ -21,7 +21,7 @@ public class Audio {
 	public Audio() {
 		sounds = new HashMap<String, Sound>();
 
-		for(String s : preload){
+		for(String s : preload) {
 			String filename = "audio/" +s+".wav";
 			Sound sfx = Gdx.audio.newSound(Gdx.files.internal(filename));
 			sounds.put(s, sfx);
@@ -42,6 +42,7 @@ public class Audio {
 		}
 	}
 
+	
 	public void startMusic(){
 		if(!music.isPlaying()) {
 			music.play();
@@ -50,10 +51,12 @@ public class Audio {
 		}
 	}
 
+	
 	public void stopMusic() {
 		music.stop();
 	}
 
+	
 	public void play(String name) {
 		if (sounds.containsKey(name)) {
 			sounds.get(name).play();
@@ -68,6 +71,13 @@ public class Audio {
 			play(name); // Loop round to play the newly-added file.
 		}
 
+	}
+	
+	
+	public void dipose() {
+		for (Sound s : this.sounds.values()) {
+			s.dispose();
+		}
 	}
 
 }

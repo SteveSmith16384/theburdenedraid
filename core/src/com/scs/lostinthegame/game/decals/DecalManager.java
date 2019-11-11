@@ -41,7 +41,7 @@ public class DecalManager {
     }
 
     public void render() {
-        for(DecalEntity ent : decals){
+        for(DecalEntity ent : decals) {
             ent.updateTransform(camera);
             if(!camera.frustum.sphereInFrustum(ent.position, Game.UNIT)) {
                 continue;
@@ -54,5 +54,8 @@ public class DecalManager {
 
     }
 
+    
+    public void dispose() {
+    }
 
 }
