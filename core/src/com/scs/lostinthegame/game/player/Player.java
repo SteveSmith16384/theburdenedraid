@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.CanCollect;
 import com.scs.lostinthegame.game.components.MovementData;
@@ -274,6 +275,9 @@ public class Player extends AbstractEntity implements IDamagable {
 		if (lives >= 0) {
 			Game.audio.play("player_hurt");
 			Game.restartLevel = true;
+			if (Settings.DEBUG_LEVEL_JUMP) {
+				Settings.p("damaged()");
+			}
 		} else {
 			//todo Game.game_over;
 		}

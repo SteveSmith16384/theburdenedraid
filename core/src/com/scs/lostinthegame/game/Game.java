@@ -26,7 +26,7 @@ import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.OhMummyLevel;
+import com.scs.lostinthegame.game.levels.AndroidsLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -115,9 +115,8 @@ public class Game implements IModule {
 		ecs = new BasicECS();
 		ecs.addSystem(new DrawDecalSystem(ecs, camera));
 		ecs.addSystem(new CycleThruDecalsSystem(ecs));
-		ecs.addSystem(new MobAISystem(ecs));		
-		//ecs.addSystem(new HarmPlayerSystem(ecs));		
-		ecs.addSystem(new MovementSystem(ecs));		
+		ecs.addSystem(new MobAISystem(ecs));
+		ecs.addSystem(new MovementSystem(ecs));
 		ecs.addSystem(new DrawModelSystem(ecs, batch));
 		ecs.addSystem(new RemoveAfterTimeSystem(ecs));
 		ecs.addSystem(new CollectionSystem(ecs, gameLevel));
@@ -125,25 +124,34 @@ public class Game implements IModule {
 		ecs.addSystem(new GotToExitSystem(ecs));
 
 		ecs.addEntity(player);
-
+		player.setWeapon(null);
 	}
 
 
 	public void update() {
 		if (Settings.RELEASE_MODE == false) {
 			// Cheat mode!
-			if (Gdx.input.isKeyPressed(Input.Keys.X)) {
+			if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
 				this.levelComplete = true;
+				if (Settings.DEBUG_LEVEL_JUMP) {
+					Settings.p("X pressed");
+				}
 			}
 		}
 
 		if (levelComplete) {
+			if (Settings.DEBUG_LEVEL_JUMP) {
+				Settings.p("levelComplete");
+			}
 			levelComplete = false;
 			levels.nextLevel();
 			restartLevel = true;
 			Game.audio.play("zxspectrumloadingnoise.ogg");
 		}		
 		if (restartLevel) {
+			if (Settings.DEBUG_LEVEL_JUMP) {
+				Settings.p("restartLevel");
+			}
 			restartLevel = false;
 			transition = true;
 			hasLoaded = false;
@@ -153,12 +161,15 @@ public class Game implements IModule {
 				gameLevel = levels.getLevel(this.entityManager, this.decalManager);
 			} else {
 				//gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
-				gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
+				gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
+			}
+			if (Settings.DEBUG_LEVEL_JUMP) {
+				Settings.p("New level is " + gameLevel.getClass().getSimpleName());
 			}
 
 			this.resetECS();
@@ -243,7 +254,6 @@ public class Game implements IModule {
 		frameBuffer.end();
 		post.begin();
 
-
 		//Draw buffer and FPS
 		batch2d.begin();
 
@@ -299,6 +309,11 @@ public class Game implements IModule {
 
 
 	public void destroy() {
+		post.dispose();
+		font_white.dispose(); 
+		font_black.dispose();
+		audio.dipose();
+		batch.dispose();
 	}
 
 

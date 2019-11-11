@@ -13,7 +13,7 @@ import com.scs.lostinthegame.game.components.PositionData;
 
 public class MobAISystem extends AbstractSystem {
 
-	public enum Mode {GoForPlayer, MoveLikeRook}
+	public enum Mode {GoForPlayerIfSeen, GoForPlayerIfClose, MoveLikeRook}
 
 	public MobAISystem(BasicECS ecs) {
 		super(ecs);
@@ -39,7 +39,7 @@ public class MobAISystem extends AbstractSystem {
 
 		if (Game.player.getPosition().dst2(pos.position) < ai.moveRange*ai.moveRange) { //&& Game.world.canSee(pos.position, Game.player.getPosition())) {
 			switch (ai.mode) {
-			case GoForPlayer:
+			case GoForPlayerIfSeen:
 				ai.can_see_player = false;
 				if (Game.world.canSee(pos.position, Game.player.getPosition())) {
 					ai.can_see_player = true;
@@ -49,9 +49,18 @@ public class MobAISystem extends AbstractSystem {
 
 					movementData.offset.x = ai.direction.x;
 					movementData.offset.z = ai.direction.z;
-					break;
 				}
-				// Drop down to next case!
+				break;
+				
+			case GoForPlayerIfClose:
+				ai.can_see_player = true;
+				ai.direction.set(Game.player.getPosition()).sub(pos.position).nor();
+				ai.direction.scl(Gdx.graphics.getDeltaTime() * ai.speed * Game.UNIT);
+				ai.direction.y = 0f;
+
+				movementData.offset.x = ai.direction.x;
+				movementData.offset.z = ai.direction.z;
+				break;
 				
 			case MoveLikeRook:
 				if (ai.direction.len2() == 0) {

@@ -32,7 +32,7 @@ public class CountMinesSystem extends AbstractSystem {
 		PositionData minePosData = (PositionData)entity.getComponent(PositionData.class);
 		GridPoint2 minePos = new GridPoint2((int)(minePosData.position.x/Game.UNIT), (int)(minePosData.position.z/Game.UNIT));
 		float dist = minePos.dst(playerPos);
-		Settings.p("pos: " + playerPos.x + "," + playerPos.y + " = " + dist);
+		//Settings.p("pos: " + playerPos.x + "," + playerPos.y + " = " + dist);
 		if (dist == 0) {
 			Settings.p("Player walked on mine!");
 			Game.player.damaged(1, null);

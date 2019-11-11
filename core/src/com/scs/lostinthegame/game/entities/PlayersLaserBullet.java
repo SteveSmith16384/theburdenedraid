@@ -28,7 +28,7 @@ public class PlayersLaserBullet extends AbstractEntity {
 		Texture tex = new Texture(Gdx.files.internal("players_bullet.png"));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
         hasDecal.decal = Decal.newDecal(tr, true);
-        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth() / 5, Game.UNIT / tr.getRegionWidth() / 10);
+        hasDecal.decal.setScale(Game.UNIT / tr.getRegionWidth() / 10, Game.UNIT / tr.getRegionWidth() / 10);
         hasDecal.decal.transformationOffset = new Vector2(0, -2);//hasDecal.decal.getHeight()/2);
         hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = true;        
@@ -40,7 +40,7 @@ public class PlayersLaserBullet extends AbstractEntity {
 
 		this.addComponent(new HarmsNasties());
 		
-		this.addComponent(new AutoMove(_dir.cpy().scl(60)));
+		this.addComponent(new AutoMove(_dir.cpy().scl(200)));
 		
 	}
 

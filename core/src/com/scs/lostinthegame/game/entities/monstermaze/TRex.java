@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Art;
 import com.scs.lostinthegame.game.Game;
+import com.scs.lostinthegame.game.components.HarmsPlayer;
 import com.scs.lostinthegame.game.components.HasAI;
 import com.scs.lostinthegame.game.components.HasDecal;
 import com.scs.lostinthegame.game.components.HasDecalCycle;
@@ -38,11 +39,12 @@ public class TRex extends AbstractEntity {
         cycle.decals[1] = Art.DecalHelper("monstermaze/trex2.png", 1f);
         this.addComponent(cycle);
         
-        HasAI ai = new HasAI(Mode.GoForPlayer, 1f, 9999f);
+        HasAI ai = new HasAI(Mode.GoForPlayerIfClose, 1f, Game.UNIT*5f);
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.85f));
-        
+
+        this.addComponent(new HarmsPlayer(1));
     }
     
 }

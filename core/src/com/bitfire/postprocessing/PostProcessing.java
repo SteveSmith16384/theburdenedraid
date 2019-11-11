@@ -82,7 +82,7 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 		curvature.setZoom( 1f );
 		vignette.setIntensity( 1f );
 
-		bloom.setEnabled(true);
+		bloom.setEnabled(false);
 		crt.setEnabled( true );
 		vignette.setEnabled( false );
 		curvature.setEnabled( false );
