@@ -109,4 +109,10 @@ public class EricAndTheFloatersLevel extends AbstractLevel {
 		return "ERICANDTHEFLOATERS";
 	}
 
+
+	@Override
+	public String getInstructions() {
+		return "todo";
+	}
+
 }

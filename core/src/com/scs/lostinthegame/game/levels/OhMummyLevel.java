@@ -81,7 +81,7 @@ public class OhMummyLevel extends AbstractLevel {
 		AbstractEntity nasty = new OhMummyNasty(1, map_height-2);
 		Game.ecs.addEntity(nasty);
 		AbstractEntity nasty2 = new OhMummyNasty(map_width-2, map_height-2);
-		//todo - re-add Game.ecs.addEntity(nasty2);
+		Game.ecs.addEntity(nasty2);
 
 	}
 
@@ -231,6 +231,12 @@ public class OhMummyLevel extends AbstractLevel {
 	@Override
 	public String GetName() {
 		return "OH MUMMY!";
+	}
+
+
+	@Override
+	public String getInstructions() {
+		return "Surround all the columns then go to exit";
 	}
 
 }

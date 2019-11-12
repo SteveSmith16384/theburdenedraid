@@ -35,6 +35,11 @@ public class DrawTextSystem extends AbstractSystem {
 		if (dtd.drawUntil <= 0) {
 			entity.remove();
 		} else {
+			if (dtd.centre_x && dtd.x < 0) {
+				int len = dtd.text.length() * 8;
+				dtd.x = Gdx.graphics.getWidth() / 2 - len;
+			}
+
 			font_white.draw(batch2d, dtd.text, dtd.x, dtd.y);
 		}
 

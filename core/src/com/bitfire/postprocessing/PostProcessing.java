@@ -60,6 +60,7 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 		combine.setSource2Saturation( 1f );
 
 		this.motionBlur = new MotionBlur();
+		motionBlur.setBlurOpacity(.9f); // scs new
 
 		vignette = new Vignette( vpW, vpH, false );
 
@@ -83,7 +84,7 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 		vignette.setIntensity( 1f );
 
 		bloom.setEnabled(false);
-		crt.setEnabled( true );
+		crt.setEnabled( false );
 		vignette.setEnabled( false );
 		curvature.setEnabled( false );
 		zoomer.setEnabled( false );

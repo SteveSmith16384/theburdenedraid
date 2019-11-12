@@ -78,4 +78,10 @@ public class GameOverLevel extends AbstractLevel {
 		return "";
 	}
 
+
+	@Override
+	public String getInstructions() {
+		return "GAME OVER!";
+	}
+
 }

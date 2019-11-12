@@ -19,7 +19,7 @@ import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 public class GulpmanLevel extends AbstractLevel {
 
 	private int num_cherries = 0;
-	
+
 	public GulpmanLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
 		super(_entityManager, _decalManager, difficulty);
 	}
@@ -38,8 +38,8 @@ public class GulpmanLevel extends AbstractLevel {
 
 
 	private void loadMapFromMazegen(Game game) {
-		this.map_width = 20;
-		this.map_height = 20;
+		this.map_width = 15 + (this.difficulty * 3);
+		this.map_height = 15 + (this.difficulty * 3);
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
@@ -52,7 +52,7 @@ public class GulpmanLevel extends AbstractLevel {
 			for (int x=0 ; x<map_width ; x++) {
 				Game.world.world[x][z] = new WorldSquare();
 				Game.world.world[x][z].blocked = maze.map[x][z] == Maze.WALL;
-				
+
 				if (Game.world.world[x][z].blocked) {
 					Wall wall = new Wall("colours/blue.png", x, z);
 					game.ecs.addEntity(wall);
@@ -68,7 +68,7 @@ public class GulpmanLevel extends AbstractLevel {
 
 
 	public void setBackgroundColour() {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
+		Gdx.gl.glClearColor(0, 1, 1, 1);
 	}
 
 
@@ -132,9 +132,7 @@ public class GulpmanLevel extends AbstractLevel {
 		if (collectable instanceof Cherry) {
 			this.num_cherries--;
 			if (this.num_cherries <= 0) {
-				if (Settings.DEBUG_LEVEL_JUMP) {
-					Settings.p("Cherry collected!");
-				}
+				Game.levelComplete = true;
 			}
 		}
 	}
@@ -149,6 +147,12 @@ public class GulpmanLevel extends AbstractLevel {
 	@Override
 	public String GetName() {
 		return "GULPMAN";
+	}
+
+
+	@Override
+	public String getInstructions() {
+		return "Collect all the Cherries";
 	}
 
 }

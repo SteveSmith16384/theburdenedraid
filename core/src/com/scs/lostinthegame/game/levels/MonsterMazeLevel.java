@@ -44,8 +44,8 @@ public class MonsterMazeLevel extends AbstractLevel {
 
 
 	private void loadMapFromMazegen(Game game) {
-		this.map_width = 16;
-		this.map_height = 16;
+		this.map_width = 16 + (this.difficulty * 3);
+		this.map_height = 16 + (this.difficulty * 3);
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
@@ -165,6 +165,12 @@ public class MonsterMazeLevel extends AbstractLevel {
 	@Override
 	public String GetName() {
 		return "3D MONSTER MAZE";
+	}
+
+
+	@Override
+	public String getInstructions() {
+		return "Find the exit";
 	}
 
 }

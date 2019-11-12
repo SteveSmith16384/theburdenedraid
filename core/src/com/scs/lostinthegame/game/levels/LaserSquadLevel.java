@@ -109,4 +109,10 @@ public class LaserSquadLevel extends AbstractLevel {
 		return "LSRSQUAD";
 	}
 
+
+	@Override
+	public String getInstructions() {
+		return "todo";
+	}
+
 }

@@ -26,8 +26,7 @@ import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.MinedOutLevel;
-import com.scs.lostinthegame.game.levels.AndroidsLevel;
+import com.scs.lostinthegame.game.levels.GulpmanLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -163,10 +162,10 @@ public class Game implements IModule {
 			} else {
 				//gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
+				gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
-				gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
 			}
 			if (Settings.DEBUG_LEVEL_JUMP) {
@@ -185,6 +184,9 @@ public class Game implements IModule {
 			if (transitionProgress >= 0.5f && !hasLoaded) {
 				loadLevel();
 				ecs.addEntity(new Ceiling("gamer1.jpg", -10, -10, 40, 40, false, Game.UNIT*8));
+
+				AbstractEntity text = new TextEntity(gameLevel.getInstructions(), Gdx.graphics.getHeight()/2, 4);
+				ecs.addEntity(text);
 			}
 			if (transitionProgress > 1f) {
 				transitionProgress = 0;
@@ -216,7 +218,7 @@ public class Game implements IModule {
 
 
 	public void render() {
-		post.update( Gdx.graphics.getDeltaTime() );
+		post.update(Gdx.graphics.getDeltaTime());
 
 		Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -225,7 +227,6 @@ public class Game implements IModule {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 		this.gameLevel.setBackgroundColour();
 
-		//post.begin();
 		batch.begin(camera);
 		if (modelInstances != null) {
 			for (int i = 0; i < modelInstances.size(); i++) {
@@ -237,7 +238,6 @@ public class Game implements IModule {
 			this.ecs.getSystem(DrawModelSystem.class).process();
 		}
 		batch.end();
-		//post.end();
 
 		decalManager.render();
 		if (ecs != null) {

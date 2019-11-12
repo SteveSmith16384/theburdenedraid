@@ -42,7 +42,7 @@ public class StartLevel extends AbstractLevel {
 		}
 
 		game.ecs.addEntity(new Floor("start/spectrumscreen.gif", map_width, map_height, false));
-		game.ecs.addEntity(new StartExit(map_width-1, map_height-1));
+		game.ecs.addEntity(new StartExit(map_width/2, map_height/2));
 	}
 
 
@@ -68,6 +68,12 @@ public class StartLevel extends AbstractLevel {
 
 	@Override
 	public String GetName() {
+		return "";
+	}
+
+
+	@Override
+	public String getInstructions() {
 		return "";
 	}
 

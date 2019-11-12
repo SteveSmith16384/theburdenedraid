@@ -186,4 +186,10 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 		return 1;
 	}
 
+
+	@Override
+	public String getInstructions() {
+		return "Collect the damsels and then get to the exit";
+	}
+
 }

@@ -58,7 +58,7 @@ public final class LootEntity extends Entity {
 			attractTime += Gdx.graphics.getDeltaTime();
 
 			float d = Game.UNIT/3f;
-			if (attractTime>2f || Game.player.getPosition().dst2(position) < d*d) {
+			if (attractTime > 2f || Game.player.getPosition().dst2(position) < d*d) {
 				// Collected
 				System.out.println("Collected type " + type);
 				remove = true;

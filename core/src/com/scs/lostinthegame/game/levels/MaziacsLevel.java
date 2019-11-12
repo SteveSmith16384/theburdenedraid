@@ -132,4 +132,10 @@ public class MaziacsLevel extends AbstractLevel {
 		return "MAZIACS";
 	}
 
+
+	@Override
+	public String getInstructions() {
+		return "todo";
+	}
+
 }

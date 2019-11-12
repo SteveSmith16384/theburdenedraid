@@ -28,7 +28,8 @@ public abstract class AbstractLevel implements ICollectionHandler {
 	public void setBackgroundColour() {
 		Gdx.gl.glClearColor(0,0,0,1);
 	}
-	
+
+	public abstract String getInstructions(); 
 	
 	public abstract void load(Game game);
 	

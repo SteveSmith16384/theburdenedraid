@@ -115,7 +115,7 @@ public class MovementSystem extends AbstractSystem {
 		HarmsPlayer hp = (HarmsPlayer)entity.getComponent(HarmsPlayer.class);
 		if (hp != null) {
 			float dist = pos.dst(Game.player.getPosition());
-			if (dist < .5f) {
+			if (dist < Game.UNIT * .5f) {
 				Game.player.damaged(hp.damageCaused, new Vector3()); // todo - direction
 				entity.remove(); // Prevent further collisions
 				return true;
