@@ -72,7 +72,7 @@ public class MovementSystem extends AbstractSystem {
 		if (world.rectangleFree(position.x+moveVec.x, position.z, sizeAsFracOfMapsquare, sizeAsFracOfMapsquare)) {
 			position.x += moveVec.x;
 			resultX = true;
-		} else if (doFine) {
+		}/* else if (doFine) {
 			for (int i = 0; i < 10; i++) {
 				if (world.rectangleFree(position.x+moveVec.x/10f, position.z, sizeAsFracOfMapsquare, sizeAsFracOfMapsquare)) {
 					position.x += moveVec.x/10f;
@@ -81,13 +81,13 @@ public class MovementSystem extends AbstractSystem {
 					break;
 				}
 			}
-		}
+		}*/
 
 		boolean resultZ = false;
 		if (world.rectangleFree(position.x, position.z+moveVec.z, sizeAsFracOfMapsquare, sizeAsFracOfMapsquare)) {
 			position.z += moveVec.z;
 			resultZ = true;
-		} else if (doFine) {
+		} /*else if (doFine) {
 			for (int i = 0; i < 10; i++) {
 				if(world.rectangleFree(position.x, position.z+moveVec.z/10f, sizeAsFracOfMapsquare, sizeAsFracOfMapsquare)) {
 					position.z += moveVec.z/10f;
@@ -96,7 +96,7 @@ public class MovementSystem extends AbstractSystem {
 					break;
 				}
 			}
-		}
+		}*/
 
 		if (moveVec.y != 0) {
 			position.y += moveVec.y;

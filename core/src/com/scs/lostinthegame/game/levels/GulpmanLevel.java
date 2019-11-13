@@ -11,10 +11,10 @@ import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
+import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.gulpman.Cherry;
 import com.scs.lostinthegame.game.entities.gulpman.GulpmanNasty;
-import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 
 public class GulpmanLevel extends AbstractLevel {
 
@@ -30,10 +30,10 @@ public class GulpmanLevel extends AbstractLevel {
 		//loadTestMap(game);
 		loadMapFromMazegen(game);
 
-		//game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height));
+		game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height, false));
 		//game.ecs.addEntity(new Ceiling("colours/cyan.png", map_width, map_height));
 
-		game.player.setWeapon(new PlayersLaserGun());
+		//game.player.setWeapon(new PlayersLaserGun());
 	}
 
 
@@ -43,7 +43,7 @@ public class GulpmanLevel extends AbstractLevel {
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
-		Maze maze = new Maze(map_width, map_height);
+		Maze maze = new Maze(map_width, map_height, 5);
 
 		this.playerStartMapX = maze.start_pos.x;
 		this.playerStartMapY = maze.start_pos.y;

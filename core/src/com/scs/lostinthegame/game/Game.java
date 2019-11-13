@@ -26,7 +26,7 @@ import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.MonsterMazeLevel;
+import com.scs.lostinthegame.game.levels.GulpmanLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -162,11 +162,11 @@ public class Game implements IModule {
 			} else {
 				//gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
+				gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
-				gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
 			}
 			if (Settings.DEBUG_LEVEL_JUMP) {
 				Settings.p("New level is " + gameLevel.getClass().getSimpleName());
@@ -185,8 +185,8 @@ public class Game implements IModule {
 				loadLevel();
 				ecs.addEntity(new Ceiling("gamer1.jpg", -10, -10, 40, 40, false, Game.UNIT*8));
 
-				AbstractEntity text = new TextEntity(gameLevel.getInstructions(), Gdx.graphics.getHeight()/2, 4);
-				ecs.addEntity(text);
+				//AbstractEntity text = new TextEntity(gameLevel.getInstructions(), Gdx.graphics.getHeight()/2, 4);
+				//ecs.addEntity(text);
 			}
 			if (transitionProgress > 1f) {
 				transitionProgress = 0;

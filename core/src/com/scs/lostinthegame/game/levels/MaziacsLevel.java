@@ -39,7 +39,7 @@ public class MaziacsLevel extends AbstractLevel {
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
-		Maze maze = new Maze(map_width, map_height);
+		Maze maze = new Maze(map_width, map_height, 10);
 
 		this.playerStartMapX = maze.start_pos.x;
 		this.playerStartMapY = maze.start_pos.y;
