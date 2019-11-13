@@ -24,6 +24,7 @@ public class TextEntity extends AbstractEntity {
 		DrawTextData dtd = new DrawTextData();
 		dtd.text = text;
 		dtd.centre_x = true;
+		dtd.x = -1;
 		dtd.y = _y;
 		dtd.drawUntil = _duration;
 
