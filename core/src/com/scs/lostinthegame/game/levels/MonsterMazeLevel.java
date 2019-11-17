@@ -13,6 +13,7 @@ import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.EntityManager;
+import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.monstermaze.MonsterMazeExit;
 import com.scs.lostinthegame.game.entities.monstermaze.TRex;
@@ -49,7 +50,7 @@ public class MonsterMazeLevel extends AbstractLevel {
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
-		Maze maze = new Maze(map_width, map_height);
+		Maze maze = new Maze(map_width, map_height, 10);
 
 		this.playerStartMapX = maze.start_pos.x;
 		this.playerStartMapY = maze.start_pos.y;
@@ -70,7 +71,9 @@ public class MonsterMazeLevel extends AbstractLevel {
 
 		MonsterMazeExit exit = new MonsterMazeExit(maze.end_pos.x, maze.end_pos.y);
 		game.ecs.addEntity(exit);
-	}
+
+		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height, false));
+}
 
 
 	private void loadTestMap(Game game) {

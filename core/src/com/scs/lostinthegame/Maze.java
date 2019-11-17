@@ -21,11 +21,11 @@ public class Maze {
 
 	public static void main(String args[]) {
 		//System.out.println(new Maze(21, 21));
-		new Maze(16, 16);
+		new Maze(16, 16, 1);
 	}
 
 
-	public Maze(final int _width, final int _height) {
+	public Maze(final int _width, final int _height, int numToRemove) {
 		this.width = _width;
 		this.height = _height;
 		this.map = new boolean[width][height];
@@ -53,22 +53,14 @@ public class Maze {
 			}
 		}
 
-		// Shift the maze by 1 to create outer walls
-		/*width = width+2;
-		height = height+2;
-		boolean map2[][] = new boolean[width][height];
-		for (int z=0 ; z<height ; z++) {
-			for (x=0 ; x<width ; x++) {
-				if (x == 0 || z == 0) {
-					map2[x][z] = !WALL;
-				} else if (x >= width-1 || z >= height-1) {
-					map2[x][z] = !WALL;
-				} else {
-					map2[x][z] = map[x-1][z-1];
-				}
+		while (numToRemove > 0) {
+			int mx = 1+random.nextInt(width-2);
+			int my = 1+random.nextInt(height-2);
+			if (map[mx][my] == WALL) {
+				map[mx][my] = PASSAGE;
+				numToRemove--;
 			}
 		}
-		map = map2;*/
 
 		// Get start pos
 		for (int z=0 ; z<height ; z++) {
