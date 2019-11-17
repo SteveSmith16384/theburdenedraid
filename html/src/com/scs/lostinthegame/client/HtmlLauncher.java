@@ -1,4 +1,4 @@
-package net.evgiz.ld40.client;
+package com.scs.lostinthegame.client;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
