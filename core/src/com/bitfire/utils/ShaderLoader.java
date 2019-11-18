@@ -52,7 +52,7 @@ public final class ShaderLoader {
 
 		if( !shader.isCompiled() ) {
 			Gdx.app.error( "ShaderLoader", shader.getLog() );
-			System.exit( -1 );
+			//System.exit( -1 ); Removed for html
 		}
 
 		return shader;

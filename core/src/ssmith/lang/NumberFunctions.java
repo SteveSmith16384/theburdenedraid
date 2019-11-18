@@ -118,15 +118,6 @@ public class NumberFunctions {
 	}
 
 	
-	public int remainder(int a, int d) {
-		int r = (int) Math.IEEEremainder( (double) a, (double) d);
-		if (r < 0) {
-			r = r + d;
-		}
-		return r;
-	}
-
-	
 	public static int ParseInt(String s) {
 		return ParseInt(s, true);
 	}

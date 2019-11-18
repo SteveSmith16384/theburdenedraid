@@ -37,10 +37,11 @@ package ssmith.astar;
 import com.badlogic.gdx.math.GridPoint2;
 
 /**
+ * Threading has been removed from this version.
  * @author stephen smith
  *
  */
-public class AStar extends Thread {
+public class AStar_LibGDX {
 
 	private IAStarMapInterface map_interface;
 	private Node map[][];
@@ -57,15 +58,14 @@ public class AStar extends Thread {
 	// Debugging vars
 	private String[][] strmap;
 
-	public AStar(IAStarMapInterface intface, long max_duration) {
+	public AStar_LibGDX(IAStarMapInterface intface, long max_duration) {
 		this(intface);
 		can_timeout = true;
 		max_dur = max_duration;
 	}
 
-	public AStar(IAStarMapInterface intface) {
+	public AStar_LibGDX(IAStarMapInterface intface) {
 		super();
-		this.setDaemon(true);
 		this.map_interface = intface;
 
 		int w = intface.getMapWidth();
@@ -73,8 +73,8 @@ public class AStar extends Thread {
 		strmap = new String[w][h];
 	}
 
-	public void findPath(int start_x, int start_z, int targ_x, int targ_z, boolean thread) {
-		findPath(start_x, start_z, targ_x, targ_z, -1, thread);
+	public void findPath(int start_x, int start_z, int targ_x, int targ_z) {
+		findPath(start_x, start_z, targ_x, targ_z, -1);
 
 	}
 
@@ -89,7 +89,7 @@ public class AStar extends Thread {
 	 * @param thread - Run in a thread (otherwise block until finished).
 	 * 
 	 */
-	public void findPath(int start_x, int start_z, int targ_x, int targ_z, int max_dist, boolean thread) {
+	public void findPath(int start_x, int start_z, int targ_x, int targ_z, int max_dist) {
 		if (this.can_timeout) {
 			timeout_time = System.currentTimeMillis() + max_dur; 
 		}
@@ -105,13 +105,11 @@ public class AStar extends Thread {
 		this.end_x = targ_x;
 		this.end_z = targ_z;
 		this.max_dist = max_dist;
-		if (thread) {
-			start();
-		} else {
+
 			run();
-		}
 	}
 
+	
 	public void run() {
 		tot_threads++;
 		//System.out.println("Tot A* threads:" + this.tot_threads);

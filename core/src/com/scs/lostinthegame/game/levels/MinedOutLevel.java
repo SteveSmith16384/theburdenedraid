@@ -20,7 +20,7 @@ import com.scs.lostinthegame.game.entities.minedout.MinedOutExit;
 import com.scs.lostinthegame.game.entities.minedout.MinedOutTrail;
 import com.scs.lostinthegame.game.systems.CountMinesSystem;
 
-import ssmith.astar.AStar;
+import ssmith.astar.AStar_LibGDX;
 import ssmith.astar.IAStarMapInterface;
 import ssmith.lang.NumberFunctions;
 
@@ -103,8 +103,8 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 				}
 			}
 
-			AStar astar = new AStar(this);
-			astar.findPath(this.playerStartMapX, this.playerStartMapY, this.exit_pos.x, this.exit_pos.y, false);
+			AStar_LibGDX astar = new AStar_LibGDX(this);
+			astar.findPath(this.playerStartMapX, this.playerStartMapY, this.exit_pos.x, this.exit_pos.y);
 			if (astar.wasSuccessful()) {
 				break;
 			} else {

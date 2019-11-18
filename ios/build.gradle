@@ -4,7 +4,7 @@ sourceCompatibility = '1.7'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
-	mainClassName = "net.evgiz.ld40.IOSLauncher"
+	mainClassName = "com.scs.lostinthegame.IOSLauncher"
 }
 
 launchIPhoneSimulator.dependsOn build

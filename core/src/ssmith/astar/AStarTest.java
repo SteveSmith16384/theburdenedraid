@@ -24,8 +24,8 @@ public class AStarTest implements IAStarMapInterface {
 		
 		System.out.println("map=" + map2[0][3]);
 		
-		AStar s = new AStar(this);
-		s.findPath(3, 0, 0, 0, false);
+		AStar_LibGDX s = new AStar_LibGDX(this);
+		s.findPath(3, 0, 0, 0);
 /*	  	s.DisplayPath(1, 1, 3, 3);
 	  	s.DisplayPath(2, 4, 3, 12);*/
 	}

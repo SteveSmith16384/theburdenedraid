@@ -1,4 +1,4 @@
-package net.evgiz.ld40;
+package com.scs.lostinthegame;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
