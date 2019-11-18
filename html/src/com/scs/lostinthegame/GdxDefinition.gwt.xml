@@ -3,8 +3,8 @@
 <module rename-to="html">
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 
-	<inherits name='LudumDare40' />
-	<entry-point class='net.evgiz.ld40.client.HtmlLauncher' />
+	<inherits name='BillBoardFPS_Main' />
+	<entry-point class='com.scs.lostinthegame.client.HtmlLauncher' />
 	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
 	<set-configuration-property name="gdx.assetpath" value="../core/assets" />
 </module>
