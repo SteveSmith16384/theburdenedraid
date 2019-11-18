@@ -1,5 +1,5 @@
 package com.scs.lostinthegame.game.decals;
-
+/*
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
@@ -89,3 +89,4 @@ public class DecalEntity {
 
 
 }
+*/

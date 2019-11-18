@@ -1,5 +1,5 @@
 package com.scs.lostinthegame.game.decals;
-
+/*
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Camera;
@@ -59,3 +59,4 @@ public class DecalManager {
     }
 
 }
+*/

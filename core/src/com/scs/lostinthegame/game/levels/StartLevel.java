@@ -7,15 +7,13 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
-import com.scs.lostinthegame.game.decals.DecalManager;
-import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.startlevel.StartExit;
 
 public class StartLevel extends AbstractLevel {
 
-	public StartLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
-		super(_entityManager, _decalManager, difficulty);
+	public StartLevel(int difficulty) {
+		super(difficulty);
 	}
 
 

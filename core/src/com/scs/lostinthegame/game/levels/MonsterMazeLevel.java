@@ -11,8 +11,6 @@ import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.components.HasAI;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.data.WorldSquare;
-import com.scs.lostinthegame.game.decals.DecalManager;
-import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.monstermaze.MonsterMazeExit;
@@ -25,8 +23,8 @@ public class MonsterMazeLevel extends AbstractLevel {
 	private boolean has_seen = false;
 	private float next_check = 0;
 
-	public MonsterMazeLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
-		super(_entityManager, _decalManager, difficulty);
+	public MonsterMazeLevel(int difficulty) {
+		super(difficulty);
 	}
 
 

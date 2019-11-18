@@ -6,22 +6,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.ICollectionHandler;
 import com.scs.lostinthegame.game.World;
-import com.scs.lostinthegame.game.decals.DecalManager;
-import com.scs.lostinthegame.game.entities.EntityManager;
 
 public abstract class AbstractLevel implements ICollectionHandler {
-
-	protected DecalManager decalManager;
-	protected EntityManager entityManager;
 
 	protected int map_width;
 	protected int map_height;
 	protected int playerStartMapX = -1, playerStartMapY = -1;
 	protected int difficulty;
 	
-	public AbstractLevel(EntityManager _entityManager, DecalManager _decalManager, int _difficulty) {
-		entityManager = _entityManager;
-		this.decalManager = _decalManager;
+	public AbstractLevel(int _difficulty) {
 		difficulty = _difficulty;
 	}
 	

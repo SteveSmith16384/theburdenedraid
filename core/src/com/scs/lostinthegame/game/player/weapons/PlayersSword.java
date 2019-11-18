@@ -8,9 +8,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.lostinthegame.game.Game;
-import com.scs.lostinthegame.game.entities.Entity;
-import com.scs.lostinthegame.game.interfaces.IAttackable;
-import com.scs.lostinthegame.game.interfaces.IDamagable;
 import com.scs.lostinthegame.game.player.CameraController;
 
 public class PlayersSword implements IPlayersWeapon {
@@ -115,11 +112,11 @@ public class PlayersSword implements IPlayersWeapon {
 
 
 	private void checkAttackHit(Vector3 position, Vector3 direction) {
-		IDamagable closest = null;
+/*		IDamagable closest = null;
 		float dist = 0f;
 
 		Vector3 tmp = new Vector3();
-
+/*
 		for (Entity ent : Game.entityManager.getEntities()) {
 			if(ent instanceof IAttackable == false) {
 				continue;
@@ -139,13 +136,13 @@ public class PlayersSword implements IPlayersWeapon {
 			}
 
 		}
-
-		if (closest != null) {
+*/
+/*		if (closest != null) {
 			closest.damaged(1, direction);
 			if (removeAfterAttack) {
 				Game.player.setWeapon(null);
 			}
-		}
+		}*/
 	}
 
 

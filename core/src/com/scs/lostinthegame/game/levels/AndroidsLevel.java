@@ -10,8 +10,6 @@ import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
-import com.scs.lostinthegame.game.decals.DecalManager;
-import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.androids.AndroidsAndroid;
@@ -22,8 +20,8 @@ import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 
 public class AndroidsLevel extends AbstractLevel {
 
-	public AndroidsLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
-		super(_entityManager, _decalManager, difficulty);
+	public AndroidsLevel(int difficulty) {
+		super(difficulty);
 	}
 
 

@@ -1,7 +1,5 @@
 package com.scs.lostinthegame.game;
 
-import com.scs.lostinthegame.game.decals.DecalManager;
-import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
 import com.scs.lostinthegame.game.levels.GulpmanLevel;
 import com.scs.lostinthegame.game.levels.MinedOutLevel;
@@ -17,18 +15,18 @@ public class Levels {
 	public Levels() {
 	}
 	
-	public AbstractLevel getLevel(EntityManager entityManager, DecalManager decalManager) {
+	public AbstractLevel getLevel() {
 		switch (currentLevelNum) {
 		case 1:
-			return new StartLevel(entityManager, decalManager, numberTimesLoopAround);
+			return new StartLevel(numberTimesLoopAround);
 		case 2:
-			return new OhMummyLevel(entityManager, decalManager, numberTimesLoopAround);
+			return new OhMummyLevel(numberTimesLoopAround);
 		case 3:
-			return new GulpmanLevel(entityManager, decalManager, numberTimesLoopAround);
+			return new GulpmanLevel(numberTimesLoopAround);
 		case 4:
-			return new MonsterMazeLevel(entityManager, decalManager, numberTimesLoopAround);
+			return new MonsterMazeLevel(numberTimesLoopAround);
 		case 5:
-			return new MinedOutLevel(entityManager, decalManager, numberTimesLoopAround);
+			return new MinedOutLevel(numberTimesLoopAround);
 		//case 6:
 			//return new EricAndTheFloatersLevel(entityManager, decalManager);
 			//return new MaziacsLevel(entityManager, decalManager);
@@ -40,7 +38,7 @@ public class Levels {
 			// Loop around
 			currentLevelNum -= 4;
 			numberTimesLoopAround++;
-			return getLevel(entityManager, decalManager);
+			return getLevel();
 		}
 	}
 	

@@ -21,12 +21,10 @@ import com.scs.basicecs.BasicECS;
 import com.scs.lostinthegame.Audio;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.components.PositionData;
-import com.scs.lostinthegame.game.decals.DecalManager;
 import com.scs.lostinthegame.game.entities.Ceiling;
-import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.GulpmanLevel;
+import com.scs.lostinthegame.game.levels.MonsterMazeLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -58,11 +56,8 @@ public class Game implements IModule {
 	public static Player player;
 	public static World world;
 	public Inventory inventory;
-	public static EntityManager entityManager; // This is slowly being removed, to be replaced by BasicECS
 	public static BasicECS ecs;
 	public ArrayList<ModelInstance> modelInstances;
-
-	private DecalManager decalManager;
 
 	private static boolean transition = true;
 	private static float transitionProgress = 0f;
@@ -89,10 +84,6 @@ public class Game implements IModule {
 		camera.near = .5f;
 		camera.far = 30f * Game.UNIT;
 		camera.update();
-
-		decalManager = new DecalManager(camera);
-
-		entityManager = new EntityManager(decalManager);
 
 		world = new World();
 
@@ -158,15 +149,15 @@ public class Game implements IModule {
 			transitionProgress = 0;
 
 			if (Settings.TEST_SPECIFIC_LEVEL == false) {
-				gameLevel = levels.getLevel(this.entityManager, this.decalManager);
+				gameLevel = levels.getLevel();
 			} else {
 				//gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
-				gameLevel = new GulpmanLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new GulpmanLevel(0);
 				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new MonsterMazeLevel(this.entityManager, this.decalManager, 0);
+				gameLevel = new MonsterMazeLevel(0);
 			}
 			if (Settings.DEBUG_LEVEL_JUMP) {
 				Settings.p("New level is " + gameLevel.getClass().getSimpleName());
@@ -207,7 +198,6 @@ public class Game implements IModule {
 		this.ecs.getSystem(CollectionSystem.class).process();
 		this.ecs.getSystem(GotToExitSystem.class).process();
 
-		entityManager.update(world);
 		gameLevel.update(this, world);
 
 		if (player.getHealth() <= 0 && !gameComplete) {
@@ -239,7 +229,6 @@ public class Game implements IModule {
 		}
 		batch.end();
 
-		decalManager.render();
 		if (ecs != null) {
 			this.ecs.getSystem(CycleThruDecalsSystem.class).process();
 			this.ecs.getSystem(DrawDecalSystem.class).process();
@@ -285,8 +274,6 @@ public class Game implements IModule {
 
 
 	private void loadLevel() {
-		entityManager.getEntities().clear();
-		decalManager.clear();
 		modelInstances = new ArrayList<ModelInstance>();
 		gameLevel.load(this);
 
@@ -295,7 +282,6 @@ public class Game implements IModule {
 		}
 		PositionData posData = (PositionData)this.player.getComponent(PositionData.class);
 		posData.position.set(gameLevel.getPlayerStartX()*Game.UNIT, 0, gameLevel.getPlayerStartY()*Game.UNIT);
-		entityManager.update(world);
 		camera.rotate(Vector3.Y, (float)Math.toDegrees(Math.atan2(camera.direction.z, camera.direction.x)));
 		player.update();
 		camera.update();

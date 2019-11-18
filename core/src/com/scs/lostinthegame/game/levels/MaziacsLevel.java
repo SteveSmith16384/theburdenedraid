@@ -7,8 +7,6 @@ import com.scs.lostinthegame.Maze;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
-import com.scs.lostinthegame.game.decals.DecalManager;
-import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.maziacs.Gold;
@@ -19,8 +17,8 @@ import com.scs.lostinthegame.game.player.weapons.PlayersSword;
 
 public class MaziacsLevel extends AbstractLevel {
 
-	public MaziacsLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
-		super(_entityManager, _decalManager, difficulty);
+	public MaziacsLevel(int difficulty) {
+		super(difficulty);
 	}
 
 

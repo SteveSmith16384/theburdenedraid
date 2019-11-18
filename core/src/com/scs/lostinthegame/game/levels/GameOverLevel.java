@@ -7,16 +7,14 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
-import com.scs.lostinthegame.game.decals.DecalManager;
-import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.entities.startlevel.StartExit;
 
 public class GameOverLevel extends AbstractLevel {
 
-	public GameOverLevel(EntityManager _entityManager, DecalManager _decalManager, int difficulty) {
-		super(_entityManager, _decalManager, difficulty);
+	public GameOverLevel(int difficulty) {
+		super(difficulty);
 	}
 
 

@@ -13,12 +13,9 @@ import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.CanCollect;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
-import com.scs.lostinthegame.game.entities.Entity;
-import com.scs.lostinthegame.game.interfaces.IDamagable;
-import com.scs.lostinthegame.game.interfaces.IInteractable;
 import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
 
-public class Player extends AbstractEntity implements IDamagable {
+public class Player extends AbstractEntity {
 
 	private static final float moveSpeed = 2f * Game.UNIT;
 	private static final float gravityScale = 25 * Game.UNIT;
@@ -39,7 +36,6 @@ public class Player extends AbstractEntity implements IDamagable {
 	private float hurtTimer = 0f;
 	private Texture hurtTexture; // Screen goes red when hit
 	private Texture heart;
-	public IInteractable interactTarget;
 
 	private MovementData movementData;
 	private PositionData positionData;
@@ -109,13 +105,13 @@ public class Player extends AbstractEntity implements IDamagable {
 
 
 	private void interact() {
-		interactTarget = null;
+		//interactTarget = null;
 
 		float dist = 0f;
 		float d = 0;
 
 		Vector3 hitPos = new Vector3().set(getPosition()).mulAdd(camera.direction, Game.UNIT/2f);
-
+/*
 		for(Entity ent : Game.entityManager.getEntities()) {
 			if (ent instanceof IInteractable) {
 				IInteractable ii = (IInteractable)ent;
@@ -128,11 +124,11 @@ public class Player extends AbstractEntity implements IDamagable {
 				}
 			}
 		}
-
-		if(Gdx.input.isKeyJustPressed(Input.Keys.E) && interactTarget!=null) {
+*/
+/*		if(Gdx.input.isKeyJustPressed(Input.Keys.E) && interactTarget!=null) {
 			interactTarget.interact(this);
 		}
-
+*/
 	}
 
 
@@ -236,12 +232,12 @@ public class Player extends AbstractEntity implements IDamagable {
 
 
 	public void renderUI(SpriteBatch batch, BitmapFont font) {
-		if (interactTarget != null) {
+		/*if (interactTarget != null) {
 			String str = interactTarget.getInteractText(this);
 			int w2 = str.length() * 8;
 			font.setColor(1,1,1,1);
 			font.draw(batch, str, Gdx.graphics.getWidth() / 2 - w2, Gdx.graphics.getHeight() / 2 + 50/8);
-		}
+		}*/
 
 		/*for (int i = 0; i < inventory.keys; i++) {
 			batch.draw(Game.art.items[0][0], 10 + i*50, Gdx.graphics.getHeight()-40, 48, 48);
@@ -261,13 +257,11 @@ public class Player extends AbstractEntity implements IDamagable {
 	}
 
 
-	@Override
 	public int getHealth() {
 		return lives;
 	}
 
 
-	@Override
 	public void damaged(int amt, Vector3 dir) {
 		//health -= amt;
 		lives--;

@@ -8,8 +8,6 @@ import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.data.WorldSquare;
-import com.scs.lostinthegame.game.decals.DecalManager;
-import com.scs.lostinthegame.game.entities.EntityManager;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.ohmummy.OhMummyExit;
 import com.scs.lostinthegame.game.entities.ohmummy.OhMummyNasty;
@@ -24,8 +22,8 @@ public class OhMummyLevel extends AbstractLevel {
 	private int[][] pill_map; // And rect types - 1=pill, or >0=tex code for walls
 	private boolean exit_created = false;
 
-	public OhMummyLevel(EntityManager _entityManager, DecalManager _decalManager, int diff) {
-		super(_entityManager, _decalManager, diff);
+	public OhMummyLevel(int diff) {
+		super(diff);
 	}
 
 
