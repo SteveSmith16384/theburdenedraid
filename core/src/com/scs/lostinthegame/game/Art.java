@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.g3d.decals.Decal;
 
 public class Art {
 
-	public TextureRegion[][] entities;
-	public TextureRegion[][] items;
+	//public TextureRegion[][] entities;
+	//public TextureRegion[][] items;
 
 	public Art() {
-		entities = createSheet("entities.png",16,16);
-		items = createSheet("items.png",16,16);
+		//entities = createSheet("entities.png",16,16);
+		//items = createSheet("items.png",16,16);
 	}
 	
 

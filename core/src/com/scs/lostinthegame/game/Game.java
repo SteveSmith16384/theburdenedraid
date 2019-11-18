@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -97,7 +98,9 @@ public class Game implements IModule {
 		levelComplete = true; // So we load the first level 
 		transition = true;
 
-		post = new PostProcessing();
+		if (Gdx.app.getType() != ApplicationType.WebGL) {
+			post = new PostProcessing();
+		}
 
 	}
 
@@ -208,7 +211,9 @@ public class Game implements IModule {
 
 
 	public void render() {
-		post.update(Gdx.graphics.getDeltaTime());
+		if (Gdx.app.getType() != ApplicationType.WebGL) {
+			post.update(Gdx.graphics.getDeltaTime());
+		}
 
 		Gdx.gl.glViewport(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -242,7 +247,9 @@ public class Game implements IModule {
 		batch2d.end();
 
 		frameBuffer.end();
-		post.begin();
+		if (Gdx.app.getType() != ApplicationType.WebGL) {
+			post.begin();
+		}
 
 		//Draw buffer and FPS
 		batch2d.begin();
@@ -269,7 +276,9 @@ public class Game implements IModule {
 		}
 
 		batch2d.end();
-		post.end();
+		if (Gdx.app.getType() != ApplicationType.WebGL) {
+			post.end();
+		}
 	}
 
 
@@ -296,7 +305,9 @@ public class Game implements IModule {
 
 
 	public void destroy() {
-		post.dispose();
+		if (Gdx.app.getType() != ApplicationType.WebGL) {
+			post.dispose();
+		}
 		font_white.dispose(); 
 		font_black.dispose();
 		audio.dipose();
