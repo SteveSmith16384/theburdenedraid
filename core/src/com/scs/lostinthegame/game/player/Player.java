@@ -268,18 +268,25 @@ public class Player extends AbstractEntity {
 		hurtTimer = 1.5f;
 		if (lives >= 0) {
 			Game.audio.play("player_hurt");
-			Game.restartLevel = true;
+			//Game.restartLevel = true;
 			if (Settings.DEBUG_LEVEL_JUMP) {
 				Settings.p("damaged()");
 			}
 		} else {
-			//todo Game.game_over;
+			// todo - game over sfx
+			//Game.restartLevel = true;
 		}
+		Game.restartLevel = true;
 	}
 
 
 	public void setWeapon(IPlayersWeapon w) {
 		this.weapon = w;
+	}
+	
+	
+	public int getLives() {
+		return this.lives;
 	}
 
 }

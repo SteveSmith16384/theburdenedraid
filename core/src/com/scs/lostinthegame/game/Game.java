@@ -25,7 +25,7 @@ import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.MinedOutLevel;
+import com.scs.lostinthegame.game.levels.GameOverLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -142,23 +142,26 @@ public class Game implements IModule {
 			Game.audio.play("zxspectrumloadingnoise.ogg");
 		}		
 		if (restartLevel) {
-			if (Settings.DEBUG_LEVEL_JUMP) {
+			/*if (Settings.DEBUG_LEVEL_JUMP) {
 				Settings.p("restartLevel");
-			}
+			}*/
 			restartLevel = false;
 			transition = true;
 			hasLoaded = false;
 			transitionProgress = 0;
 
 			if (Settings.TEST_SPECIFIC_LEVEL == false) {
-				gameLevel = levels.getLevel();
+				if (player.getLives() >= 0) {
+					gameLevel = levels.getLevel();
+				} else {
+					gameLevel = new GameOverLevel();
+				}
 			} else {
-				//gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
+				gameLevel = new GameOverLevel();
+				//gameLevel = new OhMummyLevel(0);
 				//gameLevel = new GulpmanLevel(0);
 				//gameLevel = new AndroidsLevel(0);
-				gameLevel = new MinedOutLevel(0);
-				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
+				//gameLevel = new MinedOutLevel(0);
 				//gameLevel = new MonsterMazeLevel(0);
 			}
 			if (Settings.DEBUG_LEVEL_JUMP) {
@@ -167,8 +170,10 @@ public class Game implements IModule {
 
 			this.resetECS();
 
-			AbstractEntity text = new TextEntity("LOADING: " + gameLevel.GetName(), 30, 30, 4);
-			ecs.addEntity(text);
+			if (gameLevel.GetName().length() > 0) {
+				AbstractEntity text = new TextEntity("LOADING: " + gameLevel.GetName(), 30, 30, 4);
+				ecs.addEntity(text);
+			}
 		}
 
 		if (transition) {

@@ -12,7 +12,7 @@ import com.scs.lostinthegame.Settings;
 
 public class Inventory implements IInventory {
 
-    private Texture itemTexture;
+    //private Texture itemTexture;
     private ArrayList<CarriedItem> items;
 
     public boolean gameComplete = false; // todo - move
@@ -33,7 +33,7 @@ public class Inventory implements IInventory {
     }
     
     public Inventory() {
-        itemTexture = new Texture(Gdx.files.internal("items.png"));
+        //itemTexture = new Texture(Gdx.files.internal("items.png"));
         items = new ArrayList<CarriedItem>();
 
         itemPositions = new ArrayList<ItemPos>();
@@ -83,7 +83,7 @@ public class Inventory implements IInventory {
         }
     }
     
-
+/*
     public void addLoot(int tx, int ty) {
         totalLoot++;
 
@@ -124,7 +124,7 @@ public class Inventory implements IInventory {
         items.add(item);
         itemPositions.remove(ip);
     }
-
+*/
     
     public void render(SpriteBatch batch, Player player) {
         Sprite spr = null;

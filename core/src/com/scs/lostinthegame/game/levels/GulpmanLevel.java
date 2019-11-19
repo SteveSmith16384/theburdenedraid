@@ -36,8 +36,8 @@ public class GulpmanLevel extends AbstractLevel {
 
 
 	private void loadMapFromMazegen(Game game) {
-		this.map_width = 15 + (this.difficulty * 3);
-		this.map_height = 15 + (this.difficulty * 3);
+		this.map_width = 12 + (this.difficulty * 4);
+		this.map_height = 12 + (this.difficulty * 4);
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
