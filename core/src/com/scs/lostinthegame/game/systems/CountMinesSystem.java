@@ -8,13 +8,17 @@ import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.components.WarnIfAdjacentData;
+import com.scs.lostinthegame.game.player.Player;
 
 public class CountMinesSystem extends AbstractSystem {
 	
-	public int num_mines;
+	private int num_mines;
+	private Player player;
 
-	public CountMinesSystem(BasicECS ecs) {
+	public CountMinesSystem(BasicECS ecs, Player _player) {
 		super(ecs);
+		
+		player = _player;
 	}
 
 
@@ -25,21 +29,33 @@ public class CountMinesSystem extends AbstractSystem {
 
 
 	@Override
-	public void processEntity(AbstractEntity entity) {
+	public void process() {
 		num_mines = 0;
-		PositionData playerPosData = (PositionData)Game.player.getComponent(PositionData.class);
+		super.process();
+	}
+	
+
+	@Override
+	public void processEntity(AbstractEntity entity) {
+		PositionData playerPosData = (PositionData)player.getComponent(PositionData.class);
 		GridPoint2 playerPos = new GridPoint2((int)(playerPosData.position.x/Game.UNIT), (int)(playerPosData.position.z/Game.UNIT));
+		//Settings.p("playerPos=" + playerPos);
 		PositionData minePosData = (PositionData)entity.getComponent(PositionData.class);
 		GridPoint2 minePos = new GridPoint2((int)(minePosData.position.x/Game.UNIT), (int)(minePosData.position.z/Game.UNIT));
 		float dist = minePos.dst(playerPos);
 		//Settings.p("pos: " + playerPos.x + "," + playerPos.y + " = " + dist);
 		if (dist == 0) {
 			Settings.p("Player walked on mine!");
-			Game.player.damaged(1, null);
+			player.damaged(1, null);
 			Game.audio.play("beepfx_samples/24_boom_5.wav");
-		} else if (dist <= 1) {
+		} else if (dist <= 1.5f) {
 			num_mines++;
 		}
+	}
+	
+	
+	public int getNumMines() {
+		return this.num_mines;
 	}
 
 }

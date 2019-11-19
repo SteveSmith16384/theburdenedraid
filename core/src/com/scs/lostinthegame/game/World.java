@@ -49,6 +49,43 @@ public class World {
 
 	public boolean rectangleFree(float center_x, float center_z, float width, float depth) {
 		//Upper left
+		float x = (center_x/Game.UNIT)-(width/2);// + 0.5f;
+		float y = center_z/Game.UNIT-depth/2;// + 0.5f;
+
+		if (getMapSquareAt((int)(x), (int)(y)).blocked) {
+			return false;
+		}
+
+		//Down left
+		x = center_x/Game.UNIT-width/2;// + 0.5f;
+		y = center_z/Game.UNIT+depth/2;// + 0.5f;
+
+		if (getMapSquareAt((int)(x), (int)(y)).blocked) {
+			return false;
+		}
+
+		//Upper right
+		x = center_x/Game.UNIT+width/2;// + 0.5f;
+		y = center_z/Game.UNIT-depth/2;// + 0.5f;
+
+		if (getMapSquareAt((int)(x), (int)(y)).blocked) {
+			return false;
+		}
+
+		//Down right
+		x = center_x/Game.UNIT+width/2;// + 0.5f;
+		y = center_z/Game.UNIT+depth/2;// + 0.5f;
+
+		if (getMapSquareAt((int)(x), (int)(y)).blocked) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+	public boolean rectangleFree_ORIG(float center_x, float center_z, float width, float depth) {
+		//Upper left
 		float x = (center_x/Game.UNIT)-(width/2) + 0.5f;
 		float y = center_z/Game.UNIT-depth/2 + 0.5f;
 

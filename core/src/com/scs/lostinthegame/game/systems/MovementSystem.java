@@ -16,11 +16,16 @@ import com.scs.lostinthegame.game.components.HarmsPlayer;
 import com.scs.lostinthegame.game.components.IsDamagableNasty;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
+import com.scs.lostinthegame.game.player.Player;
 
 public class MovementSystem extends AbstractSystem {
 
-	public MovementSystem(BasicECS ecs) {
+	private Player player;
+	
+	public MovementSystem(BasicECS ecs, Player _player) {
 		super(ecs);
+		
+		player = _player;
 	}
 
 
@@ -114,9 +119,9 @@ public class MovementSystem extends AbstractSystem {
 	private boolean checkForPlayerCollision(AbstractEntity entity, Vector3 pos) {
 		HarmsPlayer hp = (HarmsPlayer)entity.getComponent(HarmsPlayer.class);
 		if (hp != null) {
-			float dist = pos.dst(Game.player.getPosition());
+			float dist = pos.dst(player.getPosition());
 			if (dist < Game.UNIT * .5f) {
-				Game.player.damaged(hp.damageCaused, new Vector3()); // todo - direction
+				player.damaged(hp.damageCaused, new Vector3()); // todo - direction
 				entity.remove(); // Prevent further collisions
 				return true;
 			}

@@ -40,7 +40,7 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 	public void load(Game game) {
 		loadMap(game);
 
-		this.countMinesSystem = new CountMinesSystem(Game.ecs);
+		this.countMinesSystem = new CountMinesSystem(Game.ecs, game.player);
 		Game.ecs.addSystem(this.countMinesSystem);
 	}
 
@@ -49,7 +49,7 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 		this.map_width = 25;
 		this.map_height = 15;
 
-		int num_mines = Settings.DEBUG_MINES ? 1 : 20 + (this.difficulty * 10);
+		int num_mines = Settings.DEBUG_MINES ? 1 : 40 + (this.difficulty * 10);
 		num_damsels = 2 + this.difficulty;
 
 		this.playerStartMapX = map_width/2;
@@ -134,7 +134,7 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
-		font_white.draw(batch, "Adjacent Mines: " + this.countMinesSystem.num_mines, 10, Settings.WINDOW_HEIGHT_PIXELS-40);
+		font_white.draw(batch, "Adjacent Mines: " + this.countMinesSystem.getNumMines(), 10, Settings.WINDOW_HEIGHT_PIXELS-40);
 	}
 
 
@@ -143,7 +143,7 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 		countMinesSystem.process();
 
 		// Player leave a path
-		PositionData posData = (PositionData)Game.player.getComponent(PositionData.class);
+		PositionData posData = (PositionData)game.player.getComponent(PositionData.class);
 		GridPoint2 mapPos = posData.getMapPos();
 		if (Game.world.world[mapPos.x][mapPos.y].wall == null) {
 			MinedOutTrail trail = new MinedOutTrail(mapPos.x, mapPos.y);

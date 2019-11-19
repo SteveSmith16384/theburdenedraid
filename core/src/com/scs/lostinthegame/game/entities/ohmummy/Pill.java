@@ -16,7 +16,7 @@ public class Pill extends AbstractEntity {
 		super(Pill.class.getSimpleName());
 		
         PositionData pos = new PositionData();
-        pos.position = new Vector3(x*Game.UNIT, -Game.UNIT/4, y*Game.UNIT);
+        pos.position = new Vector3(x*Game.UNIT+(Game.UNIT/2), -Game.UNIT/4, y*Game.UNIT+(Game.UNIT/2));
         this.addComponent(pos);
         
 		HasDecal hasDecal = new HasDecal();

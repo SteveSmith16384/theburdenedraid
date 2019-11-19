@@ -124,7 +124,7 @@ public class OhMummyLevel extends AbstractLevel {
 	public void update(Game game, World world) {
 		// Drop pill?
 		boolean checkForCircled = false;
-		PositionData posData = (PositionData)Game.player.getComponent(PositionData.class);
+		PositionData posData = (PositionData)game.player.getComponent(PositionData.class);
 		GridPoint2 map_pos = posData.getMapPos();
 		if (this.pill_map[map_pos.x][map_pos.y] == 0) {
 			Pill ch = new Pill(map_pos.x, map_pos.y);

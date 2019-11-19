@@ -7,11 +7,16 @@ import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.CompletesLevelData;
 import com.scs.lostinthegame.game.components.PositionData;
+import com.scs.lostinthegame.game.player.Player;
 
 public class GotToExitSystem extends AbstractSystem {
 
-	public GotToExitSystem(BasicECS ecs) {
+	private Player player;
+	
+	public GotToExitSystem(BasicECS ecs, Player _player) {
 		super(ecs);
+		
+		player = _player;
 	}
 
 
@@ -24,7 +29,7 @@ public class GotToExitSystem extends AbstractSystem {
 	@Override
 	public void processEntity(AbstractEntity entity) {
 		PositionData ourPos = (PositionData)entity.getComponent(PositionData.class);
-		PositionData playerPos = (PositionData)Game.player.getComponent(PositionData.class);
+		PositionData playerPos = (PositionData)player.getComponent(PositionData.class);
 		float dist = ourPos.getMapPos().dst(playerPos.getMapPos());
 		/*if (!Settings.RELEASE_MODE) {
 			Settings.p("Dist to exit: " + dist);

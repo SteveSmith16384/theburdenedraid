@@ -17,5 +17,6 @@ vec4 add_fog(vec4 fragColour) {
 
 
 void main() {
-    gl_FragColor = add_fog(u_diffuseColor);
+    //gl_FragColor = add_fog(u_diffuseColor);
+	return u_diffuseColor;
 }

@@ -16,7 +16,7 @@ public class OhMummyExit extends AbstractEntity {
 		super(OhMummyExit.class.getSimpleName());
 		
 		//PositionData posData = new PositionData((map_x*Game.UNIT)-(Game.UNIT/2), (map_y*Game.UNIT)-(Game.UNIT/2));
-		PositionData posData = new PositionData((map_x*Game.UNIT), (map_y*Game.UNIT));
+		PositionData posData = new PositionData((map_x*Game.UNIT)+(Game.UNIT/2), (map_y*Game.UNIT)+(Game.UNIT/2));
 		this.addComponent(posData);
 
 		HasDecal hasDecal = new HasDecal();

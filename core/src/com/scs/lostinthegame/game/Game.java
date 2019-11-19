@@ -2,9 +2,9 @@ package com.scs.lostinthegame.game;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -25,7 +25,7 @@ import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.MonsterMazeLevel;
+import com.scs.lostinthegame.game.levels.MinedOutLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -54,7 +54,7 @@ public class Game implements IModule {
 	private PerspectiveCamera camera;
 	private FrameBuffer frameBuffer = null;
 
-	public static Player player;
+	public Player player;
 	public static World world;
 	public Inventory inventory;
 	public static BasicECS ecs;
@@ -89,7 +89,6 @@ public class Game implements IModule {
 		world = new World();
 
 		inventory = new Inventory();
-
 		player = new Player(camera, inventory, 1, 4);
 
 		frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
@@ -109,13 +108,13 @@ public class Game implements IModule {
 		ecs = new BasicECS();
 		ecs.addSystem(new DrawDecalSystem(ecs, camera));
 		ecs.addSystem(new CycleThruDecalsSystem(ecs));
-		ecs.addSystem(new MobAISystem(ecs));
-		ecs.addSystem(new MovementSystem(ecs));
+		ecs.addSystem(new MobAISystem(ecs, player));
+		ecs.addSystem(new MovementSystem(ecs, player));
 		ecs.addSystem(new DrawModelSystem(ecs, batch));
 		ecs.addSystem(new RemoveAfterTimeSystem(ecs));
 		ecs.addSystem(new CollectionSystem(ecs, gameLevel));
 		ecs.addSystem(new DrawTextSystem(ecs, batch2d, font_white));
-		ecs.addSystem(new GotToExitSystem(ecs));
+		ecs.addSystem(new GotToExitSystem(ecs, player));
 
 		ecs.addEntity(player);
 		player.setWeapon(null);
@@ -157,10 +156,10 @@ public class Game implements IModule {
 				//gameLevel = new GameOverLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new OhMummyLevel(this.entityManager, this.decalManager, 0);
 				//gameLevel = new GulpmanLevel(0);
+				//gameLevel = new AndroidsLevel(0);
+				gameLevel = new MinedOutLevel(0);
 				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new MinedOutLevel(this.entityManager, this.decalManager, 0);
-				//gameLevel = new AndroidsLevel(this.entityManager, this.decalManager, 0);
-				gameLevel = new MonsterMazeLevel(0);
+				//gameLevel = new MonsterMazeLevel(0);
 			}
 			if (Settings.DEBUG_LEVEL_JUMP) {
 				Settings.p("New level is " + gameLevel.getClass().getSimpleName());
@@ -239,7 +238,7 @@ public class Game implements IModule {
 			this.ecs.getSystem(DrawDecalSystem.class).process();
 		}
 		batch2d.begin();
-		inventory.render(batch2d, player);
+		//inventory.render(batch2d, player);
 		player.render(batch2d);
 		if (ecs != null) {
 			this.ecs.getSystem(DrawTextSystem.class).process();
@@ -286,11 +285,11 @@ public class Game implements IModule {
 		modelInstances = new ArrayList<ModelInstance>();
 		gameLevel.load(this);
 
-		if (gameLevel.getPlayerStartX() < 0 || gameLevel.getPlayerStartY() < 0) {
+		if (gameLevel.getPlayerStartMapX() < 0 || gameLevel.getPlayerStartMapY() < 0) {
 			throw new RuntimeException ("No player start position set");
 		}
 		PositionData posData = (PositionData)this.player.getComponent(PositionData.class);
-		posData.position.set(gameLevel.getPlayerStartX()*Game.UNIT, 0, gameLevel.getPlayerStartY()*Game.UNIT);
+		posData.position.set(gameLevel.getPlayerStartMapX()*Game.UNIT+(Game.UNIT/2), 0, gameLevel.getPlayerStartMapY()*Game.UNIT+(Game.UNIT/2)); // Start in middle of square
 		camera.rotate(Vector3.Y, (float)Math.toDegrees(Math.atan2(camera.direction.z, camera.direction.x)));
 		player.update();
 		camera.update();

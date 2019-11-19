@@ -20,8 +20,8 @@ public class PositionData {
 	
 	
 	public GridPoint2 getMapPos() {
-		float x = (position.x/Game.UNIT) + 0.5f;
-		float y = position.z/Game.UNIT + 0.5f;
+		float x = (position.x/Game.UNIT);// + 0.5f;
+		float y = position.z/Game.UNIT;// + 0.5f;
 		
 		return new GridPoint2((int)x, (int)y) ;
 

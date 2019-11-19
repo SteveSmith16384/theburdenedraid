@@ -10,13 +10,18 @@ import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.HasAI;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
+import com.scs.lostinthegame.game.player.Player;
 
 public class MobAISystem extends AbstractSystem {
 
 	public enum Mode {GoForPlayerIfSeen, GoForPlayerIfClose, MoveLikeRook}
 
-	public MobAISystem(BasicECS ecs) {
+	private Player player;
+	
+	public MobAISystem(BasicECS ecs, Player _player) {
 		super(ecs);
+		
+		player = _player;
 	}
 
 
@@ -37,13 +42,13 @@ public class MobAISystem extends AbstractSystem {
 
 		ai.changeDirTimer -= Gdx.graphics.getDeltaTime();
 
-		if (Game.player.getPosition().dst2(pos.position) < ai.moveRange*ai.moveRange) { //&& Game.world.canSee(pos.position, Game.player.getPosition())) {
-			ai.can_see_player = Game.world.canSee(pos.position, Game.player.getPosition());
+		if (player.getPosition().dst2(pos.position) < ai.moveRange*ai.moveRange) { //&& Game.world.canSee(pos.position, Game.player.getPosition())) {
+			ai.can_see_player = Game.world.canSee(pos.position, player.getPosition());
 			switch (ai.mode) {
 			case GoForPlayerIfSeen:
 				ai.can_see_player = false;
 				if (ai.can_see_player) {
-					ai.direction.set(Game.player.getPosition()).sub(pos.position).nor();
+					ai.direction.set(player.getPosition()).sub(pos.position).nor();
 					ai.direction.scl(Gdx.graphics.getDeltaTime() * ai.speed * Game.UNIT);
 					ai.direction.y = 0f;
 
@@ -53,7 +58,7 @@ public class MobAISystem extends AbstractSystem {
 				break;
 				
 			case GoForPlayerIfClose:
-				ai.direction.set(Game.player.getPosition()).sub(pos.position).nor();
+				ai.direction.set(player.getPosition()).sub(pos.position).nor();
 				ai.direction.scl(Gdx.graphics.getDeltaTime() * ai.speed * Game.UNIT);
 				ai.direction.y = 0f;
 

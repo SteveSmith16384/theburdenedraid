@@ -17,7 +17,7 @@ public class Treasure extends AbstractEntity {
 		super(Treasure.class.getSimpleName());
 		
         PositionData pos = new PositionData();
-        pos.position = new Vector3(x*Game.UNIT, 0, y*Game.UNIT);
+        pos.position = new Vector3(x*Game.UNIT+(Game.UNIT/2), 0, y*Game.UNIT+(Game.UNIT/2));
         this.addComponent(pos);
         
 		HasDecal hasDecal = new HasDecal();

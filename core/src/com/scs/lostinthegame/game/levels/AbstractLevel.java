@@ -32,11 +32,11 @@ public abstract class AbstractLevel implements ICollectionHandler {
 	
 	public abstract void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black);
 
-	public int getPlayerStartX() {
+	public int getPlayerStartMapX() {
 		return this.playerStartMapX;
 	}
 	
-	public int getPlayerStartY() {
+	public int getPlayerStartMapY() {
 		return this.playerStartMapY;
 	}
 	
