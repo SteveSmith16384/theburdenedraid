@@ -24,7 +24,7 @@ public class CycleThruDecalsSystem extends AbstractSystem {
 	public void processEntity(AbstractEntity entity) {
 		HasDecalCycle hdc = (HasDecalCycle)entity.getComponent(HasDecalCycle.class);
 		HasDecal hd = (HasDecal)entity.getComponent(HasDecal.class);
-		
+
 		float dt = Gdx.graphics.getDeltaTime();
 
 		hdc.animTimer += dt;
@@ -35,9 +35,9 @@ public class CycleThruDecalsSystem extends AbstractSystem {
 				hdc.decalIdx = 0;
 			}
 			hd.decal = hdc.decals[hdc.decalIdx];
-			
+
 		}
-}
-	
+	}
+
 
 }

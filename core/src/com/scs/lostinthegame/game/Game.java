@@ -30,6 +30,7 @@ import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
 import com.scs.lostinthegame.game.systems.CollectionSystem;
+import com.scs.lostinthegame.game.systems.CycleThroughModelsSystem;
 import com.scs.lostinthegame.game.systems.CycleThruDecalsSystem;
 import com.scs.lostinthegame.game.systems.DrawDecalSystem;
 import com.scs.lostinthegame.game.systems.DrawModelSystem;
@@ -108,6 +109,7 @@ public class Game implements IModule {
 		ecs = new BasicECS();
 		ecs.addSystem(new DrawDecalSystem(ecs, camera));
 		ecs.addSystem(new CycleThruDecalsSystem(ecs));
+		ecs.addSystem(new CycleThroughModelsSystem(ecs));
 		ecs.addSystem(new MobAISystem(ecs, player));
 		ecs.addSystem(new MovementSystem(ecs, player));
 		ecs.addSystem(new DrawModelSystem(ecs, batch));
@@ -241,6 +243,7 @@ public class Game implements IModule {
 		if (ecs != null) {
 			this.ecs.getSystem(CycleThruDecalsSystem.class).process();
 			this.ecs.getSystem(DrawDecalSystem.class).process();
+			this.ecs.getSystem(CycleThroughModelsSystem.class).process();
 		}
 		batch2d.begin();
 		//inventory.render(batch2d, player);

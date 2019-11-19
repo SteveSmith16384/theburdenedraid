@@ -1,8 +1,5 @@
 package com.scs.lostinthegame.game;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.lostinthegame.game.data.WorldSquare;
 
