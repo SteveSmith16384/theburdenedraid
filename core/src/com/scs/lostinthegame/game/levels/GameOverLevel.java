@@ -46,7 +46,7 @@ public class GameOverLevel extends AbstractLevel {
 		game.ecs.addEntity(new StartExit(map_width/2, map_height/1));
 		
 		AbstractEntity text = new TextEntity("R TAPE LOADING ERROR, 0:1", 30, 30, 4);
-		Game.ecs.addEntity(text);
+		game.ecs.addEntity(text);
 
 	}
 

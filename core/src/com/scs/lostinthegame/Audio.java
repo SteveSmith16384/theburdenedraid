@@ -33,10 +33,10 @@ public class Audio {
 
 
 	public void update() {
-		if(!Game.gameComplete) {
+		if (Game.game_stage == 0) {
 			musicVolume = Math.min(musicVolume + Gdx.graphics.getDeltaTime() / 2f, 1.0f);
 			music.setVolume(musicVolume);
-		}else{
+		} else {
 			musicVolume = Math.max(musicVolume-Gdx.graphics.getDeltaTime()/4f, 0f);
 			music.setVolume(musicVolume);
 		}

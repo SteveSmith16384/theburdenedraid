@@ -77,9 +77,9 @@ public class OhMummyLevel extends AbstractLevel {
 
 		// Add baddies
 		AbstractEntity nasty = new OhMummyNasty(1, map_height-2);
-		Game.ecs.addEntity(nasty);
+		game.ecs.addEntity(nasty);
 		AbstractEntity nasty2 = new OhMummyNasty(map_width-2, map_height-2);
-		Game.ecs.addEntity(nasty2);
+		game.ecs.addEntity(nasty2);
 
 	}
 
@@ -139,14 +139,14 @@ public class OhMummyLevel extends AbstractLevel {
 		if (checkForCircled) {
 			for (int z=1 ; z<map_height-2 ; z+=RECT_SIZE_EXCLUDING_EDGES+1) {
 				for (int x=1 ; x<map_width-2 ; x+=RECT_SIZE_EXCLUDING_EDGES+1) {
-					checkIfRectSurrounded(x, z); 
+					checkIfRectSurrounded(game, x, z); 
 				}
 			}
 		}
 	}
 
 
-	private void checkIfRectSurrounded(int sx, int sz) {
+	private void checkIfRectSurrounded(Game game, int sx, int sz) {
 		boolean covered = true;
 		for (int z=sz ; z<=sz+RECT_SIZE_EXCLUDING_EDGES+1 ; z++) {
 			for (int x=sx ; x<=sx+RECT_SIZE_EXCLUDING_EDGES+1; x++) {
@@ -169,13 +169,13 @@ public class OhMummyLevel extends AbstractLevel {
 						AbstractEntity wall = Game.world.world[x][z].wall;
 						wall.remove();
 						wall = new Wall("ohmummy/"+tex, x, z);
-						Game.ecs.addEntity(wall);
+						game.ecs.addEntity(wall);
 						Game.world.world[x][z].wall = wall;
 					}
 				}
 			}
 
-			checkForCompletion();
+			checkForCompletion(game);
 		}
 	}
 
@@ -190,7 +190,7 @@ public class OhMummyLevel extends AbstractLevel {
 	}
 
 
-	private void checkForCompletion() {
+	private void checkForCompletion(Game game) {
 		if (exit_created) {
 			return;
 		}
@@ -208,7 +208,7 @@ public class OhMummyLevel extends AbstractLevel {
 		}
 		if (complete) {
 			OhMummyExit exit = new OhMummyExit(map_width-2, map_height-4);
-			Game.ecs.addEntity(exit);
+			game.ecs.addEntity(exit);
 
 			exit_created = true;
 		}

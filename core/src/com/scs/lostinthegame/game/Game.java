@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -64,13 +65,15 @@ public class Game implements IModule {
 	private static boolean transition = true;
 	private static float transitionProgress = 0f;
 	private static boolean hasLoaded = false;
-	public boolean game_over = false;
-	public static boolean gameComplete = false;
 	public static boolean levelComplete = false;
 	public static boolean restartLevel = false;
 	public Levels levels = new Levels();
 	public static AbstractLevel gameLevel;
 
+	//public boolean game_over = false;
+	//public static boolean gameComplete = false;
+	public static int game_stage = -1;
+	
 	private PostProcessing post;
 
 	public Game() {
@@ -209,10 +212,11 @@ public class Game implements IModule {
 
 		gameLevel.update(this, world);
 
+		/*
 		if (player.getHealth() <= 0 && !gameComplete) {
 			game_over = true;
 			Game.audio.play("gameover");
-		}
+		}*/
 	}
 
 
@@ -277,6 +281,16 @@ public class Game implements IModule {
 			player.renderUI(batch2d, font_white);
 			gameLevel.renderUI(batch2d, font_white, font_black);
 		}
+		
+		if (game_stage == -1) {
+			font_white.draw(batch2d, "10 REM Super Spectrum World", 20, Settings.LOGICAL_HEIGHT_PIXELS-20);
+			font_white.draw(batch2d, "20 REM By Stephen Carlyle-Smith", 20, Settings.LOGICAL_HEIGHT_PIXELS-50);
+			font_white.draw(batch2d, "30 REM Sfx by Shiru", 20, Settings.LOGICAL_HEIGHT_PIXELS-80);
+			font_white.draw(batch2d, "40 PRINT \"Press enter to start\"", 20, Settings.LOGICAL_HEIGHT_PIXELS-110);
+			//game.fontSmallBlack.draw(batch, "50 GOTO 10", 20, Settings.LOGICAL_HEIGHT_PIXELS-140);
+			font_white.draw(batch2d, "C Nonsense in Basic, " + Settings.VERSION, 20, 30);
+
+		}
 
 		if (Settings.SHOW_FPS) {
 			font_white.draw(batch2d, "FPS: "+Gdx.graphics.getFramesPerSecond(), 10, 20);
@@ -324,7 +338,7 @@ public class Game implements IModule {
 
 	@Override
 	public boolean isFinished() {
-		return this.game_over;
+		return false; // Never finishes
 	}
 
 

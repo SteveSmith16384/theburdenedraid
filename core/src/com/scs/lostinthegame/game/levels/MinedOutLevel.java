@@ -40,8 +40,8 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 	public void load(Game game) {
 		loadMap(game);
 
-		this.countMinesSystem = new CountMinesSystem(Game.ecs, game.player);
-		Game.ecs.addSystem(this.countMinesSystem);
+		this.countMinesSystem = new CountMinesSystem(game.ecs, game.player);
+		game.ecs.addSystem(this.countMinesSystem);
 	}
 
 
@@ -147,7 +147,7 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 		GridPoint2 mapPos = posData.getMapPos();
 		if (Game.world.world[mapPos.x][mapPos.y].wall == null) {
 			MinedOutTrail trail = new MinedOutTrail(mapPos.x, mapPos.y);
-			Game.ecs.addEntity(trail);
+			game.ecs.addEntity(trail);
 			Game.world.world[mapPos.x][mapPos.y].wall = trail;
 		}
 	}
