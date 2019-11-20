@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -27,6 +26,7 @@ import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
 import com.scs.lostinthegame.game.levels.GameOverLevel;
+import com.scs.lostinthegame.game.levels.IntroLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -62,16 +62,14 @@ public class Game implements IModule {
 	public static BasicECS ecs;
 	public ArrayList<ModelInstance> modelInstances;
 
-	private static boolean transition = true;
-	private static float transitionProgress = 0f;
-	private static boolean hasLoaded = false;
+	//private static boolean transition = true;
+	//private static float transitionProgress = 0f;
+	//private static boolean hasLoaded = false;
 	public static boolean levelComplete = false;
 	public static boolean restartLevel = false;
 	public Levels levels = new Levels();
 	public static AbstractLevel gameLevel;
 
-	//public boolean game_over = false;
-	//public static boolean gameComplete = false;
 	public static int game_stage = -1;
 
 	private PostProcessing post;
@@ -90,16 +88,17 @@ public class Game implements IModule {
 		camera.far = 30f * Game.UNIT;
 		camera.update();
 
-		world = new World();
-
-		inventory = new Inventory();
-		player = new Player(camera, inventory, 1, 4);
-
 		frameBuffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-		levelComplete = true; // So we load the first level 
-		transition = true;
+		this.createECS();
+		world = new World();
+
+		//transition = true;
+		//inventory = new Inventory();
+		//player = new Player(camera, inventory, 1, 4);
+		this.gameLevel = new IntroLevel();
+		gameLevel.load(this);
 
 		if (Gdx.app.getType() != ApplicationType.WebGL) {
 			post = new PostProcessing();
@@ -108,7 +107,14 @@ public class Game implements IModule {
 	}
 
 
-	private void resetECS() {
+	private void startGame() {
+		inventory = new Inventory();
+		player = new Player(camera, inventory, 1, 4);
+		levelComplete = true; // So we load the first level 
+	}
+
+
+	private void createECS() {
 		ecs = new BasicECS();
 		ecs.addSystem(new DrawDecalSystem(ecs, camera));
 		ecs.addSystem(new CycleThruDecalsSystem(ecs));
@@ -121,8 +127,10 @@ public class Game implements IModule {
 		ecs.addSystem(new DrawTextSystem(ecs, batch2d, font_white));
 		ecs.addSystem(new GotToExitSystem(ecs, player));
 
-		ecs.addEntity(player);
-		player.setWeapon(null);
+		/*ecs.addEntity(player);
+		if (player != null) {
+			player.setWeapon(null);
+		}*/
 	}
 
 
@@ -134,6 +142,13 @@ public class Game implements IModule {
 				if (Settings.DEBUG_LEVEL_JUMP) {
 					Settings.p("X pressed");
 				}
+			}
+		}
+
+		if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+			if (this.game_stage == -1) {
+				this.game_stage = 0;
+				this.startGame();
 			}
 		}
 
@@ -151,9 +166,11 @@ public class Game implements IModule {
 				Settings.p("restartLevel");
 			}*/
 			restartLevel = false;
-			transition = true;
+			/*transition = true;
 			hasLoaded = false;
-			transitionProgress = 0;
+			transitionProgress = 0;*/
+
+			this.createECS();
 
 			if (Settings.TEST_SPECIFIC_LEVEL == false) {
 				if (player.getLives() >= 0) {
@@ -169,11 +186,15 @@ public class Game implements IModule {
 				//gameLevel = new MinedOutLevel(0);
 				//gameLevel = new MonsterMazeLevel(0);
 			}
+
+			loadLevel();
+			ecs.addEntity(new Ceiling("gamer1.jpg", -10, -10, 40, 40, false, Game.UNIT*8));
+
+			ecs.addEntity(player);
+
 			if (Settings.DEBUG_LEVEL_JUMP) {
 				Settings.p("New level is " + gameLevel.getClass().getSimpleName());
 			}
-
-			this.resetECS();
 
 			if (gameLevel.GetName().length() > 0) {
 				AbstractEntity text = new TextEntity("LOADING: " + gameLevel.GetName(), 30, 30, 4);
@@ -181,7 +202,7 @@ public class Game implements IModule {
 			}
 		}
 
-		if (transition) {
+		/*if (transition) {
 			transitionProgress += Gdx.graphics.getDeltaTime()/3f;
 
 			if (transitionProgress >= 0.5f && !hasLoaded) {
@@ -197,19 +218,23 @@ public class Game implements IModule {
 			} else {
 				return;
 			}
-		}
+		}*/
 
-		player.update();
+		if (player != null) {
+			player.update();
+		}
 		camera.update();
 
 		this.ecs.getSystem(RemoveAfterTimeSystem.class).process();
 		this.ecs.addAndRemoveEntities();
-		this.ecs.getSystem(MobAISystem.class).process();
+		if (this.game_stage == 0) {
+			this.ecs.getSystem(MobAISystem.class).process();
+		}
 		this.ecs.getSystem(MovementSystem.class).process();
-		//this.ecs.getSystem(HarmPlayerSystem.class).process();
 		this.ecs.getSystem(CollectionSystem.class).process();
-		this.ecs.getSystem(GotToExitSystem.class).process();
-
+		if (this.game_stage == 0) {
+			this.ecs.getSystem(GotToExitSystem.class).process();
+		}
 		gameLevel.update(this, world);
 	}
 
@@ -244,8 +269,12 @@ public class Game implements IModule {
 			this.ecs.getSystem(CycleThroughModelsSystem.class).process();
 		}
 		batch2d.begin();
-		//inventory.render(batch2d, player);
-		player.render(batch2d);
+		if (inventory != null) {
+			inventory.render(batch2d, player);
+		}
+		if (player != null) {
+			player.render(batch2d);
+		}
 		if (ecs != null) {
 			this.ecs.getSystem(DrawTextSystem.class).process();
 		}
@@ -260,31 +289,23 @@ public class Game implements IModule {
 		batch2d.begin();
 
 		float c = 1.0f;
-		if (transition) {
+		/*if (transition) {
 			c = 1.0f - transitionProgress*4;
 			if (transitionProgress >= .75f) {
 				c = (transitionProgress-0.75f)*4;
 			}
 			c = MathUtils.clamp(c, 0, 1);
-		}
+		}*/
 
 		batch2d.setColor(c,c,c,1);
 		batch2d.draw(frameBuffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight(), Gdx.graphics.getWidth(), - Gdx.graphics.getHeight());
 
-		if (!transition) {
+		//if (!transition) {
+		if (player != null) {
 			player.renderUI(batch2d, font_white);
-			gameLevel.renderUI(batch2d, font_white, font_black);
 		}
-
-		if (game_stage == -1) {
-			font_white.draw(batch2d, "10 REM Super Spectrum World", 20, Settings.LOGICAL_HEIGHT_PIXELS-20);
-			font_white.draw(batch2d, "20 REM By Stephen Carlyle-Smith", 20, Settings.LOGICAL_HEIGHT_PIXELS-50);
-			font_white.draw(batch2d, "30 REM Sfx by Shiru", 20, Settings.LOGICAL_HEIGHT_PIXELS-80);
-			font_white.draw(batch2d, "40 PRINT \"Press enter to start\"", 20, Settings.LOGICAL_HEIGHT_PIXELS-110);
-			//game.fontSmallBlack.draw(batch, "50 GOTO 10", 20, Settings.LOGICAL_HEIGHT_PIXELS-140);
-			font_white.draw(batch2d, "C Nonsense in Basic, " + Settings.VERSION, 20, 30);
-
-		}
+		gameLevel.renderUI(batch2d, font_white, font_black);
+		//}
 
 		if (Settings.SHOW_FPS) {
 			font_white.draw(batch2d, "FPS: "+Gdx.graphics.getFramesPerSecond(), 10, 20);
@@ -310,7 +331,7 @@ public class Game implements IModule {
 		player.update();
 		camera.update();
 
-		hasLoaded = true;
+		//hasLoaded = true;
 	}
 
 

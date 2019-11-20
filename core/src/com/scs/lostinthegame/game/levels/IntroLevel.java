@@ -4,16 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.basicecs.AbstractEntity;
+import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.startlevel.StartExit;
 
-public class StartLevel extends AbstractLevel {
+public class IntroLevel extends AbstractLevel {
 
-	public StartLevel(int difficulty) {
-		super(difficulty);
+	public IntroLevel() {
+		super(0);
 	}
 
 
@@ -39,15 +40,12 @@ public class StartLevel extends AbstractLevel {
 			}
 		}
 
-		game.ecs.addEntity(new Floor("start/spectrumscreen.gif", map_width, map_height, false));
-		if (game.game_stage == 0) {
-			game.ecs.addEntity(new StartExit(map_width/2, map_height/2));
-		}
+		//game.ecs.addEntity(new Floor("start/spectrumscreen.gif", map_width, map_height, false));
 	}
 
 
 	public void setBackgroundColour() {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 1, 1, 1);
 	}
 
 
@@ -63,6 +61,11 @@ public class StartLevel extends AbstractLevel {
 
 	@Override
 	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
+		font_white.draw(batch, "10 REM Super Spectrum World", 20, Gdx.graphics.getHeight()-20);
+		font_white.draw(batch, "20 REM By Stephen Carlyle-Smith", 20, Gdx.graphics.getHeight()-50);
+		font_white.draw(batch, "30 REM Sfx by Shiru", 20, Gdx.graphics.getHeight()-80);
+		font_white.draw(batch, "40 PRINT \"Press enter to start\"", 20, Gdx.graphics.getHeight()-110);
+		font_white.draw(batch, "C Nonsense in Basic, " + Settings.VERSION, 20, 30);
 	}
 
 
