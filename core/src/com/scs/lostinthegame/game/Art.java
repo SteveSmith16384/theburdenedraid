@@ -7,12 +7,7 @@ import com.badlogic.gdx.graphics.g3d.decals.Decal;
 
 public class Art {
 
-	//public TextureRegion[][] entities;
-	//public TextureRegion[][] items;
-
 	public Art() {
-		//entities = createSheet("entities.png",16,16);
-		//items = createSheet("items.png",16,16);
 	}
 	
 
@@ -36,6 +31,15 @@ public class Art {
 	public static Decal DecalHelper(String filename, float sizePcent) {
 		Texture tex = new Texture(Gdx.files.internal(filename));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
+		Decal decal = Decal.newDecal(tr, true);
+        decal.setScale(Game.UNIT * sizePcent / tr.getRegionWidth());
+        return decal;
+	}
+
+
+	public static Decal DecalHelper(TextureRegion tr, float sizePcent) {
+		//Texture tex = new Texture(Gdx.files.internal(filename));
+		//TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
 		Decal decal = Decal.newDecal(tr, true);
         decal.setScale(Game.UNIT * sizePcent / tr.getRegionWidth());
         return decal;

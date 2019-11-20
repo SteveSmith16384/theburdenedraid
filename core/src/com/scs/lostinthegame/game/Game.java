@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.bitfire.postprocessing.PostProcessing;
 import com.scs.basicecs.AbstractEntity;
@@ -92,7 +91,7 @@ public class Game implements IModule {
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		this.createECS();
-		world = new World();
+		world = new World(); // todo - create at start of each level
 
 		//transition = true;
 		//inventory = new Inventory();

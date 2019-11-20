@@ -8,8 +8,6 @@ import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
-import com.scs.lostinthegame.game.entities.Floor;
-import com.scs.lostinthegame.game.entities.startlevel.StartExit;
 
 public class IntroLevel extends AbstractLevel {
 
