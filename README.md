@@ -11,3 +11,4 @@ Designed and programmed by Stephen Carlyle-Smith (https://twitter.com/stephencsm
 Graphics by too many people to mention.
 Original 3D code by Sigve Røkenes (taken from https://github.com/evgiz/theburdenedraid)
 Sound effects by Shiru (http://shiru.untergrund.net/)
+Music by Matthew Pablo (http://www.matthewpablo.com)

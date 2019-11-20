@@ -9,7 +9,7 @@ import com.scs.lostinthegame.game.Game;
 
 public class Audio {
 
-	private String preload[] = new String[]{
+	private String preload[] = new String[] {
 			"loot","weapon","door","pickup","hurt","death","ladder","player_hurt","read","wall_open","success","step", "select"
 	};
 
@@ -27,7 +27,7 @@ public class Audio {
 			sounds.put(s, sfx);
 		}
 
-		music = Gdx.audio.newMusic(Gdx.files.internal("audio/music.mp3"));
+		music = Gdx.audio.newMusic(Gdx.files.internal("audio/orbital_colossus.mp3"));
 		music.setLooping(true);
 	}
 
@@ -42,7 +42,7 @@ public class Audio {
 		}
 	}
 
-	
+
 	public void startMusic(){
 		if(!music.isPlaying()) {
 			music.play();
@@ -51,12 +51,12 @@ public class Audio {
 		}
 	}
 
-	
+
 	public void stopMusic() {
 		music.stop();
 	}
 
-	
+
 	public void play(String name) {
 		if (sounds.containsKey(name)) {
 			sounds.get(name).play();
@@ -72,8 +72,8 @@ public class Audio {
 		}
 
 	}
-	
-	
+
+
 	public void dipose() {
 		for (Sound s : this.sounds.values()) {
 			s.dispose();

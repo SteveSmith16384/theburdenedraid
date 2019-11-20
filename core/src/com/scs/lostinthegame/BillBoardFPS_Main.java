@@ -21,11 +21,6 @@ public class BillBoardFPS_Main extends ApplicationAdapter {
 
 	@Override
 	public void render() {
-		/*if (gameStage == 1) {
-			//renderUpdateGameOver();
-			return;
-		}*/
-
 		if (current_module != null) {
 			current_module.update();
 			current_module.render();

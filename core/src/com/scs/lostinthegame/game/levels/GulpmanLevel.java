@@ -61,6 +61,9 @@ public class GulpmanLevel extends AbstractLevel {
 				}
 			}
 		}
+		
+		GulpmanNasty n = new GulpmanNasty(maze.middle_pos.x, maze.middle_pos.y);
+
 
 	}
 
