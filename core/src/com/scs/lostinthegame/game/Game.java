@@ -208,11 +208,12 @@ public class Game implements IModule {
 		this.ecs.getSystem(GotToExitSystem.class).process();
 
 		gameLevel.update(this, world);
-
+/*
 		if (player.getHealth() <= 0 && !gameComplete) {
 			game_over = true;
 			Game.audio.play("gameover");
 		}
+		*/
 	}
 
 

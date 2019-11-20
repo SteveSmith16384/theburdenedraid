@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Settings {
 	
-	public static final boolean RELEASE_MODE = false;
+	public static final boolean RELEASE_MODE = true;
 	
 	// Hacks
 	public static final boolean SHOW_MINES = !RELEASE_MODE && true;
