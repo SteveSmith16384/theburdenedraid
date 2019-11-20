@@ -73,7 +73,7 @@ public class Game implements IModule {
 	//public boolean game_over = false;
 	//public static boolean gameComplete = false;
 	public static int game_stage = -1;
-	
+
 	private PostProcessing post;
 
 	public Game() {
@@ -211,12 +211,6 @@ public class Game implements IModule {
 		this.ecs.getSystem(GotToExitSystem.class).process();
 
 		gameLevel.update(this, world);
-
-		/*
-		if (player.getHealth() <= 0 && !gameComplete) {
-			game_over = true;
-			Game.audio.play("gameover");
-		}*/
 	}
 
 
@@ -281,7 +275,7 @@ public class Game implements IModule {
 			player.renderUI(batch2d, font_white);
 			gameLevel.renderUI(batch2d, font_white, font_black);
 		}
-		
+
 		if (game_stage == -1) {
 			font_white.draw(batch2d, "10 REM Super Spectrum World", 20, Settings.LOGICAL_HEIGHT_PIXELS-20);
 			font_white.draw(batch2d, "20 REM By Stephen Carlyle-Smith", 20, Settings.LOGICAL_HEIGHT_PIXELS-50);
