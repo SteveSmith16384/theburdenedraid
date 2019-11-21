@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g3d.decals.Decal;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
-import com.scs.lostinthegame.game.Art;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.HarmsPlayer;
 import com.scs.lostinthegame.game.components.HasAI;
@@ -14,7 +13,6 @@ import com.scs.lostinthegame.game.components.HasDecal;
 import com.scs.lostinthegame.game.components.HasDecalCycle;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
-import com.scs.lostinthegame.game.entities.monstermaze.TRex;
 import com.scs.lostinthegame.game.systems.MobAISystem.Mode;
 
 public class Alien extends AbstractEntity {

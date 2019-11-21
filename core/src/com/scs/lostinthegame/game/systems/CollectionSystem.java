@@ -14,12 +14,12 @@ import com.scs.lostinthegame.game.components.PositionData;
 
 public class CollectionSystem extends AbstractSystem {
 
-	private ICollectionHandler collectionHandler;
+	//private ICollectionHandler collectionHandler;
 	
-	public CollectionSystem(BasicECS ecs, ICollectionHandler _collectionHandler) {
+	public CollectionSystem(BasicECS ecs) {//, ICollectionHandler _collectionHandler) {
 		super(ecs);
 		
-		collectionHandler = _collectionHandler;
+		//collectionHandler = _collectionHandler;
 	}
 
 
@@ -41,7 +41,7 @@ public class CollectionSystem extends AbstractSystem {
 				if (collector_pos.position.dst(collectable_pos.position) < Game.UNIT/2f) {
 					Settings.p(collectable.name + " collected");
 					collectable.remove();
-					collectionHandler.entityCollected(collector, collectable);
+					Game.gameLevel.entityCollected(collector, collectable);
 					Game.audio.play("beepfx_samples/28_item_1.wav");
 				}
 			}

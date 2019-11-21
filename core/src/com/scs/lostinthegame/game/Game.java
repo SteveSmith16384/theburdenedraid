@@ -24,9 +24,9 @@ import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
+import com.scs.lostinthegame.game.levels.ChaosLevel;
 import com.scs.lostinthegame.game.levels.GameOverLevel;
 import com.scs.lostinthegame.game.levels.IntroLevel;
-import com.scs.lostinthegame.game.levels.MinedOutLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -127,7 +127,7 @@ public class Game implements IModule {
 		ecs.addSystem(new MovementSystem(ecs, player));
 		ecs.addSystem(new DrawModelSystem(ecs, batch));
 		ecs.addSystem(new RemoveAfterTimeSystem(ecs));
-		ecs.addSystem(new CollectionSystem(ecs, gameLevel));
+		ecs.addSystem(new CollectionSystem(ecs));
 		ecs.addSystem(new DrawTextSystem(ecs, batch2d, font_white));
 		ecs.addSystem(new GotToExitSystem(ecs, player));
 
@@ -187,8 +187,9 @@ public class Game implements IModule {
 				//gameLevel = new OhMummyLevel(0);
 				//gameLevel = new GulpmanLevel(0);
 				//gameLevel = new AndroidsLevel(0);
-				gameLevel = new MinedOutLevel(0);
+				//gameLevel = new MinedOutLevel(0);
 				//gameLevel = new MonsterMazeLevel(0);
+				gameLevel = new ChaosLevel(0);
 			}
 
 			loadLevel();

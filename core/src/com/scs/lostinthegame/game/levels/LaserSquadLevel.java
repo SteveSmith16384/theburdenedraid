@@ -22,8 +22,7 @@ public class LaserSquadLevel extends AbstractLevel {
 
 	@Override
 	public void load(Game game) {
-		//loadMapFromImage(game);
-		loadTestMap(game);
+		loadMap(game);
 
 		createWalls(game);
 		
@@ -31,7 +30,7 @@ public class LaserSquadLevel extends AbstractLevel {
 	}
 
 
-	private void loadTestMap(Game game) {
+	private void loadMap(Game game) {
 		this.map_width = 5;
 		this.map_height = 5;
 

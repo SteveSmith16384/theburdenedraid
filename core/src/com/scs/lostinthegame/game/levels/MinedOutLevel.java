@@ -3,6 +3,7 @@ package com.scs.lostinthegame.game.levels;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
@@ -13,6 +14,7 @@ import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.entities.Floor;
+import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.minedout.Damsel;
 import com.scs.lostinthegame.game.entities.minedout.Mine;
@@ -49,7 +51,7 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 		this.map_width = 25;
 		this.map_height = 15;
 
-		int num_mines = Settings.DEBUG_MINES ? 1 : 40 + (this.difficulty * 10);
+		int num_mines = Settings.DEBUG_MINES ? 1 : 30 + (this.difficulty * 10);
 		num_damsels = 2 + this.difficulty;
 
 		this.playerStartMapX = map_width/2;
@@ -127,6 +129,10 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 				Game.world.world[exit_pos.x][exit_pos.y].blocked = false;
 				MinedOutExit exit = new MinedOutExit(exit_pos.x, exit_pos.y);
 				Game.ecs.addEntity(exit);
+
+				AbstractEntity text = new TextEntity("THE EXIT HAS APPEARED", Gdx.graphics.getHeight()/2, 4);
+				Game.ecs.addEntity(text);
+
 			}
 		}
 	}

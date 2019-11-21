@@ -34,7 +34,7 @@ public class MinedOutExit extends AbstractEntity {
 	public MinedOutExit(int map_x, int map_y) {
 		super(MinedOutExit.class.getSimpleName());
 
-		this.addComponent(new PositionData((map_x*Game.UNIT)-(Game.UNIT/2), (map_y*Game.UNIT)-(Game.UNIT/2)));
+		this.addComponent(new PositionData((map_x*Game.UNIT)+(Game.UNIT/2), (map_y*Game.UNIT)+(Game.UNIT/2)));
 
 		/*if (Settings.RELEASE_MODE == false) {
 			ModelInstance instance = new ModelInstance(floor);

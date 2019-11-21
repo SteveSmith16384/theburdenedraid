@@ -142,7 +142,7 @@ public class MovementSystem extends AbstractSystem {
 
 
 	private boolean isMoverBlocked(AbstractEntity mover, Vector3 moverPos) {
-		Iterator<AbstractEntity> it = ecs.getIterator();
+		Iterator<AbstractEntity> it = this.entities.iterator();//.getIterator();
 		while (it.hasNext()) {
 			AbstractEntity blocker = it.next();
 			if (blocker != mover) {
