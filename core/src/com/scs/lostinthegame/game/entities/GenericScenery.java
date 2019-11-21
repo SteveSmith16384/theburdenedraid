@@ -8,16 +8,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.HasDecal;
+import com.scs.lostinthegame.game.components.MovementData;
+import com.scs.lostinthegame.game.components.PositionData;
 
 public class GenericScenery extends AbstractEntity {
 
-	public GenericScenery(String name, String filename, int x, int y) {
+	public GenericScenery(String name, String filename, int x, int y, boolean blocks_movement) {
 		super(name);
 		
-        /*PositionData pos = new PositionData();
-        pos.position = new Vector3(x*Game.UNIT, -Game.UNIT/5, y*Game.UNIT);
-        this.addComponent(pos);*/
-        
 		HasDecal hasDecal = new HasDecal();
 		Texture tex = new Texture(Gdx.files.internal(filename));
 		TextureRegion tr = new TextureRegion(tex, 0, 0, tex.getWidth(), tex.getHeight());
@@ -27,6 +25,17 @@ public class GenericScenery extends AbstractEntity {
         hasDecal.faceCamera = true;
         hasDecal.faceCameraTilted = true;        
         this.addComponent(hasDecal);
+        
+        if (blocks_movement) {
+        	MovementData md = new MovementData(.5f);
+        	md.blocksMovement = true;
+            this.addComponent(md);
+
+            PositionData pos = new PositionData();
+            pos.position = new Vector3(x*Game.UNIT+(Game.UNIT/2), -Game.UNIT/5, y*Game.UNIT+(Game.UNIT/2));
+            this.addComponent(pos);
+            
+        }
 	}
 
 }

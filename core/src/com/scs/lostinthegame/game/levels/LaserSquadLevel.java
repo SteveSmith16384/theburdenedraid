@@ -49,10 +49,10 @@ public class LaserSquadLevel extends AbstractLevel {
 					GenericWallScenery s = new GenericWallScenery("VidScreen", "lasersquad/vidscreen.png", x, z, GenericWallScenery.Side.Back);
 					game.ecs.addEntity(s);
 				} else if (x == 3 && z == 2) {
-					GenericScenery s = new GenericScenery("Barrel", "lasersquad/barrel.png", x, z);
+					GenericScenery s = new GenericScenery("Barrel", "lasersquad/barrel.png", x, z, true);
 					game.ecs.addEntity(s);
 				} else if (x == 3 && z == 3) {
-					GenericScenery s = new GenericScenery("GasCan", "lasersquad/gas_cannisters.png", x, z);
+					GenericScenery s = new GenericScenery("GasCan", "lasersquad/gas_cannisters.png", x, z, true);
 					game.ecs.addEntity(s);
 				} else if (x == 1 && z == 2) {
 					SlidingDoor door = new SlidingDoor(x, z, "lasersquad/interior_door.png");
@@ -81,8 +81,6 @@ public class LaserSquadLevel extends AbstractLevel {
 		}
 
 		game.ecs.addEntity(new Floor("lasersquad/moonbase_interior_floor.png", map_width, map_height, true));
-		//game.ecs.addEntity(new Ceiling("colours/cyan.png", map_width, map_height));
-
 	}
 
 

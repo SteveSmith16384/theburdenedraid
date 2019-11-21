@@ -26,6 +26,7 @@ import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
 import com.scs.lostinthegame.game.levels.GameOverLevel;
 import com.scs.lostinthegame.game.levels.IntroLevel;
+import com.scs.lostinthegame.game.levels.MinedOutLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
 import com.scs.lostinthegame.game.renderable.GameShaderProvider;
@@ -96,8 +97,12 @@ public class Game implements IModule {
 		//transition = true;
 		//inventory = new Inventory();
 		//player = new Player(camera, inventory, 1, 4);
-		this.gameLevel = new IntroLevel();
-		gameLevel.load(this);
+		if (Settings.TEST_SPECIFIC_LEVEL == false) {
+			this.gameLevel = new IntroLevel();
+			gameLevel.load(this);
+		} else {
+			startGame();
+		}
 
 		if (Gdx.app.getType() != ApplicationType.WebGL) {
 			post = new PostProcessing();
@@ -178,11 +183,11 @@ public class Game implements IModule {
 					gameLevel = new GameOverLevel();
 				}
 			} else {
-				gameLevel = new GameOverLevel();
+				//gameLevel = new GameOverLevel();
 				//gameLevel = new OhMummyLevel(0);
 				//gameLevel = new GulpmanLevel(0);
 				//gameLevel = new AndroidsLevel(0);
-				//gameLevel = new MinedOutLevel(0);
+				gameLevel = new MinedOutLevel(0);
 				//gameLevel = new MonsterMazeLevel(0);
 			}
 
@@ -347,6 +352,7 @@ public class Game implements IModule {
 		font_black.dispose();
 		audio.dipose();
 		batch.dispose();
+		batch2d.dispose();
 	}
 
 

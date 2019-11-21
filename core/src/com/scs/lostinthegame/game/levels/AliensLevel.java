@@ -3,14 +3,18 @@ package com.scs.lostinthegame.game.levels;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.GridPoint2;
 import com.scs.basicecs.AbstractEntity;
-import com.scs.lostinthegame.Maze;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.entities.Wall;
+import com.scs.lostinthegame.game.entities.aliens.Alien;
+import com.scs.lostinthegame.game.entities.monstermaze.MonsterMazeExit;
 import com.scs.lostinthegame.mapgen.AbstractDungeon;
 import com.scs.lostinthegame.mapgen.DungeonGen1;
+
+import ssmith.lang.NumberFunctions;
 
 public class AliensLevel extends AbstractLevel {
 
@@ -41,32 +45,43 @@ public class AliensLevel extends AbstractLevel {
 
 		DungeonGen1 maze = new DungeonGen1(20, 3, 5, 3);
 
-		this.playerStartMapX = maze.start_pos.x;
-		this.playerStartMapY = maze.start_pos.y;
+		this.playerStartMapX = maze.centres.get(0).x;
+		this.playerStartMapY = maze.centres.get(0).y;
 
 		for (int z=0 ; z<map_height ; z++) {
 			for (int x=0 ; x<map_width ; x++) {
 				Game.world.world[x][z] = new WorldSquare();
 				Game.world.world[x][z].blocked = maze.map[x][z] == AbstractDungeon.SqType.WALL;
 				if (Game.world.world[x][z].blocked) {
-					Wall wall = new Wall("monstermaze/wall.png", x, z);
+					Wall wall = null;
+					if (NumberFunctions.rnd(0,  1) == 0) {
+						wall = new Wall("aliens/aliens_wall.png", x, z);
+					} else {
+						wall = new Wall("aliens/normal_wall.png", x, z);
+					}
 					game.ecs.addEntity(wall);
 				}
 			}
 		}
 
-		//trex = new TRex(maze.middle_pos.x, maze.middle_pos.y);
-		//game.ecs.addEntity(trex);
+		for (int i=1 ; i<maze.centres.size() ; i++) {
+			GridPoint2 pos = maze.centres.get(i);
+			Alien alien  = new Alien(pos.x, pos.y);
+			game.ecs.addEntity(alien);
+		}
 
 		//MonsterMazeExit exit = new MonsterMazeExit(maze.end_pos.x, maze.end_pos.y);
 		//game.ecs.addEntity(exit);
 
 		//game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height, false));
-}
+	}
 
 
 	@Override
 	public void update(Game game, World world) {
+		if (Alien.total_aliens <= 0) {
+			Game.levelComplete = true;
+		}
 	}
 
 

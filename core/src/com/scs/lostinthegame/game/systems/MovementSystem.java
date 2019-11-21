@@ -21,10 +21,10 @@ import com.scs.lostinthegame.game.player.Player;
 public class MovementSystem extends AbstractSystem {
 
 	private Player player;
-	
+
 	public MovementSystem(BasicECS ecs, Player _player) {
 		super(ecs);
-		
+
 		player = _player;
 	}
 
@@ -40,16 +40,16 @@ public class MovementSystem extends AbstractSystem {
 		if (entity.isMarkedForRemoval()) {
 			return;
 		}
-		
+
 		MovementData movementData = (MovementData)entity.getComponent(MovementData.class);
 		movementData.hitWall = false;
-		
+
 		AutoMove auto = (AutoMove)entity.getComponent(AutoMove.class);
 		if (auto != null) {
 			movementData.offset = auto.dir.cpy().scl(Gdx.graphics.getDeltaTime());
 		}
 		if (movementData.offset.x != 0 || movementData.offset.y != 0 || movementData.offset.z != 0) {
-			boolean res = this.tryMove(entity, Game.world, movementData.offset, movementData.sizeAsFracOfMapsquare, true);
+			boolean res = this.tryMove(entity, Game.world, movementData.offset, movementData.sizeAsFracOfMapsquare);
 			if (!res) {
 				movementData.hitWall = true;
 				if (movementData.removeIfHitWall) {
@@ -64,7 +64,7 @@ public class MovementSystem extends AbstractSystem {
 	/**
 	 * Returns false if entity fails to move on any axis.
 	 */
-	private boolean tryMove(AbstractEntity entity, World world, Vector3 moveVec, float sizeAsFracOfMapsquare, boolean doFine) {
+	private boolean tryMove(AbstractEntity entity, World world, Vector3 moveVec, float sizeAsFracOfMapsquare) {
 		if (moveVec.len() <= 0) {
 			return true;
 		}
@@ -75,41 +75,29 @@ public class MovementSystem extends AbstractSystem {
 
 		boolean resultX = false;
 		if (world.rectangleFree(position.x+moveVec.x, position.z, sizeAsFracOfMapsquare, sizeAsFracOfMapsquare)) {
-			position.x += moveVec.x;
-			resultX = true;
-		}/* else if (doFine) {
-			for (int i = 0; i < 10; i++) {
-				if (world.rectangleFree(position.x+moveVec.x/10f, position.z, sizeAsFracOfMapsquare, sizeAsFracOfMapsquare)) {
-					position.x += moveVec.x/10f;
-					resultX = true;
-				} else {
-					break;
-				}
+			if (this.isMoverBlocked(entity, position) == false) {
+				position.x += moveVec.x;
+				resultX = true;
 			}
-		}*/
+		}
 
 		boolean resultZ = false;
 		if (world.rectangleFree(position.x, position.z+moveVec.z, sizeAsFracOfMapsquare, sizeAsFracOfMapsquare)) {
-			position.z += moveVec.z;
-			resultZ = true;
-		} /*else if (doFine) {
-			for (int i = 0; i < 10; i++) {
-				if(world.rectangleFree(position.x, position.z+moveVec.z/10f, sizeAsFracOfMapsquare, sizeAsFracOfMapsquare)) {
-					position.z += moveVec.z/10f;
-					resultZ = true;
-				} else {
-					break;
-				}
+			if (this.isMoverBlocked(entity, position) == false) {
+				position.z += moveVec.z;
+				resultZ = true;
 			}
-		}*/
+		}
 
 		if (moveVec.y != 0) {
 			position.y += moveVec.y;
 		}
 
-		if (checkForPlayerCollision(entity, position) || checkForNastiesCollision(entity, position)) {
-			pos.position.set(pos.originalPosition); // Move back
-			return false;
+		if (entity != player) {
+			if (checkForPlayerCollision(entity, position) || checkForNastiesCollision(entity, position)) {
+				pos.position.set(pos.originalPosition); // Move back
+				return false;
+			}
 		}
 
 		return resultX && resultZ;
@@ -140,10 +128,29 @@ public class MovementSystem extends AbstractSystem {
 				if (dam != null) {
 					PositionData posData = (PositionData)nasty.getComponent(PositionData.class);
 					float dist = pos.dst(posData.position);
-					if (dist < .5f) {
+					if (dist < Game.UNIT*.5f) {
 						if (hp.remove_on_collision) {
 							bullet.remove();
 						}
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+
+	private boolean isMoverBlocked(AbstractEntity mover, Vector3 moverPos) {
+		Iterator<AbstractEntity> it = ecs.getIterator();
+		while (it.hasNext()) {
+			AbstractEntity blocker = it.next();
+			if (blocker != mover) {
+				MovementData md = (MovementData)blocker.getComponent(MovementData.class);
+				if (md.blocksMovement) {
+					PositionData posData = (PositionData)blocker.getComponent(PositionData.class);
+					float dist = moverPos.dst(posData.position);
+					if (dist < Game.UNIT*.5f) {
 						return true;
 					}
 				}

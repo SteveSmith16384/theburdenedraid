@@ -1,5 +1,6 @@
 package com.scs.lostinthegame.game.levels;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
@@ -8,6 +9,7 @@ import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.data.WorldSquare;
+import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.ohmummy.OhMummyExit;
 import com.scs.lostinthegame.game.entities.ohmummy.OhMummyNasty;
@@ -207,6 +209,9 @@ public class OhMummyLevel extends AbstractLevel {
 			}
 		}
 		if (complete) {
+			AbstractEntity text = new TextEntity("THE EXIT HAS APPEARED", Gdx.graphics.getHeight()/2, 4);
+			game.ecs.addEntity(text);
+
 			OhMummyExit exit = new OhMummyExit(map_width-2, map_height-4);
 			game.ecs.addEntity(exit);
 
