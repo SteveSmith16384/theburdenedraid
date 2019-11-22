@@ -8,6 +8,12 @@ import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.chaos.ChaosWraith;
+import com.scs.lostinthegame.game.entities.chaos.Ghost;
+import com.scs.lostinthegame.game.entities.chaos.Giant;
+import com.scs.lostinthegame.game.entities.chaos.Hydra;
+import com.scs.lostinthegame.game.entities.chaos.MagicFire;
+import com.scs.lostinthegame.game.entities.chaos.MagicTree;
+import com.scs.lostinthegame.game.entities.chaos.Ogre;
 import com.scs.lostinthegame.game.entities.startlevel.StartExit;
 import com.scs.lostinthegame.game.player.weapons.Wand;
 
@@ -47,10 +53,9 @@ public class ChaosLevel extends AbstractLevel {
 					//Game.world.world[x][z] = new WorldSquare();
 					Game.world.world[x][z].blocked = true;
 					game.ecs.addEntity(new Wall("chaos/chaoswall.png", x, z));
-				}
-				if ( x >= map_width / 2 || z >= map_height/2) {
+				} else if ( x >= map_width / 2 || z >= map_height/2) {
 					if (NumberFunctions.rnd(1, 20) == 1) {
-						int i = NumberFunctions.rnd(1, 5);
+						int i = NumberFunctions.rnd(1, 8);
 						switch (i) {
 						case 1:
 							Game.world.world[x][z].blocked = true;
@@ -59,7 +64,24 @@ public class ChaosLevel extends AbstractLevel {
 						case 2:
 							game.ecs.addEntity(new ChaosWraith(x, z));
 							break;
-							// todo - add more
+						case 3:
+							game.ecs.addEntity(new Hydra(x, z));
+							break;
+						case 4:
+							game.ecs.addEntity(new Ghost(x, z));
+							break;
+						case 5:
+							game.ecs.addEntity(new Giant(x, z));
+							break;
+						case 6:
+							game.ecs.addEntity(new Ogre(x, z));
+							break;
+						case 7:
+							game.ecs.addEntity(new MagicFire(x, z));
+							break;
+						case 8:
+							game.ecs.addEntity(new MagicTree(x, z));
+							break;
 						}
 					}
 				}
@@ -68,7 +90,7 @@ public class ChaosLevel extends AbstractLevel {
 			}
 		}
 
-		game.ecs.addEntity(new StartExit(map_width-1, map_height-2));
+		game.ecs.addEntity(new StartExit(map_width-2, map_height-2));
 
 	}
 

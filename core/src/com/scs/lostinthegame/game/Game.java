@@ -101,6 +101,7 @@ public class Game implements IModule {
 			this.gameLevel = new IntroLevel();
 			gameLevel.load(this);
 		} else {
+			this.game_stage = 0;
 			startGame();
 		}
 
@@ -112,6 +113,7 @@ public class Game implements IModule {
 
 
 	private void startGame() {
+		audio.startMusic();
 		inventory = new Inventory();
 		player = new Player(camera, inventory, 1, 4);
 		levelComplete = true; // So we load the first level 

@@ -97,6 +97,7 @@ public class Wand implements IPlayersWeapon {
 		boolean res = (attackAnimationTimer < 0.3f && !didAttack);
 		if (res) {
 			didAttack = true;
+			//Game.ecs.addEntity(new ChaosBolt());
 		}
 	}
 

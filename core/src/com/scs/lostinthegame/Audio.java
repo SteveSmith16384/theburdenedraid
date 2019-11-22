@@ -43,8 +43,8 @@ public class Audio {
 	}
 
 
-	public void startMusic(){
-		if(!music.isPlaying()) {
+	public void startMusic() {
+		if (!music.isPlaying()) {
 			music.play();
 			music.setVolume(0f);
 			musicVolume = 0f;
