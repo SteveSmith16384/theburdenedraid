@@ -10,7 +10,7 @@ import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.aliens.Alien;
-import com.scs.lostinthegame.game.entities.monstermaze.MonsterMazeExit;
+import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
 import com.scs.lostinthegame.mapgen.AbstractDungeon;
 import com.scs.lostinthegame.mapgen.DungeonGen1;
 
@@ -29,6 +29,7 @@ public class AliensLevel extends AbstractLevel {
 		//loadTestMap(game);
 		loadMapFromMazegen(game);
 
+		game.player.setWeapon(new PlayersLaserGun("aliens/lasergun1.png"));
 	}
 
 

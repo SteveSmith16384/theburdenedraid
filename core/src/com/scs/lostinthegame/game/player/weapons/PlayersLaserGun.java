@@ -6,8 +6,8 @@ import com.scs.lostinthegame.game.entities.PlayersLaserBullet;
 
 public class PlayersLaserGun extends AbstractIntervalWeapon implements IPlayersWeapon {
 
-	public PlayersLaserGun() {
-		super("lasergun1.png", .5f);
+	public PlayersLaserGun(String image) {
+		super(image, .5f);
 	}
 
 	
