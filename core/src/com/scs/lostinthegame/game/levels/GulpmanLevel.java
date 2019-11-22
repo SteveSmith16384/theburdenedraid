@@ -31,7 +31,7 @@ public class GulpmanLevel extends AbstractLevel {
 		game.ecs.addEntity(new Floor("colours/cyan.png", map_width, map_height, false));
 		//game.ecs.addEntity(new Ceiling("colours/cyan.png", map_width, map_height));
 
-		//game.player.setWeapon(new PlayersLaserGun());
+		//game.player.setWeapon(new PlayersLaserGun("gulpman/lasergun1.png"));
 	}
 
 
@@ -63,6 +63,10 @@ public class GulpmanLevel extends AbstractLevel {
 		}
 		
 		GulpmanNasty n = new GulpmanNasty(maze.middle_pos.x, maze.middle_pos.y);
+		game.ecs.addEntity(n);
+
+		GulpmanNasty n2 = new GulpmanNasty(maze.end_pos.x, maze.end_pos.y);
+		game.ecs.addEntity(n2);
 
 
 	}

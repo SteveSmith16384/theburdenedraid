@@ -6,11 +6,10 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.World;
 import com.scs.lostinthegame.game.data.WorldSquare;
-import com.scs.lostinthegame.game.entities.Floor;
 import com.scs.lostinthegame.game.entities.Wall;
 import com.scs.lostinthegame.game.entities.chaos.ChaosWraith;
 import com.scs.lostinthegame.game.entities.startlevel.StartExit;
-import com.scs.lostinthegame.game.player.weapons.PlayersLaserGun;
+import com.scs.lostinthegame.game.player.weapons.Wand;
 
 import ssmith.lang.NumberFunctions;
 
@@ -27,7 +26,7 @@ public class ChaosLevel extends AbstractLevel {
 
 		//createWalls(game);
 
-		game.player.setWeapon(new PlayersLaserGun());
+		game.player.setWeapon(new Wand());
 	}
 
 

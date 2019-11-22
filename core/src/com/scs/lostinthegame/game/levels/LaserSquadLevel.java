@@ -26,7 +26,7 @@ public class LaserSquadLevel extends AbstractLevel {
 
 		createWalls(game);
 		
-		game.player.setWeapon(new PlayersLaserGun());
+		game.player.setWeapon(new PlayersLaserGun("todo"));
 	}
 
 
