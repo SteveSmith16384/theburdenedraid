@@ -24,7 +24,7 @@ import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.entities.Ceiling;
 import com.scs.lostinthegame.game.entities.TextEntity;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
-import com.scs.lostinthegame.game.levels.ChaosLevel;
+import com.scs.lostinthegame.game.levels.AliensLevel;
 import com.scs.lostinthegame.game.levels.GameOverLevel;
 import com.scs.lostinthegame.game.levels.IntroLevel;
 import com.scs.lostinthegame.game.player.Inventory;
@@ -191,7 +191,8 @@ public class Game implements IModule {
 				//gameLevel = new AndroidsLevel(0);
 				//gameLevel = new MinedOutLevel(0);
 				//gameLevel = new MonsterMazeLevel(0);
-				gameLevel = new ChaosLevel(0);
+				//gameLevel = new ChaosLevel(0);
+				gameLevel = new AliensLevel(0);
 			}
 
 			loadLevel();

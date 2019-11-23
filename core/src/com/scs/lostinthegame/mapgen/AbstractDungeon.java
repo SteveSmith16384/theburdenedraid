@@ -159,7 +159,7 @@ public class AbstractDungeon implements IAStarMapInterface {
 					} else if (map[x][z] == SqType.WALL) {
 						s = "W";
 					} else if (map[x][z] == SqType.FLOOR) {
-						s = "F";
+						s = ".";
 					} else if (map[x][z] == SqType.COMPUTER) {
 						s = "C";
 					} else {
