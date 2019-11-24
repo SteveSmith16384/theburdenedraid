@@ -6,11 +6,13 @@ public class Settings {
 	
 	public static final String VERSION = "1.01";
 	public static final int NUM_DIFF_GAMES = 4;
-	public static final boolean RELEASE_MODE = false;
+	public static final boolean RELEASE_MODE = true;
 	
 	// Hacks
-	public static final boolean SHOW_MINES = !RELEASE_MODE && true;
-	public static final boolean TEST_SPECIFIC_LEVEL = !RELEASE_MODE && true;
+	public static final int START_LEVEL = 3;//!RELEASE_MODE && true;
+	public static final boolean PLAYER_INVINCIBLE = !RELEASE_MODE && true;
+	public static final boolean SHOW_MINES = !RELEASE_MODE && false;
+	public static final boolean TEST_SPECIFIC_LEVEL = !RELEASE_MODE && false;
 	public static final boolean DEBUG_MINES = !RELEASE_MODE && false;
 	public static final boolean DEBUG_LEVEL_JUMP = !RELEASE_MODE && false;
 	public static final boolean TEST_FLOOR_SQ = !RELEASE_MODE && false;

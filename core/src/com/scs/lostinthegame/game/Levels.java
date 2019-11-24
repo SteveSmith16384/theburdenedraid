@@ -1,5 +1,6 @@
 package com.scs.lostinthegame.game;
 
+import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
 import com.scs.lostinthegame.game.levels.GulpmanLevel;
 import com.scs.lostinthegame.game.levels.MinedOutLevel;
@@ -9,7 +10,7 @@ import com.scs.lostinthegame.game.levels.StartLevel;
 
 public class Levels {
 	
-	private int currentLevelNum = 0; 
+	private int currentLevelNum = Settings.RELEASE_MODE ? 0 : Settings.START_LEVEL-1; 
 	public int numberTimesLoopAround = 0;
 
 	public Levels() {

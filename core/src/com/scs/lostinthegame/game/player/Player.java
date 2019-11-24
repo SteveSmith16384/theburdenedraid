@@ -263,6 +263,9 @@ public class Player extends AbstractEntity {
 
 
 	public void damaged(int amt, Vector3 dir) {
+		if (Settings.PLAYER_INVINCIBLE) {
+			return;
+		}
 		//health -= amt;
 		lives--;
 		hurtTimer = 1.5f;

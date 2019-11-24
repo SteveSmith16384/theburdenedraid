@@ -62,9 +62,6 @@ public class Game implements IModule {
 	public static BasicECS ecs;
 	public ArrayList<ModelInstance> modelInstances;
 
-	//private static boolean transition = true;
-	//private static float transitionProgress = 0f;
-	//private static boolean hasLoaded = false;
 	public static boolean levelComplete = false;
 	public static boolean restartLevel = false;
 	public Levels levels = new Levels();

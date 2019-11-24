@@ -62,8 +62,8 @@ public class IntroLevel extends AbstractLevel {
 		font_white.draw(batch, "10 REM Lost in the Game " + Settings.VERSION, 20, Gdx.graphics.getHeight()-20);
 		font_white.draw(batch, "20 REM By Stephen Carlyle-Smith", 20, Gdx.graphics.getHeight()-50);
 		font_white.draw(batch, "30 REM This game is commentware", 20, Gdx.graphics.getHeight()-80);
-		font_white.draw(batch, "40 REM Currently with " + Settings.NUM_DIFF_GAMES + " levels", 20, Gdx.graphics.getHeight()-110);
-		font_white.draw(batch, "50 REM Pls leave a comment if you want more", 20, Gdx.graphics.getHeight()-140);
+		font_white.draw(batch, "40 REM Currently with " + Settings.NUM_DIFF_GAMES + " unique levels", 20, Gdx.graphics.getHeight()-110);
+		font_white.draw(batch, "50 REM Pls leave a comment if you want more :)", 20, Gdx.graphics.getHeight()-140);
 		font_white.draw(batch, "60 PRINT \"* Press enter to start! *\"", 20, Gdx.graphics.getHeight()-170);
 		font_white.draw(batch, "Scroll?", 20, 30);
 	}
