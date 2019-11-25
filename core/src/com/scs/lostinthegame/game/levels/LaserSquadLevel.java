@@ -107,7 +107,7 @@ public class LaserSquadLevel extends AbstractLevel {
 
 	@Override
 	public String getInstructions() {
-		return "todo";
+		return "";
 	}
 
 

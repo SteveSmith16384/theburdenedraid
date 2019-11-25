@@ -54,7 +54,7 @@ public class ChaosLevel extends AbstractLevel {
 					Game.world.world[x][z].blocked = true;
 					game.ecs.addEntity(new Wall("chaos/chaoswall.png", x, z));
 				} else if ( x >= map_width / 2 || z >= map_height/2) {
-					if (NumberFunctions.rnd(1, 20) == 1) {
+					if (NumberFunctions.rnd(1, 10) == 1) {
 						int i = NumberFunctions.rnd(1, 8);
 						switch (i) {
 						case 1:
@@ -136,7 +136,7 @@ public class ChaosLevel extends AbstractLevel {
 
 	@Override
 	public String getInstructions() {
-		return "todo";
+		return "";
 	}
 
 

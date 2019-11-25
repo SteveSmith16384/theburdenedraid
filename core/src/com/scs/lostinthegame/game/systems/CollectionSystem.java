@@ -7,7 +7,6 @@ import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
-import com.scs.lostinthegame.game.ICollectionHandler;
 import com.scs.lostinthegame.game.components.CanCollect;
 import com.scs.lostinthegame.game.components.IsCollectable;
 import com.scs.lostinthegame.game.components.PositionData;

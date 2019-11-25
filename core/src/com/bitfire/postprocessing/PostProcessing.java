@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.bitfire.postprocessing.effects.Bloom;
 import com.bitfire.postprocessing.effects.CrtMonitor;
 import com.bitfire.postprocessing.effects.Curvature;
+import com.bitfire.postprocessing.effects.LensFlare2;
 import com.bitfire.postprocessing.effects.MotionBlur;
 import com.bitfire.postprocessing.effects.Vignette;
 import com.bitfire.postprocessing.effects.Zoomer;
@@ -32,6 +33,7 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 	public boolean zoomRadialBlur;
 	public float zoomAmount, zoomFactor;
 	private boolean blending;
+	//private LensFlare2 lensFlare2;
 
 	public PostProcessing() {
 		boolean isDesktop = (Gdx.app.getType() == ApplicationType.Desktop);
@@ -61,6 +63,8 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 
 		this.motionBlur = new MotionBlur();
 		motionBlur.setBlurOpacity(.9f); // scs new
+		
+		//this.lensFlare2 = new LensFlare2(vpW, vpH);
 
 		vignette = new Vignette( vpW, vpH, false );
 
@@ -71,6 +75,7 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 		postProcessor.addEffect( crt );
 		postProcessor.addEffect( bloom );
 		postProcessor.addEffect( motionBlur );
+		//postProcessor.addEffect( lensFlare2 );
 
 		initializeEffects();
 	}
@@ -89,8 +94,10 @@ public final class PostProcessing implements Disposable, PostProcessorListener {
 		curvature.setEnabled( false );
 		zoomer.setEnabled( false );
 		motionBlur.setEnabled(true);
+		//lensFlare2.setEnabled(true);
 	}
 
+	
 	@Override
 	public void dispose() {
 		postProcessor.dispose();

@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
+import com.scs.lostinthegame.game.entities.chaos.ChaosBolt;
 import com.scs.lostinthegame.game.player.CameraController;
 
 public class Wand implements IPlayersWeapon {
@@ -55,6 +57,8 @@ public class Wand implements IPlayersWeapon {
 				if (!didPlayAudio && attackAnimationTimer<.8f) {
 					didPlayAudio = true;
 					Game.audio.play("weapon");
+					//Game.ecs.addEntity(new ChaosBolt(position, direction));
+					//Settings.p("Shoot 2!");
 				}
 
 			} else {
@@ -69,6 +73,7 @@ public class Wand implements IPlayersWeapon {
 				if (!didPlayAudio) {
 					didPlayAudio = true;
 					Game.audio.play("weapon");
+					//Settings.p("Shoot 3!");
 				}
 			}
 		} else {
@@ -89,15 +94,20 @@ public class Wand implements IPlayersWeapon {
 
 	public void attackPressed(Vector3 position, Vector3 direction) {
 		if (attackAnimationTimer <= 0f) {
+			//Settings.p("Shoot 4!");
+
 			attackAnimationTimer = 1.0f;
 			didAttack = false;
 			didPlayAudio = false;
+			
+			Game.ecs.addEntity(new ChaosBolt(position, direction));
 		}
 
 		boolean res = (attackAnimationTimer < 0.3f && !didAttack);
 		if (res) {
+			//Settings.p("Shoot 1!");
 			didAttack = true;
-			//Game.ecs.addEntity(new ChaosBolt());
+			//Game.ecs.addEntity(new ChaosBolt(position, direction));
 		}
 	}
 

@@ -1,5 +1,7 @@
 package com.scs.lostinthegame.game.player;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
@@ -11,6 +13,7 @@ import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.CanCollect;
+import com.scs.lostinthegame.game.components.HarmsPlayer;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.player.weapons.IPlayersWeapon;
@@ -59,8 +62,6 @@ public class Player extends AbstractEntity {
 
 		tmpVector = new Vector3();
 
-		//weapon = _weapon;//new SwordWeapon(Settings.USE_WAND);
-
 		hurtTexture = new Texture(Gdx.files.internal("red.png"));
 		heart = new Texture(Gdx.files.internal("heart.png"));
 	}
@@ -77,7 +78,7 @@ public class Player extends AbstractEntity {
 		if (weapon != null) {
 			checkForAttack();
 		}
-		interact();
+		//interact();
 
 		cameraController.update();
 
@@ -85,21 +86,24 @@ public class Player extends AbstractEntity {
 			weapon.update(cameraController);
 		}
 
-		if (hurtTimer>0) {
+		if (hurtTimer > 0) {
 			hurtTimer -= Gdx.graphics.getDeltaTime();
 		} else {
 			// Check if any enemies are harming us
-			/*for (Entity ent : Game.ec.entityManager.getEntities()) {
-				if (ent instanceof IHarmsPlayer) {
-					IHarmsPlayer hp = (IHarmsPlayer)ent;
-					if (hp.harmsPlayer()) {
-						// For efficiency, we use a simple dist2 and check against hurtDistance2
-						if (ent.getPosition().dst2(getPosition()) < hurtDistanceSquared) {
-							this.damaged(1, new Vector3()); // todo - dir
-						}
+			Iterator<AbstractEntity> it = Game.ecs.getIterator();
+			while (it.hasNext()) {
+				AbstractEntity entity = it.next();
+				HarmsPlayer hp = (HarmsPlayer)entity.getComponent(HarmsPlayer.class);
+				if (hp != null) {
+					PositionData posData = (PositionData)entity.getComponent(PositionData.class);
+					Vector3 enemyPos = posData.position;
+					float dist = enemyPos.dst(camera.position);
+					if (dist < Game.UNIT * .5f) {
+						this.damaged(hp.damageCaused, new Vector3()); // todo - direction
+						entity.remove(); // Prevent further collisions
 					}
 				}
-			}*/
+			}
 		}
 	}
 
@@ -111,7 +115,7 @@ public class Player extends AbstractEntity {
 		float d = 0;
 
 		Vector3 hitPos = new Vector3().set(getPosition()).mulAdd(camera.direction, Game.UNIT/2f);
-/*
+		/*
 		for(Entity ent : Game.entityManager.getEntities()) {
 			if (ent instanceof IInteractable) {
 				IInteractable ii = (IInteractable)ent;
@@ -124,11 +128,11 @@ public class Player extends AbstractEntity {
 				}
 			}
 		}
-*/
-/*		if(Gdx.input.isKeyJustPressed(Input.Keys.E) && interactTarget!=null) {
+		 */
+		/*		if(Gdx.input.isKeyJustPressed(Input.Keys.E) && interactTarget!=null) {
 			interactTarget.interact(this);
 		}
-*/
+		 */
 	}
 
 
@@ -275,9 +279,6 @@ public class Player extends AbstractEntity {
 			if (Settings.DEBUG_LEVEL_JUMP) {
 				Settings.p("damaged()");
 			}
-		} else {
-			// todo - game over sfx
-			//Game.restartLevel = true;
 		}
 		Game.restartLevel = true;
 	}
@@ -286,8 +287,8 @@ public class Player extends AbstractEntity {
 	public void setWeapon(IPlayersWeapon w) {
 		this.weapon = w;
 	}
-	
-	
+
+
 	public int getLives() {
 		return this.lives;
 	}

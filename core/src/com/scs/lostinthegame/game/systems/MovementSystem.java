@@ -54,7 +54,7 @@ public class MovementSystem extends AbstractSystem {
 				movementData.hitWall = true;
 				if (movementData.removeIfHitWall) {
 					entity.remove();
-					Settings.p(entity + " removed");
+					//Settings.p(entity + " removed");
 				}
 			}
 		}
@@ -94,7 +94,8 @@ public class MovementSystem extends AbstractSystem {
 		}
 
 		if (entity != player) {
-			if (checkForPlayerCollision(entity, position) || checkForNastiesCollision(entity, position)) {
+			if (checkForNastiesCollision(entity, position)) {
+				//if (checkForPlayerCollision(entity, position) || checkForNastiesCollision(entity, position)) {
 				pos.position.set(pos.originalPosition); // Move back
 				return false;
 			}
@@ -103,7 +104,7 @@ public class MovementSystem extends AbstractSystem {
 		return resultX && resultZ;
 	}
 
-
+/*
 	private boolean checkForPlayerCollision(AbstractEntity entity, Vector3 pos) {
 		HarmsPlayer hp = (HarmsPlayer)entity.getComponent(HarmsPlayer.class);
 		if (hp != null) {
@@ -116,7 +117,7 @@ public class MovementSystem extends AbstractSystem {
 		}
 		return false;
 	}
-
+*/
 
 	private boolean checkForNastiesCollision(AbstractEntity bullet, Vector3 pos) {
 		HarmsNasties hp = (HarmsNasties)bullet.getComponent(HarmsNasties.class);
@@ -131,6 +132,10 @@ public class MovementSystem extends AbstractSystem {
 					if (dist < Game.UNIT*.5f) {
 						if (hp.remove_on_collision) {
 							bullet.remove();
+						}
+						dam.health--;
+						if (dam.health <= 0) {
+							nasty.remove();
 						}
 						return true;
 					}

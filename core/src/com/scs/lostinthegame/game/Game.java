@@ -89,7 +89,6 @@ public class Game implements IModule {
 		frameBuffer.getColorBufferTexture().setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		this.createECS();
-		world = new World(); // todo - create at start of each level
 
 		//transition = true;
 		//inventory = new Inventory();
@@ -130,10 +129,7 @@ public class Game implements IModule {
 		ecs.addSystem(new DrawTextSystem(ecs, batch2d, font_white));
 		ecs.addSystem(new GotToExitSystem(ecs, player));
 
-		/*ecs.addEntity(player);
-		if (player != null) {
-			player.setWeapon(null);
-		}*/
+		world = new World(); // todo - create at start of each level
 	}
 
 
@@ -186,11 +182,12 @@ public class Game implements IModule {
 				//gameLevel = new GameOverLevel();
 				//gameLevel = new OhMummyLevel(0);
 				//gameLevel = new GulpmanLevel(0);
-				//gameLevel = new AndroidsLevel(0);
 				//gameLevel = new MinedOutLevel(0);
 				//gameLevel = new MonsterMazeLevel(0);
 				//gameLevel = new ChaosLevel(0);
 				gameLevel = new AliensLevel(0);
+				//gameLevel = new ChaosLevel(0);
+				//gameLevel = new AndroidsLevel(0);
 			}
 
 			loadLevel();

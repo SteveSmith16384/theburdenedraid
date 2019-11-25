@@ -39,13 +39,12 @@ public class AliensLevel extends AbstractLevel {
 
 
 	private void loadMapFromMazegen(Game game) {
-		// todo - make consts
-		this.map_width = 20;// + (this.difficulty * 3);
-		this.map_height = 20;// + (this.difficulty * 3);
+		this.map_width = 20 + (this.difficulty * 3);
+		this.map_height = 20 + (this.difficulty * 3);
 
 		Game.world.world = new WorldSquare[map_width][map_height];
 
-		DungeonGen1 maze = new DungeonGen1(20, 3+this.difficulty, 5, 0);
+		DungeonGen1 maze = new DungeonGen1(map_width, 3+this.difficulty, 5, 0);
 
 		this.playerStartMapX = maze.centres.get(0).x;
 		this.playerStartMapY = maze.centres.get(0).y;
@@ -68,21 +67,16 @@ public class AliensLevel extends AbstractLevel {
 
 		for (int i=1 ; i<maze.centres.size() ; i++) {
 			GridPoint2 pos = maze.centres.get(i);
-			//todo - re-add Alien alien  = new Alien(pos.x, pos.y);
-			//game.ecs.addEntity(alien);
+			Alien alien  = new Alien(pos.x, pos.y);
+			game.ecs.addEntity(alien);
 		}
-
-		//MonsterMazeExit exit = new MonsterMazeExit(maze.end_pos.x, maze.end_pos.y);
-		//game.ecs.addEntity(exit);
-
-		//game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height, false));
 	}
 
 
 	@Override
 	public void update(Game game, World world) {
 		if (Alien.total_aliens <= 0) {
-			//todo - re-add Game.levelComplete = true;
+			Game.levelComplete = true;
 		}
 	}
 

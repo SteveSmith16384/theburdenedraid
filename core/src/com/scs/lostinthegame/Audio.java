@@ -61,7 +61,9 @@ public class Audio {
 
 
 	public void stopMusic() {
-		music.stop();
+		if (music != null) {
+			music.stop();
+		}
 	}
 
 

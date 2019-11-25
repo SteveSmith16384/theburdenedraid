@@ -83,7 +83,7 @@ public class DungeonGen1 extends AbstractDungeon {
 				addDoors();
 				addComputers(cpus);
 				addWalls();
-				super.showMap();
+				//super.showMap();
 				break; // out of loop
 			}
 			//DSRWebServer.p("Recreating map.");

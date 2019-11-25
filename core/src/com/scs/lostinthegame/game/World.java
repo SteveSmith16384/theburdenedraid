@@ -33,13 +33,13 @@ public class World {
 	public WorldSquare getMapSquareAt(int x, int y) {
 		if (x < 0 || y < 0) {
 			//Settings.p("OOB!");
-			return BLOCKED_WALL;//new WorldSquare(true); // todo - return static
+			return BLOCKED_WALL;
 		}
 
 		try {
 			return world[x][y];//.type;
 		} catch (ArrayIndexOutOfBoundsException ex) {
-			return BLOCKED_WALL;//new WorldSquare(true); // todo - return static
+			return BLOCKED_WALL;
 		}
 	}
 

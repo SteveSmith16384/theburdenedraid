@@ -10,6 +10,7 @@ import com.scs.lostinthegame.game.components.HarmsPlayer;
 import com.scs.lostinthegame.game.components.HasAI;
 import com.scs.lostinthegame.game.components.HasDecal;
 import com.scs.lostinthegame.game.components.HasDecalCycle;
+import com.scs.lostinthegame.game.components.IsDamagableNasty;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.systems.MobAISystem.Mode;
@@ -41,12 +42,15 @@ public class Ogre extends AbstractEntity {
         cycle.decals[3] = Art.DecalHelper(trs[3][0], 1f);
         this.addComponent(cycle);
         
-        HasAI ai = new HasAI(Mode.GoForPlayerIfClose, 1.5f, Game.UNIT*7f);
+        HasAI ai = new HasAI(Mode.GoForPlayerIfClose, 1.3f, Game.UNIT*7f);
         this.addComponent(ai);
         
         this.addComponent(new MovementData(.85f));
 
         this.addComponent(new HarmsPlayer(1));
-    }
+
+        IsDamagableNasty damagable = new IsDamagableNasty(1);
+        this.addComponent(damagable);
+}
     
 }

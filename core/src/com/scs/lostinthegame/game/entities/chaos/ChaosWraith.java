@@ -10,6 +10,7 @@ import com.scs.lostinthegame.game.components.HarmsPlayer;
 import com.scs.lostinthegame.game.components.HasAI;
 import com.scs.lostinthegame.game.components.HasDecal;
 import com.scs.lostinthegame.game.components.HasDecalCycle;
+import com.scs.lostinthegame.game.components.IsDamagableNasty;
 import com.scs.lostinthegame.game.components.MovementData;
 import com.scs.lostinthegame.game.components.PositionData;
 import com.scs.lostinthegame.game.systems.MobAISystem.Mode;
@@ -47,6 +48,9 @@ public class ChaosWraith extends AbstractEntity {
         this.addComponent(new MovementData(.85f));
 
         this.addComponent(new HarmsPlayer(1));
-    }
+
+        IsDamagableNasty damagable = new IsDamagableNasty(2);
+        this.addComponent(damagable);
+}
     
 }

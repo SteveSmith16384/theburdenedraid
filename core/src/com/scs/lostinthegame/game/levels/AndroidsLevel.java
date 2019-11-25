@@ -174,7 +174,7 @@ public class AndroidsLevel extends AbstractLevel {
 
 	@Override
 	public String getInstructions() {
-		return "todo";
+		return "";
 	}
 
 

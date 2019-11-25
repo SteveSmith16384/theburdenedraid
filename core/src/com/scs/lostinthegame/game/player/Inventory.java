@@ -14,7 +14,7 @@ public class Inventory implements IInventory {
     //private Texture itemTexture;
     private ArrayList<CarriedItem> items;
 
-    public boolean gameComplete = false; // todo - move
+    //public boolean gameComplete = false; // todo - move
 
     public int totalLoot = 0;
     private ArrayList<ItemPos> itemPositions;
