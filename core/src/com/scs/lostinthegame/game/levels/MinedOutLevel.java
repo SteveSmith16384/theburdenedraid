@@ -196,4 +196,9 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 		return "Collect the damsels and then get to the exit";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "audio/music/Red Doors 2.0 (GameClosure Edition).mp3";
+	}
 }

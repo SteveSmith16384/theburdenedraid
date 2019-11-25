@@ -77,4 +77,9 @@ public class StartLevel extends AbstractLevel {
 		return "";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "";
+	}
 }

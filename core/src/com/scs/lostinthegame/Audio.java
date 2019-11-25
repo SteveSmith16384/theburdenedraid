@@ -27,12 +27,13 @@ public class Audio {
 			sounds.put(s, sfx);
 		}
 
-		music = Gdx.audio.newMusic(Gdx.files.internal("audio/orbital_colossus.mp3"));
-		music.setLooping(true);
+		//music = Gdx.audio.newMusic(Gdx.files.internal("audio/orbital_colossus.mp3"));
+		//music.setLooping(true);
 	}
 
 
 	public void update() {
+		if (music != null) {
 		if (Game.game_stage == 0) {
 			musicVolume = Math.min(musicVolume + Gdx.graphics.getDeltaTime() / 2f, 1.0f);
 			music.setVolume(musicVolume);
@@ -40,15 +41,22 @@ public class Audio {
 			musicVolume = Math.max(musicVolume-Gdx.graphics.getDeltaTime()/4f, 0f);
 			music.setVolume(musicVolume);
 		}
+		}
 	}
 
 
-	public void startMusic() {
-		if (!music.isPlaying()) {
+	public void startMusic(String filename) {
+		if (music != null) {
+			music.stop();
+			music.dispose();
+		}
+		//if (!music.isPlaying()) {
+		music = Gdx.audio.newMusic(Gdx.files.internal(filename));//orbital_colossus.mp3"));
+		music.setLooping(true);
 			music.play();
 			music.setVolume(0f);
 			musicVolume = 0f;
-		}
+		//}
 	}
 
 

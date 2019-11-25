@@ -39,5 +39,7 @@ public abstract class AbstractLevel implements ICollectionHandler {
 	public int getPlayerStartMapY() {
 		return this.playerStartMapY;
 	}
+
 	
+	public abstract String getMusicFilename();
 }

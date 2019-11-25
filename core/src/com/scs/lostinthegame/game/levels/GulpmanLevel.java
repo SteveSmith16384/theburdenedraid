@@ -160,4 +160,10 @@ public class GulpmanLevel extends AbstractLevel {
 		return "Collect all the Cherries";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "audio/music/Thrust Sequence.mp3";
+	}
+
 }

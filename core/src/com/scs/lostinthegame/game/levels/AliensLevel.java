@@ -108,4 +108,10 @@ public class AliensLevel extends AbstractLevel {
 		return "";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "aliens/gain_walkers_Sci_Fi_Atmosphere_03.mp3";
+	}
+
 }

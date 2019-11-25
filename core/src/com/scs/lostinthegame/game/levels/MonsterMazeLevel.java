@@ -174,4 +174,9 @@ public class MonsterMazeLevel extends AbstractLevel {
 		return "Find the exit";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "";
+	}
 }

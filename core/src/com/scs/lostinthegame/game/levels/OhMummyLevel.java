@@ -242,4 +242,9 @@ public class OhMummyLevel extends AbstractLevel {
 		return "Surround all the columns then go to exit";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "audio/music/orbital_colossus.mp3";
+	}
 }

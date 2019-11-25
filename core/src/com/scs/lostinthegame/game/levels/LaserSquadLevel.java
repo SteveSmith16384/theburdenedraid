@@ -110,4 +110,9 @@ public class LaserSquadLevel extends AbstractLevel {
 		return "todo";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "todo";
+	}
 }

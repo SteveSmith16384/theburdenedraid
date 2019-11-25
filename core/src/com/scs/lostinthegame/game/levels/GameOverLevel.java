@@ -82,4 +82,9 @@ public class GameOverLevel extends AbstractLevel {
 		return "GAME OVER!";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "";
+	}
 }

@@ -110,7 +110,7 @@ public class Game implements IModule {
 
 
 	private void startGame() {
-		audio.startMusic();
+		//audio.startMusic();
 		inventory = new Inventory();
 		player = new Player(camera, inventory, 1, 4);
 		levelComplete = true; // So we load the first level 
@@ -162,7 +162,8 @@ public class Game implements IModule {
 			levelComplete = false;
 			levels.nextLevel();
 			restartLevel = true;
-			Game.audio.play("zxspectrumloadingnoise.ogg");
+			audio.stopMusic();
+			audio.play("zxspectrumloadingnoise.ogg");
 		}		
 		if (restartLevel) {
 			/*if (Settings.DEBUG_LEVEL_JUMP) {
@@ -194,7 +195,6 @@ public class Game implements IModule {
 
 			loadLevel();
 			ecs.addEntity(new Ceiling("gamer1.jpg", -10, -10, 40, 40, false, Game.UNIT*8));
-
 			ecs.addEntity(player);
 
 			if (Settings.DEBUG_LEVEL_JUMP) {
@@ -204,6 +204,10 @@ public class Game implements IModule {
 			if (gameLevel.GetName().length() > 0) {
 				AbstractEntity text = new TextEntity("LOADING: " + gameLevel.GetName(), 30, 30, 4);
 				ecs.addEntity(text);
+			}
+
+			if (gameLevel.getMusicFilename().length() > 0) {
+				audio.startMusic(gameLevel.getMusicFilename());				
 			}
 		}
 

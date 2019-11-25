@@ -139,4 +139,10 @@ public class ChaosLevel extends AbstractLevel {
 		return "todo";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "audio/music/Undead Rising.mp3";
+	}
+
 }

@@ -136,4 +136,9 @@ public class MaziacsLevel extends AbstractLevel {
 		return "todo";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "todo";
+	}
 }

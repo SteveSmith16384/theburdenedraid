@@ -80,4 +80,9 @@ public class IntroLevel extends AbstractLevel {
 		return "";
 	}
 
+
+	@Override
+	public String getMusicFilename() {
+		return "";
+	}
 }

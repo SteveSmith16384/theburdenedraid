@@ -17,10 +17,10 @@ public class MobAISystem extends AbstractSystem {
 	public enum Mode {GoForPlayerIfSeen, GoForPlayerIfClose, MoveLikeRook}
 
 	private Player player;
-	
+
 	public MobAISystem(BasicECS ecs, Player _player) {
 		super(ecs);
-		
+
 		player = _player;
 	}
 
@@ -56,7 +56,7 @@ public class MobAISystem extends AbstractSystem {
 					movementData.offset.z = ai.direction.z;
 				}
 				break;
-				
+
 			case GoForPlayerIfClose:
 				ai.direction.set(player.getPosition()).sub(pos.position).nor();
 				ai.direction.scl(Gdx.graphics.getDeltaTime() * ai.speed * Game.UNIT);
@@ -65,7 +65,7 @@ public class MobAISystem extends AbstractSystem {
 				movementData.offset.x = ai.direction.x;
 				movementData.offset.z = ai.direction.z;
 				break;
-				
+
 			case MoveLikeRook:
 				if (ai.direction.len2() == 0) {
 					ai.direction = getRandomDirection();
