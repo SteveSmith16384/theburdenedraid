@@ -12,8 +12,8 @@ import com.scs.lostinthegame.game.entities.startlevel.StartExit;
 
 public class StartLevel extends AbstractLevel {
 
-	public StartLevel(int difficulty) {
-		super(difficulty);
+	public StartLevel() {
+		super(0);
 	}
 
 

@@ -10,7 +10,7 @@ public class Settings {
 	
 	// Hacks
 	public static final boolean TEST_SPECIFIC_LEVEL = !RELEASE_MODE && false;
-	public static final int START_LEVEL = RELEASE_MODE ? 0 : 4;
+	public static final int START_LEVEL = RELEASE_MODE ? 0 : 1;
 	public static final boolean PLAYER_INVINCIBLE = !RELEASE_MODE && false;
 	public static final boolean SHOW_MINES = !RELEASE_MODE && false;
 	public static final boolean DEBUG_MINES = !RELEASE_MODE && false;

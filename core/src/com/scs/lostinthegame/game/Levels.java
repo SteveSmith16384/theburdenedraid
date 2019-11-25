@@ -3,6 +3,7 @@ package com.scs.lostinthegame.game;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.levels.AbstractLevel;
 import com.scs.lostinthegame.game.levels.GulpmanLevel;
+import com.scs.lostinthegame.game.levels.IntroLevel;
 import com.scs.lostinthegame.game.levels.MinedOutLevel;
 import com.scs.lostinthegame.game.levels.MonsterMazeLevel;
 import com.scs.lostinthegame.game.levels.OhMummyLevel;
@@ -18,8 +19,10 @@ public class Levels {
 	
 	public AbstractLevel getLevel() {
 		switch (currentLevelNum) {
+		case 0:
+			return new IntroLevel();
 		case 1:
-			return new StartLevel(numberTimesLoopAround);
+			return new StartLevel();
 		case 2:
 			return new OhMummyLevel(numberTimesLoopAround);
 		case 3:
