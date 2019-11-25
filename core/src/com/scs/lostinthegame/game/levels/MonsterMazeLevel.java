@@ -73,7 +73,7 @@ public class MonsterMazeLevel extends AbstractLevel {
 		game.ecs.addEntity(new Floor("colours/white.png", map_width, map_height, false));
 }
 
-
+/*
 	private void loadTestMap(Game game) {
 		this.map_width = 5;
 		this.map_height = 5;
@@ -107,7 +107,7 @@ public class MonsterMazeLevel extends AbstractLevel {
 			}
 		}
 	}
-
+*/
 
 	@Override
 	public void update(Game game, World world) {

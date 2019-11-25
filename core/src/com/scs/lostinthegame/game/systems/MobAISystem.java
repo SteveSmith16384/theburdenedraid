@@ -41,12 +41,12 @@ public class MobAISystem extends AbstractSystem {
 		movementData.offset.z = 0;
 
 		ai.changeDirTimer -= Gdx.graphics.getDeltaTime();
+		ai.can_see_player = false;
 
 		if (player.getPosition().dst2(pos.position) < ai.moveRange*ai.moveRange) { //&& Game.world.canSee(pos.position, Game.player.getPosition())) {
 			ai.can_see_player = Game.world.canSee(pos.position, player.getPosition());
 			switch (ai.mode) {
 			case GoForPlayerIfSeen:
-				ai.can_see_player = false;
 				if (ai.can_see_player) {
 					ai.direction.set(player.getPosition()).sub(pos.position).nor();
 					ai.direction.scl(Gdx.graphics.getDeltaTime() * ai.speed * Game.UNIT);
