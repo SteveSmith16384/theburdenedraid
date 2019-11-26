@@ -43,9 +43,9 @@ public class GameOverLevel extends AbstractLevel {
 		}
 
 		game.ecs.addEntity(new Floor("gameover/crashed1.png", "gameover/crashed2.png", map_width, map_height, false));
-		game.ecs.addEntity(new StartExit(map_width/2, map_height/1));
+		game.ecs.addEntity(new StartExit(map_width/2, map_height/2));
 		
-		AbstractEntity text = new TextEntity("R TAPE LOADING ERROR, 0:1", 30, 30, 4);
+		AbstractEntity text = new TextEntity("GAME OVER", 30, 30, 4);
 		game.ecs.addEntity(text);
 
 	}

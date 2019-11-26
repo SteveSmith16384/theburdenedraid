@@ -90,9 +90,6 @@ public class Game implements IModule {
 
 		this.createECS();
 
-		//transition = true;
-		//inventory = new Inventory();
-		//player = new Player(camera, inventory, 1, 4);
 		if (Settings.TEST_SPECIFIC_LEVEL == false) {
 			this.gameLevel = new IntroLevel();
 			gameLevel.load(this);
@@ -109,7 +106,6 @@ public class Game implements IModule {
 
 
 	private void startGame() {
-		//audio.startMusic();
 		inventory = new Inventory();
 		player = new Player(camera, inventory, 1, 4);
 		levelComplete = true; // So we load the first level 
@@ -129,7 +125,7 @@ public class Game implements IModule {
 		ecs.addSystem(new DrawTextSystem(ecs, batch2d, font_white));
 		ecs.addSystem(new GotToExitSystem(ecs, player));
 
-		world = new World(); // todo - create at start of each level
+		world = new World();
 	}
 
 
@@ -138,9 +134,9 @@ public class Game implements IModule {
 			// Cheat mode!
 			if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
 				this.levelComplete = true;
-				if (Settings.DEBUG_LEVEL_JUMP) {
+				/*if (Settings.DEBUG_LEVEL_JUMP) {
 					Settings.p("X pressed");
-				}
+				}*/
 			}
 		}
 
@@ -152,8 +148,8 @@ public class Game implements IModule {
 		}
 
 		if (levelComplete) {
-			if (Settings.DEBUG_LEVEL_JUMP) {
-				Settings.p("levelComplete");
+			if (this.gameLevel instanceof GameOverLevel) {
+				this.startGame();
 			}
 			levelComplete = false;
 			levels.nextLevel();
@@ -162,13 +158,7 @@ public class Game implements IModule {
 			audio.play("zxspectrumloadingnoise.ogg");
 		}		
 		if (restartLevel) {
-			/*if (Settings.DEBUG_LEVEL_JUMP) {
-				Settings.p("restartLevel");
-			}*/
 			restartLevel = false;
-			/*transition = true;
-			hasLoaded = false;
-			transitionProgress = 0;*/
 
 			this.createECS();
 
@@ -194,9 +184,9 @@ public class Game implements IModule {
 			ecs.addEntity(new Ceiling("gamer1.jpg", -10, -10, 40, 40, false, Game.UNIT*8));
 			ecs.addEntity(player);
 
-			if (Settings.DEBUG_LEVEL_JUMP) {
+			/*if (Settings.DEBUG_LEVEL_JUMP) {
 				Settings.p("New level is " + gameLevel.getClass().getSimpleName());
-			}
+			}*/
 
 			if (gameLevel.GetName().length() > 0) {
 				AbstractEntity text = new TextEntity("LOADING: " + gameLevel.GetName(), 30, 30, 4);

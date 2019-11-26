@@ -276,10 +276,6 @@ public class Player extends AbstractEntity {
 		hurtTimer = 1.5f;
 		if (lives >= 0) {
 			Game.audio.play("player_hurt");
-			//Game.restartLevel = true;
-			if (Settings.DEBUG_LEVEL_JUMP) {
-				Settings.p("damaged()");
-			}
 		}
 		Game.restartLevel = true;
 	}

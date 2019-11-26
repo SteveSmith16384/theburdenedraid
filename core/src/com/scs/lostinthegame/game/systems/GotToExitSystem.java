@@ -3,7 +3,6 @@ package com.scs.lostinthegame.game.systems;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.basicecs.AbstractSystem;
 import com.scs.basicecs.BasicECS;
-import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.CompletesLevelData;
 import com.scs.lostinthegame.game.components.PositionData;
@@ -37,9 +36,9 @@ public class GotToExitSystem extends AbstractSystem {
 		if (dist < 1) {//Game.UNIT / 2) {
 			Game.audio.play("beepfx_samples/19_jet_burst.wav");
 			Game.levelComplete = true;
-			if (Settings.DEBUG_LEVEL_JUMP) {
+			/*if (Settings.DEBUG_LEVEL_JUMP) {
 				Settings.p("Got to exit!");
-			}
+			}*/
 		}
 	}
 
