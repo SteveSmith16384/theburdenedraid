@@ -1,4 +1,4 @@
-package com.scs.lostinthegame.game.entities.androids;
+package com.scs.lostinthegame.game.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,27 +11,27 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.components.HasModel;
+import com.scs.lostinthegame.game.entities.androids.GSquare;
 
-public class SSquare extends AbstractEntity {
+public class GenericSquare extends AbstractEntity {
 
 	private static Model floor;
 	
-	static {
-		Material material = new Material(TextureAttribute.createDiffuse(new Texture(Gdx.files.internal("androids/s_square.png"))));		
-		ModelBuilder modelBuilder = new ModelBuilder();
-		floor = modelBuilder.createRect(
-				0f, 0f, Game.UNIT,
-				Game.UNIT, 0f, Game.UNIT,
-				Game.UNIT, 0f, 0f,
-				0f, 0f,0f,
-				1f, 1f,1f,
-				material,
-				VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
+	public GenericSquare(int map_x, int map_y, String filename) {
+		super(GenericSquare.class.getSimpleName());
 
-	}
-	
-	public SSquare(int map_x, int map_y) {
-		super(SSquare.class.getSimpleName());
+		if (floor == null) {
+			Material material = new Material(TextureAttribute.createDiffuse(new Texture(Gdx.files.internal(filename))));		
+			ModelBuilder modelBuilder = new ModelBuilder();
+			floor = modelBuilder.createRect(
+					0f, 0f, Game.UNIT,
+					Game.UNIT, 0f, Game.UNIT,
+					Game.UNIT, 0f, 0f,
+					0f, 0f,0f,
+					1f, 1f,1f,
+					material,
+					VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal | VertexAttributes.Usage.TextureCoordinates);
+		}
 		
 		ModelInstance instance = new ModelInstance(floor);
 		//instance.transform.translate((map_x*Game.UNIT)-(Game.UNIT/2), 0.1f, (map_y*Game.UNIT)-(Game.UNIT/2));
