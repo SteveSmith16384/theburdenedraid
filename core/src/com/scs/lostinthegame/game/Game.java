@@ -60,7 +60,7 @@ public class Game implements IModule {
 	public static World world;
 	public Inventory inventory;
 	public static BasicECS ecs;
-	public ArrayList<ModelInstance> modelInstances;
+	//public ArrayList<ModelInstance> modelInstances;
 
 	public static boolean levelComplete = false;
 	public static boolean restartLevel = false;
@@ -249,11 +249,11 @@ public class Game implements IModule {
 		this.gameLevel.setBackgroundColour();
 
 		batch.begin(camera);
-		if (modelInstances != null) {
+		/*if (modelInstances != null) {
 			for (int i = 0; i < modelInstances.size(); i++) {
 				batch.render(modelInstances.get(i));
 			}
-		}
+		}*/
 
 		if (ecs != null) {
 			this.ecs.getSystem(DrawModelSystem.class).process();
@@ -316,7 +316,7 @@ public class Game implements IModule {
 
 
 	private void loadLevel() {
-		modelInstances = new ArrayList<ModelInstance>();
+		//modelInstances = new ArrayList<ModelInstance>();
 		gameLevel.load(this);
 
 		if (gameLevel.getPlayerStartMapX() < 0 || gameLevel.getPlayerStartMapY() < 0) {
