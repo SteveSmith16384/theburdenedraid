@@ -1,7 +1,5 @@
 package com.scs.lostinthegame.game;
 
-import java.util.ArrayList;
-
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,7 +10,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector3;
 import com.bitfire.postprocessing.PostProcessing;
@@ -46,7 +43,7 @@ public class Game implements IModule {
 
 	public static final float UNIT = 16f; // Square/box size
 
-	public static final CollisionDetector collision = new CollisionDetector();
+	//public static final CollisionDetector collision = new CollisionDetector();
 	public static final Art art = new Art();
 	public static final Audio audio = new Audio();
 
