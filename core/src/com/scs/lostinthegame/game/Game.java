@@ -26,7 +26,6 @@ import com.scs.lostinthegame.game.levels.IntroLevel;
 import com.scs.lostinthegame.game.levels.PippoLevel;
 import com.scs.lostinthegame.game.player.Inventory;
 import com.scs.lostinthegame.game.player.Player;
-import com.scs.lostinthegame.game.renderable.GameShaderProvider;
 import com.scs.lostinthegame.game.systems.CollectionSystem;
 import com.scs.lostinthegame.game.systems.CycleThroughModelsSystem;
 import com.scs.lostinthegame.game.systems.CycleThruDecalsSystem;
@@ -73,7 +72,7 @@ public class Game implements IModule {
 		font_white = new BitmapFont(Gdx.files.internal("font/spectrum1white.fnt"));
 		font_black = new BitmapFont(Gdx.files.internal("font/spectrum1black.fnt"));
 
-		batch = new ModelBatch(new GameShaderProvider());
+		batch = new ModelBatch();//new GameShaderProvider());
 
 		camera = new PerspectiveCamera(65, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		camera.position.set(10f, 0, 10f);
