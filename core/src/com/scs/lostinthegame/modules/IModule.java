@@ -2,13 +2,13 @@ package com.scs.lostinthegame.modules;
 
 public interface IModule {
 
-	void update();
+	//void update();
 	
 	void render();
 	
 	boolean isFinished();
 
-	void destroy();
+	void dispose();
 	
 	void setFullScreen(boolean fullscreen);
 	

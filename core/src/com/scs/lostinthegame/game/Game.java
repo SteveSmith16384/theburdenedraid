@@ -125,7 +125,8 @@ public class Game implements IModule {
 	}
 
 
-	public void update() {
+	@Override
+	public void render() {
 		if (Settings.RELEASE_MODE == false) {
 			// Cheat mode!
 			if (Gdx.input.isKeyJustPressed(Input.Keys.X)) {
@@ -229,10 +230,8 @@ public class Game implements IModule {
 			this.ecs.getSystem(GotToExitSystem.class).process();
 		}
 		gameLevel.update(this, world);
-	}
 
-
-	public void render() {
+		
 		if (Gdx.app.getType() != ApplicationType.WebGL) {
 			post.update(Gdx.graphics.getDeltaTime());
 		}
@@ -333,7 +332,7 @@ public class Game implements IModule {
 	}
 
 
-	public void destroy() {
+	public void dispose() {
 		if (Gdx.app.getType() != ApplicationType.WebGL) {
 			post.dispose();
 		}

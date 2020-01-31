@@ -22,7 +22,7 @@ public class BillBoardFPS_Main extends ApplicationAdapter {
 	@Override
 	public void render() {
 		if (current_module != null) {
-			current_module.update();
+			//current_module.update();
 			current_module.render();
 
 			if(current_module.isFinished()) {
@@ -83,7 +83,7 @@ public class BillBoardFPS_Main extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		if (current_module != null) {
-			current_module.destroy();
+			current_module.dispose();
 		}
 	}
 }
