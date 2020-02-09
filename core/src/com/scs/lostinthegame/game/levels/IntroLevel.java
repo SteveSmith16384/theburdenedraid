@@ -1,8 +1,8 @@
 package com.scs.lostinthegame.game.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.Game;
@@ -58,7 +58,7 @@ public class IntroLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
+	public void renderUI(Batch batch, BitmapFont font_white, BitmapFont font_black) {
 		font_white.draw(batch, "10 REM Lost in the Game " + Settings.VERSION, 20, Gdx.graphics.getHeight()-20);
 		font_white.draw(batch, "20 REM By Stephen Carlyle-Smith", 20, Gdx.graphics.getHeight()-50);
 		font_white.draw(batch, "30 REM This game is commentware", 20, Gdx.graphics.getHeight()-80);

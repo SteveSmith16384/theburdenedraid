@@ -73,11 +73,6 @@ public class PippoLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
-	}
-
-
-	@Override
 	public void update(Game game, World world) {
 		// Player leave a path
 		PositionData posData = (PositionData)game.player.getComponent(PositionData.class);

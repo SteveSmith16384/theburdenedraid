@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.Settings;
@@ -139,7 +139,7 @@ public class MinedOutLevel extends AbstractLevel implements IAStarMapInterface {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
+	public void renderUI(Batch batch, BitmapFont font_white, BitmapFont font_black) {
 		font_white.draw(batch, "Adjacent Mines: " + this.countMinesSystem.getNumMines(), 10, Settings.WINDOW_HEIGHT_PIXELS-40);
 	}
 

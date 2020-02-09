@@ -7,8 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.PerspectiveCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureArraySpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector3;
@@ -42,11 +43,10 @@ public class Game implements IModule {
 
 	public static final float UNIT = 16f; // Square/box size
 
-	//public static final CollisionDetector collision = new CollisionDetector();
 	public static final Art art = new Art();
 	public static final Audio audio = new Audio();
 
-	private SpriteBatch batch2d;
+	private Batch batch2d;
 	private BitmapFont font_white, font_black;
 	private ModelBatch batch;
 	private PerspectiveCamera camera;
@@ -56,7 +56,6 @@ public class Game implements IModule {
 	public static World world;
 	public Inventory inventory;
 	public static BasicECS ecs;
-	//public ArrayList<ModelInstance> modelInstances;
 
 	public static boolean levelComplete = false;
 	public static boolean restartLevel = false;
@@ -68,7 +67,7 @@ public class Game implements IModule {
 	private PostProcessing post;
 
 	public Game() {
-		batch2d = new SpriteBatch();
+		batch2d = new TextureArraySpriteBatch(); // SpriteBatch();
 		font_white = new BitmapFont(Gdx.files.internal("font/spectrum1white.fnt"));
 		font_black = new BitmapFont(Gdx.files.internal("font/spectrum1black.fnt"));
 

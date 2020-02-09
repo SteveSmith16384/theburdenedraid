@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class Inventory implements IInventory {
@@ -125,7 +125,7 @@ public class Inventory implements IInventory {
     }
 */
     
-    public void render(SpriteBatch batch, Player player) {
+    public void render(Batch batch, Player player) {
         Sprite spr = null;
         CarriedItem item;
 

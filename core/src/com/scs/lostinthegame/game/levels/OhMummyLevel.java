@@ -227,11 +227,6 @@ public class OhMummyLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {
-	}
-
-
-	@Override
 	public String GetName() {
 		return "OH MUMMY!";
 	}

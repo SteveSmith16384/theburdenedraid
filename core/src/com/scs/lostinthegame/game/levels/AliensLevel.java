@@ -1,8 +1,8 @@
 package com.scs.lostinthegame.game.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.GridPoint2;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.game.Game;
@@ -87,7 +87,7 @@ public class AliensLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {		
+	public void renderUI(Batch batch, BitmapFont font_white, BitmapFont font_black) {		
 	}
 
 

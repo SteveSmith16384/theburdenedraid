@@ -1,8 +1,8 @@
 package com.scs.lostinthegame.game.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.Maze;
 import com.scs.lostinthegame.Settings;
@@ -153,7 +153,7 @@ public class MonsterMazeLevel extends AbstractLevel {
 
 
 	@Override
-	public void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black) {		
+	public void renderUI(Batch batch, BitmapFont font_white, BitmapFont font_black) {		
 		font_black.draw(batch, trex_msg, 10-1, Settings.WINDOW_HEIGHT_PIXELS-40);
 		font_black.draw(batch, trex_msg, 10, Settings.WINDOW_HEIGHT_PIXELS-40-1);
 		font_black.draw(batch, trex_msg, 10+1, Settings.WINDOW_HEIGHT_PIXELS-40);

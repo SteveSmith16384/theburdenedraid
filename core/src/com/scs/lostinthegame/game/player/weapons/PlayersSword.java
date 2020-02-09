@@ -2,8 +2,8 @@ package com.scs.lostinthegame.game.player.weapons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -85,7 +85,7 @@ public class PlayersSword implements IPlayersWeapon {
 	}
 
 
-	public void render(SpriteBatch batch) {
+	public void render(Batch batch) {
 		weaponSprite.draw(batch);
 	}
 

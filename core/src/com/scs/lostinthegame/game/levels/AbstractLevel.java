@@ -1,8 +1,8 @@
 package com.scs.lostinthegame.game.levels;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.scs.lostinthegame.game.Game;
 import com.scs.lostinthegame.game.ICollectionHandler;
 import com.scs.lostinthegame.game.World;
@@ -30,7 +30,7 @@ public abstract class AbstractLevel implements ICollectionHandler {
 	
 	public void update(Game game, World world) {};
 	
-	public abstract void renderUI(SpriteBatch batch, BitmapFont font_white, BitmapFont font_black);
+	public void renderUI(Batch batch, BitmapFont font_white, BitmapFont font_black) {}
 
 	public int getPlayerStartMapX() {
 		return this.playerStartMapX;

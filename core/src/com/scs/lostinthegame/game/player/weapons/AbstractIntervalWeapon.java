@@ -2,8 +2,8 @@ package com.scs.lostinthegame.game.player.weapons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.lostinthegame.Settings;
 import com.scs.lostinthegame.game.player.CameraController;
@@ -34,7 +34,7 @@ public abstract class AbstractIntervalWeapon implements IPlayersWeapon {
 	}
 
 
-	public void render(SpriteBatch batch) {
+	public void render(Batch batch) {
 		weaponSprite.draw(batch);
 	}
 

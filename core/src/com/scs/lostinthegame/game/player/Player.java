@@ -6,8 +6,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.scs.basicecs.AbstractEntity;
 import com.scs.lostinthegame.Settings;
@@ -228,14 +228,14 @@ public class Player extends AbstractEntity {
 	}
 
 
-	public void render(SpriteBatch batch) {
+	public void render(Batch batch) {
 		if (weapon != null) {
 			weapon.render(batch);
 		}
 	}
 
 
-	public void renderUI(SpriteBatch batch, BitmapFont font) {
+	public void renderUI(Batch batch, BitmapFont font) {
 		/*if (interactTarget != null) {
 			String str = interactTarget.getInteractText(this);
 			int w2 = str.length() * 8;
