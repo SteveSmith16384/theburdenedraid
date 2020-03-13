@@ -1,6 +1,7 @@
 # Lost in the Game
 Take a journey though a world of Spectrum games.
 
+Youtube vid: https://www.youtube.com/watch?v=QDTHV_zUNew
 
 ## Controls
 W, A, S, D and mouse
